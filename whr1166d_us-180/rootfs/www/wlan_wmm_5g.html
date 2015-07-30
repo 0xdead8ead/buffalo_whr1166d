@@ -1,0 +1,318 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+function setValue(val)
+{
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"1":"0";
+}
+
+function mergeValue(main_id,child_id,item_id)
+{
+	var i=0;
+	var wmm_item;
+	document.getElementById(main_id).value="";
+	for (i=1;i<=3;i++)
+	{
+		wmm_item=document.getElementById("id_"+child_id+"_"+item_id+i).value;
+		wmm_item=parseInt(wmm_item,10);
+		document.getElementById(main_id).value+=wmm_item;
+		document.getElementById(main_id).value+=";"
+	}
+	wmm_item=document.getElementById("id_"+child_id+"_"+item_id+"4").value;
+	wmm_item=parseInt(wmm_item,10);
+	document.getElementById(main_id).value+=wmm_item;
+}
+
+function checkWMMValue(val1,val2)
+{
+	var err_title;
+	var wmm_priority=new Array("<%GetString("WlanWmm","33");%>","<%GetString("WlanWmm","24");%>","<%GetString("WlanWmm","17");%>","<%GetString("WlanWmm","18");%>");
+	var i=0;
+	
+	for (i=1;i<=4;i++)
+	{
+		if (val2=="txop")
+			err_title = wmm_priority[i-1] + " <%GetString("WlanWmm","36");%> " + val1.toUpperCase();
+		else
+			err_title=wmm_priority[i-1] + " " + val2 + " <%GetString("WlanWmm","37");%> " + val1.toUpperCase();
+
+		if (document.getElementById("id_"+val1+"_"+val2+i).value.length==0)
+		{
+			Show_error(err_title,"<%GetString("WlanWmm","20");%>");
+			return false;
+		}
+		if (!check_integer(document.getElementById("id_"+val1+"_"+val2+i).value))
+		{
+			Show_error(err_title,"<%GetString("WlanWmm","21");%>");
+			return false;
+		}
+		if (val2=="CWmin" || val2=="CWmax")
+		{
+			if (document.getElementById("id_"+val1+"_"+val2+i).value<1)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","23");%>");
+				return false;
+			}
+			if (document.getElementById("id_"+val1+"_"+val2+i).value>32767)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","22");%>");
+				return false;
+			}
+		}
+		else if (val2=="AIFSN")
+		{
+			if (document.getElementById("id_"+val1+"_"+val2+i).value<1)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","23");%>");
+				return false;
+			}
+			if (document.getElementById("id_"+val1+"_"+val2+i).value>15)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","22");%>");
+				return false;
+			}
+		}
+		else
+		{
+			if (document.getElementById("id_"+val1+"_"+val2+i).value<0)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","23");%>");
+				return false;
+			}
+			if (document.getElementById("id_"+val1+"_"+val2+i).value>256)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","22");%>");
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+function setWMM()
+{
+		Hide_error();
+		if (!checkWMMValue("ap","CWmin"))
+			return;
+		if (!checkWMMValue("ap","CWmax"))
+			return;
+		if (!checkWMMValue("ap","AIFSN"))
+			return;
+		if (!checkWMMValue("ap","txop"))
+			return;
+		if (!checkWMMValue("sta","CWmin"))
+			return;
+		if (!checkWMMValue("sta","CWmax"))
+			return;
+		if (!checkWMMValue("sta","AIFSN"))
+			return;
+		if (!checkWMMValue("sta","txop"))
+			return;
+		document.wmmForm.submit();
+}
+//-->
+</script>
+</head>
+
+<body class="BFK_BODY">
+<br>
+
+
+<form method="POST" name="wmmForm" >
+
+<!--  -->
+<div id= "id_errtbl" class="C_ERR"></div>
+<!--  -->
+<table class="AD_SET">
+  <tbody style="display:none">
+    <tr>
+      <th><%GetString("WlanWmm","1");%></th>
+      <td>
+      	<input type="hidden" name="WIFIWmmCapable_5g" id="mm_WIFIWmmCapable" value="<%NvramGet("WIFIWmmCapable_5g");%>">
+        <input type="checkbox" id="id_WIFIWmmCapable" value="1" <%NvramMatch("WIFIWmmCapable_5g","1","checked");%>
+        	onclick="setValue('WIFIWmmCapable')"><%GetString("WlanWmm","2");%>
+      </td>
+   </tr>
+  </tbody>
+</table>
+<!--  -->
+<div id="wmm_ext_edca">
+<table class="AD_TTL2">
+  <tbody>
+    <tr><td><%GetString("WlanWmm","3");%> </td></tr>
+  </tbody>
+</table>
+
+<!--  -->
+<!--  -->
+
+<table class="AD_SET">
+  <tr>
+    <th><%GetString("WlanWmm","4");%></th>
+    <th><%GetString("WlanWmm","5");%></th>
+  </tr>
+  <tr>
+    <td><%GetString("WlanWmm","6");%></td>
+    <td>
+    <table><tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td>
+    </tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin2" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","2");%>" 
+    	onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin2" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","2");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax2" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","2");%>"
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax2" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","2");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN2" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","2");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN2" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","2");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop2" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","2");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop2" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","2");%>"
+   	onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+
+   </table>
+   </td>
+  </tr>
+  <tr>
+    <td><%GetString("WlanWmm","16");%></td>
+    <td>
+    <table><tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td>
+    </tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin1" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","1");%>"
+    	onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin1" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","1");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax1" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","1");%>"
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax1" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","1");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN1" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","1");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN1" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","1");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop1" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","1");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop1" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","1");%>"
+  	 onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td><%GetString("WlanWmm","17");%></td>
+    <td>
+    <table>
+    <tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td>
+    </tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin3" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","3");%>"
+    	onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin3" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","3");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax3" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","3");%>"
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax3" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","3");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN3" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","3");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN3" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","3");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop3" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","3");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop3" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","3");%>"
+   	onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td><%GetString("WlanWmm","18");%></td>
+    <td>
+    <table>
+    <tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td></tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin4" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","4");%>"
+    	onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin4" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","4");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax4" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","4");%>"
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax4" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","4");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN4" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","4");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN4" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","4");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop4" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","4");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop4" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","4");%>"
+   	onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+</div> <!-- id="wmm_ext_edca" -->
+<input type="hidden" name="GUIAPAifsn_5g" id="id_GUIAPAifsn" value="<%NvramGet("GUIAPAifsn_5g");%>">
+<input type="hidden" name="GUIAPTxop_5g" id="id_GUIAPTxop" value="<%NvramGet("GUIAPTxop_5g");%>">
+<input type="hidden" name="GUIAPCwmax_5g" id="id_GUIAPCwmax" value="<%NvramGet("GUIAPCwmax_5g");%>">
+<input type="hidden" name="GUIAPCwmin_5g" id="id_GUIAPCwmin" value="<%NvramGet("GUIAPCwmin_5g");%>">
+<input type="hidden" name="GUIBSSCwmax_5g" id="id_GUIBSSCwmax" value="<%NvramGet("GUIBSSCwmax_5g");%>">
+<input type="hidden" name="GUIBSSCwmin_5g" id="id_GUIBSSCwmin" value="<%NvramGet("GUIBSSCwmin_5g");%>">
+<input type="hidden" name="GUIBSSTxop_5g" id="id_GUIBSSTxop" value="<%NvramGet("GUIBSSTxop_5g");%>">
+<input type="hidden" name="GUIBSSAifsn_5g" id="id_GUIBSSAifsn" value="<%NvramGet("GUIBSSAifsn_5g");%>">
+<p><input type="button" value="<%GetString("WlanWmm","19");%>" name="nosave_submit" onClick="setWMM();"></p>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</body>
+</html>

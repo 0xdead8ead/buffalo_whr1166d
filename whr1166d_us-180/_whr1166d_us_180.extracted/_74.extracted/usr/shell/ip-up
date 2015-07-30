@@ -1,0 +1,335 @@
+#!/bin/sh
+#
+# This sample code shows you one way to modify your setup to allow automatic
+# configuration of your resolv.conf for peer supplied DNS addresses when using
+# the `usepeerdns' option.
+#
+# In my case I just added this to my /etc/ppp/ip-up.local script. You may need to 
+# create an executable script if one does not exist.
+#
+# Nick Walker (nickwalker@email.com)
+#
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+echo "ipup_1" >> /tmp/ip_up.log 
+
+PPP_DEFAULT=`nvram get PPPoEDefault`
+echo $PPP_DEFAULT >> /tmp/ip_up.log
+
+InternetDNS1=`nvram get InternetDNS1`
+InternetDNS2=`nvram get InternetDNS2`
+
+DEFAULT_CONN="0"
+if [ "$IFNAME" == "ppp0" ]; then
+	if [ "$PPP_DEFAULT" == "1" ]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE1IP"
+	PPP_DNS1="PPPoE1DNS1"
+	PPP_DNS2="PPPoE1DNS2"
+	PPP_MTU="PPPoE1MTU"
+	PPP_HOST="PPPoE1Hostname"
+	PPP_DOMAIN="PPPoE1Domain"
+	PPP_GATEWAY="PPPoE1Gateway"
+	echo "ipup_1.1" >> /tmp/ip_up.log 
+
+	
+fi
+if [ "$IFNAME" == "ppp1" ]; then
+	if [ "$PPP_DEFAULT" == "2" ]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE2IP"
+	PPP_DNS1="PPPoE2DNS1"
+	PPP_DNS2="PPPoE2DNS2"
+	PPP_MTU="PPPoE2MTU"
+	PPP_HOST="PPPoE2Hostname"
+	PPP_DOMAIN="PPPoE2Domain"	
+	PPP_GATEWAY="PPPoE2Gateway"
+	echo "ipup_1.2" >> /tmp/ip_up.log 
+
+fi
+if [ "$IFNAME" == "ppp2" ]; then
+	if [ "$PPP_DEFAULT" == "3"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE3IP"
+	PPP_DNS1="PPPoE3DNS1"
+	PPP_DNS2="PPPoE3DNS2"
+	PPP_MTU="PPPoE3MTU"
+	PPP_HOST="PPPoE3Hostname"
+	PPP_DOMAIN="PPPoE3Domain"
+	PPP_GATEWAY="PPPoE3Gateway"
+fi
+if [ "$IFNAME" == "ppp3" ]; then
+	if [ "$PPP_DEFAULT" == "4"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE4IP"
+	PPP_DNS1="PPPoE4DNS1"
+	PPP_DNS2="PPPoE4DNS2"
+	PPP_MTU="PPPoE4MTU"
+	PPP_HOST="PPPoE4Hostname"
+	PPP_DOMAIN="PPPoE4Domain"
+	PPP_GATEWAY="PPPoE4Gateway"
+fi
+if [ "$IFNAME" == "ppp4" ]; then
+	if [ "$PPP_DEFAULT" == "5"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE5IP"
+	PPP_DNS1="PPPoE5DNS1"
+	PPP_DNS2="PPPoE5DNS2"
+	PPP_MTU="PPPoE5MTU"
+	PPP_HOST="PPPoE5Hostname"
+	PPP_DOMAIN="PPPoE5Domain"
+	PPP_GATEWAY="PPPoE5Gateway"
+fi
+
+echo $DEFAULT_CONN >> /tmp/ip_up.log
+
+echo "ipup_2" >> /tmp/ip_up.log 
+
+nvram set $PPP_IPName=$IPLOCAL
+echo $IPLOCAL >> /tmp/ip_up.log 
+
+nvram set $PPP_DNS1=$DNS1
+nvram set $PPP_DNS2=$DNS2
+nvram set $PPP_GATEWAY=$5
+
+REALDEVICE=$1
+if [ "$REALDEVICE" = "ppp10" ] || [ "$REALDEVICE" = "ppp11" ] || [ "$REALDEVICE" = "ppp12" ] 
+then
+REMOTEIP=$5
+mkdir -p /tmp/pptpd/status/
+# Get the username from the ppp line record file
+USER=`cat "/tmp/pptpd/$REALDEVICE"`
+# for CHAP/PAP/MS-CHAP, wait auth-up script
+while [ "$USER" = "" ]
+do
+	USER=`cat "/tmp/pptpd/$REALDEVICE"`
+	sleep 1
+done
+# when connection, record PPPD pid and allocated IP address
+cp "/var/run/$REALDEVICE.pid" /tmp/pptpd/pid/$USER
+echo $REMOTEIP > /tmp/pptpd/status/$USER
+# remove the ppp line record file
+rm "/tmp/pptpd/$REALDEVICE"
+echo "$1:$2:$3:$4:$5:$6" > /tmp/pptp_ip_up
+exit 0
+fi
+
+
+echo "ipup_3" >> /tmp/ip_up.log 
+
+#if [ "$DEFAULT_CONN" == "1" ]; then
+	echo "ipup_3.1" >> /tmp/ip_up.log
+	RESOLV_CONF=/etc/resolv.conf
+	PPPoE1IP=`nvram get PPPoE1IP`
+	PPPoE2IP=`nvram get PPPoE2IP`
+	PPPoE3IP=`nvram get PPPoE3IP`
+	PPPoE4IP=`nvram get PPPoE4IP`
+	PPPoE5IP=`nvram get PPPoE5IP`
+	
+	PPPoE1DNS1=`nvram get PPPoE1DNS1`
+	PPPoE1DNS2=`nvram get PPPoE1DNS2`
+	PPPoE2DNS1=`nvram get PPPoE2DNS1`
+	PPPoE2DNS2=`nvram get PPPoE2DNS2`
+	PPPoE3DNS1=`nvram get PPPoE3DNS1`
+	PPPoE3DNS2=`nvram get PPPoE3DNS2`
+	PPPoE4DNS1=`nvram get PPPoE4DNS1`
+	PPPoE4DNS2=`nvram get PPPoE4DNS2`
+	PPPoE5DNS1=`nvram get PPPoE5DNS1`
+	PPPoE5DNS2=`nvram get PPPoE5DNS2`
+	
+	PPPoE1Mode=`nvram get PPPoE1Mode`
+	PPPoE2Mode=`nvram get PPPoE2Mode`
+	PPPoE3Mode=`nvram get PPPoE3Mode`
+	PPPoE4Mode=`nvram get PPPoE4Mode`
+	PPPoE5Mode=`nvram get PPPoE5Mode`
+	
+	PPPoE1State=`nvram get PPPoE1State`
+	PPPoE2State=`nvram get PPPoE2State`
+	PPPoE3State=`nvram get PPPoE3State`
+	PPPoE4State=`nvram get PPPoE4State`
+	PPPoE5State=`nvram get PPPoE5State`
+	
+	mtu=`nvram get $PPP_MTU`
+	hostname=`nvram get $PPP_HOST`
+	domain=`nvram get $PPPDOMAIN`
+	model_name=`nvram get ModelName`
+	wan_check_flag=`nvram get WanCheckPhase`
+	
+	echo "ipup_3.2" >> /tmp/ip_up.log
+	
+	# Keep the time of getting IP
+	cat /proc/uptime > /tmp/ppp$UNIT_up_time
+
+if [ "$DEFAULT_CONN" == "1" ]; then
+	[ ! -z "$DNS1" ] && ( nvram set WanCurrentDNS1=$DNS1 )
+	[ ! -z "$DNS2" ] && ( nvram set WanCurrentDNS2=$DNS2 )		
+fi
+
+[ ! -z "$DNS1" ] && ( route add $DNS1 dev $IFNAME )
+[ ! -z "$DNS2" ] && ( route add $DNS2 dev $IFNAME )
+	
+	
+	
+	rm $RESOLV_CONF
+	touch $RESOLV_CONF
+	
+#	if [ -n "$USEPEERDNS" ]; then
+#		echo "ipup_3.3a" >> /tmp/ip_up.log
+		
+#		if [ ! -z "$PPPoE1DNS1" ] && [ ! -z "$PPPoE1DNS2" ] ; then
+#			echo "$PPPoE1DNS1"; echo "nameserver $PPPoE1DNS1" > $RESOLV_CONF;
+#			echo "$PPPoE1DNS2"; echo "nameserver $PPPoE1DNS2" >> $RESOLV_CONF;
+#			[ ! -z "$DNS1" ] && ( echo "$DNS1"; echo "nameserver $DNS1" >> $RESOLV_CONF; nvram set WanCurrentDNS1=$DNS1 )
+#				[ ! -z "$DNS2" ] && ( echo "$DNS2"; echo "nameserver $DNS2" >> $RESOLV_CONF; nvram set WanCurrentDNS2=$DNS2 )	
+#		else
+#			if  [ ! -z "$PPPoE1DNS1" ] ; then
+#				echo "$PPPoE1DNS1"; echo "nameserver $PPPoE1DNS1" > $RESOLV_CONF;
+#				[ ! -z "$DNS1" ] && ( echo "$DNS1"; echo "nameserver $DNS1" >> $RESOLV_CONF; nvram set WanCurrentDNS1=$DNS1 )
+#					[ ! -z "$DNS2" ] && ( echo "$DNS2"; echo "nameserver $DNS2" >> $RESOLV_CONF; nvram set WanCurrentDNS2=$DNS2 )
+#			else
+#				[ ! -z "$DNS1" ] && ( echo "$DNS1"; echo "nameserver $DNS1" > $RESOLV_CONF; nvram set WanCurrentDNS1=$DNS1 )
+#					[ ! -z "$DNS2" ] && ( echo "$DNS2"; echo "nameserver $DNS2" >> $RESOLV_CONF; nvram set WanCurrentDNS2=$DNS2 )
+#			fi
+#		fi
+#	else
+		echo "ipup_3.3b" >> /tmp/ip_up.log
+
+		#Getmek add for ConnectSafe function
+		ConnectSafe_Level=`nvram get ConnectSafe_Filtering_Level`
+		if [ "$ConnectSafe_Level" == "1" ]; then
+			echo adding Block Malicious Sites dns 198.153.192.22
+			echo adding Block Malicious Sites dns 198.153.194.22
+			echo nameserver 198.153.192.22 >> $RESOLV_CONF
+			echo nameserver 198.153.194.22 >> $RESOLV_CONF
+		elif [ "$ConnectSafe_Level" == "2" ]; then
+			echo adding Block Malicious and Adult Sitese dns 198.153.192.32
+			echo adding Block Malicious and Adult Sites dns 198.153.194.32
+			echo nameserver 198.153.192.32 >> $RESOLV_CONF
+			echo nameserver 198.153.194.32 >> $RESOLV_CONF
+		elif [ "$ConnectSafe_Level" == "3" ]; then
+			echo adding Block Malicious, Adult, and Other Non-Family Friendly Sites dns 198.153.192.42
+			echo adding Block Malicious, Adult, and Other Non-Family Friendly Sites dns 198.153.194.42
+			echo nameserver 198.153.192.42 >> $RESOLV_CONF
+			echo nameserver 198.153.194.42 >> $RESOLV_CONF
+		fi
+		#Gemtek end
+
+                [ ! -z "$InternetDNS1" ] && ( echo "$InternetDNS1"; echo "nameserver $InternetDNS1" >> $RESOLV_CONF;)
+		[ ! -z "$InternetDNS2" ] && ( echo "$InternetDNS2"; echo "nameserver $InternetDNS2" >> $RESOLV_CONF;)
+                
+		if [ ! -z "$PPPoE1IP" ] ; then
+			[ ! -z "$PPPoE1DNS1" ] && ( echo "$PPPoE1DNS1"; echo "nameserver $PPPoE1DNS1" >> $RESOLV_CONF;)
+			[ ! -z "$PPPoE1DNS2" ] && ( echo "$PPPoE1DNS2"; echo "nameserver $PPPoE1DNS2" >> $RESOLV_CONF;)
+		else
+		  if [ "$PPPoE1Mode" == "demand" ] ; then
+		    echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+		    echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+		  fi
+		fi
+
+		if [ ! -z "$PPPoE2IP" ] ; then
+			[ ! -z "$PPPoE2DNS1" ] && ( echo "$PPPoE2DNS1"; echo "nameserver $PPPoE2DNS1" >> $RESOLV_CONF;)
+			[ ! -z "$PPPoE2DNS2" ] && ( echo "$PPPoE2DNS2"; echo "nameserver $PPPoE2DNS2" >> $RESOLV_CONF;)
+		else
+		  if [ "$PPPoE2Mode" == "demand" ] ; then
+		    echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+		    echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+		  fi
+		fi
+
+		if [ ! -z "$PPPoE3IP" ] ; then
+			[ ! -z "$PPPoE3DNS1" ] && ( echo "$PPPoE3DNS1"; echo "nameserver $PPPoE3DNS1" >> $RESOLV_CONF;)
+			[ ! -z "$PPPoE3DNS2" ] && ( echo "$PPPoE3DNS2"; echo "nameserver $PPPoE3DNS2" >> $RESOLV_CONF;)
+		else
+		  if [ "$PPPoE3Mode" == "demand" ] ; then
+		    echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+		    echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+		  fi
+		fi
+
+		if [ ! -z "$PPPoE4IP" ] ; then
+			[ ! -z "$PPPoE4DNS1" ] && ( echo "$PPPoE4DNS1"; echo "nameserver $PPPoE4DNS1" >> $RESOLV_CONF;)
+			[ ! -z "$PPPoE4DNS2" ] && ( echo "$PPPoE4DNS2"; echo "nameserver $PPPoE4DNS2" >> $RESOLV_CONF;)
+		else
+		  if [ "$PPPoE4Mode" == "demand" ] ; then
+		    echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+		    echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+		  fi
+		fi
+		
+		if [ ! -z "$PPPoE5IP" ] ; then
+			[ ! -z "$PPPoE5DNS1" ] && ( echo "$PPPoE5DNS1"; echo "nameserver $PPPoE5DNS1" >> $RESOLV_CONF;)
+			[ ! -z "$PPPoE5DNS2" ] && ( echo "$PPPoE5DNS2"; echo "nameserver $PPPoE5DNS2" >> $RESOLV_CONF;)
+		else
+		  if [ "$PPPoE5Mode" == "demand" ] ; then
+		    echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+		    echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+		  fi
+		fi
+
+
+#	fi
+
+
+# Set Hostname & Domain name                        
+				
+
+                if [ "$hostname" == "" ] ; then
+						if [ "$domain" == "" ] ; then
+								echo "$IPLOCAL $model_name.localdomain $model_name" > /etc/hosts
+                                /bin/hostname $hostname.localhost
+                                nvram set WanCurrentDomainName=localdomain
+                        else
+                                echo "$IPLOCAL $model_name.$domain $model_name" > /etc/hosts
+                                /bin/hostname WHR-1166D.$domain
+                                nvram set WanCurrentDomainName=$domain
+                        fi
+			nvram set WanCurrentHostname=""
+                else
+                        if [ "$domain" == "" ] ; then
+                                echo "$IPLOCAL $hostname.localhost $hostname" > /etc/hosts
+                                /bin/hostname $hostname.localhost
+                                nvram set WanCurrentDomainName=localdomain
+                        else
+                                echo "$IPLOCAL $hostname.$domain $hostname" > /etc/hosts
+                                /bin/hostname $hostname.$domain
+                                nvram set WanCurrentDomainName=$domain
+                        fi
+			nvram set WanCurrentHostname=$hostname
+                fi
+#fi
+
+echo "ipup_4" >> /tmp/ip_up.log 				
+	
+# Set current info to nvram 
+if [ "$DEFAULT_CONN" == "1" ]; then
+
+	echo "ipup_4.1" >> /tmp/ip_up.log 				
+
+	nvram set WanCurrentIP=$IPLOCAL
+	nvram set WanCurrentNetmask=255.255.255.255
+	nvram set WanCurrentGateway=$IPREMOTE
+	nvram set WanCurrentMTU=$mtu
+fi
+
+# Start WAN services
+if [ "$wan_check_flag" == "0" ] ; then
+	/usr/sbin/gt_utils wan_service start &
+fi
+
+echo "ipup_5" >> /tmp/ip_up.log 
+
+#Check PPTP Service
+router_mode=`nvram get RouterMode`
+if [ "$router_mode" != 0 ] ; then
+	/usr/sbin/gt_utils checkpptp WAN &
+fi
+gt_utils mppp_route restart
+gt_utils add_pppoe_default_gw
+gt_utils prf_restart
+echo "ipup_6" >> /tmp/ip_up.log 

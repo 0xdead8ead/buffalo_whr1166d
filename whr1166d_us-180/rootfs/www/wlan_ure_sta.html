@@ -1,0 +1,1215 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+
+
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='wlan_ure_sta.html'", 20000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+function tmp_func()
+{
+	window.setTimeout("window.location.href='wlan_ure_sta.html'", 340000);
+}
+
+var oCallback_AOSS = {
+success:function(oResponse) { 			
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='wlan_ure_sta.html'", 290000);
+			//window.setTimeout(function(){tmp_func()}, 1000);
+			
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+var oCallback_Apply = {
+success:function(oResponse) { 			
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='wlan_ure_sta.html'", 2000);			
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+
+var oCallback_WPS = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='wlan_ure_sta.html'", 120000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+var oCallback_setwds = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='wlan_ure_sta.html'", 30000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+var oCallback_search = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='wlan_ure_sta_search.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+var oCallback_search_5g = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='wlan_ure_sta_search_5g.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+	if(<%GetApcliVal("MODEis2");%>)
+		var etype = "<%NvramGet("WIFIApCliEncrypType_UItmp");%>";
+	else
+		var etype = "<%NvramGet("WIFIApCliEncrypType");%>";
+		
+	if(<%GetApcliVal_5g("MODEis2");%>)
+		var etype_5g = "<%NvramGet("WIFIApCliEncrypType_UItmp_5g");%>";
+	else
+		var etype_5g = "<%NvramGet("WIFIApCliEncrypType_5g");%>";
+		
+function show_object(idname)
+{
+  document.getElementById(idname).style.display = "";
+}
+
+function hide_object(idname)
+{
+  document.getElementById(idname).style.display = "none";
+}
+
+
+function set_display()
+{
+	top.dispWaiting(false);
+	document.getElementById("id_main").style.display = "block";
+    Hide_error();
+    if(document.getElementById("id_ApCliEnable_tmp").checked == true)
+    {
+		document.getElementById("id_ApCliEnable").value="1";	 
+     	show_object("id_repeater_Show");//all enable
+     	show_object("id_repeater_Show_type");//all enable
+  	if(document.getElementById("id_method_change").selectedIndex == 1 || document.getElementById("id_method_change").selectedIndex == 2)
+     	show_object("id_status_Show_type");//all enable
+  	else
+  		hide_object("id_status_Show_type");//all disable
+     	//show_object("id_roaming_Show_type");//all enable
+     	hide_object("id_disable_button");//all enable
+    }
+	else
+	{
+		document.getElementById("id_ApCliEnable").value="0";	 
+     	hide_object("id_repeater_Show");//all disable
+    	hide_object("id_repeater_Show_type");//all disable
+    	hide_object("id_status_Show_type");//all disable
+    	//hide_object("id_roaming_Show_type");//all disable
+    	show_object("id_disable_button");//all disable
+    }
+}
+
+function init(val)
+{
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+   	top.content_helpframe.document.location.href = "./help/help_wlan_ure_sta.html";
+	if(<%GetApcliVal("MODEis2");%>)
+	{
+		document.getElementById("id_WIFIApCliSsid").value=document.getElementById("id_WIFIApCliSsid_UItmp").value;
+		document.getElementById("id_WIFIApCliBssid").value=document.getElementById("id_WIFIApCliBssid_UItmp").value;	
+		document.getElementById("id_WIFIWPAPSK0").value="";
+		document.getElementById("id_WIFIWEPKey1Type_S0").selectedIndex=0;
+		document.getElementById("id_WIFIWEPKeyIndex0_1").checked = true;
+		clear_wep();
+		document.getElementById("id_method_change").selectedIndex=0;
+		document.getElementById("id_ApCliEnable_tmp").checked =true;
+		document.getElementById("id_ApCliEnable").value=1;	 
+     	show_object("id_repeater_Show");//all enable
+     	show_object("id_repeater_Show_type");//all enable
+     	show_object("id_status_Show_type");//all enable
+     	//show_object("id_roaming_Show_type");//all enable
+     	hide_object("id_disable_button");//all enable
+		set_display();
+		method_change();
+	}
+	if(<%GetApcliVal_5g("MODEis2");%>)
+	{
+		document.getElementById("id_WIFIApCliSsid_5g").value=document.getElementById("id_WIFIApCliSsid_UItmp_5g").value;
+		document.getElementById("id_WIFIApCliBssid_5g").value=document.getElementById("id_WIFIApCliBssid_UItmp_5g").value;	
+		document.getElementById("id_WIFIWPAPSK0_5g").value="";
+		document.getElementById("id_WIFIWEPKey1Type_S0_5g").selectedIndex=0;
+		document.getElementById("id_WIFIWEPKeyIndex0_1_5g").checked = true;
+		clear_wep_5g();
+		document.getElementById("id_method_change").selectedIndex=0;
+		document.getElementById("id_ApCliEnable_tmp").checked =true;
+		document.getElementById("id_ApCliEnable").value=1;
+    show_object("id_repeater_Show");//all enable
+    show_object("id_repeater_Show_type");//all enable
+    show_object("id_status_Show_type");//all enable
+    //show_object("id_roaming_Show_type");//all enable
+    hide_object("id_disable_button");//all enable
+		set_display();
+		method_change();
+	}
+		auth_change();
+		auth_change_5g();
+		if(etype=="NONE")
+			document.getElementById("id_WIFIEncrypType0").selectedIndex=0;
+		else if(etype=="WEP")
+			document.getElementById("id_WIFIEncrypType0").selectedIndex=1;
+		//else if(etype=="TKIP")
+		//	document.getElementById("id_WIFIEncrypType0").selectedIndex=0;	
+		else if(etype=="AES")
+			document.getElementById("id_WIFIEncrypType0").selectedIndex=0; //Enter 20110822
+		else if(etype=="TKIPAES")
+			document.getElementById("id_WIFIEncrypType0").selectedIndex=0; //20120118
+			//document.getElementById("id_WIFIEncrypType0").selectedIndex=1;	            
+			
+		if(etype_5g=="NONE")
+			document.getElementById("id_WIFIEncrypType0_5g").selectedIndex=0;
+		else if(etype_5g=="WEP")
+			document.getElementById("id_WIFIEncrypType0_5g").selectedIndex=1;
+		//else if(etype=="TKIP")
+		//	document.getElementById("id_WIFIEncrypType0").selectedIndex=0;	
+		else if(etype_5g=="AES")
+			document.getElementById("id_WIFIEncrypType0_5g").selectedIndex=0; //Enter 20110822
+		else if(etype_5g=="TKIPAES")
+			document.getElementById("id_WIFIEncrypType0_5g").selectedIndex=0; //20120118
+			//document.getElementById("id_WIFIEncrypType0").selectedIndex=1;
+			           
+		etype_change();		
+		etype_change_5g();	
+}
+
+function method_change()
+{
+
+	top.dispWaiting(false);
+	document.getElementById("id_main").style.display = "block";
+	//Enter 20110812
+    if(document.getElementById("id_method_change").selectedIndex == 0)
+	{
+		show_object("id_method_manual");//all enable
+		hide_object("id_method_aoss");//all enable
+		hide_object("id_method_wps");
+		hide_object("id_status_Show_type");
+	}
+	else if(document.getElementById("id_method_change").selectedIndex == 1)
+	{
+		hide_object("id_method_manual");//all disable
+		show_object("id_method_aoss");//all disable
+		show_object("id_status_Show_type");//all enable
+		hide_object("id_method_wps");
+	}
+	else
+	{
+		hide_object("id_method_manual");//all disable
+		hide_object("id_method_aoss");//all disable
+		show_object("id_status_Show_type");//all enable
+		show_object("id_method_wps");
+	}
+	SetCwinHeight();
+}
+
+function auth_change(val)
+{
+	Hide_error();
+
+	var obj_etype = document.getElementById("id_WIFIEncrypType0");
+	
+	for (i=obj_etype.length-1;i>=0;i--)
+  	obj_etype.remove(obj_etype.options[i]);
+
+	switch (document.getElementById("id_WIFIApCliAuthMode").selectedIndex){
+	case 0:
+		obj_etype.options[0] = new Option("<%GetString("WDS","50");%>","NONE",0,(etype=="NONE")? 1:0);/*No encryption*/
+		obj_etype.options[1] = new Option("<%GetString("WDS","41");%>","WEP",0,(etype=="WEP")? 1:0);
+		if (etype=="WEP")
+		{
+			displayTR("wep",true);
+			disableWEP(false);
+		}
+		else
+		{
+			displayTR("wep",false);
+			disableWEP(true);
+		}
+		displayTR("psk",false);
+		disablePSK(true);
+		break;
+	case 1:
+	case 2:
+		//Enter 20110822
+		//obj_etype.options[0] = new Option("<%GetString("WDS","14");%>","TKIP",0,(etype=="TKIP")?1:0);//TKIP
+		//obj_etype.options[1] = new Option("<%GetString("WDS","15");%>","AES",0,(etype=="AES")?1:0);//AES
+		obj_etype.options[0] = new Option("<%GetString("WDS","15");%>","AES",0,(etype=="AES")?1:0);//AES
+		displayTR("wep",false);
+		displayTR("psk",true);
+		disableWEP(true);
+		disablePSK(false);
+		break;
+	}
+	SetCwinHeight();
+}
+
+function auth_change_5g(val)
+{
+	Hide_error();
+
+	var obj_etype = document.getElementById("id_WIFIEncrypType0_5g");
+	
+	for (i=obj_etype.length-1;i>=0;i--)
+  	obj_etype.remove(obj_etype.options[i]);
+
+	switch (document.getElementById("id_WIFIApCliAuthMode_5g").selectedIndex){
+	case 0:
+		obj_etype.options[0] = new Option("<%GetString("WDS","50");%>","NONE",0,(etype_5g=="NONE")? 1:0);/*No encryption*/
+		obj_etype.options[1] = new Option("<%GetString("WDS","41");%>","WEP",0,(etype_5g=="WEP")? 1:0);
+		if (etype_5g=="WEP")
+		{
+			displayTR_5g("wep",true);
+			disableWEP_5g(false);
+		}
+		else
+		{
+			displayTR_5g("wep",false);
+			disableWEP_5g(true);
+		}
+		displayTR_5g("psk",false);
+		disablePSK_5g(true);
+		break;
+	case 1:
+	case 2:
+		//Enter 20110822
+		//obj_etype.options[0] = new Option("<%GetString("WDS","14");%>","TKIP",0,(etype_5g=="TKIP")?1:0);//TKIP
+		//obj_etype.options[1] = new Option("<%GetString("WDS","15");%>","AES",0,(etype_5g=="AES")?1:0);//AES
+		obj_etype.options[0] = new Option("<%GetString("WDS","15");%>","AES",0,(etype_5g=="AES")?1:0);//AES
+		displayTR_5g("wep",false);
+		displayTR_5g("psk",true);
+		disableWEP_5g(true);
+		disablePSK_5g(false);
+		break;
+	}
+	SetCwinHeight();
+}
+
+
+function etype_change()
+{
+	Hide_error();
+	if (document.getElementById("id_WIFIApCliAuthMode").selectedIndex==0)
+	{
+		if (document.getElementById("id_WIFIEncrypType0").selectedIndex)
+		{
+			displayTR("wep",true);
+			disableWEP(false);
+		}
+		else
+		{
+			displayTR("wep",false);
+			disableWEP(true);
+		}
+	}
+	SetCwinHeight();
+}
+
+function etype_change_5g()
+{
+	Hide_error();
+	if (document.getElementById("id_WIFIApCliAuthMode_5g").selectedIndex==0)
+	{
+		if (document.getElementById("id_WIFIEncrypType0_5g").selectedIndex)
+		{
+			displayTR_5g("wep",true);
+			disableWEP_5g(false);
+		}
+		else
+		{
+			displayTR_5g("wep",false);
+			disableWEP_5g(true);
+		}
+	}
+	SetCwinHeight();
+}
+
+function displayTR(tbl,val)
+{
+	var tblObj=document.getElementById("id_"+tbl+"_tbl");
+	if (val)
+	{
+		tblObj.style.display="";
+		tblObj.disabled=false;
+	}
+	else
+	{
+		tblObj.style.display="none";
+		tblObj.disabled=true;
+	}
+}
+
+function displayTR_5g(tbl,val)
+{
+	var tblObj=document.getElementById("id_"+tbl+"_tbl_5g");
+	if (val)
+	{
+		tblObj.style.display="";
+		tblObj.disabled=false;
+	}
+	else
+	{
+		tblObj.style.display="none";
+		tblObj.disabled=true;
+	}
+}
+
+
+function disableWEP(val)
+{
+	disableItem("id_WIFIWEPKey1_S0",val);
+	disableItem("id_WIFIWEPKey2_S0",val);
+	disableItem("id_WIFIWEPKey3_S0",val);
+	disableItem("id_WIFIWEPKey4_S0",val);
+	disableItem("id_WIFIWEPKey1Type_S0",val);
+	disableItem("id_WIFIWEPKeyIndex0_1",val);
+	disableItem("id_WIFIWEPKeyIndex0_2",val);
+	disableItem("id_WIFIWEPKeyIndex0_3",val);
+	disableItem("id_WIFIWEPKeyIndex0_4",val);
+}
+
+function disableWEP_5g(val)
+{	
+	disableItem("id_WIFIWEPKey1_S0_5g",val);
+	disableItem("id_WIFIWEPKey2_S0_5g",val);
+	disableItem("id_WIFIWEPKey3_S0_5g",val);
+	disableItem("id_WIFIWEPKey4_S0_5g",val);
+	disableItem("id_WIFIWEPKey1Type_S0_5g",val);
+	disableItem("id_WIFIWEPKeyIndex0_1_5g",val);
+	disableItem("id_WIFIWEPKeyIndex0_2_5g",val);
+	disableItem("id_WIFIWEPKeyIndex0_3_5g",val);
+	disableItem("id_WIFIWEPKeyIndex0_4_5g",val);
+}
+
+function clear_wep()
+{
+	var i=1;
+	for (i=1;i<=4;i++)
+		document.getElementById("id_WIFIWEPKey" + i+ "_S0").value="";
+}
+
+function clear_wep_5g()
+{
+	var i=1;
+	for (i=1;i<=4;i++)
+		document.getElementById("id_WIFIWEPKey" + i+ "_S0_5g").value="";
+}
+
+function disablePSK(val)
+{
+	disableItem("id_WIFIWPAPSK0",val);
+}
+
+function disablePSK_5g(val)
+{
+	disableItem("id_WIFIWPAPSK0_5g",val);
+}
+
+function disableItem(val1,val2)
+{
+	document.getElementById(val1).disabled = val2;
+}
+
+function CleanWepKey(val)
+{
+	document.getElementById(val).value="";
+}
+
+
+function setAossWds(val)
+{
+	document.getElementById("id_WIFIApCli_UImode").value=val;
+	disableWEP(true);
+	disableWEP_5g(true);
+	disablePSK(true);	
+	disablePSK_5g(true);	
+	if (val == 4)
+	{
+		YAHOO.util.Connect.setForm('ApCliMain'); 
+		YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback_Apply); 
+	}
+	else if (val == 5)
+	{		
+		YAHOO.util.Connect.setForm('ApCliMain'); 
+		YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback_AOSS); 
+	}
+	else if (val == 7)
+	{
+		YAHOO.util.Connect.setForm('ApCliMain'); 
+		YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback_WPS); 
+	}
+}
+
+function searchClient()
+{
+	disableWEP(true);
+	disablePSK(true);
+	document.getElementById("id_WIFIApCli_UImode").value="1";
+	document.getElementById("id_WIFIApCli_UImode_5g").value="0";
+	//document.ApCliMain.submit();
+	YAHOO.util.Connect.setForm('ApCliMain'); 
+    YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback_search); 
+}
+
+function searchClient_5g()
+{
+	disableWEP_5g(true);
+	disablePSK_5g(true);
+	document.getElementById("id_WIFIApCli_UImode").value="0";
+	document.getElementById("id_WIFIApCli_UImode_5g").value="1";
+    //document.ApCliMain.submit();
+	YAHOO.util.Connect.setForm('ApCliMain'); 
+    YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback_search_5g); 
+}
+
+function setDisable()
+{
+	disableWEP(true);
+	disableWEP_5g(true);
+	disablePSK(true);
+	disablePSK_5g(true);
+	//displayTR("encry",false);
+	//document.getElementById("id_WIFIEncrypType0").disabled = true;
+	document.getElementById("id_WIFIApCli_UImode").value="6";		
+	document.getElementById("id_WIFIApCli_UImode_5g").value="6";		
+    //document.ApCliMain.submit();
+	YAHOO.util.Connect.setForm('ApCliMain'); 
+    YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+function setWDS()
+{
+	var n;
+	var etype = document.getElementById("id_WIFIEncrypType0").value;
+	var i=1;
+
+	if (document.getElementById("id_WIFIApCliSsid").value.length==0)
+	{
+		Show_error("<%GetString("WDS","13");%>","<%GetString("WDS","16");%>");
+		return;
+	}
+	if(document.getElementById("id_WIFIApCliSsid").value.length!=0)
+	{
+		/*for (n=0;n<document.getElementById("id_WIFIApCliSsid").value.length;n++)
+		{
+			if (document.getElementById("id_WIFIApCliSsid").value.charAt(n)==';')
+			{
+				Show_error("<%GetString("WDS","13");%>","<%GetString("WDS","17");%>");
+				return;
+			}
+		}*/
+		if(!Escape_String(document.getElementById("id_WIFIApCliSsid").value))
+		{
+			Show_error("<%GetString("WDS","13");%>","<%GetString("WDS","18");%>");
+			return;				
+		}
+	}
+	
+	switch (document.getElementById("id_WIFIApCliAuthMode").selectedIndex)
+	{
+		case 0:
+			if (etype=="WEP")
+			{
+				var err_title="<%GetString("WDS","19");%>";
+				for (i=1;i<=4;i++)
+				{
+					if (document.getElementById("id_WIFIWEPKey" + i+ "_S0").value.length==0 &&
+						document.getElementById("id_WIFIWEPKeyIndex0_" + i).checked)
+					{
+						Show_error(err_title,"<%GetString("WDS","20");%>");
+						return;
+					}
+					if (document.getElementById("id_WIFIWEPKey" + i+ "_S0").value!="******")
+					{
+						var key_type = document.getElementById("id_WIFIWEPKey1Type_S0").value;
+						var key_value=document.getElementById("id_WIFIWEPKey" + i+ "_S0").value;
+
+						//--Check Multi-Byte code Key
+						if (/[^\x00-\xff]/g.test(key_value)) {
+							Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+						 	return false;
+						}
+						
+						var key_length = 0;
+						if (key_type=="A5")
+							key_length = 5;
+						else if (key_type=="A13")
+							key_length = 13;
+						else if (key_type=="H10")
+							key_length = 10;
+						else if (key_type=="H26")
+							key_length = 26;
+							
+						if (key_value.length<key_length && key_value.length>0)
+						{
+							Show_error(err_title,"<%GetString("WDS","21");%>");
+							return;
+						}
+						if (key_value.length>key_length)
+						{
+							Show_error(err_title,"<%GetString("WDS","22");%>");
+							return;
+						}
+
+						
+						/*for (n=0;n<key_value.length;n++)
+						{
+							if (key_value.charAt(n)==';')
+							{
+								Show_error(err_title,"<%GetString("WDS","17");%>");
+								return;
+							}
+						}*/
+						
+						if (key_type=="H10" || key_type=="H26")
+						{
+							var j=0;
+							for (j=0;j<key_value.length;j++)
+							{
+								if (!((key_value.charAt(j)>='a' && key_value.charAt(j)<='f')||
+										(key_value.charAt(j)>='A' && key_value.charAt(j)<='F')||
+										(key_value.charAt(j)>='0' && key_value.charAt(j)<='9')))
+								{
+									Show_error(err_title,"<%GetString("WDS","18");%>");
+									return;
+								}
+							}
+						}
+						if (key_type=="H10")
+						{
+							if(key_value=="0000000000")
+							{
+								Show_error(err_title,"<%GetString("WDS","23");%>");
+								return false;
+							}
+						}
+						if (key_type=="H26")
+						{
+							if(key_value=="00000000000000000000000000")
+							{
+								Show_error(err_title,"<%GetString("WDS","23");%>");
+								return false;
+							}
+						}
+					}
+				}
+				for (i=1;i<=4;i++)
+				{
+					if (document.getElementById("id_WIFIWEPKey" + i+ "_S0").value=="******")
+							document.getElementById("id_WIFIWEPKey" + i+ "_S0").disabled=true;
+				}
+			}
+			break;
+		case 1:
+			if (document.getElementById("id_WIFIWPAPSK0").value!="******")
+			{
+				var err_title="<%GetString("WDS","24");%>";
+				var err_msg="";
+				var key_value=document.getElementById("id_WIFIWPAPSK0").value;
+
+				//--Check Multi-Byte code Key
+				if (/[^\x00-\xff]/g.test(key_value)) {
+					Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+				 	return false;
+				}
+				
+				if (key_value.length<8)
+					err_msg="<%GetString("WDS","25");%>";
+				
+				if (key_value.length==64 && !check_0Tof(key_value))
+					err_msg="<%GetString("WDS","25");%>"+"<%GetString("WDS","26");%>";
+					
+				/*var j=0;
+				for (j=0;j<key_value.length;j++)
+				{
+					if (key_value.charAt(j)==';')
+					{
+						err_msg="<%GetString("WDS","17");%>";
+					}
+				}*/
+					
+				if (err_msg!="")
+				{
+					Show_error(err_title,err_msg);
+					return;
+				}
+			}
+			if (document.getElementById("id_WIFIWPAPSK0").value=="******")
+				document.getElementById("id_WIFIWPAPSK0").disabled=true;
+			break;
+		case 2:
+			if (document.getElementById("id_WIFIWPAPSK0").value!="******")
+			{
+				var err_title="<%GetString("WDS","78");%>";
+				var err_msg="";
+				var key_value=document.getElementById("id_WIFIWPAPSK0").value;
+
+				//--Check Multi-Byte code Key
+				if (/[^\x00-\xff]/g.test(key_value)) {
+					Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+				 	return false;
+				}
+				
+				if (key_value.length<8)
+					err_msg="<%GetString("WDS","79");%>";
+				
+				if (key_value.length==64 && !check_0Tof(key_value))
+					err_msg="<%GetString("WDS","79");%>"+"<%GetString("WDS","26");%>";
+					
+				/*var j=0;
+				for (j=0;j<key_value.length;j++)
+				{
+					if (key_value.charAt(j)==';')
+					{
+						err_msg="<%GetString("WDS","17");%>";
+					}
+				}*/
+					
+				if (err_msg!="")
+				{
+					Show_error(err_title,err_msg);
+					return;
+				}
+			}
+			if (document.getElementById("id_WIFIWPAPSK0").value=="******")
+				document.getElementById("id_WIFIWPAPSK0").disabled=true;
+			break;
+	}
+	document.getElementById("id_WIFIApCli_UImode").value="3";	
+	Hide_error();
+    //document.ApCliMain.submit();
+	YAHOO.util.Connect.setForm('ApCliMain'); 
+    YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback_setwds);
+}
+	
+function setWDS_5g()
+{
+	var n;
+	var etype = document.getElementById("id_WIFIEncrypType0_5g").value;
+	var i=1;
+
+	if (document.getElementById("id_WIFIApCliSsid_5g").value.length==0)
+	{
+		Show_error("<%GetString("WDS","13");%>","<%GetString("WDS","16");%>");
+		return;
+	}
+	if(document.getElementById("id_WIFIApCliSsid_5g").value.length!=0)
+	{
+		/*for (n=0;n<document.getElementById("id_WIFIApCliSsid_5g").value.length;n++)
+		{
+			if (document.getElementById("id_WIFIApCliSsid_5g").value.charAt(n)==';')
+			{
+				Show_error("<%GetString("WDS","13");%>","<%GetString("WDS","17");%>");
+				return;
+			}
+		}*/
+		if(!Escape_String(document.getElementById("id_WIFIApCliSsid_5g").value))
+		{
+			Show_error("<%GetString("WDS","13");%>","<%GetString("WDS","18");%>");
+			return;				
+		}
+	}
+	
+	switch (document.getElementById("id_WIFIApCliAuthMode_5g").selectedIndex)
+	{
+		case 0:
+			if (etype=="WEP")
+			{
+				var err_title="<%GetString("WDS","19");%>";
+				for (i=1;i<=4;i++)
+				{
+					if (document.getElementById("id_WIFIWEPKey" + i+ "_S0_5g").value.length==0 &&
+						document.getElementById("id_WIFIWEPKeyIndex0_" + i + "_5g").checked)
+					{
+						Show_error(err_title,"<%GetString("WDS","20");%>");
+						return;
+					}
+					if (document.getElementById("id_WIFIWEPKey" + i+ "_S0_5g").value!="******")
+					{
+						var key_type = document.getElementById("id_WIFIWEPKey1Type_S0_5g").value;
+						var key_value=document.getElementById("id_WIFIWEPKey" + i+ "_S0_5g").value;
+
+						//--Check Multi-Byte code Key
+						if (/[^\x00-\xff]/g.test(key_value)) {
+							Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+						 	return false;
+						}
+						
+						var key_length = 0;
+						if (key_type=="A5")
+							key_length = 5;
+						else if (key_type=="A13")
+							key_length = 13;
+						else if (key_type=="H10")
+							key_length = 10;
+						else if (key_type=="H26")
+							key_length = 26;
+							
+						if (key_value.length<key_length && key_value.length>0)
+						{
+							Show_error(err_title,"<%GetString("WDS","21");%>");
+							return;
+						}
+						if (key_value.length>key_length)
+						{
+							Show_error(err_title,"<%GetString("WDS","22");%>");
+							return;
+						}
+
+						
+						/*for (n=0;n<key_value.length;n++)
+						{
+							if (key_value.charAt(n)==';')
+							{
+								Show_error(err_title,"<%GetString("WDS","17");%>");
+								return;
+							}
+						}*/
+						
+						if (key_type=="H10" || key_type=="H26")
+						{
+							var j=0;
+							for (j=0;j<key_value.length;j++)
+							{
+								if (!((key_value.charAt(j)>='a' && key_value.charAt(j)<='f')||
+										(key_value.charAt(j)>='A' && key_value.charAt(j)<='F')||
+										(key_value.charAt(j)>='0' && key_value.charAt(j)<='9')))
+								{
+									Show_error(err_title,"<%GetString("WDS","18");%>");
+									return;
+								}
+							}
+						}
+						if (key_type=="H10")
+						{
+							if(key_value=="0000000000")
+							{
+								Show_error(err_title,"<%GetString("WDS","23");%>");
+								return false;
+							}
+						}
+						if (key_type=="H26")
+						{
+							if(key_value=="00000000000000000000000000")
+							{
+								Show_error(err_title,"<%GetString("WDS","23");%>");
+								return false;
+							}
+						}
+					}
+				}
+				for (i=1;i<=4;i++)
+				{
+					if (document.getElementById("id_WIFIWEPKey" + i+ "_S0_5g").value=="******")
+							document.getElementById("id_WIFIWEPKey" + i+ "_S0_5g").disabled=true;
+				}
+			}
+			break;
+		case 1:
+			if (document.getElementById("id_WIFIWPAPSK0_5g").value!="******")
+			{
+				var err_title="<%GetString("WDS","24");%>";
+				var err_msg="";
+				var key_value=document.getElementById("id_WIFIWPAPSK0_5g").value;
+
+				//--Check Multi-Byte code Key
+				if (/[^\x00-\xff]/g.test(key_value)) {
+					Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+				 	return false;
+				}
+				
+				if (key_value.length<8)
+					err_msg="<%GetString("WDS","25");%>";
+				
+				if (key_value.length==64 && !check_0Tof(key_value))
+					err_msg="<%GetString("WDS","25");%>"+"<%GetString("WDS","26");%>";
+					
+				/*var j=0;
+				for (j=0;j<key_value.length;j++)
+				{
+					if (key_value.charAt(j)==';')
+					{
+						err_msg="<%GetString("WDS","17");%>";
+					}
+				}*/
+					
+				if (err_msg!="")
+				{
+					Show_error(err_title,err_msg);
+					return;
+				}
+			}
+			if (document.getElementById("id_WIFIWPAPSK0_5g").value=="******")
+				document.getElementById("id_WIFIWPAPSK0_5g").disabled=true;
+			break;
+		case 2:
+			if (document.getElementById("id_WIFIWPAPSK0_5g").value!="******")
+			{
+				var err_title="<%GetString("WDS","78");%>";
+				var err_msg="";
+				var key_value=document.getElementById("id_WIFIWPAPSK0_5g").value;
+
+				//--Check Multi-Byte code Key
+				if (/[^\x00-\xff]/g.test(key_value)) {
+					Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+				 	return false;
+				}
+				
+				if (key_value.length<8)
+					err_msg="<%GetString("WDS","79");%>";
+				
+				if (key_value.length==64 && !check_0Tof(key_value))
+					err_msg="<%GetString("WDS","79");%>"+"<%GetString("WDS","26");%>";
+					
+				/*var j=0;
+				for (j=0;j<key_value.length;j++)
+				{
+					if (key_value.charAt(j)==';')
+					{
+						err_msg="<%GetString("WDS","17");%>";
+					}
+				}*/
+					
+				if (err_msg!="")
+				{
+					Show_error(err_title,err_msg);
+					return;
+				}
+			}
+			if (document.getElementById("id_WIFIWPAPSK0_5g").value=="******")
+				document.getElementById("id_WIFIWPAPSK0_5g").disabled=true;
+			break;
+	}
+	document.getElementById("id_WIFIApCli_UImode_5g").value="3";	
+	Hide_error();
+	//document.ApCliMain.submit();
+	YAHOO.util.Connect.setForm('ApCliMain'); 
+    YAHOO.util.Connect.asyncRequest('POST','wlan_ure_sta.html'+'?timestampt='+new Date().toString(),oCallback_setwds); 
+}
+	
+// -->
+</script>
+</head>
+
+<body class="BFK_BODY" onLoad="set_display();method_change();init();" id="id_main">
+
+<br>
+
+<form method="POST" name="ApCliMain">
+<input type="hidden" name="WIFIApCli_UImode" id="id_WIFIApCli_UImode" value="0">	
+<input type="hidden" name="WIFIApCli_UImode_5g" id="id_WIFIApCli_UImode_5g" value="0">	
+<input type="hidden" name="WIFIApCliBssid" id="id_WIFIApCliBssid" value="<% NvramGetAdv("WIFIApCliBssid"); %>">
+<input type="hidden" name="WIFIApCliBssid_5g" id="id_WIFIApCliBssid_5g" value="<% NvramGetAdv("WIFIApCliBssid_5g"); %>">
+<input type="hidden" id="id_WIFIApCliBssid_UItmp" value="<% NvramGetAdv("WIFIApCliBssid_UItmp"); %>" disabled>
+<input type="hidden" id="id_WIFIApCliBssid_UItmp_5g" value="<% NvramGetAdv("WIFIApCliBssid_UItmp_5g"); %>" disabled>
+<input type="hidden" id="id_WIFIApCliSsid_UItmp" value="<%NvramGetAdv("WIFIApCliSsid_UItmp");%>" disabled>
+<input type="hidden" id="id_WIFIApCliSsid_UItmp_5g" value="<%NvramGetAdv("WIFIApCliSsid_UItmp_5g");%>" disabled>
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+<table class="AD_SET">
+  <tr>
+    <th><%GetString("WDS","1");%></th>
+    <td>
+        <input type="checkbox" id="id_ApCliEnable_tmp" onclick="set_display()" <% NvramMatch("WIFIApCliEnable", "1", "checked"); %> <% NvramMatch("WIFIApCliEnable", "2", "checked"); %>/><%GetString("WDS","2");%>
+		<input type="hidden" name="WIFIApCliEnable" id="id_ApCliEnable" value="<% NvramGet("WIFIApCliEnable"); %>"/> 		 
+    </td>
+  </tr>
+  <tr id="id_repeater_Show_type" style="display:none;">
+    <th><%GetString("WDS","3");%></th>
+    <td>
+		<select name="WIFIApCliMethod" id="id_method_change" onChange="method_change()" style="width:200px;"><!--set_self_nv :  WIFIApCliMethod -->
+			<option value="0" <% NvramMatch("WIFIApCliMethod", "0", "selected"); %>/><%GetString("WDS","4");%></option>
+			<option value="1" <% NvramMatch("WIFIApCliMethod", "1", "selected"); %>/><%GetString("WDS","5");%></option>
+			<option value="2" <% NvramMatch("WIFIApCliMethod", "2", "selected"); %>/>WPS</option><!--Enter 20110812-->
+		</select>
+    </td>
+  </tr>
+  <tr id="id_status_Show_type" style="display:none;">
+    <th><%GetString("WDS","53");%></th>
+    <td>
+		<%GetSystemInfo("WDSConnet_abgn");%>
+    </td>
+  </tr>	
+  <!--<tr id="id_roaming_Show_type" style="display:none;">
+	<th><%GetString("WDS","6");%></th>
+	<td>
+	   <input type="checkbox"/><%GetString("WDS","7");%><BR/>
+	   <input type="text" size="500px" />
+	</td>	
+  </tr>-->
+</table>
+
+<div id="id_repeater_Show" style="display:none;">  
+	<div id="id_method_manual" style="display:none;">
+	<br>2.4 GHz <%GetString("WDS","4");%>
+	<table class="AD_SET" >
+	  <tr>
+    <th><%GetString("WDS","53");%></th>
+    <td>
+		<%GetSystemInfo("WDSConnet");%>
+    </td>
+  </tr>
+	  <tr>
+	    <th><%GetString("WDS","8");%></th>
+		<td><!--WIFIApCliSsid-->
+			<input size="40" type="text" maxlength="32" name="WIFIApCliSsid" id="id_WIFIApCliSsid" value="<%NvramGetAdv("WIFIApCliSsid");%>">
+			<input type="button" name="apsearch" value="<%GetString("WDS","76");%>" onClick="searchClient();" <%NvramMatch("WIFIModuleEnable","0","disabled");%>><!--Caspar modify 1029-->
+		</td>
+	  </tr>  
+	  <tr>
+		<th><%GetString("WDS","9");%></th>
+	    <td><!--WIFIApCliAuthMode-->
+	     	<select name="WIFIApCliAuthMode_UItmp" id="id_WIFIApCliAuthMode" onChange="auth_change();">
+		    <%GetApcliAuth();%>			
+	     	</select>
+	    </td>
+	  </tr> 
+	  <tr id="id_encry_tbl">
+	    <th><%GetString("WDS","10");%></th>
+	    <td><!--WIFIApCliEncrypType-->
+		  <select name="WIFIApCliEncrypType" id="id_WIFIEncrypType0" onChange="etype_change();" >
+		    <%GetApcliEncryp();%>
+		  </select>
+	    </td>
+	  </tr>
+	  <tr id="id_wep_tbl">
+	    <th><%GetString("WDS","42");%></th><!--WEP encryption key setting-->
+		<td><table>
+     	  <tr>
+     	    <td colspan="2">
+     		 <select onChange="clear_wep()" name="nosave_ApcliWEPKey1Type" id="id_WIFIWEPKey1Type_S0" >
+                <option value="A5" <%GetApcliWEPKeyType("A5","selected");%>><%GetString("WDS","43");%></option>
+                <option value="A13" <%GetApcliWEPKeyType("A13","selected");%>><%GetString("WDS","44");%></option>
+                <option value="H10" <%GetApcliWEPKeyType("H10","selected");%>><%GetString("WDS","45");%></option>
+                <option value="H26" <%GetApcliWEPKeyType("H26","selected");%>><%GetString("WDS","46");%></option>
+     		 </select>
+     	    </td>
+     	  </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID" id="id_WIFIWEPKeyIndex0_1" value="1"  <%NvramMatch("WIFIApCliDefaultKeyID","1","checked");%>/>1:
+         </td>
+            <td><input type="password" name="WIFIApCliKey1Str" id="id_WIFIWEPKey1_S0" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey1Str");%>"/></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID" id="id_WIFIWEPKeyIndex0_2" value="2"  <%NvramMatch("WIFIApCliDefaultKeyID","2","checked");%>/>2:
+         </td>
+            <td><input type="password" name="WIFIApCliKey2Str" id="id_WIFIWEPKey2_S0" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey2Str");%>"/></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID" id="id_WIFIWEPKeyIndex0_3" value="3"  <%NvramMatch("WIFIApCliDefaultKeyID","3","checked");%>/>3:
+         </td>
+            <td><input type="password" name="WIFIApCliKey3Str" id="id_WIFIWEPKey3_S0" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey3Str");%>"/></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID" id="id_WIFIWEPKeyIndex0_4" value="4"  <%NvramMatch("WIFIApCliDefaultKeyID","4","checked");%>/>4:
+         </td>
+            <td><input type="password" name="WIFIApCliKey4Str" id="id_WIFIWEPKey4_S0" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey4Str");%>"/></td>
+          </tr>
+        </table></td>
+	  </tr>
+	  <tr id="id_psk_tbl">
+		<th><%GetString("WDS","11");%></th>
+		<td>
+			<input type="password" name="WIFIApCliWPAPSK" id="id_WIFIWPAPSK0" size="55" maxlength="64" 
+			value="<%ChangeKeyToStar("WIFIApCliWPAPSK");%>"/>
+		</td>
+	  </tr>
+	</table>
+		<!--<input type="button" name="SUBMIT" value="<%GetString("WDS","12");%>" onclick="setWDS();"/>	-->
+		<div class="button2" name="SUBMIT" onclick="setWDS();">
+			<div class="button_text"><%GetString("WDS","12");%></div>
+		</div>
+	
+	
+	
+	<br>
+	<br>5 GHz <%GetString("WDS","4");%>
+	<br>
+	<table class="AD_SET" >
+		<tr>
+    <th><%GetString("WDS","53");%></th>
+    <td>
+		<%GetSystemInfo("WDSConnet_5g");%>
+    </td>
+  </tr>
+	  <tr>
+	    <th><%GetString("WDS","8");%></th>
+		<td><!--WIFIApCliSsid-->
+			<input size="40" type="text" maxlength="32" name="WIFIApCliSsid_5g" id="id_WIFIApCliSsid_5g" value="<%NvramGetAdv("WIFIApCliSsid_5g");%>">
+			<input type="button" name="apsearch_5g" value="<%GetString("WDS","76");%>" onClick="searchClient_5g();" <%NvramMatch("WIFIModuleEnable_5g","0","disabled");%>><!--Caspar modify 1029-->
+		</td>
+	  </tr>  
+	  <tr>
+		<th><%GetString("WDS","9");%></th>
+	    <td><!--WIFIApCliAuthMode-->
+	     	<select name="WIFIApCliAuthMode_UItmp_5g" id="id_WIFIApCliAuthMode_5g" onChange="auth_change_5g();">
+		    <%GetApcliAuth_5g();%>			
+	     	</select>
+	    </td>
+	  </tr> 
+	  <tr id="id_encry_tbl_5g">
+	    <th><%GetString("WDS","10");%></th>
+	    <td><!--WIFIApCliEncrypType-->
+		  <select name="WIFIApCliEncrypType_5g" id="id_WIFIEncrypType0_5g" onChange="etype_change_5g();" >
+		    <%GetApcliEncryp_5g();%>
+		  </select>
+	    </td>
+	  </tr>
+	  <tr id="id_wep_tbl_5g">
+	    <th><%GetString("WDS","42");%></th><!--WEP encryption key setting-->
+		<td><table>
+     	  <tr>
+     	    <td colspan="2">
+     		 <select onChange="clear_wep_5g()" name="nosave_ApcliWEPKey1Type_5g" id="id_WIFIWEPKey1Type_S0_5g" >
+                <option value="A5" <%GetApcliWEPKeyType_5g("A5","selected");%>><%GetString("WDS","43");%></option>
+                <option value="A13" <%GetApcliWEPKeyType_5g("A13","selected");%>><%GetString("WDS","44");%></option>
+                <option value="H10" <%GetApcliWEPKeyType_5g("H10","selected");%>><%GetString("WDS","45");%></option>
+                <option value="H26" <%GetApcliWEPKeyType_5g("H26","selected");%>><%GetString("WDS","46");%></option>
+     		 </select>
+     	    </td>
+     	  </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID_5g" id="id_WIFIWEPKeyIndex0_1_5g" value="1"  <%NvramMatch("WIFIApCliDefaultKeyID_5g","1","checked");%>/>1:
+         </td>
+            <td><input type="password" name="WIFIApCliKey1Str_5g" id="id_WIFIWEPKey1_S0_5g" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey1Str_5g");%>"/></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID_5g" id="id_WIFIWEPKeyIndex0_2_5g" value="2"  <%NvramMatch("WIFIApCliDefaultKeyID_5g","2","checked");%>/>2:
+         </td>
+            <td><input type="password" name="WIFIApCliKey2Str_5g" id="id_WIFIWEPKey2_S0_5g" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey2Str_5g");%>"/></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID_5g" id="id_WIFIWEPKeyIndex0_3_5g" value="3"  <%NvramMatch("WIFIApCliDefaultKeyID_5g","3","checked");%>/>3:
+         </td>
+            <td><input type="password" name="WIFIApCliKey3Str_5g" id="id_WIFIWEPKey3_S0_5g" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey3Str_5g");%>"/></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIApCliDefaultKeyID_5g" id="id_WIFIWEPKeyIndex0_4_5g" value="4"  <%NvramMatch("WIFIApCliDefaultKeyID_5g","4","checked");%>/>4:
+         </td>
+            <td><input type="password" name="WIFIApCliKey4Str_5g" id="id_WIFIWEPKey4_S0_5g" size="40" maxlength="26" 
+            	value="<%ChangeKeyToStar("WIFIApCliKey4Str_5g");%>"/></td>
+          </tr>
+        </table></td>
+	  </tr>
+	  <tr id="id_psk_tbl_5g">
+		<th><%GetString("WDS","11");%></th>
+		<td>
+			<input type="password" name="WIFIApCliWPAPSK_5g" id="id_WIFIWPAPSK0_5g" size="55" maxlength="64" 
+			value="<%ChangeKeyToStar("WIFIApCliWPAPSK_5g");%>"/>
+		</td>
+	  </tr>
+	</table>
+		<!--<input type="button" name="SUBMIT" value="<%GetString("WDS","12");%>" onclick="setWDS_5g();"/>	-->
+		<div class="button2" name="SUBMIT" onclick="setWDS_5g();">
+			<div class="button_text"><%GetString("WDS","12");%></div>
+		</div>
+	</div>
+	
+	
+	
+	<div id="id_method_aoss" style="display:none;">
+		<%ApcliAossTable();%>
+	</div>
+
+	<!--Enter 20110812-->
+	<div id="id_method_wps" style="display:none;">
+		<!--<input type="button" name="SUBMIT" value="<%GetString("WDS","12");%>" onclick="setAossWds('4');">-->				
+		<HR/>
+		<input type="hidden" name="WIFIApCliWPS" value="0" disabled>
+		<!--<img border="0" src="./images/wps-enable.png" title="WPS" style="cursor:pointer" onclick="setAossWds('7');">-->
+		<%ApcliWPSTable();%>
+		<!--<%GetString("WDS","77");%>-->
+		<BR/><BR/>
+		<div class="button5" name="SUBMIT" onclick="setAossWds('4');">
+			<div class="button_text"><%GetString("WDS","12");%></div>
+		</div>
+	</div>
+
+
+</div> 
+	<div id="id_disable_button" style="display:none;">
+	<!--<input type="button" name="SUBMIT" value="<%GetString("WDS","12");%>" onclick="setDisable();"/>		 	-->
+	<div class="button5" name="SUBMIT" onclick="setDisable();">
+		<div class="button_text"><%GetString("WDS","12");%></div>
+	</div>
+	</div>
+<%GetApcliVal("resetmode");%>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+<br>
+</form>
+</body>
+</html>

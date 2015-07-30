@@ -1,0 +1,245 @@
+<html>
+<head>
+<title>AirStationMenu</title>
+<meta HTTP-EQUIV="Content-Type" Content="text/html; charset=<%ChangeCharset();%>"></meta>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<META http-equiv="Content-Style-Type" content="text/css">
+<script src="OnceOnly.html"></script>
+<script language="JavaScript">
+<!--
+function ChangeMenuCss(url,meu,helpurl,subnum)
+{
+		var index;
+		for(i=0;i<=6;i++)
+		{
+			document.getElementById("meu1_"+i).className="UNSELECTED";
+			document.getElementById("meu1_"+i+"s").className="UNSELECTED";
+			document.getElementById("ttl_menu2_"+i).style.display="none";
+		}
+		document.getElementById(meu).className = "SELECTED";
+		document.getElementById(meu+"s").className = "SELECTED";
+
+		top.frames[2].location.href = url;
+		top.frames[3].location.href = "./help/"+helpurl;
+		index = meu.substring(5);
+		document.getElementById("ttl_menu2_"+index).style.display="";
+		
+		var subindex=parseInt(index);
+		subindex = subindex+1;
+		var j;
+		for(j=0;j<=subnum;j++)
+		{
+			document.getElementById("sub_meu"+subindex+"_"+j).className="UNSELECTED";
+		}
+		document.getElementById("sub_meu"+subindex+"_0").className = "SELECTED";
+		
+		if("<% TurnMenu("mode"); %>"=="off")
+		{
+			document.getElementById("sub_meu2_0").className="UNSELECTED";
+			document.getElementById("sub_meu2_3").className = "SELECTED";
+		}
+		else
+		{
+			document.getElementById("sub_meu2_0").className="SELECTED";
+			document.getElementById("sub_meu2_3").className = "UNSELECTED";
+		}
+		
+		if(url=="wsc.html")
+		{
+			document.getElementById("sub_meu3_2").className = "UNSELECTED_WLAN11A";
+			document.getElementById("sub_meu3_3").className = "UNSELECTED_WLAN11A";
+			document.getElementById("sub_meu3_4").className = "UNSELECTED_WLAN11A";
+			document.getElementById("sub_meu3_5").className = "UNSELECTED_WLAN11G";
+			document.getElementById("sub_meu3_6").className = "UNSELECTED_WLAN11G";
+			document.getElementById("sub_meu3_7").className = "UNSELECTED_WLAN11G";
+		}
+		var region = "<%NvramGet("Region");%>"
+		if(region == "JP")
+		  document.getElementById("sub_meu4_3").style.display="";
+		else
+			document.getElementById("sub_meu4_3").style.display="none";
+}
+function ChangeMenu2Css(url,meu,num,helpurl)
+{
+	var menu_name;
+	for(i=0;i<=num;i++)
+	{
+		menu_name = meu.substring(0,9);
+		document.getElementById(menu_name+i).className="UNSELECTED";
+	}
+	document.getElementById("sub_meu3_2").className = "UNSELECTED_WLAN11A";
+	document.getElementById("sub_meu3_3").className = "UNSELECTED_WLAN11A";
+	document.getElementById("sub_meu3_4").className = "UNSELECTED_WLAN11A";
+	document.getElementById("sub_meu3_5").className = "UNSELECTED_WLAN11G";
+	document.getElementById("sub_meu3_6").className = "UNSELECTED_WLAN11G";
+	document.getElementById("sub_meu3_7").className = "UNSELECTED_WLAN11G";
+	document.getElementById(meu).className = "SELECTED"
+	top.frames[2].location.href = url;
+	top.frames[3].location.href = "./help/"+helpurl;
+	
+}
+
+//-->
+</SCRIPT>
+</head>
+<body class="TTL_BODY" <%GetRedirectFlag("1");%>>
+<table class="INFO">
+  <tbody>
+     <tr>
+     	<td class="INFO_L"><%GetString("TopUpper","2");%></td>
+     	<td class="INFO_REPEAT">&nbsp;</td>
+     	<td class="INFO_R">&nbsp;</td>
+     </tr>
+   </tbody>
+</table>
+<table class="TTL_FRAME">
+  <tr>
+    <td>
+	<table class="TTL_MENU1">
+	  <tbody>
+	    <tr>
+	      	<td id="meu1_0" class="SELECTED"><nobr><span id="meu1_0s" class="SELECTED" onMouseover=this.cursor='hand' onClick="ChangeMenuCss('top_main.html','meu1_0','<% TurnMenu("help_top_setup.html"); %>',0);"><%GetString("Menu","1");%></span></nobr></td>
+	      	<td id="meu1_1" class="UNSELECTED"><nobr><% TurnMenu("meu1_1"); %></nobr></td>
+          	<td id="meu1_2" class="UNSELECTED"><nobr><span id="meu1_2s" class="UNSELECTED" onMouseover=this.cursor='hand' onClick="ChangeMenuCss('wsc.html','meu1_2','help_wsc.html',10);"><%GetString("Menu","3");%></span></nobr></td>
+          	<td id="meu1_3" class="UNSELECTED" <% TurnMenu("show"); %>><nobr><span id="meu1_3s" class="UNSELECTED" onMouseover=this.cursor='hand' onClick="ChangeMenuCss('filter.html','meu1_3','help_filter.html',3);"><%GetString("Menu","4");%></span></nobr></td>
+          	<td id="meu1_4" class="UNSELECTED" <% TurnMenu("show"); %>><nobr><span id="meu1_4s" class="UNSELECTED" onMouseover=this.cursor='hand' onClick="ChangeMenuCss('nat_reg.html','meu1_4','help_nat_reg.html',3);"><%GetString("Menu","5");%></span></nobr></td>
+          	<td id="meu1_5" class="UNSELECTED"><nobr><span id="meu1_5s" class="UNSELECTED" onMouseover=this.cursor='hand' onClick="ChangeMenuCss('ap.html','meu1_5','help_ap.html',9);"><%GetString("Menu","6");%></span></nobr></td>
+          	<td id="meu1_6" class="UNSELECTED"><nobr><span id="meu1_6s" class="UNSELECTED" onMouseover=this.cursor='hand' onClick="ChangeMenuCss('info.html','meu1_6','<% TurnMenu("help_info.html"); %>',4);"><%GetString("Menu","7");%></span></nobr></td>
+	    </tr>
+	  </tbody>
+	</table>
+     </td>
+   </tr>
+   <tr>
+     <td>
+     	<table class="TTL_MENU2">
+     	  <tbody>
+     	  
+     	  <!--*** sub_meu1 **-->
+     	    <tr id="ttl_menu2_0" style="display:block">
+     	      <td><nobr><span id="sub_meu1_0" class="SELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('top_main.html','sub_meu1_0','0','<% TurnMenu("help_top_setup.html"); %>');"><%GetString("Menu","8");%></a></span></nobr></td>
+     	      <td class="TAIL">&nbsp;</td>
+     	    </tr>
+     	    
+     	  <!--*** sub_meu2 **-->
+     	    <tr id="ttl_menu2_1" style="display:none">
+     	      <td><nobr>
+     	        <span id="sub_meu2_0" class="SELECTED" <% TurnMenu("show"); %>><a href="javascript:;" onClick="ChangeMenu2Css('wan.html','sub_meu2_0','6','help_wan_port.html');"><%GetString("Menu","9");%></a></span>
+     	        <span id="sub_meu2_1" class="UNSELECTED" <% TurnMenu("show"); %>><a href="javascript:;" onClick="ChangeMenu2Css('pppoe_main.html','sub_meu2_1','6','help_pppoe_main.html');"><%GetString("Menu","10");%></a></span><!--PPPoE-->
+     	        <span id="sub_meu2_2" class="UNSELECTED" <% TurnMenu("show"); %>><a href="javascript:;" onClick="ChangeMenu2Css('ddns.html','sub_meu2_2','6','');"><%GetString("Menu","11");%></a></span>
+     	        <span id="sub_meu2_3" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('<% TurnMenu("lan.html"); %>','sub_meu2_3','6','<% TurnMenu("help_lan.html"); %>');"><%GetString("Menu","12");%></a></span><!--LAN-->
+     	        <span id="sub_meu2_4" class="UNSELECTED" <% TurnMenu("show"); %>><a href="javascript:;" onClick="ChangeMenu2Css('dhcps_lease.html','sub_meu2_4','6','help_dhcps_lease.html');"><%GetString("Menu","13");%></a></span><!--DHCP Lease-->
+     	        <span id="sub_meu2_5" class="UNSELECTED" <% TurnMenu("show"); %>><a href="javascript:;" onClick="ChangeMenu2Css('nat.html','sub_meu2_5','6','help_nat.html');"><%GetString("Menu","14");%></a></span><!--NAT-->
+     	        <span id="sub_meu2_6" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('route_reg.html','sub_meu2_6','6','help_route_reg.html');"><%GetString("Menu","15");%></a></span>				
+				</nobr></td>
+     	      <td class="TAIL">&nbsp;</td>
+     	    </tr>
+     	    
+     	    <!--*** sub_meu3 **-->
+     	    <tr id="ttl_menu2_2" style="display:none">
+     	      <td><nobr>
+     	        <span id="sub_meu3_0" class="SELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('wsc.html','sub_meu3_0','10','help_wsc.html');"><%GetString("Menu","16");%></a></span>
+     	        <span id="sub_meu3_1" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('aoss.html','sub_meu3_1','10','help_aoss.html');"><%GetString("Menu","17");%></a></span>
+     	        </nobr></td>
+     	        <td class="ITEM_MIDDLE_FRONT">
+              <nobr>
+     	        <span id="sub_meu3_2" class="UNSELECTED_WLAN11A"><a href="javascript:;" onClick="ChangeMenu2Css('wlan_multi_5g.html','sub_meu3_2','10','help_wlan.html');"><%GetString("Menu","18");%>(<span class="BANDNAME">11ac/n/a</span>)
+     	        </a></span><span id="sub_meu3_3" class="UNSELECTED_WLAN11A"><a href="javascript:;" onClick="ChangeMenu2Css('wlan_extend_5g.html','sub_meu3_3','10','help_wlan_extend_5g.html');"><%GetString("Menu","19");%>(<span class="BANDNAME">11ac/n/a</span>)
+     	        </a></span><span id="sub_meu3_4" class="UNSELECTED_WLAN11A"><a href="javascript:;" onClick="ChangeMenu2Css('wlan_wmm_5g.html','sub_meu3_4','10','help_wlan_wmm.html');"><%GetString("Menu","20");%>(<span class="BANDNAME">11ac/n/a</span>)
+     	        </a></span></nobr><br><nobr><span id="sub_meu3_5" class="UNSELECTED_WLAN11G"><a href="javascript:;" onClick="ChangeMenu2Css('wlan_basic.html','sub_meu3_5','10','help_wlan.html');"><%GetString("Menu","18");%>(<span class="BANDNAME">11n/g/b</span>)<span class="BANDNAME">&nbsp;</span></a></span>
+     	        <span id="sub_meu3_6" class="UNSELECTED_WLAN11G"><a href="javascript:;" onClick="ChangeMenu2Css('wlan_extend_24g.html','sub_meu3_6','10','help_wlan_extend_5g.html');"><%GetString("Menu","19");%>(<span class="BANDNAME">11n/g/b</span>)<span class="BANDNAME">&nbsp;</span></a></span>
+     	        <span id="sub_meu3_7" class="UNSELECTED_WLAN11G"><a href="javascript:;" onClick="ChangeMenu2Css('wlan_wmm.html','sub_meu3_7','10','help_wlan_wmm.html');"><%GetString("Menu","20");%>(<span class="BANDNAME">11n/g/b</span>)<span class="BANDNAME">&nbsp;</span></a></span>
+     	        </nobr>
+              </td>
+     	        <td class="ITEM_MIDDLE_FRONT"><nobr>
+     	        <span id="sub_meu3_8" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('mac.html','sub_meu3_8','10','help_mac.html');"><%GetString("Menu","21");%></a></span>
+     	        <span id="sub_meu3_9" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('<% TurnMenu("wlan_ure_sta"); %>','sub_meu3_9','10','help_wlan_ure_sta.html');"><%GetString("Menu","56");%></a></span>
+     	        <span id="sub_meu3_10" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('snooping.html','sub_meu3_10','10','help_snooping.html');"><%GetString("Menu","63");%></a></span>
+     	      </nobr></td>
+     	      <td class="TAIL">&nbsp;</td>
+     	    </tr>
+     	    
+     	     <!--*** sub_meu4 **-->
+     	    <tr id="ttl_menu2_3" style="display:none">
+     	      <td><nobr><span id="sub_meu4_0" class="SELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('filter.html','sub_meu4_0','3','help_filter.html');"><%GetString("Menu","23");%></a></span>
+     	        <span id="sub_meu4_1" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('filter_ip.html','sub_meu4_1','3','help_filter_ip.html');"><%GetString("Menu","24");%></a></span>
+     	      	<span id="sub_meu4_2" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('vpn_pass_through.html','sub_meu4_2','3','help_vpn_pass_through.html');"><%GetString("Menu","25");%></a></span>
+				<span id="sub_meu4_3" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('ifilter.html','sub_meu4_3','3','help_ifilter.html');"><%GetString("IFilter","1");%></a></span>
+     	      </nobr></td>
+     	      <td class="TAIL">&nbsp;</td>
+     	    </tr>
+     	    
+     	     <!--*** sub_meu5 **-->
+     	    <tr id="ttl_menu2_4" style="display:none">
+     	      <td><nobr><span id="sub_meu5_0"  class="SELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('nat_reg.html','sub_meu5_0','3','help_nat_reg.html');"><%GetString("Menu","26");%></a></span>
+     	        <span id="sub_meu5_1"  class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('dmz.html','sub_meu5_1','3','help_dmz.html');"><%GetString("Menu","27");%></a></span>
+     	        <span id="sub_meu5_2"  class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('upnp.html','sub_meu5_2','3','help_upnp.html');"><%GetString("Menu","28");%></a></span>
+     	        <span id="sub_meu5_3"  class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('qos.html','sub_meu5_3','3','help_qos.html');"><%GetString("Menu","29");%></a></span>
+     	      </nobr></td>
+     	      <td class="TAIL">&nbsp;</td>
+     	    </tr>
+     	    
+     	    <!--*** sub_meu6 **-->
+     	    <tr id="ttl_menu2_5" style="display:none">
+     	      <td><nobr><span id="sub_meu6_0" class="SELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('ap.html','sub_meu6_0','9','help_ap.html');"><%GetString("Menu","30");%></a></span>
+     	        <span id="sub_meu6_1" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('password.html','sub_meu6_1','9','help_password.html');"><%GetString("Menu","31");%></a></span>
+     	        <span id="sub_meu6_2" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('date.html','sub_meu6_2','9','help_date.html');"><%GetString("Menu","32");%></a></span>
+     	        <span id="sub_meu6_3" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('ntp.html','sub_meu6_3','9','help_ntp.html');"><%GetString("Menu","33");%></a></span>
+				<span id="sub_meu6_4" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('eco.html','sub_meu6_4','9','help_eco.html');"><%GetString("Menu","60");%></a></span>
+     	        <span id="sub_meu6_5" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('access_limit.html','sub_meu6_5','9','help_access_limit.html');"><%GetString("Menu","34");%></a></span>
+     	        <span id="sub_meu6_6" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('log.html','sub_meu6_6','9','help_log.html');"><%GetString("Menu","35");%></a></span>
+     	        <span id="sub_meu6_7" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('save.html','sub_meu6_7','9','help_save.html');"><%GetString("Menu","36");%></a></span>
+				</nobr><br><nobr>
+     	        <span id="sub_meu6_8" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('init.html','sub_meu6_8','9','help_init.html');"><%GetString("Menu","37");%></a></span>
+     	        <span id="sub_meu6_9" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('fwupdate.html','sub_meu6_9','9','help_fwupdate.html');"><%GetString("Menu","38");%></a></span>
+     	        </nobr></td>
+     	      <td class="TAIL">&nbsp;</td>
+     	   </tr>
+     	   
+     	   <tr id="ttl_menu2_6" style="display:none">
+     	     <td><nobr><span id="sub_meu7_0" class="SELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('info.html','sub_meu7_0','4','<% TurnMenu("help_info.html"); %>');"><%GetString("Menu","39");%></a></span>
+     	       <span id="sub_meu7_1" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('log_disp.html','sub_meu7_1','4','help_log_disp.html');"><%GetString("Menu","40");%></a></span>
+     	       <span id="sub_meu7_2" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('packet.html','sub_meu7_2','4','help_packet.html');"><%GetString("Menu","41");%></a></span>
+     	       <span id="sub_meu7_3" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('client.html','sub_meu7_3','4','help_client.html');"><%GetString("Menu","42");%></a></span>
+     	       </nobr><br><nobr>
+     	       <span id="sub_meu7_4" class="UNSELECTED"><a href="javascript:;" onClick="ChangeMenu2Css('ping.html','sub_meu7_4','4','help_ping.html');"><%GetString("Menu","43");%></a></span>
+     	     </nobr></td>
+     	     <td class="TAIL">&nbsp;</td>
+     	   </tr>
+     	  </tbody>
+     	</table>
+<script>
+	if ("<%NvramGet("HTTPLanguageSetting");%>" == 9 || "<%NvramGet("HTTPLanguageSetting");%>" == 14)
+	{
+		document.write("<div class=\"ITEM_LOGOUT_Spanish\">");
+	}
+	else if ("<%NvramGet("HTTPLanguageSetting");%>" == 11 || "<%NvramGet("HTTPLanguageSetting");%>" == 15)
+	{
+		document.write("<div class=\"ITEM_LOGOUT_RU\">");
+	}
+	else
+	{
+     	document.write("<div class=\"ITEM_LOGOUT\">");
+	}
+</script>
+		  <table>
+		    <tr>
+				<td style="font-size: 12px">
+		     	  <nobr><A href="http://d.buffalo.jp/whr-1166d<%URLRegionGet_lower("URLRegion");%>/" target=_blank><%GetString("Menu","61");%></A></nobr>
+				  <br>
+		     	  <nobr><A href="logout.html" target=_top><%GetString("Menu","45");%></A></nobr>
+				</td>
+			</tr>
+		  </table>
+     	</div>
+     </td>
+   </tr>
+</tbody>
+</table>
+</body>
+</html>

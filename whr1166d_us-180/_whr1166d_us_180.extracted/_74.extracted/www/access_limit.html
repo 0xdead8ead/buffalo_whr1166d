@@ -1,0 +1,235 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function setValue0(val)
+{
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"0":"1";
+}
+function setValue1(val)
+{
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"1":"0";
+}
+function set_display()
+{
+     if(document.getElementById("id_HTTPWANAccessEnable").checked == true)
+     {
+     	document.getElementById("reject_from_wan_ext").style.display = "block";
+     } else {
+     	document.getElementById("reject_from_wan_ext").style.display = "none";
+     }
+}
+function setAccess()
+{
+	var accessip=document.getElementById("id_wanaccessip");
+	var accessport=document.getElementById("id_wanaccessport");
+	var lanip='<%NvramGet("LanIPAddr");%>';
+	if(document.getElementById("id_HTTPWANAccessEnable").checked == true)
+	{
+		if (accessip.value.length !=0)
+		{
+			if(accessip.value.length < 6)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","17");%>");
+				return;
+			}
+			if(check_ip(accessip.value) == 1)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","18");%>");
+				return;
+			}
+			if(check_ip(accessip.value) == 2)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","19");%>");
+				return;
+			}
+			if(lanip == accessip.value)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","20");%>");
+				return;
+			}
+		}
+			if(accessport.value.length == 0)
+			{
+				Show_error("<%GetString("AccessLimit","16");%>", "<%GetString("AccessLimit","21");%>");
+				return;
+			}
+			if(!check_port(accessport.value))
+			{
+				Show_error("<%GetString("AccessLimit","16");%>", "<%GetString("AccessLimit","22");%>");
+				return;
+			}   
+	}
+	
+	checkItem();
+}
+
+function checkItem()
+{
+  var wirelesslan='<%NvramGet("HTTPWLANAccessEnable");%>';
+  var wiredlan='<%NvramGet("HTTPLANAccessEnable");%>';
+
+  if (wirelesslan=="0")
+    wirelesslan=true;
+  else
+    wirelesslan=false;
+    
+  if (wiredlan=="0")
+    wiredlan=true;
+  else
+    wiredlan=false;
+    
+  if ((document.getElementById("id_HTTPWLANAccessEnable").checked == true) && (document.getElementById("id_HTTPLANAccessEnable").checked == true))
+  {
+    document.getElementById("selectitem").innerHTML="<%GetString("AccessLimit","23");%>";
+  }
+  else if (document.getElementById("id_HTTPWLANAccessEnable").checked == true)
+  {
+    document.getElementById("selectitem").innerHTML="<%GetString("AccessLimit","24");%>";
+  }
+  else if (document.getElementById("id_HTTPLANAccessEnable").checked == true)
+  {
+    document.getElementById("selectitem").innerHTML="<%GetString("AccessLimit","25");%>";
+  }
+  else
+  {
+    document.accessForm.submit();
+    return;
+  }
+  
+  if (((document.getElementById("id_HTTPWLANAccessEnable").checked == true) || (document.getElementById("id_HTTPLANAccessEnable").checked == true)) && ((wirelesslan!=document.getElementById("id_HTTPWLANAccessEnable").checked) || (wiredlan!=document.getElementById("id_HTTPLANAccessEnable").checked)))
+  {
+    document.getElementById("content").style.display = "none";
+    document.getElementById("confirm").style.display = "";
+  }
+  else
+    document.accessForm.submit();
+}
+
+function goBack()
+{
+  document.getElementById("content").style.display = "";
+	document.getElementById("confirm").style.display = "none";
+}
+
+function apply()
+{
+  document.accessForm.submit();
+}
+// -->
+</script>
+</head>
+<body class="BFK_BODY" onload="set_display()">
+<br>
+<form method="POST" name="accessForm">
+<div id="content">
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("AccessLimit","1");%></th>
+      <td>
+      	<input type="hidden" name="LogAccessEnable" id="mm_LogAccessEnable" value="<%NvramGet("LogAccessEnable");%>">
+        <input type="checkbox" id="id_LogAccessEnable" value="1" onclick="setValue1('LogAccessEnable');" 
+        	<%NvramMatch("LogAccessEnable","1","checked");%>><%GetString("AccessLimit","2");%>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table class="AD_LIST">
+    <tr>
+      <th><%GetString("AccessLimit","3");%></th>
+      <th><%GetString("AccessLimit","4");%></th>
+      <th><%GetString("AccessLimit","5");%></th>
+    </tr>
+    <tr <%NvramMatch("HTTPWLANAccessEnable","1","class=DISABLE");%>>
+      <td>
+      <input type="hidden" name="HTTPWLANAccessEnable" id="mm_HTTPWLANAccessEnable" value="<%NvramGet("HTTPWLANAccessEnable");%>">
+      <input type="checkbox" id="id_HTTPWLANAccessEnable" value="1" onclick="setValue0('HTTPWLANAccessEnable');"
+      	<%NvramMatch("HTTPWLANAccessEnable","0","checked");%>></td>
+      <td><%GetString("AccessLimit","6");%></td>
+      <td><div class="DIGIT"><%GetCounter("WIRELESS");%></div></td>
+    </tr>
+    <tr <%NvramMatch("HTTPLANAccessEnable","1","class=DISABLE");%>>
+      <td>
+      <input type="hidden" name="HTTPLANAccessEnable" id="mm_HTTPLANAccessEnable" value="<%NvramGet("HTTPLANAccessEnable");%>">
+      <input type="checkbox" id="id_HTTPLANAccessEnable" value="1" onclick="setValue0('HTTPLANAccessEnable');"
+      	<%NvramMatch("HTTPLANAccessEnable","0","checked");%>></td>
+      <td><%GetString("AccessLimit","7");%></td>
+      <td><div class="DIGIT"><%GetCounter("WIRED");%></div></td>
+    </tr>
+  </table>
+  <BR>
+
+  <table class="AD_TTL2" <% TurnMenu("show"); %>>
+    <tr><td><%GetString("AccessLimit","8");%></td></tr>
+  </table>
+  <table class="AD_LIST" <% TurnMenu("show"); %>>
+    <tr>
+     <th><%GetString("AccessLimit","9");%></th>
+     <th><%GetString("AccessLimit","10");%></th>
+    </tr>
+    <tr <%NvramMatch("HTTPWANAccessEnable","0","class=DISABLE");%>>
+      <td>
+      <input type="hidden" name="HTTPWANAccessEnable" id="mm_HTTPWANAccessEnable" value="<%NvramGet("HTTPWANAccessEnable");%>">
+      <input type="checkbox" id="id_HTTPWANAccessEnable" value="1" OnClick="set_display();setValue1('HTTPWANAccessEnable');"
+      	<%NvramMatch("HTTPWANAccessEnable","1","checked");%>></td>
+      <td><%GetString("AccessLimit","11");%></td>
+    </tr>
+  </table>
+<div id="reject_from_wan_ext">
+  <table class="AD_SET" <% TurnMenu("show"); %>>
+    <tr>
+      <th><%GetString("AccessLimit","12");%></th>
+      <td>
+        <input type="text" name="HTTPWANAccessIP" id="id_wanaccessip" value="<%NvramGet("HTTPWANAccessIP");%>" maxlength="15" size="18">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("AccessLimit","13");%></th>
+      <td>
+        <input type="text" name="HTTPWANAccessPort" id="id_wanaccessport" value="<%NvramGet("HTTPWANAccessPort");%>" maxlength="5" size="5">
+      </td>
+    </tr>
+  </table>
+</div>
+
+  <p><input type="button" value="<%GetString("AccessLimit","14");%>" id="submitBtn" onclick="setAccess();"></p>
+</div>
+<!---------------------------------------->
+<div id="confirm" style="display:none;">
+<p>
+    <div id="selectitem"></div>
+</p>
+<p>
+<%GetString("AccessLimit","26");%>
+</p>
+
+<div class="C_CONFIRM">
+<p>
+<%GetString("AccessLimit","27");%><br>
+<ol>
+<%GetString("AccessLimit","28");%>
+<%GetString("AccessLimit","29");%>
+<%GetString("AccessLimit","30");%>
+</ol>
+<%GetString("AccessLimit","31");%>
+</p>
+</div>
+     <input type="button" id="go"   value="<%GetString("AccessLimit","32");%>" onclick="apply();">
+     <input type="button" id="back" value="<%GetString("AccessLimit","33");%>" onclick="goBack();">
+</div>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,597 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function setValue(val)
+{
+	if(val=="load")
+	{
+	document.getElementById("idr_" + val + "ConfRC4Encryption").value=
+		(document.getElementById("id_"+val+"key").checked)?"1":"0";	
+	}
+	else
+	{
+	document.getElementById("id_" + val + "ConfRC4Encryption").value=
+		(document.getElementById("id_"+val+"key").checked)?"1":"0";
+	}
+}
+
+function set_display()
+{
+     if (document.getElementById("id_savekey").checked == true)
+     	document.getElementById("id_savepwd").disabled = false;
+     else
+     	document.getElementById("id_savepwd").disabled = true;
+
+     if (document.getElementById("id_loadkey").checked == true)
+     	document.getElementById("id_loadpwd").disabled= false;
+     else
+     	document.getElementById("id_loadpwd").disabled = true;
+}
+
+function hidden_submit(val)
+{
+	document.hiddenFrm.nosave_saveConfRC4Key.disabled=true;
+	document.hiddenFrm.nosave_loadConfRC4Key.disabled=true;
+	if (val=="save")
+	{
+		document.hiddenFrm.nosave_saveConfRC4Key.disabled=false;
+		document.hiddenFrm.nosave_buttoncfg.value="1";
+		document.hiddenFrm.nosave_saveConfRC4Key.value = document.getElementById("id_savepwd").value;
+	}
+	else
+	{
+		document.hiddenFrm.nosave_loadConfRC4Key.disabled=false;
+		document.hiddenFrm.nosave_buttoncfg.value="2";
+		document.hiddenFrm.nosave_loadConfRC4Key.value = document.getElementById("id_loadpwd").value
+	}
+	setValue(val);
+	document.hiddenFrm.submit();
+}
+
+function restore_parameter(val)
+{
+	document.restoreFrm.nosave_saveConfRC4Key.disabled=true;
+	document.restoreFrm.nosave_loadConfRC4Key.disabled=true;
+
+		document.restoreFrm.nosave_loadConfRC4Key.disabled=false;
+		document.restoreFrm.nosave_buttoncfg.value="2";
+		document.restoreFrm.nosave_loadConfRC4Key.value = document.getElementById("id_loadpwd").value
+
+	
+	setValue(val);
+}
+
+
+
+var exec_Submit_Save = false;
+function Submit_Save()
+{
+	var i;
+	if (document.getElementById("id_savekey").checked == true)
+     	{
+     		if(document.getElementById("id_savepwd").value == "") 
+     		{
+     			Show_error("<%GetString("Save","4");%>","<%GetString("Save","19");%>");
+     			return;
+     		}
+     		for(i=0;i<document.getElementById("id_savepwd").value.length;i++) 
+		{
+			c=document.getElementById("id_savepwd").value.charAt(i);
+			if(c==' ')
+			{
+     				Show_error("<%GetString("Save","4");%>","<%GetString("Save","9");%>");
+     				return;
+			}
+			if(((c>='0')&&(c<='9'))||((c>='a')&&(c<='z'))||((c>='A')&&(c<='Z'))||c=='_')
+			{
+				continue;
+			}
+			else
+			{
+     				Show_error("<%GetString("Save","4");%>","<%GetString("Save","9");%>");
+     				return;
+			}
+				
+		}
+     	}
+
+	if(exec_Submit_Save == true)
+	{
+		return false;
+	} 
+	else 
+	{
+		
+		exec_Submit_Save = true;
+	}
+	
+	hidden_submit("save");
+	setTimeout("exec_Submit_Save = false" , 3000);
+}
+
+var exec_Submit_Restore = false;
+function Submit_Restore() 
+{
+/*
+  var objnav=window.navigator.userAgent;//Candy add 2009.11.26 for get browser version
+  var set_time=0;
+  
+  if (objnav.search("Safari")>0)//if browser is Safari or Chrome //Candy add 2009.11.26 for get browser version
+    set_time=1000;
+  else
+    set_time=100;
+
+*/
+	var i;
+  if (document.getElementById("id_loadkey").checked == true)
+  {
+    if(document.getElementById("id_loadpwd").value == "") 
+    {
+      self.location.href='init.html?restorekey_null=1'
+      return false;
+    }
+    for(i=0;i<document.getElementById("id_loadpwd").value.length;i++) 
+		{
+			c=document.getElementById("id_loadpwd").value.charAt(i);
+			if(c==' ')
+			{
+     		self.location.href='init.html?restorekey_space=1'
+     		return false;
+			}
+			if(((c>='0')&&(c<='9'))||((c>='a')&&(c<='z'))||((c>='A')&&(c<='Z'))||c=='_')
+			{
+				continue;
+			}
+			else
+			{
+     		self.location.href='init.html?restorekey_invalid=1'
+     		return false;
+			}
+				
+		}
+  } 
+  if(document.getElementById("select_filename").value == "")
+  {
+  	self.location.href='init.html?filename_null=1'
+  	return false;
+  }
+
+  if(exec_Submit_Restore == true)
+  {
+    return false;
+  } 
+  else 
+  {
+    exec_Submit_Restore = true;
+  }
+  
+  //if (objnav.search("Safari")<=0)//if browser is NOT Safari or Chrome //Candy add 2009.11.27 for get browser version
+	restore_parameter("load");
+  
+  //setTimeout('document.getElementById("form_restore").submit()' , set_time);//Candy edit 2009.11.25
+  
+  document.restoreFrm.submit();
+  //document.getElementById("form_restore").submit();  //Candy edit 2009.11.25
+}
+
+function back()
+{
+  document.getElementById("content").style.display = "";
+	document.getElementById("confirm").style.display = "none";
+}
+
+function nextPage()
+{
+  document.getElementById("content").style.display = "none";
+  document.getElementById("confirm").style.display = "";
+}
+
+function initapply()
+{
+  document.initForm.submit();
+}
+
+function apply()
+{
+
+	
+	if(document.getElementById("save").checked== true)
+	{
+		//Hide_error();
+		Submit_Save();
+	}
+	else if (document.getElementById("restore").checked== true)
+	{
+		//Hide_error;
+		Submit_Restore();
+	}
+	else if (document.getElementById("init").checked== true)
+	nextPage();
+}
+
+function save_setting()
+{
+	document.getElementById("select_file").style.display = "none";
+	document.getElementById("save_password").style.display = "";
+	document.getElementById("restore_password").style.display = "none";
+}
+
+function restore_setting()
+{
+	document.getElementById("select_file").style.display = "";
+	document.getElementById("save_password").style.display = "none";
+	document.getElementById("restore_password").style.display = "";
+}
+
+function init_setting()
+{
+	document.getElementById("select_file").style.display = "none";
+	document.getElementById("save_password").style.display = "none";
+	document.getElementById("restore_password").style.display = "none";
+}
+function ShowPassword(val)
+{
+	if(document.getElementById("id_ShowPassword_"+val).checked == true)
+	{
+		document.getElementById("id_"+val+"pwd").type="text";
+	}
+	else
+		document.getElementById("id_"+val+"pwd").type="password";
+}
+
+function HandleKeyPressEvent(e)
+{
+ // handle i.e. (window.event) and firefox (e)
+ var eventInstance = window.event ? event : e;
+ 
+ // handle i.e. (charCode) and firefox (keyCode)
+ var unicode = eventInstance.charCode ? eventInstance.charCode : eventInstance.keyCode;
+ 
+ //alert(unicode); 
+ if(unicode==13)
+   Submit_Save();
+ //var key = String.fromCharCode(unicode); 
+}
+
+function init_status()
+{
+	var RestoreFileError;
+	var RestorePasswordError;
+	var RestoreVersionError;
+	var RestoreFilename_null;
+	var RestoreKey_null;
+	var RestoreKey_space;
+	var RestoreKey_invalid;
+	var RestoreModeError;
+	var url=window.location.toString();
+	var str;
+	if(url.indexOf("?")!=-1){
+	    var ary=url.split("?")[1];
+	    str=ary.split("=")[0];
+	    if (str == "FileError")
+				RestoreFileError = ary.split("=")[1];
+	    else if(str == "PasswordError")
+				RestorePasswordError = ary.split("=")[1];
+			else if(str == "Version")
+				RestoreVersionError = ary.split("=")[1];	
+			else if(str == "filename_null")
+				RestoreFilename_null = ary.split("=")[1];
+			else if(str == "restorekey_null")
+				RestoreKey_null = ary.split("=")[1];
+			else if(str == "restorekey_space")
+				RestoreKey_space = ary.split("=")[1];
+			else if(str == "restorekey_invalid")
+				RestoreKey_invalid = ary.split("=")[1];
+			else if(str == "OpModeError")
+				RestoreModeError = ary.split("=")[1];
+	}
+	if(RestoreFileError == "1")
+	{
+		Show_error("<%GetString("Save","6");%>","<%GetString("Save","34");%>");
+	}
+	else if(RestorePasswordError == "1")
+	{
+		Show_error("<%GetString("Save","4");%>","<%GetString("Save","32");%>");
+	}
+	else if(RestoreVersionError == "1")
+	{
+		Show_error("<%GetString("Save","6");%>","<%GetString("Save","35");%>");
+	}
+	else if(RestoreFilename_null == "1")
+	{
+		Show_error("<%GetString("Save","6");%>","<%GetString("Save","33");%>");
+	}
+	else if(RestoreKey_null == "1")
+	{
+		Show_error("<%GetString("Save","6");%>","<%GetString("Save","19");%>");
+	}
+	else if(RestoreKey_space == "1")
+	{
+		Show_error("<%GetString("Save","6");%>","<%GetString("Save","9");%>");
+	}
+	else if(RestoreKey_invalid == "1")
+	{
+		Show_error("<%GetString("Save","6");%>","<%GetString("Save","9");%>");
+	}
+	else if(RestoreModeError == "1")
+	{
+		Show_error("<%GetString("Save","6");%>","<%GetString("Save","36");%>");
+	}
+}
+
+// -->
+</script>
+</head>
+
+<body class="BFK_BODY" onload="init_status();" onkeypress="javascript:HandleKeyPressEvent(event);">
+
+<br>
+<div id="id_errtbl" class="C_ERR">
+</div>
+<div id="content">
+
+
+<table class="AD_TTL2">
+    <tr><td><%GetString("NewUI","251");%></td></tr>
+  </table>
+
+
+<table class=AD_SET>
+<form name="operation" method="POST">
+<tr>
+      <th><%GetString("NewUI","216");%></th>
+      <td>
+        <table>
+			<tr>
+				<td>
+					<input type="radio"  name="operation" id="save" onClick="save_setting();" checked><%GetString("NewUI","253");%>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="radio"  name="operation" id="restore" onClick="restore_setting();"><%GetString("NewUI","254");%>
+				</td>
+			</tr>
+			<tr>
+			
+				<td>	
+					<input type="radio"  name="operation" id="init" onClick="init_setting()"><%GetString("NewUI","255");%>
+				</td>
+			
+			</tr>
+		</table>
+      </td>
+    </tr>
+    <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form >
+	<form method="POST" name="initForm">
+		<input type="hidden" name="nosave_init" value="1">
+		<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>	
+	
+	
+	<form name="restoreFrm" id="form_restore" method="POST" enctype="multipart/form-data" onsubmit="Submit_Restore();">
+	<tr id="select_file" style="display:none;">
+		  <th><%GetString("NewUI","256");%></th>
+		<td>
+	   <table>
+          <tr>
+            <td><input id="select_filename" type="file" name="nosave_F14"></td>
+          </tr>
+        </table>
+		</td>
+	</tr>
+	
+	    <tr id="restore_password" style="display:none;">
+      <th><%GetString("NewUI","257");%></th>
+      <td>
+        <table>
+        <tr>
+        <td>
+        <input type="checkbox" id="id_loadkey" value="1" onclick="set_display();setValue('load');"></td>
+        <td><%GetString("NewUI","258");%></td>
+        </tr>
+        <tr id="restrore_password_settings" >
+        <td></td><td><input type="password" disabled="disabled" id="id_loadpwd" size="20" maxlength="8" value="">
+		<input type="checkbox" id="id_ShowPassword_load" onclick="ShowPassword('load');" ><%GetString("NewUI","259");%>
+		</td>
+        </tr>
+        </table>
+      </td>
+    </tr>
+	<input type="hidden" name="nosave_buttoncfg" value="">
+	<input type="hidden" name="nosave_loadConfRC4Key" value="0">
+	<input type="hidden" name="nosave_saveConfRC4Key" value="0">
+	<input type="hidden" name="nosave_saveConfRC4Encryption" id="idr_saveConfRC4Encryption" value="0">
+	<input type="hidden" name="nosave_loadConfRC4Encryption" id="idr_loadConfRC4Encryption" value="0">
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>
+	
+	
+	<form id="form_save" method="POST" onsubmit="return false;">
+	<tr id="save_password" >
+	 <th><%GetString("NewUI","257");%></th>
+      <td>
+        <table>
+        <tr>
+        <td>
+     	<input type="checkbox" id="id_savekey" value="1" onclick="set_display();setValue('save');"></td>
+     <td><%GetString("NewUI","258");%></td>
+        </tr>
+        <tr id="save_password_settings"  >
+        <td></td><td>
+        <input type="password" id="id_savepwd" size="20" maxlength="8" value="" disabled="disabled">
+		<input type="checkbox" id="id_ShowPassword_save" onclick="ShowPassword('save');" ><%GetString("NewUI","259");%>
+		</td>
+        </tr>
+        </table>
+      </td>
+	</tr>
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>
+	
+		
+	
+ </table>
+
+<input type="button" value="<%GetString("NewUI","260");%>" id="id_initBtn" onclick="apply();">
+
+
+<!---
+<form method="POST" name="initForm">
+     <table class="AD_SET">
+     <tbody>
+     <tr>
+     <th><%GetString("Init","4");%></th>
+        	<td>
+     		<table>
+     		<tr>
+     	 	<td><%GetString("Init","5");%><br>
+			<input type="hidden" name="nosave_init" value="1">
+     			<input type="button" value="<%GetString("Init","6");%>" id="id_initBtn" onclick="nextPage();">
+     		</td>
+     		</tr>
+     		</table>
+        	</td>
+     </tr>
+     </tbody>
+     </table>
+     <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<!---save--->
+<!---
+<form id="form_save" method="POST" onsubmit="Submit_Save();">
+  <table class=AD_SET>
+    <tr>
+      <th><%GetString("Save","1");%></th>
+      <td>
+        <input type="button" value="<%GetString("Save","2");%>" id="save_btn" onclick="Hide_error();Submit_Save();">
+     <br>
+        <table>
+        <tr>
+        <td>
+     	<input type="checkbox" id="id_savekey" value="1" onclick="set_display();setValue('save');"></td>
+     <td><%GetString("Save","3");%></td>
+        </tr>
+        <tr id="save_password_settings" style="display:none;">
+        <td></td><td><%GetString("Save","4");%>
+        <input type="password" id="id_savepwd" size="20" maxlength="8" value=""></td>
+        </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form name="restoreFrm" id="form_restore" method="POST" enctype="multipart/form-data" onsubmit="Submit_Restore();">
+  <table class=AD_SET>
+    <tr>
+      <th><%GetString("Save","5");%></th>
+      <td>
+        <table>
+          <tr>
+            <td><%GetString("Save","6");%></td>
+            <td><input type="file" name="nosave_F14"></td>
+          </tr>
+        </table>
+        <input type="button" value="<%GetString("Save","7");%>" id="load_btn" onclick="Hide_error;Submit_Restore();">
+     <br>
+        <table>
+        <tr>
+        <td>
+        <input type="checkbox" id="id_loadkey" value="1" onclick="set_display();setValue('load');"></td>
+        <td><%GetString("Save","8");%></td>
+        </tr>
+        <tr id="restrore_password_settings" style="display:none;">
+        <td></td><td><%GetString("Save","4");%><input type="password" id="id_loadpwd" size="20" maxlength="8" value=""></td>
+        </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+	<input type="hidden" name="nosave_buttoncfg" value="">
+	<input type="hidden" name="nosave_loadConfRC4Key" value="0">
+	<input type="hidden" name="nosave_saveConfRC4Key" value="0">
+	<input type="hidden" name="nosave_saveConfRC4Encryption" id="idr_saveConfRC4Encryption" value="0">
+	<input type="hidden" name="nosave_loadConfRC4Encryption" id="idr_loadConfRC4Encryption" value="0">
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+---->
+<form name="hiddenFrm" method="POST">
+<input type="hidden" name="nosave_buttoncfg" value="">
+<input type="hidden" name="nosave_loadConfRC4Key" value="0">
+<input type="hidden" name="nosave_saveConfRC4Key" value="0">
+<input type="hidden" name="nosave_saveConfRC4Encryption" id="id_saveConfRC4Encryption" value="0">
+<input type="hidden" name="nosave_loadConfRC4Encryption" id="id_loadConfRC4Encryption" value="0">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<hr>
+<br>
+
+<table class="AD_TTL2">
+    <tr><td><%GetString("Init","1");%></td></tr>
+  </table>
+
+<form method="POST" name="rebootForm">
+     <table class="AD_SET">
+     <tbody>
+     <tr>
+     <th><%GetString("Init","1");%></th>
+        	<td>
+     		<table>
+     		<tr>
+     	 	<td><%GetString("Init","2");%><br>
+			<input type="hidden" name="nosave_reboot" value="1">
+     			<input type="submit" value="<%GetString("Init","1");%>" id="id_rebootBtn">
+     		</td>
+     		</tr>
+     		</table>
+      		</td>
+     </tr>
+     </tbody>
+     </table>
+     <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+
+
+
+
+</div>
+
+<div id="confirm" style="display:none;">
+<p>
+    <%GetString("Init","7");%>
+</p>
+<p>
+<%GetString("Init","8");%>
+</p>
+<div class="C_CONFIRM">
+<p>
+<%GetString("Init","9");%><br>
+<ol>
+<%GetString("Init","10");%>
+<%GetString("Init","11");%>
+<%GetString("Init","12");%>
+</ol>
+<%GetString("Init","13");%>
+</p>
+</div>
+     <input type="button" value="<%GetString("Init","14");%>" onclick="initapply();">
+     <input type="button" value="<%GetString("Init","15");%>" onclick="back();">
+</div>
+
+</body>
+</html>

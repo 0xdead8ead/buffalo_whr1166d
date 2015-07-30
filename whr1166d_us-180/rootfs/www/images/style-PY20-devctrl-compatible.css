@@ -1,0 +1,293 @@
+.setting_main_devctrl {
+	text-align: left;
+	padding: 0px 0px 0px 10px;
+}
+.devimg {
+	width: 50px;
+	height: 50px;
+	padding: 8px;
+	float:left;
+}
+.devimg_wan {
+	background: url(/images/py20_device_ineternet.png) no-repeat center center;
+}
+.devimg_ap {
+	background: url(/images/py20_device_ap.png) no-repeat center center;
+}
+.devimg_game {
+	background: url(/images/py20_device_game.png) no-repeat center center;
+}
+.devimg_nas {
+	background: url(/images/py20_device_nas.png) no-repeat center center;
+}
+.devimg_pc {
+	background: url(/images/py20_device_pc.png) no-repeat center center;
+}
+.devimg_printer {
+	background: url(/images/py20_device_printer.png) no-repeat center center;
+}
+.devimg_stb {
+	background: url(/images/py20_device_stb.png) no-repeat center center;
+}
+.devimg_tablet {
+	background: url(/images/py20_device_tablet.png) no-repeat center center;
+}
+.devimg_tv {
+	background: url(/images/py20_device_tv.png) no-repeat center center;
+}
+.devimg_unknown {
+	background: url(/images/py20_device_unknown.png) no-repeat center center;
+}
+
+.notice_icon_all {
+	float: left;
+	width: 18px;
+	position: relative;
+	top: 3px;
+	padding-top:5px;
+	left: -57px;
+}
+.notice_icon {
+	width: 18px;
+	height: 18px;
+}
+.notice_person {
+	background: url(/images/py20_notice_person.png) no-repeat center center;
+}
+.notice_ban {
+	background: url(/images/py20_notice_ban.png) no-repeat center center;
+}
+.notice_wireless {
+	background: url(/images/py20_notice_wireless.png) no-repeat center center;
+}
+
+.qos_icon_up {
+	float: left;
+	margin: 0px 7px 0px 0px;
+	width: 10px;
+	height: 10px;
+	position: relative;
+	top: 3px;
+	background: url(/images/py20_priority_up.png) no-repeat center center;
+}
+.qos_icon_down {
+	float: left;
+	margin: 0px 7px 0px 0px;
+	width: 10px;
+	height: 10px;
+	position: relative;
+	top: 3px;
+	background: url(/images/py20_priority_down.png) no-repeat center center;
+}
+.devtxt {
+	position: relative;
+	left: -15px;
+	padding-top: 5px;
+}
+
+.wan_ap {
+	float: left;
+	position: relative;
+	top: 1px;
+	left: 80px;
+	margin-bottom: 5px;
+}
+.wandevice {
+	float: left;
+	width: 211px;
+	height: 70px;
+	margin-right: 5px;
+	background: url(/images/py20_devctrl_item_wan.png) no-repeat center center;
+}
+.wantxt {
+	padding-top: 5px;
+}
+.wanline {
+	float: left;
+	width: 9px;
+	height: 8px;
+	position: relative;
+	z-index: 2;
+	top: 30px;
+	left: -223px;
+	background-color: #D5D5D5;
+	border-top: 1px solid #BBBBBB;
+	border-bottom: 1px solid #BBBBBB;
+}
+.wanline2 {
+	float: left;
+	width: 8px;
+	height: 7px;
+	position: relative;
+	top: 68px;
+	left: -125px;
+	background-color: #D5D5D5;
+	border-right: 1px solid #BBBBBB;
+	border-left: 1px solid #BBBBBB;
+}
+.landevice {
+	float: left;
+	width: 211px;
+	height: 70px;
+	margin: 4px 3px 3px 3px;
+}
+.landevice_enable {
+	background: url(/images/py20_devctrl_item.png) no-repeat center center;
+	cursor: pointer;
+}
+.landevice_enable:hover {
+	background: url(/images/py20_devctrl_item_hover.png) no-repeat center center;
+}
+.landevice_disable {
+	background: url(/images/py20_devctrl_item_disable.png) no-repeat center center;
+}
+.landevice_pad {
+	display: none;
+}
+
+.tab {
+	position: relative;
+	top: 17px;
+	left: 0px;
+	float: left;
+}
+.tab_head_active {
+	float: left;
+	background-color: #D5D5D5;
+	width: 56px;
+	height: 44px;
+	padding: 7px;
+	border-top: 1px solid #BBBBBB;
+	border-right: 1px solid #BBBBBB;
+	border-left: 1px solid #BBBBBB;
+	border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	z-index: 2;
+	cursor: pointer;
+}
+.tab_head {
+	float: left;
+	background-color: #E6E6E6;
+	width: 58px;
+	height: 43px;
+	padding: 7px;
+	cursor: pointer;
+}
+.tabimg {
+	padding: 5px 0px 0px 21px;
+	width: 36px;
+	height: 36px;
+}
+.tab0 {
+	background: url(/images/py20_devctrl_tab0.png) no-repeat center center;
+}
+.tab0_current {
+	background: url(/images/py20_devctrl_tab0_current.png) no-repeat center center;
+}
+.tab1 {
+	background: url(/images/py20_devctrl_tab1.png) no-repeat center center;
+}
+.tab1_current {
+	background: url(/images/py20_devctrl_tab1_current.png) no-repeat center center;
+}
+.tab2 {
+	background: url(/images/py20_devctrl_tab2.png) no-repeat center center;
+}
+.tab2_current {
+	background: url(/images/py20_devctrl_tab2_current.png) no-repeat center center;
+}
+.tab3 {
+	background: url(/images/py20_devctrl_tab3.png) no-repeat center center;
+}
+.tab3_current {
+	background: url(/images/py20_devctrl_tab3_current.png) no-repeat center center;
+}
+.tab4 {
+	background: url(/images/py20_devctrl_tab4.png) no-repeat center center;
+}
+.tab4_current {
+	background: url(/images/py20_devctrl_tab4_current.png) no-repeat center center;
+}
+.tab_body {
+	clear: both;
+	background-color: #D5D5D5;
+	width: 870px;
+	min-height: 279px;
+	padding: 2px;
+	border: 1px solid #BBBBBB;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	z-index: 1;
+}
+.tab_left {
+	border-radius: 0px 5px 5px 5px;
+	-moz-border-radius: 0px 5px 5px 5px;
+	-webkit-border-radius: 0px 5px 5px 5px;
+}
+.tab_center {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.tab_right {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.disp_more {
+	margin: 3px;
+	padding: 4px 0px 4px 0px;
+	width: 864px;
+	height: 42px;
+	background-color: #D5D5D5;
+	border: 1px solid #999999;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	cursor: pointer;
+}
+
+/* form
+---------------------------------------*/
+.form_name {
+	width: 215px;
+	margin: 30px 0px 0px 20px;
+}
+.form_img {
+	width: 52px;
+	height: 50px;
+	margin: 10px 0px 10px 0px;
+	padding: 5px;
+	float:left;
+}
+.form_imglist {
+	clear: both;
+	width: 292px;
+	padding: 5px;
+	background-color: #D5D5D5;
+	border: 1px solid #666666;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.form_imglist_outarea {
+	float:left;
+	width: 66px;
+	height: 66px;
+	margin: 3px;
+	background: url(/images/py20_tab_panel_small_normal.png) no-repeat center center;
+	cursor: pointer;
+}
+.form_imglist_outarea:hover {
+	background: url(/images/py20_tab_panel_small_hover.png) no-repeat center center;
+}
+.form_imglist_item {
+	width: 50px;
+	height: 50px;
+	margin: 8px;
+}
+.form_qos {
+	width: 304px;
+}

@@ -1,0 +1,1340 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+
+<style type="text/css">
+.sch_color{
+width: 8;
+height: 25;
+}
+.date{
+width: 35px;
+height: 25px;
+font-size: 16px;
+}
+.date_Thai{
+width: 35px;
+height: 25px;
+font-size: 11px;
+}
+.mark{
+width: 15px;
+}
+.mark_text{
+font-size : 12px;
+color:#555555;
+}
+</style>
+
+<script src="OpenHelp.html"></script>
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+var oCallback_Apply = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='eco.html'", 15000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+var oCallback_Add = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='eco.html'", 20000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+
+
+function schedule_table(){
+
+	var f2 = document.forms[1];
+	var date0="<%GetString("ECO","15");%>";
+	var date1="<%GetString("ECO","16");%>";
+	var date2="<%GetString("ECO","17");%>";
+	var date3="<%GetString("ECO","18");%>";
+	var date4="<%GetString("ECO","19");%>";
+	var date5="<%GetString("ECO","20");%>";
+	var date6="<%GetString("ECO","21");%>";
+
+	//Sun
+	str_sun = "<table><tr>";
+	
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_sun += "<td class=\"date_Thai\"><span style=\"color:#ff0000;\">" + date0 + "</span></td>";
+	}
+	else{
+		str_sun += "<td class=\"date\"><span style=\"color:#ff0000;\">" + date0 + "</span></td>";
+	}
+
+	for (i=0 ; i<48; i++)
+	{
+		if(eval("f2.schedule_time_" + i + "_0").value == 0){
+			str_sun += "<td class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}
+		else if(eval("f2.schedule_time_" + i + "_0").value == 1){
+			str_sun += "<td class=\"sch_color\" style=\"background-color:#FF3333;\"></td>";
+		}
+		else{
+			str_sun += "<td class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_sun += "</tr></table>";
+	
+	//Mon
+	str_mon = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_mon += "<td class=\"date_Thai\"><span style=\"color:#325174;\">" + date1 + "</span></td>";
+	}
+	else{
+		str_mon += "<td class=\"date\"><span style=\"color:#325174;\">" + date1 + "</span></td>";
+	}
+
+	for (i=0 ; i<48; i++)
+	{
+		if(eval("f2.schedule_time_" + i + "_1").value == 0){
+			str_mon += "<td class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}
+		else if(eval("f2.schedule_time_" + i + "_1").value == 1){
+			str_mon += "<td class=\"sch_color\" style=\"background-color:#FF3333;\"></td>";
+		}
+		else{
+			str_mon += "<td class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_mon += "</tr></table>";
+
+	//Tue
+	str_tue = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_tue += "<td class=\"date_Thai\"><span style=\"color:#325174;\">" + date2 + "</span></td>";
+	}
+	else{
+		str_tue += "<td class=\"date\"><span style=\"color:#325174;\">" + date2 + "</span></td>";
+	}
+
+	for (i=0 ; i<48; i++)
+	{
+		if(eval("f2.schedule_time_" + i + "_2").value == 0){
+			str_tue += "<td class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}
+		else if(eval("f2.schedule_time_" + i + "_2").value == 1){
+			str_tue += "<td class=\"sch_color\" style=\"background-color:#FF3333;\"></td>";
+		}
+		else{
+			str_tue += "<td class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_tue += "</tr></table>";
+
+	//Wed
+	str_wed = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_wed += "<td class=\"date_Thai\"><span style=\"color:#325174;\">" + date3 + "</span></td>";
+	}
+	else{
+		str_wed += "<td class=\"date\"><span style=\"color:#325174;\">" + date3 + "</span></td>";
+	}
+
+	for (i=0 ; i<48; i++)
+	{
+		if(eval("f2.schedule_time_" + i + "_3").value == 0){
+			str_wed += "<td class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}
+		else if(eval("f2.schedule_time_" + i + "_3").value == 1){
+			str_wed += "<td class=\"sch_color\" style=\"background-color:#FF3333;\"></td>";
+		}
+		else{
+			str_wed += "<td class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_wed += "</tr></table>";
+
+	//Thu
+	str_thu = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_thu += "<td class=\"date_Thai\"><span style=\"color:#325174;\">" + date4 + "</span></td>";
+	}
+	else{
+		str_thu += "<td class=\"date\"><span style=\"color:#325174;\">" + date4 + "</span></td>";
+	}
+
+	for (i=0 ; i<48; i++)
+	{
+		if(eval("f2.schedule_time_" + i + "_4").value == 0){
+			str_thu += "<td class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}
+		else if(eval("f2.schedule_time_" + i + "_4").value == 1){
+			str_thu += "<td class=\"sch_color\" style=\"background-color:#FF3333;\"></td>";
+		}
+		else{
+			str_thu += "<td class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_wed += "</tr></table>";
+
+	//Fri
+	str_fri = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_fri += "<td class=\"date_Thai\"><span style=\"color:#325174;\">" + date5 + "</span></td>";
+	}
+	else{
+		str_fri += "<td class=\"date\"><span style=\"color:#325174;\">" + date5 + "</span></td>";
+	}
+
+	for (i=0 ; i<48; i++)
+	{
+		if(eval("f2.schedule_time_" + i + "_5").value == 0){
+			str_fri += "<td class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}
+		else if(eval("f2.schedule_time_" + i + "_5").value == 1){
+			str_fri += "<td class=\"sch_color\" style=\"background-color:#FF3333;\"></td>";
+		}
+		else{
+			str_fri += "<td class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_fri += "</tr></table>";
+
+	//Sat
+	str_sat = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_sat += "<td class=\"date_Thai\"><span style=\"color:#325174;\">" + date6 + "</span></td>";
+	}
+	else{
+		str_sat += "<td class=\"date\"><span style=\"color:#325174;\">" + date6 + "</span></td>";
+	}
+
+	for (i=0 ; i<48; i++)
+	{
+		if(eval("f2.schedule_time_" + i + "_6").value == 0){
+			str_sat += "<td class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}
+		else if(eval("f2.schedule_time_" + i + "_6").value == 1){
+			str_sat += "<td class=\"sch_color\" style=\"background-color:#FF3333;\"></td>";
+		}
+		else{
+			str_sat += "<td class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_sat += "</tr></table>";
+
+	document.getElementById('sun').innerHTML = str_sun;
+	document.getElementById('mon').innerHTML = str_mon;
+	document.getElementById('tue').innerHTML = str_tue;
+	document.getElementById('wed').innerHTML = str_wed;
+	document.getElementById('thu').innerHTML = str_thu;
+	document.getElementById('fri').innerHTML = str_fri;
+	document.getElementById('sat').innerHTML = str_sat;
+}
+
+function init()
+{
+	var f = document.forms[0];
+	var f3 = document.forms[2];
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+	f.udm_led.value = f3.userdefmode_led.value;
+	f.udm_lan.value = f3.userdefmode_lan.value;
+	f.udm_wlan.value = f3.userdefmode_wlan.value;
+	f.add_eco_mode.value = 0;
+	f.add_eco_start_time.value = 0;
+	f.add_eco_end_time.value = 1;
+
+	schedule_table();
+	
+	if (document.getElementById("ECOEnable2").checked)
+	{
+		//NTP is enabled or not.
+		if ('<%NvramGet("NTPEnable");%>' == '1'){
+			//NTP server get time or not.
+			if ('<%NvramGet("checkntp_gettime");%>' == '0')
+			{
+				id_NTP.style.display="";
+			}
+			else{
+				id_NTP.style.display="none";
+			}
+		}
+		else{
+			id_NTP.style.display="";
+		}
+	}
+	else{
+		id_NTP.style.display="none";
+	}
+}
+
+function check_time()
+{	
+	var i, j, val;	
+	var f2 = nosave_SETUP1;	
+	
+	var hour = eval("f2.HOUR").value;
+	var min = eval("f2.MIN").value;
+	var wday = eval("f2.WDAY").value;	
+	
+	j = wday%10;	
+	i = hour*2;
+	
+	if (min >= 30)
+		i = i+1;
+	
+	val = eval("f2.schedule_time_" + i + "_" + j).value;
+	
+	return val;
+}
+
+function MainDoSubmit()
+{
+	var f4 = document.forms[3];
+
+	if (document.getElementById("ECOEnable2").checked){
+		f4.ECOEnable.value = "1";
+    }
+    else{
+		f4.ECOEnable.value = "0";
+    }
+	
+	f4.return_page.value = "1";
+	f4.submit();
+}
+
+function ApplyDoSubmit()
+{
+	var f = document.forms[0];
+	var f3 = nosave_SETUP;
+	
+	if (document.getElementById("ECOEnable2").checked){
+		f3.ECOEnable.value = "1";
+    }
+    else{
+		f3.ECOEnable.value = "0";
+    }
+	
+	f3.userdefmode_led.value = f.udm_led.value;
+	f3.userdefmode_lan.value = f.udm_lan.value;
+	f3.userdefmode_wlan.value = f.udm_wlan.value;
+	
+	document.forms[2].return_page.value = "1";
+	if (document.getElementById("ECOEnable2").checked && '<%NvramGet("InAOSSECO");%>' != '1' &&(check_time()==1 || (check_time()==2 && f3.userdefmode_lan.value == 1)))
+		f3.submit();
+	else
+	{
+		YAHOO.util.Connect.setForm('nosave_SETUP'); 
+		YAHOO.util.Connect.asyncRequest('POST','eco.html'+'?timestampt='+new Date().toString(),oCallback_Apply); 
+	}
+}
+
+function AddDoSubmit()
+{
+	var f = document.forms[0];
+	var f2 = nosave_SETUP1;
+	var f3 = nosave_SETUP;
+	var start_time, end_time, start_time_value, end_time_value;
+	var i;
+	var submit_value=0;
+	var check=0;
+	var draw_way=0;
+	var time_equal=0;
+
+	start_time = f.add_eco_start_time.value;
+	end_time = f.add_eco_end_time.value;
+	
+	if(start_time > 0 && start_time < 10){
+		start_time_value = eval("0" + start_time);
+	}
+	else{
+		start_time_value = start_time;
+	}
+
+	if(end_time > 0 && end_time < 10){
+		end_time_value = eval("0" + end_time);
+	}
+	else{
+		end_time_value = end_time;
+	}
+
+	if(start_time_value < end_time_value){
+		draw_way=1;
+	}
+	else if (start_time_value == end_time_value)
+	{
+		time_equal = 1;
+	}
+	else{
+		draw_way = 0;
+		time_equal = 0;
+	}
+
+	if (f.s_sun.checked)
+	{
+		check = 1;
+		if (time_equal == 0)
+		{
+			if (draw_way == 1)
+			{
+				for (i=start_time_value; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_0").value = f.add_eco_mode.value;
+				}
+			}
+			else
+			{
+				for (i=start_time_value; i<48; i++)
+				{
+					eval("f2.schedule_time_" + i + "_0").value = f.add_eco_mode.value;
+				}
+
+				for (i=0; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_1").value = f.add_eco_mode.value;
+				}
+			}
+		}
+	}
+	if (f.s_mon.checked)
+	{
+		check = 1;
+		if (time_equal == 0)
+		{
+			if (draw_way == 1)
+			{
+				for (i=start_time_value; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_1").value = f.add_eco_mode.value;
+				}
+			}
+			else
+			{
+				for (i=start_time_value; i<48; i++)
+				{
+					eval("f2.schedule_time_" + i + "_1").value = f.add_eco_mode.value;
+				}
+
+				for (i=0; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_2").value = f.add_eco_mode.value;
+				}
+			}
+		}
+	}
+	if (f.s_tue.checked)
+	{
+		check = 1;
+		if (time_equal == 0)
+		{
+			if (draw_way == 1)
+			{
+				for (i=start_time_value; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_2").value = f.add_eco_mode.value;
+				}
+			}
+			else
+			{
+				for (i=start_time_value; i<48; i++)
+				{
+					eval("f2.schedule_time_" + i + "_2").value = f.add_eco_mode.value;
+				}
+
+				for (i=0; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_3").value = f.add_eco_mode.value;
+				}
+			}
+		}
+	}
+	if (f.s_wed.checked)
+	{
+		check = 1;
+		if (time_equal == 0)
+		{
+			if (draw_way == 1)
+			{
+				for (i=start_time_value; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_3").value = f.add_eco_mode.value;
+				}
+			}
+			else
+			{
+				for (i=start_time_value; i<48; i++)
+				{
+					eval("f2.schedule_time_" + i + "_3").value = f.add_eco_mode.value;
+				}
+
+				for (i=0; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_4").value = f.add_eco_mode.value;
+				}
+			}
+		}
+	}
+	if (f.s_thu.checked)
+	{
+		check = 1;
+		if (time_equal == 0)
+		{
+			if (draw_way == 1)
+			{
+				for (i=start_time_value; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_4").value = f.add_eco_mode.value;
+				}
+			}
+			else
+			{
+				for (i=start_time_value; i<48; i++)
+				{
+					eval("f2.schedule_time_" + i + "_4").value = f.add_eco_mode.value;
+				}
+
+				for (i=0; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_5").value = f.add_eco_mode.value;
+				}
+			}
+		}
+	}
+	if (f.s_fri.checked)
+	{
+		check = 1;
+		if (time_equal == 0)
+		{
+			if (draw_way == 1)
+			{
+				for (i=start_time_value; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_5").value = f.add_eco_mode.value;
+				}
+			}
+			else
+			{
+				for (i=start_time_value; i<48; i++)
+				{
+					eval("f2.schedule_time_" + i + "_5").value = f.add_eco_mode.value;
+				}
+
+				for (i=0; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_6").value = f.add_eco_mode.value;
+				}
+			}
+		}
+	}
+	if (f.s_sat.checked)
+	{
+		check = 1;
+		if (time_equal == 0)
+		{
+			if (draw_way == 1)
+			{
+				for (i=start_time_value; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_6").value = f.add_eco_mode.value;
+				}
+			}
+			else
+			{
+				for (i=start_time_value; i<48; i++)
+				{
+					eval("f2.schedule_time_" + i + "_6").value = f.add_eco_mode.value;
+				}
+
+				for (i=0; i<end_time_value; i++)
+				{
+					eval("f2.schedule_time_" + i + "_0").value = f.add_eco_mode.value;
+				}
+			}
+		}
+	}
+
+	if (check == 1)
+	{
+		if (time_equal == 1)
+		{
+			id_time_equal.style.display="";
+			submit_value = 0;
+		}
+		else{
+			submit_value = 1;
+		}
+	}
+	else {
+		id_week.style.display="";
+		submit_value = 0;
+	}
+
+	if (submit_value == 1){
+		f2.return_page.value = "3";
+		if (document.getElementById("ECOEnable2").checked && '<%NvramGet("InAOSSECO");%>' != '1' && (check_time()==1 || (check_time()==2 && f3.userdefmode_lan.value == 1)))
+			f2.submit();	
+		else
+		{
+			YAHOO.util.Connect.setForm('nosave_SETUP1'); 
+			YAHOO.util.Connect.asyncRequest('POST','eco.html'+'?timestampt='+new Date().toString(),oCallback_Add); 
+		}	
+	}
+}
+// -->
+</script>
+<script src="OnceOnly.html"></script>
+</head>
+
+<body class="BFK_BODY" onload="init();" id="id_main" style="display:none;">
+<br>
+<form onsubmit="return onceOnly(this);" method="POST">
+
+<div id="id_week" class="C_ERR" style="display: none;">
+<%GetString("ECO","30");%><br>
+<%GetString("ECO","31");%>
+</div>
+
+<div id="id_NTP" class="C_ERR" style="display: none;">
+<%GetString("ECO","29");%>
+</div>
+
+<div id="id_time_equal" class="C_ERR" style="display: none;">
+<%GetString("ECO","35");%><br>
+<%GetString("ECO","36");%>
+</div>
+
+<table class="AD_TTL2">
+	<tbody>
+	<tr>
+		<td><%GetString("ECO","37");%></td>
+	</tr>
+	</tbody>
+</table>
+
+<div id="id_NTP_check" style="display: block;">
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("ECO","37");%></th>
+      <td>
+		<input type="checkbox" id="ECOEnable2" <%NvramMatch("ECOEnable","1","checked");%> ><%GetString("ECO","13");%>
+      </td>
+    </tr>
+  </table>
+  <!--<input type="button" value="<%GetString("ECO","2");%>" id="id_Apply_mode" name="Apply_mode" onClick="MainDoSubmit();">-->
+</div>
+
+<br>
+
+
+<table class="AD_TTL2">
+	<tbody>
+	<tr>
+		<td><%GetString("ECO","8");%></td>
+	</tr>
+	</tbody>
+</table>
+
+
+<table class="AD_SET">
+	 <tr>
+		<th><%GetString("ECO","9");%></th>
+	      <td>
+			<table>
+				<tr>					
+					<td>
+				        <select size="1" name="udm_led" id="udm_led">
+				          <option value="0" ><%GetString("ECO","23");%></option>
+				          <option value="1" ><%GetString("ECO","26");%></option>
+				        </select>
+					</td>
+				</tr>
+			</table>	
+		  </td>	
+		  <tr>
+		  <th><%GetString("ECO","10");%></th>
+		  <td>
+			<table>
+				<tr>					
+					<td>
+				        <select size="1" name="udm_lan" id="udm_lan">
+				          <option value="0" ><%GetString("ECO","23");%></option>				          
+						  <option value="2" ><%GetString("ECO","27");%></option>
+						  <option value="1" ><%GetString("ECO","26");%></option>
+				        </select>
+					</td>
+				</tr>
+			</table>	
+		  </td>	
+		  <tr>
+		  <th><%GetString("ECO","11");%></th>
+          <td>  
+			<table>
+				<tr>					
+					<td>
+				        <select size="1" name="udm_wlan" id="udm_wlan">
+				          <option value="0" ><%GetString("ECO","23");%></option>
+				          <option value="1" ><%GetString("ECO","26");%></option>
+				        </select>
+					</td>
+				</tr>
+			</table>
+		  </td>
+	  </tr>
+  </table>
+
+<div id="id_NTP_table" style="display: block;">
+  <table><tr height="20px"><td></td></tr></table>
+
+  <table class="AD_TTL2">
+	<tbody>
+	<tr>
+		<td><%GetString("ECO","14");%></td>
+	</tr>
+	</tbody>
+  </table>
+
+  <table width="625px" background="images/picture.png">
+	<tr>
+		<td>
+		<table><tr height="20px"><td></td></tr></table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<div id="sun"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<div id="mon"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<div id="tue"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<div id="wed"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<div id="thu"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<div id="fri"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<div id="sat"></div>
+		</td>
+	</tr>
+  </table>
+
+  <table width="300px">
+	<tr height="20px"><td></td></tr>
+	<tr>
+		<td class="text"><div>&nbsp;</div></td>
+		<td class="mark" style="background-color:#DDDDDD;"></td>
+		<td class="mark_text"><%GetString("ECO","23");%>&nbsp;&nbsp;</td>
+		<td class="mark" style="background-color:#FF3333;"></td>
+		<td class="mark_text"><%GetString("ECO","24");%>&nbsp;&nbsp;</td>
+		<td class="mark" style="background-color:#7CFC00;"></td>
+		<td class="mark_text"><%GetString("ECO","25");%></td>
+	</tr>
+	<tr height="20px"><td></td></tr>
+  </table>
+</div>
+
+<table class="AD_TTL2">
+	<tbody>
+	<tr>
+		<td><%GetString("ECO","3");%></td>
+	</tr>
+	</tbody>
+</table>
+
+<div id="id_NTP_item" style="display: block;">
+  <table class="AD_SET">
+	<tr>
+      <th><%GetString("ECO","4");%></th>
+      <td>
+		<table>
+			<tr>				
+				<td>
+			        <select size="1" name="add_eco_mode" id="id_add_eco_mode">
+			          <option value="0"><%GetString("ECO","23");%></option>
+			          <option value="1"><%GetString("ECO","24");%></option>
+					  <option value="2"><%GetString("ECO","25");%></option>
+			        </select>
+				</td>
+			</tr>
+		</table>
+		</td>	
+		<tr>
+		<th><%GetString("ECO","5");%></th>
+	    <td>
+		<table>	
+			<tr>				
+				<td>
+			        <select size="1" name="add_eco_start_time" id="id_add_eco_start_time">
+			          <option value="0">&nbsp;0:00</option>
+			          <option value="1">&nbsp;0:30</option>
+					  <option value="2">&nbsp;1:00</option>
+					  <option value="3">&nbsp;1:30</option>
+					  <option value="4">&nbsp;2:00</option>
+					  <option value="5">&nbsp;2:30</option>
+					  <option value="6">&nbsp;3:00</option>
+					  <option value="7">&nbsp;3:30</option>
+					  <option value="8">&nbsp;4:00</option>
+					  <option value="9">&nbsp;4:30</option>
+					  <option value="10">&nbsp;5:00</option>
+					  <option value="11">&nbsp;5:30</option>
+					  <option value="12">&nbsp;6:00</option>
+					  <option value="13">&nbsp;6:30</option>
+					  <option value="14">&nbsp;7:00</option>
+					  <option value="15">&nbsp;7:30</option>
+					  <option value="16">&nbsp;8:00</option>
+					  <option value="17">&nbsp;8:30</option>
+					  <option value="18">&nbsp;9:00</option>
+					  <option value="19">&nbsp;9:30</option>
+					  <option value="20">10:00</option>
+					  <option value="21">10:30</option>
+					  <option value="22">11:00</option>
+					  <option value="23">11:30</option>
+					  <option value="24">12:00</option>
+					  <option value="25">12:30</option>
+					  <option value="26">13:00</option>
+					  <option value="27">13:30</option>
+					  <option value="28">14:00</option>
+					  <option value="29">14:30</option>
+					  <option value="30">15:00</option>
+					  <option value="31">15:30</option>
+					  <option value="32">16:00</option>
+					  <option value="33">16:30</option>
+					  <option value="34">17:00</option>
+					  <option value="35">17:30</option>
+					  <option value="36">18:00</option>
+					  <option value="37">18:30</option>
+					  <option value="38">19:00</option>
+					  <option value="39">19:30</option>
+					  <option value="40">20:00</option>
+					  <option value="41">20:30</option>
+					  <option value="42">21:00</option>
+					  <option value="43">21:30</option>
+					  <option value="44">22:00</option>
+					  <option value="45">22:30</option>
+					  <option value="46">23:00</option>
+					  <option value="47">23:30</option>
+			        </select>
+			    </td>
+			</tr>
+		</table>
+	  </td>
+	  <tr>
+	  <th><%GetString("ECO","6");%></th>
+	  <td>
+		<table>	
+			<tr>				
+				<td>
+			        <select size="1" name="add_eco_end_time" id="id_add_eco_end_time">
+			          <option value="1">&nbsp;0:30</option>
+					  <option value="2">&nbsp;1:00</option>
+					  <option value="3">&nbsp;1:30</option>
+					  <option value="4">&nbsp;2:00</option>
+					  <option value="5">&nbsp;2:30</option>
+					  <option value="6">&nbsp;3:00</option>
+					  <option value="7">&nbsp;3:30</option>
+					  <option value="8">&nbsp;4:00</option>
+					  <option value="9">&nbsp;4:30</option>
+					  <option value="10">&nbsp;5:00</option>
+					  <option value="11">&nbsp;5:30</option>
+					  <option value="12">&nbsp;6:00</option>
+					  <option value="13">&nbsp;6:30</option>
+					  <option value="14">&nbsp;7:00</option>
+					  <option value="15">&nbsp;7:30</option>
+					  <option value="16">&nbsp;8:00</option>
+					  <option value="17">&nbsp;8:30</option>
+					  <option value="18">&nbsp;9:00</option>
+					  <option value="19">&nbsp;9:30</option>
+					  <option value="20">10:00</option>
+					  <option value="21">10:30</option>
+					  <option value="22">11:00</option>
+					  <option value="23">11:30</option>
+					  <option value="24">12:00</option>
+					  <option value="25">12:30</option>
+					  <option value="26">13:00</option>
+					  <option value="27">13:30</option>
+					  <option value="28">14:00</option>
+					  <option value="29">14:30</option>
+					  <option value="30">15:00</option>
+					  <option value="31">15:30</option>
+					  <option value="32">16:00</option>
+					  <option value="33">16:30</option>
+					  <option value="34">17:00</option>
+					  <option value="35">17:30</option>
+					  <option value="36">18:00</option>
+					  <option value="37">18:30</option>
+					  <option value="38">19:00</option>
+					  <option value="39">19:30</option>
+					  <option value="40">20:00</option>
+					  <option value="41">20:30</option>
+					  <option value="42">21:00</option>
+					  <option value="43">21:30</option>
+					  <option value="44">22:00</option>
+					  <option value="45">22:30</option>
+					  <option value="46">23:00</option>
+					  <option value="47">23:30</option>
+					  <option value="48">24:00</option>
+			        </select>
+				</td>
+		    </tr>
+			<tr><td>&nbsp</td></tr>
+		  </table>
+		</td>	
+		<tr>
+		<th><%GetString("ECO","7");%></th>
+		<td>
+		  <table>
+			<tr>				
+				<td>
+			        <table>
+						<tr>
+							<td align="center"><font color="red"><%GetString("ECO","15");%></font></td>
+							<td align="center"><%GetString("ECO","16");%></td>
+							<td align="center"><%GetString("ECO","17");%></td>
+							<td align="center"><%GetString("ECO","18");%></td>
+							<td align="center"><%GetString("ECO","19");%></td>
+							<td align="center"><%GetString("ECO","20");%></td>
+							<td align="center"><%GetString("ECO","21");%></td>
+						</font></tr>
+						<tr>
+							<td align="center"><input type="checkbox" name="s_sun" id="s_sun" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_mon" id="s_mon" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_tue" id="s_tue" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_wed" id="s_wed" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_thu" id="s_thu" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_fri" id="s_fri" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_sat" id="s_sat" value="1"></td>
+						</tr>
+					</table>
+				</td>
+		    </tr>
+		</table>
+	  </td>
+    </tr>
+  </table>
+  <input type="button" value="<%GetString("ECO","28");%>" id="id_ADDECO" name="ADDECO" onClick="AddDoSubmit();">
+  <hr>
+
+  
+    <br/>
+  <div class="button5" id="id_Apply_udfmode" name="Apply_udfmode" onclick="ApplyDoSubmit();">
+	<div class="button_text"><%GetString("ECO","2");%></div>
+  </div>
+  <br><br>
+</div>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form name="nosave_SETUP1" method="POST">
+<!--Sun-->
+<input type="hidden" name="schedule_time_0_0"   value="<%NvramGet("schedule_time_0_0");%>">
+<input type="hidden" name="schedule_time_1_0"   value="<%NvramGet("schedule_time_1_0");%>">
+<input type="hidden" name="schedule_time_2_0"   value="<%NvramGet("schedule_time_2_0");%>">
+<input type="hidden" name="schedule_time_3_0"   value="<%NvramGet("schedule_time_3_0");%>">
+<input type="hidden" name="schedule_time_4_0"   value="<%NvramGet("schedule_time_4_0");%>">
+<input type="hidden" name="schedule_time_5_0"   value="<%NvramGet("schedule_time_5_0");%>">
+<input type="hidden" name="schedule_time_6_0"   value="<%NvramGet("schedule_time_6_0");%>">
+<input type="hidden" name="schedule_time_7_0"   value="<%NvramGet("schedule_time_7_0");%>">
+<input type="hidden" name="schedule_time_8_0"   value="<%NvramGet("schedule_time_8_0");%>">
+<input type="hidden" name="schedule_time_9_0"   value="<%NvramGet("schedule_time_9_0");%>">
+<input type="hidden" name="schedule_time_10_0"   value="<%NvramGet("schedule_time_10_0");%>">
+<input type="hidden" name="schedule_time_11_0"   value="<%NvramGet("schedule_time_11_0");%>">
+<input type="hidden" name="schedule_time_12_0"   value="<%NvramGet("schedule_time_12_0");%>">
+<input type="hidden" name="schedule_time_13_0"   value="<%NvramGet("schedule_time_13_0");%>">
+<input type="hidden" name="schedule_time_14_0"   value="<%NvramGet("schedule_time_14_0");%>">
+<input type="hidden" name="schedule_time_15_0"   value="<%NvramGet("schedule_time_15_0");%>">
+<input type="hidden" name="schedule_time_16_0"   value="<%NvramGet("schedule_time_16_0");%>">
+<input type="hidden" name="schedule_time_17_0"   value="<%NvramGet("schedule_time_17_0");%>">
+<input type="hidden" name="schedule_time_18_0"   value="<%NvramGet("schedule_time_18_0");%>">
+<input type="hidden" name="schedule_time_19_0"   value="<%NvramGet("schedule_time_19_0");%>">
+<input type="hidden" name="schedule_time_20_0"   value="<%NvramGet("schedule_time_20_0");%>">
+<input type="hidden" name="schedule_time_21_0"   value="<%NvramGet("schedule_time_21_0");%>">
+<input type="hidden" name="schedule_time_22_0"   value="<%NvramGet("schedule_time_22_0");%>">
+<input type="hidden" name="schedule_time_23_0"   value="<%NvramGet("schedule_time_23_0");%>">
+<input type="hidden" name="schedule_time_24_0"   value="<%NvramGet("schedule_time_24_0");%>">
+<input type="hidden" name="schedule_time_25_0"   value="<%NvramGet("schedule_time_25_0");%>">
+<input type="hidden" name="schedule_time_26_0"   value="<%NvramGet("schedule_time_26_0");%>">
+<input type="hidden" name="schedule_time_27_0"   value="<%NvramGet("schedule_time_27_0");%>">
+<input type="hidden" name="schedule_time_28_0"   value="<%NvramGet("schedule_time_28_0");%>">
+<input type="hidden" name="schedule_time_29_0"   value="<%NvramGet("schedule_time_29_0");%>">
+<input type="hidden" name="schedule_time_30_0"   value="<%NvramGet("schedule_time_30_0");%>">
+<input type="hidden" name="schedule_time_31_0"   value="<%NvramGet("schedule_time_31_0");%>">
+<input type="hidden" name="schedule_time_32_0"   value="<%NvramGet("schedule_time_32_0");%>">
+<input type="hidden" name="schedule_time_33_0"   value="<%NvramGet("schedule_time_33_0");%>">
+<input type="hidden" name="schedule_time_34_0"   value="<%NvramGet("schedule_time_34_0");%>">
+<input type="hidden" name="schedule_time_35_0"   value="<%NvramGet("schedule_time_35_0");%>">
+<input type="hidden" name="schedule_time_36_0"   value="<%NvramGet("schedule_time_36_0");%>">
+<input type="hidden" name="schedule_time_37_0"   value="<%NvramGet("schedule_time_37_0");%>">
+<input type="hidden" name="schedule_time_38_0"   value="<%NvramGet("schedule_time_38_0");%>">
+<input type="hidden" name="schedule_time_39_0"   value="<%NvramGet("schedule_time_39_0");%>">
+<input type="hidden" name="schedule_time_40_0"   value="<%NvramGet("schedule_time_40_0");%>">
+<input type="hidden" name="schedule_time_41_0"   value="<%NvramGet("schedule_time_41_0");%>">
+<input type="hidden" name="schedule_time_42_0"   value="<%NvramGet("schedule_time_42_0");%>">
+<input type="hidden" name="schedule_time_43_0"   value="<%NvramGet("schedule_time_43_0");%>">
+<input type="hidden" name="schedule_time_44_0"   value="<%NvramGet("schedule_time_44_0");%>">
+<input type="hidden" name="schedule_time_45_0"   value="<%NvramGet("schedule_time_45_0");%>">
+<input type="hidden" name="schedule_time_46_0"   value="<%NvramGet("schedule_time_46_0");%>">
+<input type="hidden" name="schedule_time_47_0"   value="<%NvramGet("schedule_time_47_0");%>">
+<!--Mon-->
+<input type="hidden" name="schedule_time_0_1"   value="<%NvramGet("schedule_time_0_1");%>">
+<input type="hidden" name="schedule_time_1_1"   value="<%NvramGet("schedule_time_1_1");%>">
+<input type="hidden" name="schedule_time_2_1"   value="<%NvramGet("schedule_time_2_1");%>">
+<input type="hidden" name="schedule_time_3_1"   value="<%NvramGet("schedule_time_3_1");%>">
+<input type="hidden" name="schedule_time_4_1"   value="<%NvramGet("schedule_time_4_1");%>">
+<input type="hidden" name="schedule_time_5_1"   value="<%NvramGet("schedule_time_5_1");%>">
+<input type="hidden" name="schedule_time_6_1"   value="<%NvramGet("schedule_time_6_1");%>">
+<input type="hidden" name="schedule_time_7_1"   value="<%NvramGet("schedule_time_7_1");%>">
+<input type="hidden" name="schedule_time_8_1"   value="<%NvramGet("schedule_time_8_1");%>">
+<input type="hidden" name="schedule_time_9_1"   value="<%NvramGet("schedule_time_9_1");%>">
+<input type="hidden" name="schedule_time_10_1"   value="<%NvramGet("schedule_time_10_1");%>">
+<input type="hidden" name="schedule_time_11_1"   value="<%NvramGet("schedule_time_11_1");%>">
+<input type="hidden" name="schedule_time_12_1"   value="<%NvramGet("schedule_time_12_1");%>">
+<input type="hidden" name="schedule_time_13_1"   value="<%NvramGet("schedule_time_13_1");%>">
+<input type="hidden" name="schedule_time_14_1"   value="<%NvramGet("schedule_time_14_1");%>">
+<input type="hidden" name="schedule_time_15_1"   value="<%NvramGet("schedule_time_15_1");%>">
+<input type="hidden" name="schedule_time_16_1"   value="<%NvramGet("schedule_time_16_1");%>">
+<input type="hidden" name="schedule_time_17_1"   value="<%NvramGet("schedule_time_17_1");%>">
+<input type="hidden" name="schedule_time_18_1"   value="<%NvramGet("schedule_time_18_1");%>">
+<input type="hidden" name="schedule_time_19_1"   value="<%NvramGet("schedule_time_19_1");%>">
+<input type="hidden" name="schedule_time_20_1"   value="<%NvramGet("schedule_time_20_1");%>">
+<input type="hidden" name="schedule_time_21_1"   value="<%NvramGet("schedule_time_21_1");%>">
+<input type="hidden" name="schedule_time_22_1"   value="<%NvramGet("schedule_time_22_1");%>">
+<input type="hidden" name="schedule_time_23_1"   value="<%NvramGet("schedule_time_23_1");%>">
+<input type="hidden" name="schedule_time_24_1"   value="<%NvramGet("schedule_time_24_1");%>">
+<input type="hidden" name="schedule_time_25_1"   value="<%NvramGet("schedule_time_25_1");%>">
+<input type="hidden" name="schedule_time_26_1"   value="<%NvramGet("schedule_time_26_1");%>">
+<input type="hidden" name="schedule_time_27_1"   value="<%NvramGet("schedule_time_27_1");%>">
+<input type="hidden" name="schedule_time_28_1"   value="<%NvramGet("schedule_time_28_1");%>">
+<input type="hidden" name="schedule_time_29_1"   value="<%NvramGet("schedule_time_29_1");%>">
+<input type="hidden" name="schedule_time_30_1"   value="<%NvramGet("schedule_time_30_1");%>">
+<input type="hidden" name="schedule_time_31_1"   value="<%NvramGet("schedule_time_31_1");%>">
+<input type="hidden" name="schedule_time_32_1"   value="<%NvramGet("schedule_time_32_1");%>">
+<input type="hidden" name="schedule_time_33_1"   value="<%NvramGet("schedule_time_33_1");%>">
+<input type="hidden" name="schedule_time_34_1"   value="<%NvramGet("schedule_time_34_1");%>">
+<input type="hidden" name="schedule_time_35_1"   value="<%NvramGet("schedule_time_35_1");%>">
+<input type="hidden" name="schedule_time_36_1"   value="<%NvramGet("schedule_time_36_1");%>">
+<input type="hidden" name="schedule_time_37_1"   value="<%NvramGet("schedule_time_37_1");%>">
+<input type="hidden" name="schedule_time_38_1"   value="<%NvramGet("schedule_time_38_1");%>">
+<input type="hidden" name="schedule_time_39_1"   value="<%NvramGet("schedule_time_39_1");%>">
+<input type="hidden" name="schedule_time_40_1"   value="<%NvramGet("schedule_time_40_1");%>">
+<input type="hidden" name="schedule_time_41_1"   value="<%NvramGet("schedule_time_41_1");%>">
+<input type="hidden" name="schedule_time_42_1"   value="<%NvramGet("schedule_time_42_1");%>">
+<input type="hidden" name="schedule_time_43_1"   value="<%NvramGet("schedule_time_43_1");%>">
+<input type="hidden" name="schedule_time_44_1"   value="<%NvramGet("schedule_time_44_1");%>">
+<input type="hidden" name="schedule_time_45_1"   value="<%NvramGet("schedule_time_45_1");%>">
+<input type="hidden" name="schedule_time_46_1"   value="<%NvramGet("schedule_time_46_1");%>">
+<input type="hidden" name="schedule_time_47_1"   value="<%NvramGet("schedule_time_47_1");%>">
+<!--Tue-->
+<input type="hidden" name="schedule_time_0_2"   value="<%NvramGet("schedule_time_0_2");%>">
+<input type="hidden" name="schedule_time_1_2"   value="<%NvramGet("schedule_time_1_2");%>">
+<input type="hidden" name="schedule_time_2_2"   value="<%NvramGet("schedule_time_2_2");%>">
+<input type="hidden" name="schedule_time_3_2"   value="<%NvramGet("schedule_time_3_2");%>">
+<input type="hidden" name="schedule_time_4_2"   value="<%NvramGet("schedule_time_4_2");%>">
+<input type="hidden" name="schedule_time_5_2"   value="<%NvramGet("schedule_time_5_2");%>">
+<input type="hidden" name="schedule_time_6_2"   value="<%NvramGet("schedule_time_6_2");%>">
+<input type="hidden" name="schedule_time_7_2"   value="<%NvramGet("schedule_time_7_2");%>">
+<input type="hidden" name="schedule_time_8_2"   value="<%NvramGet("schedule_time_8_2");%>">
+<input type="hidden" name="schedule_time_9_2"   value="<%NvramGet("schedule_time_9_2");%>">
+<input type="hidden" name="schedule_time_10_2"   value="<%NvramGet("schedule_time_10_2");%>">
+<input type="hidden" name="schedule_time_11_2"   value="<%NvramGet("schedule_time_11_2");%>">
+<input type="hidden" name="schedule_time_12_2"   value="<%NvramGet("schedule_time_12_2");%>">
+<input type="hidden" name="schedule_time_13_2"   value="<%NvramGet("schedule_time_13_2");%>">
+<input type="hidden" name="schedule_time_14_2"   value="<%NvramGet("schedule_time_14_2");%>">
+<input type="hidden" name="schedule_time_15_2"   value="<%NvramGet("schedule_time_15_2");%>">
+<input type="hidden" name="schedule_time_16_2"   value="<%NvramGet("schedule_time_16_2");%>">
+<input type="hidden" name="schedule_time_17_2"   value="<%NvramGet("schedule_time_17_2");%>">
+<input type="hidden" name="schedule_time_18_2"   value="<%NvramGet("schedule_time_18_2");%>">
+<input type="hidden" name="schedule_time_19_2"   value="<%NvramGet("schedule_time_19_2");%>">
+<input type="hidden" name="schedule_time_20_2"   value="<%NvramGet("schedule_time_20_2");%>">
+<input type="hidden" name="schedule_time_21_2"   value="<%NvramGet("schedule_time_21_2");%>">
+<input type="hidden" name="schedule_time_22_2"   value="<%NvramGet("schedule_time_22_2");%>">
+<input type="hidden" name="schedule_time_23_2"   value="<%NvramGet("schedule_time_23_2");%>">
+<input type="hidden" name="schedule_time_24_2"   value="<%NvramGet("schedule_time_24_2");%>">
+<input type="hidden" name="schedule_time_25_2"   value="<%NvramGet("schedule_time_25_2");%>">
+<input type="hidden" name="schedule_time_26_2"   value="<%NvramGet("schedule_time_26_2");%>">
+<input type="hidden" name="schedule_time_27_2"   value="<%NvramGet("schedule_time_27_2");%>">
+<input type="hidden" name="schedule_time_28_2"   value="<%NvramGet("schedule_time_28_2");%>">
+<input type="hidden" name="schedule_time_29_2"   value="<%NvramGet("schedule_time_29_2");%>">
+<input type="hidden" name="schedule_time_30_2"   value="<%NvramGet("schedule_time_30_2");%>">
+<input type="hidden" name="schedule_time_31_2"   value="<%NvramGet("schedule_time_31_2");%>">
+<input type="hidden" name="schedule_time_32_2"   value="<%NvramGet("schedule_time_32_2");%>">
+<input type="hidden" name="schedule_time_33_2"   value="<%NvramGet("schedule_time_33_2");%>">
+<input type="hidden" name="schedule_time_34_2"   value="<%NvramGet("schedule_time_34_2");%>">
+<input type="hidden" name="schedule_time_35_2"   value="<%NvramGet("schedule_time_35_2");%>">
+<input type="hidden" name="schedule_time_36_2"   value="<%NvramGet("schedule_time_36_2");%>">
+<input type="hidden" name="schedule_time_37_2"   value="<%NvramGet("schedule_time_37_2");%>">
+<input type="hidden" name="schedule_time_38_2"   value="<%NvramGet("schedule_time_38_2");%>">
+<input type="hidden" name="schedule_time_39_2"   value="<%NvramGet("schedule_time_39_2");%>">
+<input type="hidden" name="schedule_time_40_2"   value="<%NvramGet("schedule_time_40_2");%>">
+<input type="hidden" name="schedule_time_41_2"   value="<%NvramGet("schedule_time_41_2");%>">
+<input type="hidden" name="schedule_time_42_2"   value="<%NvramGet("schedule_time_42_2");%>">
+<input type="hidden" name="schedule_time_43_2"   value="<%NvramGet("schedule_time_43_2");%>">
+<input type="hidden" name="schedule_time_44_2"   value="<%NvramGet("schedule_time_44_2");%>">
+<input type="hidden" name="schedule_time_45_2"   value="<%NvramGet("schedule_time_45_2");%>">
+<input type="hidden" name="schedule_time_46_2"   value="<%NvramGet("schedule_time_46_2");%>">
+<input type="hidden" name="schedule_time_47_2"   value="<%NvramGet("schedule_time_47_2");%>">
+<!--Wed-->
+<input type="hidden" name="schedule_time_0_3"   value="<%NvramGet("schedule_time_0_3");%>">
+<input type="hidden" name="schedule_time_1_3"   value="<%NvramGet("schedule_time_1_3");%>">
+<input type="hidden" name="schedule_time_2_3"   value="<%NvramGet("schedule_time_2_3");%>">
+<input type="hidden" name="schedule_time_3_3"   value="<%NvramGet("schedule_time_3_3");%>">
+<input type="hidden" name="schedule_time_4_3"   value="<%NvramGet("schedule_time_4_3");%>">
+<input type="hidden" name="schedule_time_5_3"   value="<%NvramGet("schedule_time_5_3");%>">
+<input type="hidden" name="schedule_time_6_3"   value="<%NvramGet("schedule_time_6_3");%>">
+<input type="hidden" name="schedule_time_7_3"   value="<%NvramGet("schedule_time_7_3");%>">
+<input type="hidden" name="schedule_time_8_3"   value="<%NvramGet("schedule_time_8_3");%>">
+<input type="hidden" name="schedule_time_9_3"   value="<%NvramGet("schedule_time_9_3");%>">
+<input type="hidden" name="schedule_time_10_3"   value="<%NvramGet("schedule_time_10_3");%>">
+<input type="hidden" name="schedule_time_11_3"   value="<%NvramGet("schedule_time_11_3");%>">
+<input type="hidden" name="schedule_time_12_3"   value="<%NvramGet("schedule_time_12_3");%>">
+<input type="hidden" name="schedule_time_13_3"   value="<%NvramGet("schedule_time_13_3");%>">
+<input type="hidden" name="schedule_time_14_3"   value="<%NvramGet("schedule_time_14_3");%>">
+<input type="hidden" name="schedule_time_15_3"   value="<%NvramGet("schedule_time_15_3");%>">
+<input type="hidden" name="schedule_time_16_3"   value="<%NvramGet("schedule_time_16_3");%>">
+<input type="hidden" name="schedule_time_17_3"   value="<%NvramGet("schedule_time_17_3");%>">
+<input type="hidden" name="schedule_time_18_3"   value="<%NvramGet("schedule_time_18_3");%>">
+<input type="hidden" name="schedule_time_19_3"   value="<%NvramGet("schedule_time_19_3");%>">
+<input type="hidden" name="schedule_time_20_3"   value="<%NvramGet("schedule_time_20_3");%>">
+<input type="hidden" name="schedule_time_21_3"   value="<%NvramGet("schedule_time_21_3");%>">
+<input type="hidden" name="schedule_time_22_3"   value="<%NvramGet("schedule_time_22_3");%>">
+<input type="hidden" name="schedule_time_23_3"   value="<%NvramGet("schedule_time_23_3");%>">
+<input type="hidden" name="schedule_time_24_3"   value="<%NvramGet("schedule_time_24_3");%>">
+<input type="hidden" name="schedule_time_25_3"   value="<%NvramGet("schedule_time_25_3");%>">
+<input type="hidden" name="schedule_time_26_3"   value="<%NvramGet("schedule_time_26_3");%>">
+<input type="hidden" name="schedule_time_27_3"   value="<%NvramGet("schedule_time_27_3");%>">
+<input type="hidden" name="schedule_time_28_3"   value="<%NvramGet("schedule_time_28_3");%>">
+<input type="hidden" name="schedule_time_29_3"   value="<%NvramGet("schedule_time_29_3");%>">
+<input type="hidden" name="schedule_time_30_3"   value="<%NvramGet("schedule_time_30_3");%>">
+<input type="hidden" name="schedule_time_31_3"   value="<%NvramGet("schedule_time_31_3");%>">
+<input type="hidden" name="schedule_time_32_3"   value="<%NvramGet("schedule_time_32_3");%>">
+<input type="hidden" name="schedule_time_33_3"   value="<%NvramGet("schedule_time_33_3");%>">
+<input type="hidden" name="schedule_time_34_3"   value="<%NvramGet("schedule_time_34_3");%>">
+<input type="hidden" name="schedule_time_35_3"   value="<%NvramGet("schedule_time_35_3");%>">
+<input type="hidden" name="schedule_time_36_3"   value="<%NvramGet("schedule_time_36_3");%>">
+<input type="hidden" name="schedule_time_37_3"   value="<%NvramGet("schedule_time_37_3");%>">
+<input type="hidden" name="schedule_time_38_3"   value="<%NvramGet("schedule_time_38_3");%>">
+<input type="hidden" name="schedule_time_39_3"   value="<%NvramGet("schedule_time_39_3");%>">
+<input type="hidden" name="schedule_time_40_3"   value="<%NvramGet("schedule_time_40_3");%>">
+<input type="hidden" name="schedule_time_41_3"   value="<%NvramGet("schedule_time_41_3");%>">
+<input type="hidden" name="schedule_time_42_3"   value="<%NvramGet("schedule_time_42_3");%>">
+<input type="hidden" name="schedule_time_43_3"   value="<%NvramGet("schedule_time_43_3");%>">
+<input type="hidden" name="schedule_time_44_3"   value="<%NvramGet("schedule_time_44_3");%>">
+<input type="hidden" name="schedule_time_45_3"   value="<%NvramGet("schedule_time_45_3");%>">
+<input type="hidden" name="schedule_time_46_3"   value="<%NvramGet("schedule_time_46_3");%>">
+<input type="hidden" name="schedule_time_47_3"   value="<%NvramGet("schedule_time_47_3");%>">
+<!--Thu-->
+<input type="hidden" name="schedule_time_0_4"   value="<%NvramGet("schedule_time_0_4");%>">
+<input type="hidden" name="schedule_time_1_4"   value="<%NvramGet("schedule_time_1_4");%>">
+<input type="hidden" name="schedule_time_2_4"   value="<%NvramGet("schedule_time_2_4");%>">
+<input type="hidden" name="schedule_time_3_4"   value="<%NvramGet("schedule_time_3_4");%>">
+<input type="hidden" name="schedule_time_4_4"   value="<%NvramGet("schedule_time_4_4");%>">
+<input type="hidden" name="schedule_time_5_4"   value="<%NvramGet("schedule_time_5_4");%>">
+<input type="hidden" name="schedule_time_6_4"   value="<%NvramGet("schedule_time_6_4");%>">
+<input type="hidden" name="schedule_time_7_4"   value="<%NvramGet("schedule_time_7_4");%>">
+<input type="hidden" name="schedule_time_8_4"   value="<%NvramGet("schedule_time_8_4");%>">
+<input type="hidden" name="schedule_time_9_4"   value="<%NvramGet("schedule_time_9_4");%>">
+<input type="hidden" name="schedule_time_10_4"   value="<%NvramGet("schedule_time_10_4");%>">
+<input type="hidden" name="schedule_time_11_4"   value="<%NvramGet("schedule_time_11_4");%>">
+<input type="hidden" name="schedule_time_12_4"   value="<%NvramGet("schedule_time_12_4");%>">
+<input type="hidden" name="schedule_time_13_4"   value="<%NvramGet("schedule_time_13_4");%>">
+<input type="hidden" name="schedule_time_14_4"   value="<%NvramGet("schedule_time_14_4");%>">
+<input type="hidden" name="schedule_time_15_4"   value="<%NvramGet("schedule_time_15_4");%>">
+<input type="hidden" name="schedule_time_16_4"   value="<%NvramGet("schedule_time_16_4");%>">
+<input type="hidden" name="schedule_time_17_4"   value="<%NvramGet("schedule_time_17_4");%>">
+<input type="hidden" name="schedule_time_18_4"   value="<%NvramGet("schedule_time_18_4");%>">
+<input type="hidden" name="schedule_time_19_4"   value="<%NvramGet("schedule_time_19_4");%>">
+<input type="hidden" name="schedule_time_20_4"   value="<%NvramGet("schedule_time_20_4");%>">
+<input type="hidden" name="schedule_time_21_4"   value="<%NvramGet("schedule_time_21_4");%>">
+<input type="hidden" name="schedule_time_22_4"   value="<%NvramGet("schedule_time_22_4");%>">
+<input type="hidden" name="schedule_time_23_4"   value="<%NvramGet("schedule_time_23_4");%>">
+<input type="hidden" name="schedule_time_24_4"   value="<%NvramGet("schedule_time_24_4");%>">
+<input type="hidden" name="schedule_time_25_4"   value="<%NvramGet("schedule_time_25_4");%>">
+<input type="hidden" name="schedule_time_26_4"   value="<%NvramGet("schedule_time_26_4");%>">
+<input type="hidden" name="schedule_time_27_4"   value="<%NvramGet("schedule_time_27_4");%>">
+<input type="hidden" name="schedule_time_28_4"   value="<%NvramGet("schedule_time_28_4");%>">
+<input type="hidden" name="schedule_time_29_4"   value="<%NvramGet("schedule_time_29_4");%>">
+<input type="hidden" name="schedule_time_30_4"   value="<%NvramGet("schedule_time_30_4");%>">
+<input type="hidden" name="schedule_time_31_4"   value="<%NvramGet("schedule_time_31_4");%>">
+<input type="hidden" name="schedule_time_32_4"   value="<%NvramGet("schedule_time_32_4");%>">
+<input type="hidden" name="schedule_time_33_4"   value="<%NvramGet("schedule_time_33_4");%>">
+<input type="hidden" name="schedule_time_34_4"   value="<%NvramGet("schedule_time_34_4");%>">
+<input type="hidden" name="schedule_time_35_4"   value="<%NvramGet("schedule_time_35_4");%>">
+<input type="hidden" name="schedule_time_36_4"   value="<%NvramGet("schedule_time_36_4");%>">
+<input type="hidden" name="schedule_time_37_4"   value="<%NvramGet("schedule_time_37_4");%>">
+<input type="hidden" name="schedule_time_38_4"   value="<%NvramGet("schedule_time_38_4");%>">
+<input type="hidden" name="schedule_time_39_4"   value="<%NvramGet("schedule_time_39_4");%>">
+<input type="hidden" name="schedule_time_40_4"   value="<%NvramGet("schedule_time_40_4");%>">
+<input type="hidden" name="schedule_time_41_4"   value="<%NvramGet("schedule_time_41_4");%>">
+<input type="hidden" name="schedule_time_42_4"   value="<%NvramGet("schedule_time_42_4");%>">
+<input type="hidden" name="schedule_time_43_4"   value="<%NvramGet("schedule_time_43_4");%>">
+<input type="hidden" name="schedule_time_44_4"   value="<%NvramGet("schedule_time_44_4");%>">
+<input type="hidden" name="schedule_time_45_4"   value="<%NvramGet("schedule_time_45_4");%>">
+<input type="hidden" name="schedule_time_46_4"   value="<%NvramGet("schedule_time_46_4");%>">
+<input type="hidden" name="schedule_time_47_4"   value="<%NvramGet("schedule_time_47_4");%>">
+<!--Fri-->
+<input type="hidden" name="schedule_time_0_5"   value="<%NvramGet("schedule_time_0_5");%>">
+<input type="hidden" name="schedule_time_1_5"   value="<%NvramGet("schedule_time_1_5");%>">
+<input type="hidden" name="schedule_time_2_5"   value="<%NvramGet("schedule_time_2_5");%>">
+<input type="hidden" name="schedule_time_3_5"   value="<%NvramGet("schedule_time_3_5");%>">
+<input type="hidden" name="schedule_time_4_5"   value="<%NvramGet("schedule_time_4_5");%>">
+<input type="hidden" name="schedule_time_5_5"   value="<%NvramGet("schedule_time_5_5");%>">
+<input type="hidden" name="schedule_time_6_5"   value="<%NvramGet("schedule_time_6_5");%>">
+<input type="hidden" name="schedule_time_7_5"   value="<%NvramGet("schedule_time_7_5");%>">
+<input type="hidden" name="schedule_time_8_5"   value="<%NvramGet("schedule_time_8_5");%>">
+<input type="hidden" name="schedule_time_9_5"   value="<%NvramGet("schedule_time_9_5");%>">
+<input type="hidden" name="schedule_time_10_5"   value="<%NvramGet("schedule_time_10_5");%>">
+<input type="hidden" name="schedule_time_11_5"   value="<%NvramGet("schedule_time_11_5");%>">
+<input type="hidden" name="schedule_time_12_5"   value="<%NvramGet("schedule_time_12_5");%>">
+<input type="hidden" name="schedule_time_13_5"   value="<%NvramGet("schedule_time_13_5");%>">
+<input type="hidden" name="schedule_time_14_5"   value="<%NvramGet("schedule_time_14_5");%>">
+<input type="hidden" name="schedule_time_15_5"   value="<%NvramGet("schedule_time_15_5");%>">
+<input type="hidden" name="schedule_time_16_5"   value="<%NvramGet("schedule_time_16_5");%>">
+<input type="hidden" name="schedule_time_17_5"   value="<%NvramGet("schedule_time_17_5");%>">
+<input type="hidden" name="schedule_time_18_5"   value="<%NvramGet("schedule_time_18_5");%>">
+<input type="hidden" name="schedule_time_19_5"   value="<%NvramGet("schedule_time_19_5");%>">
+<input type="hidden" name="schedule_time_20_5"   value="<%NvramGet("schedule_time_20_5");%>">
+<input type="hidden" name="schedule_time_21_5"   value="<%NvramGet("schedule_time_21_5");%>">
+<input type="hidden" name="schedule_time_22_5"   value="<%NvramGet("schedule_time_22_5");%>">
+<input type="hidden" name="schedule_time_23_5"   value="<%NvramGet("schedule_time_23_5");%>">
+<input type="hidden" name="schedule_time_24_5"   value="<%NvramGet("schedule_time_24_5");%>">
+<input type="hidden" name="schedule_time_25_5"   value="<%NvramGet("schedule_time_25_5");%>">
+<input type="hidden" name="schedule_time_26_5"   value="<%NvramGet("schedule_time_26_5");%>">
+<input type="hidden" name="schedule_time_27_5"   value="<%NvramGet("schedule_time_27_5");%>">
+<input type="hidden" name="schedule_time_28_5"   value="<%NvramGet("schedule_time_28_5");%>">
+<input type="hidden" name="schedule_time_29_5"   value="<%NvramGet("schedule_time_29_5");%>">
+<input type="hidden" name="schedule_time_30_5"   value="<%NvramGet("schedule_time_30_5");%>">
+<input type="hidden" name="schedule_time_31_5"   value="<%NvramGet("schedule_time_31_5");%>">
+<input type="hidden" name="schedule_time_32_5"   value="<%NvramGet("schedule_time_32_5");%>">
+<input type="hidden" name="schedule_time_33_5"   value="<%NvramGet("schedule_time_33_5");%>">
+<input type="hidden" name="schedule_time_34_5"   value="<%NvramGet("schedule_time_34_5");%>">
+<input type="hidden" name="schedule_time_35_5"   value="<%NvramGet("schedule_time_35_5");%>">
+<input type="hidden" name="schedule_time_36_5"   value="<%NvramGet("schedule_time_36_5");%>">
+<input type="hidden" name="schedule_time_37_5"   value="<%NvramGet("schedule_time_37_5");%>">
+<input type="hidden" name="schedule_time_38_5"   value="<%NvramGet("schedule_time_38_5");%>">
+<input type="hidden" name="schedule_time_39_5"   value="<%NvramGet("schedule_time_39_5");%>">
+<input type="hidden" name="schedule_time_40_5"   value="<%NvramGet("schedule_time_40_5");%>">
+<input type="hidden" name="schedule_time_41_5"   value="<%NvramGet("schedule_time_41_5");%>">
+<input type="hidden" name="schedule_time_42_5"   value="<%NvramGet("schedule_time_42_5");%>">
+<input type="hidden" name="schedule_time_43_5"   value="<%NvramGet("schedule_time_43_5");%>">
+<input type="hidden" name="schedule_time_44_5"   value="<%NvramGet("schedule_time_44_5");%>">
+<input type="hidden" name="schedule_time_45_5"   value="<%NvramGet("schedule_time_45_5");%>">
+<input type="hidden" name="schedule_time_46_5"   value="<%NvramGet("schedule_time_46_5");%>">
+<input type="hidden" name="schedule_time_47_5"   value="<%NvramGet("schedule_time_47_5");%>">
+<!--Sat-->
+<input type="hidden" name="schedule_time_0_6"   value="<%NvramGet("schedule_time_0_6");%>">
+<input type="hidden" name="schedule_time_1_6"   value="<%NvramGet("schedule_time_1_6");%>">
+<input type="hidden" name="schedule_time_2_6"   value="<%NvramGet("schedule_time_2_6");%>">
+<input type="hidden" name="schedule_time_3_6"   value="<%NvramGet("schedule_time_3_6");%>">
+<input type="hidden" name="schedule_time_4_6"   value="<%NvramGet("schedule_time_4_6");%>">
+<input type="hidden" name="schedule_time_5_6"   value="<%NvramGet("schedule_time_5_6");%>">
+<input type="hidden" name="schedule_time_6_6"   value="<%NvramGet("schedule_time_6_6");%>">
+<input type="hidden" name="schedule_time_7_6"   value="<%NvramGet("schedule_time_7_6");%>">
+<input type="hidden" name="schedule_time_8_6"   value="<%NvramGet("schedule_time_8_6");%>">
+<input type="hidden" name="schedule_time_9_6"   value="<%NvramGet("schedule_time_9_6");%>">
+<input type="hidden" name="schedule_time_10_6"   value="<%NvramGet("schedule_time_10_6");%>">
+<input type="hidden" name="schedule_time_11_6"   value="<%NvramGet("schedule_time_11_6");%>">
+<input type="hidden" name="schedule_time_12_6"   value="<%NvramGet("schedule_time_12_6");%>">
+<input type="hidden" name="schedule_time_13_6"   value="<%NvramGet("schedule_time_13_6");%>">
+<input type="hidden" name="schedule_time_14_6"   value="<%NvramGet("schedule_time_14_6");%>">
+<input type="hidden" name="schedule_time_15_6"   value="<%NvramGet("schedule_time_15_6");%>">
+<input type="hidden" name="schedule_time_16_6"   value="<%NvramGet("schedule_time_16_6");%>">
+<input type="hidden" name="schedule_time_17_6"   value="<%NvramGet("schedule_time_17_6");%>">
+<input type="hidden" name="schedule_time_18_6"   value="<%NvramGet("schedule_time_18_6");%>">
+<input type="hidden" name="schedule_time_19_6"   value="<%NvramGet("schedule_time_19_6");%>">
+<input type="hidden" name="schedule_time_20_6"   value="<%NvramGet("schedule_time_20_6");%>">
+<input type="hidden" name="schedule_time_21_6"   value="<%NvramGet("schedule_time_21_6");%>">
+<input type="hidden" name="schedule_time_22_6"   value="<%NvramGet("schedule_time_22_6");%>">
+<input type="hidden" name="schedule_time_23_6"   value="<%NvramGet("schedule_time_23_6");%>">
+<input type="hidden" name="schedule_time_24_6"   value="<%NvramGet("schedule_time_24_6");%>">
+<input type="hidden" name="schedule_time_25_6"   value="<%NvramGet("schedule_time_25_6");%>">
+<input type="hidden" name="schedule_time_26_6"   value="<%NvramGet("schedule_time_26_6");%>">
+<input type="hidden" name="schedule_time_27_6"   value="<%NvramGet("schedule_time_27_6");%>">
+<input type="hidden" name="schedule_time_28_6"   value="<%NvramGet("schedule_time_28_6");%>">
+<input type="hidden" name="schedule_time_29_6"   value="<%NvramGet("schedule_time_29_6");%>">
+<input type="hidden" name="schedule_time_30_6"   value="<%NvramGet("schedule_time_30_6");%>">
+<input type="hidden" name="schedule_time_31_6"   value="<%NvramGet("schedule_time_31_6");%>">
+<input type="hidden" name="schedule_time_32_6"   value="<%NvramGet("schedule_time_32_6");%>">
+<input type="hidden" name="schedule_time_33_6"   value="<%NvramGet("schedule_time_33_6");%>">
+<input type="hidden" name="schedule_time_34_6"   value="<%NvramGet("schedule_time_34_6");%>">
+<input type="hidden" name="schedule_time_35_6"   value="<%NvramGet("schedule_time_35_6");%>">
+<input type="hidden" name="schedule_time_36_6"   value="<%NvramGet("schedule_time_36_6");%>">
+<input type="hidden" name="schedule_time_37_6"   value="<%NvramGet("schedule_time_37_6");%>">
+<input type="hidden" name="schedule_time_38_6"   value="<%NvramGet("schedule_time_38_6");%>">
+<input type="hidden" name="schedule_time_39_6"   value="<%NvramGet("schedule_time_39_6");%>">
+<input type="hidden" name="schedule_time_40_6"   value="<%NvramGet("schedule_time_40_6");%>">
+<input type="hidden" name="schedule_time_41_6"   value="<%NvramGet("schedule_time_41_6");%>">
+<input type="hidden" name="schedule_time_42_6"   value="<%NvramGet("schedule_time_42_6");%>">
+<input type="hidden" name="schedule_time_43_6"   value="<%NvramGet("schedule_time_43_6");%>">
+<input type="hidden" name="schedule_time_44_6"   value="<%NvramGet("schedule_time_44_6");%>">
+<input type="hidden" name="schedule_time_45_6"   value="<%NvramGet("schedule_time_45_6");%>">
+<input type="hidden" name="schedule_time_46_6"   value="<%NvramGet("schedule_time_46_6");%>">
+<input type="hidden" name="schedule_time_47_6"   value="<%NvramGet("schedule_time_47_6");%>">
+
+<input type="hidden" name="HOUR" value="<%GetTime("hour");%>">
+<input type="hidden" name="MIN" value="<%GetTime("min");%>">
+<input type="hidden" name="WDAY" value="<%GetTime("wday");%>">
+
+<input type="hidden" name="return_page"   value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form  name="nosave_SETUP" method="POST">
+<input type="hidden" name="ECOEnable"   value="<%NvramGet("ECOEnable");%>">
+<input type="hidden" name="return_page"   value="">
+<input type="hidden" name="userdefmode_led"   value="<%NvramGet("userdefmode_led");%>">
+<input type="hidden" name="userdefmode_lan"   value="<%NvramGet("userdefmode_lan");%>">
+<input type="hidden" name="userdefmode_wlan"   value="<%NvramGet("userdefmode_wlan");%>">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST">
+<input type="hidden" name="ECOEnable"   value="<%NvramGet("ECOEnable");%>">
+<input type="hidden" name="return_page"   value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</body>
+</html>

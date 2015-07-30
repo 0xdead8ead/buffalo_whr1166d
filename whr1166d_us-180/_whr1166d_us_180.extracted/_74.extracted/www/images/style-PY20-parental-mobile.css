@@ -1,0 +1,52 @@
+.norton_top {
+	width: 304px;
+	height: 70px;
+	background: url(/images/py20_banner_norton_m.png) no-repeat center center;
+	position: relative;
+	top: -25px;
+	left: 0px;
+}
+.norton_left {
+}
+.norton_right {
+	display: none;
+}
+.agree_disable {
+	color: #AAAAAA;
+}
+.wanwarn {
+	font-size: 17px;
+	color: #EE3344;
+	padding: 0px 0px 0px 55px;
+}
+.excuse_top {
+	font-size: 17px;
+	width: 540px;
+	padding: 0px 0px 0px 55px;
+}
+.excuse {
+	width: 595px;
+	padding: 0px 0px 30px 0px;
+}
+.parental_link {
+	color: #66AAFF;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.parental_nolink {
+}
+.radio_left {
+	float: left;
+	margin-top: 13px;
+}
+.radio_right {
+	float: left;
+	width: 570px;
+	padding-left: 10px;
+}
+.express {
+	font-size: 16px;
+	margin: 0px 0px 20px 0px;
+	padding: 0px 0px 0px 55px;
+}
+

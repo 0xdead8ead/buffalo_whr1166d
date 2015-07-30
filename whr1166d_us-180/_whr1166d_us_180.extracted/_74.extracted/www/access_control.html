@@ -1,0 +1,1414 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+
+<style type="text/css">
+.sch_color{
+width: 20;
+height: 25;
+}
+.date{
+width: 35px;
+height: 25px;
+}
+.mark{
+width: 50px;
+height: 5px;
+}
+.mark_text{
+width: 250px;
+font-size : 12px;
+color:#555555;
+}
+.button22 {
+	height: 26px;
+	position: absolute; 
+    bottom: 20px; 
+    right: 20px;
+	margin: 0px 0px 0px 20px;
+	padding: 0px 4px 0px 4px;
+	color: #FFFFFF;
+	border: none;
+	background-color: #69727E;
+	background:
+		url(/images/py20_button_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left.png) no-repeat top left,
+		url(/images/py20_button_normal_right.png) no-repeat top right;
+	float: right;
+	cursor: pointer;
+}
+.button_text2 {
+	padding: 3px 20px 0px 20px;
+	font-size: 14px;
+	font-weight: bold;
+}
+</style>
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript">
+
+
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='access_control.html'", 10000);
+}, 
+failure:function(oResponse) {  
+} 
+}
+
+function err_clear()
+{
+	document.getElementById("id_no_conf").style.display="none";
+	document.getElementById("id_wrong_mac").style.display="none";
+	document.getElementById("id_wrong_char").style.display="none";
+	document.getElementById("id_wrong_mac_addr").style.display="none";
+	document.getElementById("id_same_time").style.display="none";
+	document.getElementById("id_no_day").style.display="none";
+	document.getElementById("id_same_name_reg").style.display="none";
+	document.getElementById("id_too_many_reg").style.display="none";
+}
+
+function change_mac_symbol(Computers_value)
+{
+	var mac_add = Computers_value;		
+	if (mac_add.length==12)
+	{							
+		var str_tmp = "";			
+		var str = str_tmp.concat(mac_add.substr(0,2),":",mac_add.substr(2,2),":",mac_add.substr(4,2),":",mac_add.substr(6,2),":",mac_add.substr(8,2),":",mac_add.substr(10,2));
+		Computers_value = str;						
+	}	
+	return Computers_value;
+}
+
+function change_mac(Computers_value)
+{
+	var mac_add = Computers_value;		
+	
+	if (mac_add.charAt(2)=='-' && mac_add.charAt(5)=='-' && mac_add.charAt(8)=='-' && mac_add.charAt(11)=='-' && mac_add.charAt(14)=='-')
+	{					
+		var str_tmp = "";			
+		var str = str_tmp.concat(mac_add.substr(0,2),":",mac_add.substr(3,2),":",mac_add.substr(6,2),":",mac_add.substr(9,2),":",mac_add.substr(12,2),":",mac_add.substr(15,2));
+		Computers_value = str;
+	}				
+	return Computers_value;
+}
+
+function checkMZenKaKu( c ) {
+        var tmp = escape( c );
+        if (tmp.length == 1) {
+                return false;
+        }
+        return (tmp.charAt(1) == 'u');
+}
+
+function check_mac_filter(mac,a) //Caspar modified for buffalo check error feature 20100324
+{	//0:no error 1:mac length error 2:invalid character 3:mac address error 
+	var i;
+	var n;	
+	var ff_valid=0;
+	var zero_valid=0;
+	var odd_valid=0;
+	var valid=0;
+	var odd_array="02468AaCcEe";
+	
+	for (i=0;i<mac.length;i++)
+		if (checkMZenKaKu(mac.charAt(i)))
+			return 1;
+	
+	if(mac.length == 17)
+	{
+		n = mac.split(':');
+
+		if(n.length==6)
+		{
+			for (i=0;i<odd_array.length;i++)
+			{
+				if (n[0].charAt(1) == odd_array.charAt(i))
+					odd_valid=1;
+				else
+					continue;	
+			}
+
+				
+			for(i=0; i<6; i++)
+			{
+				if((isBlank(n[i]))||(!check_0Tof(n[i]))||(n[i].length != 2))
+				{
+					return 2;
+				}
+			}
+
+			for(i=0; i<6; i++)
+			{	
+				if(((n[i].charAt(0)=='f')||(n[i].charAt(0)=='F'))&&((n[i].charAt(1)=='f')||(n[i].charAt(1)=='F')))
+				{
+					continue;
+				}
+				else
+				{	
+					ff_valid=1;	
+					break;
+				}
+			}
+
+			for(i=0; i<6; i++)
+			{
+				if((n[i].charAt(0)=='0')&&(n[i].charAt(1)=='0'))
+				{
+					continue;
+				}
+				else
+				{	
+					zero_valid=1;		
+					break;
+				}
+			}
+
+			if((ff_valid==1)&&(zero_valid==1)&&(odd_valid==1))
+			{	
+				return 0;
+			}
+			else
+			{
+				return 3;
+			}
+		}
+		else
+		{
+			if (a==1)
+				return 1;
+			var str=mac;
+			var str2="";
+			for (i=2;i<15;i+=3)
+			{			
+				str2="";
+				if (mac.charAt(i)=='-')
+					str = str2.concat(str.slice(0,i),":",str.substr((i+1)));
+			}			
+			if(check_mac_filter(str,1))
+				return 2;
+			else
+				return 3;
+		}
+	}
+	else
+	 return 1;
+	
+	
+	return 0;
+}
+
+function init_table()
+{
+	var date0="<%GetString("ECO","15");%>";
+	var date1="<%GetString("ECO","16");%>";
+	var date2="<%GetString("ECO","17");%>";
+	var date3="<%GetString("ECO","18");%>";
+	var date4="<%GetString("ECO","19");%>";
+	var date5="<%GetString("ECO","20");%>";
+	var date6="<%GetString("ECO","21");%>";
+	var i;
+	for (i=0;i<7;i++)
+		document.getElementById("s_week_"+i).checked=false;
+		
+		
+	document.getElementById("id_add_access_start_time").value="0";
+	document.getElementById("id_add_access_end_time").value="1";	
+	document.getElementById("id_add_status_mode").value="1";	
+
+	//Sun
+	str_sun = "<table><tr>";
+	
+	if ('<%NvramGet("language_type");%>' == '1')
+		str_sun += "<td class=\"date_Thai\"><span style=\"color:#ff0000;\">" + date0 + "</span></td>";
+	
+	else
+		str_sun += "<td class=\"date\"><span style=\"color:#ff0000;\">" + date0 + "</span></td>";	
+
+	for (i=0 ; i<24; i++)			
+		str_sun += "<td id=\"id_Permitted_time_" + i +"_0\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+	
+	str_sun += "</tr></table>";
+	
+	//Mon
+	str_mon = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1')
+		str_mon += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date1 + "</span></td>";
+	
+	else
+		str_mon += "<td class=\"date\"><span style=\"color:#000000;\">" + date1 + "</span></td>";	
+
+	for (i=0 ; i<24; i++)			
+		str_mon += "<td id=\"id_Permitted_time_" + i +"_1\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";		
+	
+	str_mon += "</tr></table>";
+
+	//Tue
+	str_tue = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1')
+		str_tue += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date2 + "</span></td>";
+	
+	else
+		str_tue += "<td class=\"date\"><span style=\"color:#000000;\">" + date2 + "</span></td>";
+	
+	for (i=0 ; i<24; i++)
+		str_tue += "<td id=\"id_Permitted_time_" + i +"_2\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+	
+	str_tue += "</tr></table>";
+
+	//Wed
+	str_wed = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1')
+		str_wed += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date3 + "</span></td>";
+	
+	else
+		str_wed += "<td class=\"date\"><span style=\"color:#000000;\">" + date3 + "</span></td>";
+	
+	for (i=0 ; i<24; i++)
+		str_wed += "<td id=\"id_Permitted_time_" + i +"_3\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+	
+	str_wed += "</tr></table>";
+
+	//Thu
+	str_thu = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1')
+		str_thu += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date4 + "</span></td>";
+	
+	else
+		str_thu += "<td class=\"date\"><span style=\"color:#000000;\">" + date4 + "</span></td>";
+	
+	for (i=0 ; i<24; i++)	
+		str_thu += "<td id=\"id_Permitted_time_" + i +"_4\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		
+	str_wed += "</tr></table>";
+
+	//Fri
+	str_fri = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1')
+		str_fri += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date5 + "</span></td>";
+	
+	else
+		str_fri += "<td class=\"date\"><span style=\"color:#000000;\">" + date5 + "</span></td>";
+	
+
+	for (i=0 ; i<24; i++)	
+		str_fri += "<td id=\"id_Permitted_time_" + i +"_5\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		
+	str_fri += "</tr></table>";
+
+	//Sat
+	str_sat = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1')
+		str_sat += "<td class=\"date_Thai\"><span style=\"color:#46A3FF;\">" + date6 + "</span></td>";
+	
+	else
+		str_sat += "<td class=\"date\"><span style=\"color:#46A3FF;\">" + date6 + "</span></td>";
+	
+	for (i=0 ; i<24; i++)	
+		str_sat += "<td id=\"id_Permitted_time_" + i +"_6\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		
+	
+	str_sat += "</tr></table>";
+
+	document.getElementById('sun').innerHTML = str_sun;
+	document.getElementById('mon').innerHTML = str_mon;
+	document.getElementById('tue').innerHTML = str_tue;
+	document.getElementById('wed').innerHTML = str_wed;
+	document.getElementById('thu').innerHTML = str_thu;
+	document.getElementById('fri').innerHTML = str_fri;
+	document.getElementById('sat').innerHTML = str_sat;
+}
+
+var save_id;
+
+function Add()
+{
+	document.getElementById("id_Access_check").style.display="none";
+	document.getElementById("id_Add_page_button").style.display="none";
+	document.getElementById("id_access_apply").style.display="none";
+	document.getElementById("id_MAC_lists").style.display="none";
+	document.getElementById("id_add_access").style.display="";
+	document.getElementById("id_target_com").style.display="";
+	document.getElementById("id_access_time").style.display="";
+	document.getElementById("id_NTP_item").style.display="";		
+	document.getElementById("id_Add").style.display="";		
+	document.getElementById("id_Cancel").style.display="";		
+	document.getElementById("id_Save_edit").style.display="none";		
+	document.getElementById("id_Cancel_edit").style.display="none";		
+	document.getElementById("id_input_mac").value = "";
+	document.getElementById("id_add_status_mode").value = 1;
+	document.getElementById("id_add_access_end_time").value = 1;
+	document.getElementById("id_add_delete_item").value = "1";
+	err_clear();
+	init_table();
+	
+	SetCwinHeight();
+}
+
+function schedule_table(id){
+	
+	var date0="<%GetString("ECO","15");%>";
+	var date1="<%GetString("ECO","16");%>";
+	var date2="<%GetString("ECO","17");%>";
+	var date3="<%GetString("ECO","18");%>";
+	var date4="<%GetString("ECO","19");%>";
+	var date5="<%GetString("ECO","20");%>";
+	var date6="<%GetString("ECO","21");%>";
+	
+	
+	//Sun
+	str_sun = "<table><tr>";
+	
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_sun += "<td class=\"date_Thai\"><span style=\"color:#ff0000;\">" + date0 + "</span></td>";
+	}
+	else{
+		str_sun += "<td class=\"date\"><span style=\"color:#ff0000;\">" + date0 + "</span></td>";
+	}
+	
+	for (i=0 ; i<24; i++)
+	{
+		if(document.getElementById("id_Access_Control_Sche_0_" + id).value.charAt(i) == '0'){
+			str_sun += "<td id=\"id_Permitted_time_" + i +"_0\" class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}		
+		else{
+			str_sun += "<td id=\"id_Permitted_time_" + i +"_0\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_sun += "</tr></table>";
+	
+	//Mon
+	str_mon = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_mon += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date1 + "</span></td>";
+	}
+	else{
+		str_mon += "<td class=\"date\"><span style=\"color:#000000;\">" + date1 + "</span></td>";
+	}
+	
+	for (i=0 ; i<24; i++)
+	{
+		if(document.getElementById("id_Access_Control_Sche_1_" + id).value.charAt(i) == '0'){
+			str_mon += "<td id=\"id_Permitted_time_" + i +"_1\" class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}		
+		else{
+			str_mon += "<td id=\"id_Permitted_time_" + i +"_1\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_mon += "</tr></table>";
+
+	//Tue
+	str_tue = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_tue += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date2 + "</span></td>";
+	}
+	else{
+		str_tue += "<td class=\"date\"><span style=\"color:#000000;\">" + date2 + "</span></td>";
+	}
+
+	for (i=0 ; i<24; i++)
+	{
+		if(document.getElementById("id_Access_Control_Sche_2_" + id).value.charAt(i) == '0'){
+			str_tue += "<td id=\"id_Permitted_time_" + i +"_2\" class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}		
+		else{
+			str_tue += "<td id=\"id_Permitted_time_" + i +"_2\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_tue += "</tr></table>";
+
+	//Wed
+	str_wed = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_wed += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date3 + "</span></td>";
+	}
+	else{
+		str_wed += "<td class=\"date\"><span style=\"color:#000000;\">" + date3 + "</span></td>";
+	}
+
+	for (i=0 ; i<24; i++)
+	{
+		if(document.getElementById("id_Access_Control_Sche_3_" + id).value.charAt(i) == '0'){
+			str_wed += "<td id=\"id_Permitted_time_" + i +"_3\" class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}		
+		else{
+			str_wed += "<td id=\"id_Permitted_time_" + i +"_3\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_wed += "</tr></table>";
+
+	//Thu
+	str_thu = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_thu += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date4 + "</span></td>";
+	}
+	else{
+		str_thu += "<td class=\"date\"><span style=\"color:#000000;\">" + date4 + "</span></td>";
+	}
+
+	for (i=0 ; i<24; i++)
+	{
+		if(document.getElementById("id_Access_Control_Sche_4_" + id).value.charAt(i) == '0'){
+			str_thu += "<td id=\"id_Permitted_time_" + i +"_4\" class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}		
+		else{
+			str_thu += "<td id=\"id_Permitted_time_" + i +"_4\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_wed += "</tr></table>";
+
+	//Fri
+	str_fri = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_fri += "<td class=\"date_Thai\"><span style=\"color:#000000;\">" + date5 + "</span></td>";
+	}
+	else{
+		str_fri += "<td class=\"date\"><span style=\"color:#000000;\">" + date5 + "</span></td>";
+	}
+
+	for (i=0 ; i<24; i++)
+	{
+		if(document.getElementById("id_Access_Control_Sche_5_" + id).value.charAt(i) == '0'){
+			str_fri += "<td id=\"id_Permitted_time_" + i +"_5\" class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}		
+		else{
+			str_fri += "<td id=\"id_Permitted_time_" + i +"_5\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_fri += "</tr></table>";
+
+	//Sat
+	str_sat = "<table><tr>";
+
+	if ('<%NvramGet("language_type");%>' == '1'){
+		str_sat += "<td class=\"date_Thai\"><span style=\"color:#46A3FF;\">" + date6 + "</span></td>";
+	}
+	else{
+		str_sat += "<td class=\"date\"><span style=\"color:#46A3FF;\">" + date6 + "</span></td>";
+	}
+
+	for (i=0 ; i<24; i++)
+	{
+		if(document.getElementById("id_Access_Control_Sche_6_" + id).value.charAt(i) == '0'){
+			str_sat += "<td id=\"id_Permitted_time_" + i +"_6\" class=\"sch_color\" style=\"background-color:#DDDDDD;\"></td>";
+		}		
+		else{
+			str_sat += "<td id=\"id_Permitted_time_" + i +"_6\" class=\"sch_color\" style=\"background-color:#7CFC00;\"></td>";
+		}
+	}
+	str_sat += "</tr></table>";
+
+	document.getElementById('sun').innerHTML = str_sun;
+	document.getElementById('mon').innerHTML = str_mon;
+	document.getElementById('tue').innerHTML = str_tue;
+	document.getElementById('wed').innerHTML = str_wed;
+	document.getElementById('thu').innerHTML = str_thu;
+	document.getElementById('fri').innerHTML = str_fri;
+	document.getElementById('sat').innerHTML = str_sat;
+}
+
+function table_init()
+{
+	document.getElementById("id_add_access_start_time").value="0";
+	document.getElementById("id_add_access_end_time").value="1";	
+	document.getElementById("id_add_status_mode").value="1";	
+	for (i=0;i<7;i++)
+		document.getElementById("s_week_"+i).checked=false;
+}
+
+function Edit_Access_Time()
+{
+	var i;
+	var j;
+	var flg = 0;
+	var srt;
+	var srt1;
+	var srt2;
+	var start_time = parseInt(document.getElementById("id_add_access_start_time").value,10);
+	var end_time = parseInt(document.getElementById("id_add_access_end_time").value,10);
+	var person;
+	
+	if (document.getElementById('id_add_delete_item').value == "0")
+	{			
+		
+		person = save_id;
+		person = parseInt(person);
+		person--;
+		person.toString();	
+	}	
+	else
+	{		
+		person = "<%NvramGet("Access_Control_MAC_Num");%>";
+	}	
+	
+	err_clear();
+	
+	if (start_time == end_time)
+	{
+		document.getElementById("id_same_time").style.display="";
+		table_init();
+		return ;
+	}
+	
+	for (i=0;i<7;i++)
+		if (document.getElementById("s_week_"+i).checked==true)
+		{
+			flg = 1;
+			break;
+		}	
+	if (flg == 0)
+	{
+		document.getElementById("id_no_day").style.display="";
+		table_init();
+		return ;
+	}		
+	
+	
+	if (document.getElementById("id_add_status_mode").value==0)//access
+	{
+		for (i=0;i<7;i++)
+		{			
+			if (document.getElementById("s_week_"+i).checked==true)
+			{				
+				if (start_time < end_time)
+				{											
+					str1="";
+					str="";
+					for (j=start_time;j<end_time;j++)
+					{
+						document.getElementById("id_Permitted_time_"+j+"_"+i).style.backgroundColor="#7CFC00";						
+						str1 = str.concat("1");
+						str=str1;
+					}						
+					str = document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value;					
+					str2="";
+					str2=str2.concat(str.substr(0,start_time),str1,str.substr(end_time,23));				
+					document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value = str2;
+				}
+				else if (start_time > end_time)	
+				{
+					str1="";
+					str="";
+					for (j=start_time;j<24;j++)
+					{
+						document.getElementById("id_Permitted_time_"+j+"_"+i).style.backgroundColor="#7CFC00";		
+						str1 = str.concat("1");
+						str=str1;
+					}	
+					str = document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value;					
+					str2="";
+					str2=str2.concat(str.substr(0,start_time),str1);				
+					document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value = str2;
+					
+					var tmp_i = (i+1)%7;
+					str1="";
+					str="";
+					for (j=0;j<end_time;j++)
+					{
+						document.getElementById("id_Permitted_time_"+j+"_"+tmp_i).style.backgroundColor="#7CFC00";	
+						str1 = str.concat("1");
+						str=str1;					
+					}	
+					str = document.getElementById("id_Access_Control_Sche_"+tmp_i+"_"+person).value;					
+					str2="";
+					str2=str2.concat(str1,str.substr(end_time,23));				
+					document.getElementById("id_Access_Control_Sche_"+tmp_i+"_"+person).value = str2;
+				}
+			}			
+		}
+	}	
+	else//not access
+	{
+		for (i=0;i<7;i++)
+		{			
+			if (document.getElementById("s_week_"+i).checked==true)
+			{									
+				if (start_time < end_time)
+				{							
+					str1="";
+					str="";
+					for (j=start_time;j<end_time;j++)
+					{
+						document.getElementById("id_Permitted_time_"+j+"_"+i).style.backgroundColor="#DDDDDD";						
+						str1 = str.concat("0");
+						str=str1;
+					}						
+					str = document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value;					
+					str2="";
+					str2=str2.concat(str.substr(0,start_time),str1,str.substr(end_time,23));	
+					document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value = str2;
+				}
+				else if (start_time > end_time)	
+				{		
+					str1="";
+					str="";
+					for (j=start_time;j<24;j++)
+					{
+						document.getElementById("id_Permitted_time_"+j+"_"+i).style.backgroundColor="#DDDDDD";		
+						str1 = str.concat("0");
+						str=str1;
+					}	
+					str = document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value;					
+					str2="";
+					str2=str2.concat(str.substr(0,start_time),str1);				
+					document.getElementById("id_Access_Control_Sche_"+i+"_"+person).value = str2;
+					
+					var tmp_i = (i+1)%7;
+					str1="";
+					str="";
+					for (j=0;j<end_time;j++)
+					{
+						document.getElementById("id_Permitted_time_"+j+"_"+tmp_i).style.backgroundColor="#DDDDDD";	
+						str1 = str.concat("0");
+						str=str1;					
+					}	
+					str = document.getElementById("id_Access_Control_Sche_"+tmp_i+"_"+person).value;					
+					str2="";
+					str2=str2.concat(str1,str.substr(end_time,23));				
+					document.getElementById("id_Access_Control_Sche_"+tmp_i+"_"+person).value = str2;
+				}	
+			}			
+		}
+	}		
+	table_init();
+	SetCwinHeight();	
+}
+
+function check_mac_exist_add(mac)
+{
+	var i;
+	var mac_num=parseInt(<%NvramGet("Access_Control_MAC_Num");%>,10);
+	
+	
+	for (i=1;i<=mac_num;i++)
+	{		
+		if(document.getElementById("mac_text"+i).textContent == mac)
+			return true;
+	}		
+	
+	return false;
+}
+
+function AddDoSubmit()
+{
+	var mac = document.getElementById("id_input_mac").value	;	
+	document.getElementById("id_input_mac").value = mac = change_mac(mac);
+	document.getElementById("id_input_mac").value = mac = change_mac_symbol(mac);
+	var err_flag = 0;
+	
+	err_clear();
+	
+	if (document.getElementById("id_input_mac").value.length == 0 && err_flag==0) //no MAC
+	{	
+		document.getElementById("id_no_conf").style.display="";
+		err_flag = 1;
+	}	
+		
+	var a = check_mac_filter(mac,0);	
+	if (a && err_flag==0)	//err mac
+	{		
+		if (a==1)
+			document.getElementById("id_wrong_mac").style.display="";
+		else if (a==2)
+			document.getElementById("id_wrong_char").style.display="";
+		else
+			document.getElementById("id_wrong_mac_addr").style.display="";
+		err_flag = 1;
+	}	
+	
+	if (check_mac_exist_add(mac) && err_flag==0) //same MAC
+	{
+		document.getElementById("id_same_name_reg").style.display="";
+		err_flag = 1;
+	}
+	
+	if ('<%NvramGet("Access_Control_MAC_Num");%>' == "20" && err_flag==0) //MAX MAC NUM
+	{
+		document.getElementById("id_too_many_reg").style.display="";
+		err_flag = 1;
+	}
+	
+	if (err_flag)
+		SetCwinHeight();	
+	else
+	{
+		document.getElementById("id_add_item").value = "1";
+		YAHOO.util.Connect.setForm('access_nosave_form'); 
+		YAHOO.util.Connect.asyncRequest('POST','access_control.html'+'?timestampt='+new Date().toString(),oCallback);	
+	}	
+		
+	
+}
+
+
+function MacEdit(id)
+{	
+	document.getElementById("id_Access_check").style.display="none";
+	document.getElementById("id_Add_page_button").style.display="none";
+	document.getElementById("id_access_apply").style.display="none";
+	document.getElementById("id_MAC_lists").style.display="none";
+	document.getElementById("id_edit_access").style.display="";
+	document.getElementById("id_target_com").style.display="";
+	document.getElementById("id_access_time").style.display="";
+	document.getElementById("id_NTP_item").style.display="";	
+	document.getElementById("id_Add").style.display="none";		
+	document.getElementById("id_Cancel").style.display="none";		
+	document.getElementById("id_Save_edit").style.display="";		
+	document.getElementById("id_Cancel_edit").style.display="";		
+	document.getElementById("id_add_status_mode").value = 1;
+	document.getElementById("id_add_access_end_time").value = 1;	
+	document.getElementById("id_add_delete_item").value = "0";
+	document.getElementById("id_input_mac").value = document.getElementById("mac_text"+id).textContent;
+	save_id = id;
+	var str1 = "Access_Control_MAC_";
+	id = parseInt(id,10);
+	id--;
+	id = id.toString();
+	str1 = str1 + id;	
+	
+	err_clear();
+	init_table();	
+	schedule_table(id);
+	SetCwinHeight();
+}
+
+function MacDelete(id)
+{
+	document.getElementById("id_delete_item").value = id;
+	YAHOO.util.Connect.setForm('access_nosave_form'); 
+	YAHOO.util.Connect.asyncRequest('POST','access_control.html'+'?timestampt='+new Date().toString(),oCallback);	
+}
+
+function check_mac_exist_edit(mac,id)
+{
+	var i;
+	var mac_num=parseInt(<%NvramGet("Access_Control_MAC_Num");%>,10);
+	
+	
+	for (i=1;i<=mac_num;i++)
+	{		
+		if (i==id)
+			continue;
+		if(document.getElementById("mac_text"+i).textContent == mac)
+			return true;
+	}		
+	
+	return false;
+}
+
+
+function SaveDoSubmit()
+{
+	var mac = document.getElementById("id_input_mac").value	;	
+	document.getElementById("id_input_mac").value = mac = change_mac(mac);
+	document.getElementById("id_input_mac").value = mac = change_mac_symbol(mac);
+	var err_flag = 0;
+	
+	err_clear();
+	
+	if (document.getElementById("id_input_mac").value.length == 0 && err_flag==0)
+	{	
+		document.getElementById("id_no_conf").style.display="";
+		err_flag = 1;
+	}	
+	var a = check_mac_filter(mac,0);
+	if (a && err_flag==0)	
+	{		
+		if (a==1)
+			document.getElementById("id_wrong_mac").style.display="";
+		else if (a==2)
+			document.getElementById("id_wrong_char").style.display="";
+		else
+			document.getElementById("id_wrong_mac_addr").style.display="";
+		err_flag = 1;
+	}	
+	
+	if (check_mac_exist_edit(mac,save_id) && err_flag==0)
+	{
+		document.getElementById("id_same_name_reg").style.display="";
+		err_flag = 1;
+	}
+	
+	if ('<%NvramGet("Access_Control_MAC_Num");%>' == "5" && err_flag==0)
+	{
+		document.getElementById("id_too_many_reg").style.display="";
+		err_flag = 1;
+	}
+	
+	if (err_flag)
+		SetCwinHeight();	
+	else
+	{	
+		document.getElementById("id_edit_item").value = save_id;
+		YAHOO.util.Connect.setForm('access_nosave_form'); 
+		YAHOO.util.Connect.asyncRequest('POST','access_control.html'+'?timestampt='+new Date().toString(),oCallback);	
+	}	
+}
+
+function Cancel()
+{
+	document.getElementById("id_Access_check").style.display="";
+	document.getElementById("id_Add_page_button").style.display="";
+	document.getElementById("id_access_apply").style.display="";
+	document.getElementById("id_MAC_lists").style.display="";
+	document.getElementById("id_add_access").style.display="none";
+	document.getElementById("id_edit_access").style.display="none";
+	document.getElementById("id_target_com").style.display="none";
+	document.getElementById("id_access_time").style.display="none";
+	document.getElementById("id_NTP_item").style.display="none";
+	err_clear();
+	
+	SetCwinHeight();
+}
+
+function stop_enter(e) {
+    if (e.keyCode == 13) {       
+        return false;
+    }
+}
+
+function Apply()
+{	
+	if (document.getElementById("AccessEnable2").checked == true)
+		document.getElementById("AccessEnable2_tmp").value = "on";
+	else
+		document.getElementById("AccessEnable2_tmp").value = "off";
+	
+	YAHOO.util.Connect.setForm('access_check_form'); 
+    YAHOO.util.Connect.asyncRequest('POST','access_control.html'+'?timestampt='+new Date().toString(),oCallback);	
+}
+
+function init_item_val()
+{
+	document.getElementById("id_add_item").value = "0";
+	document.getElementById("id_edit_item").value = "0";
+	document.getElementById("id_delete_item").value = "0";
+}
+
+function init()
+{
+	top.dispWaiting(false);
+	document.getElementById("id_main").style.display = "block"; 
+	init_table();
+	init_item_val();
+}
+
+</script>
+
+</head>
+<body class="BFK_BODY" id="id_main" onload="init();">
+<br>
+<form method="POST" name="access_check_form">
+
+	<div id="id_no_conf" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","280");%><br>
+		<%GetString("NewUI","281");%><hr>
+	</div>
+
+	<div id="id_wrong_mac" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","282");%><br>
+		<%GetString("NewUI","283");%><hr>
+	</div>
+	<div id="id_wrong_char" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","282");%><br>
+		<%GetString("Dmz","12");%><hr>
+	</div>
+	<div id="id_wrong_mac_addr" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","282");%><br>
+		<%GetString("Wan","47");%><hr>
+	</div>
+
+	<div id="id_same_time" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","290");%><hr>
+	</div>
+
+	<div id="id_same_name_reg" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","291");%><hr>
+	</div>
+
+	<div id="id_too_many_reg" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","292");%><hr>
+	</div>
+
+	<div id="id_no_day" class="C_ERR" style="display: none;">
+		<hr><%GetString("NewUI","293");%><hr>
+	</div>
+
+
+	<div id="id_Access_check" style="display: block;">
+		<table class="AD_SET">
+			<tr>
+				<th><%GetString("NewUI","277");%></th>
+				<td>
+					<input type="checkbox" id="AccessEnable2" name="AccessEnable" <%NvramMatch("Access_Control_Check","1","checked");%> ><%GetString("ECO","13");%>
+					<input type="hidden" id ="AccessEnable2_tmp" name="AccessEnable_tmp"   value="">					
+				</td>
+			</tr>
+		</table>  
+	</div>
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" name="access_nosave_form">
+<table class="AD_LIST" id = "id_MAC_lists">
+    		<tr>
+    			<th><%GetString("MacReg",5);%></th>
+    			<th><%GetString("NewUI",100);%></th>
+				<th><%GetString("NewUI",216);%></th>
+    		</tr>
+			
+    <%GetAccessMACList("list");%>	
+</table>
+
+
+
+<input id="id_Add_page_button" type="button" value="<%GetString("ECO","28");%>" onClick="Add();">
+
+<table class="AD_TTL2" style="display: none;" id = "id_add_access">
+	<tbody>
+		<tr>
+			<td><%GetString("NewUI","284");%></td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="AD_TTL2" style="display: none;" id = "id_edit_access">
+	<tbody>
+		<tr>
+			<td><%GetString("NewUI","289");%></td>
+		</tr>
+	</tbody>
+</table>
+<br/>
+
+
+
+<div id="id_target_com" style="display: none;">
+	<table class="AD_SET">
+		<tbody>
+			<tr>
+				<th><%GetString("NewUI","285");%></th>
+				<td>
+					<input id="id_input_mac" type="text" value="" maxlength="17" size="30" name="Access_Control_MAC" onkeypress="return stop_enter(event)">					
+				</td>
+			</tr>		
+		</tbody>
+	</table>
+</div>
+<br/>
+
+
+<div id="id_access_time" style="display: none;">
+	<table class="AD_TTL2"  >
+		<tbody>
+			<tr>
+				<td><%GetString("NewUI","44");%></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table width="625px" background="images/picture_access.png">
+		<tr>
+			<td>
+				<table><tr height="20px"><td></td></tr></table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="sun"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="mon"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="tue"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="wed"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="thu"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="fri"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div id="sat"></div>
+			</td>
+		</tr>
+  </table>
+  
+  <table width="350px">
+	<tr height="20px"><td></td></tr>
+	<tr>
+		<td class="text"><div>&nbsp;</div></td>
+		<td class="mark" style="background-color:#7CFC00;"></td>
+		<td class="mark_text"><%GetString("NewUI","286");%></td>
+		<td class="mark" style="background-color:#DDDDDD;"></td>
+		<td class="mark_text"><%GetString("NewUI","287");%></td>		
+	</tr>
+	<tr height="20px"><td></td></tr>
+  </table>
+</div> 
+
+<div id="id_NTP_item" style="display: none;">
+<table class="AD_TTL2">
+	<tbody>
+	<tr>
+		<td><%GetString("MacReg","26");%></td>
+	</tr>
+	</tbody>
+</table>
+<br/>
+
+  <table class="AD_SET">
+	<tr>
+      <th><%GetString("NewUI","100");%></th>
+      <td>
+		<table>
+			<tr>				
+				<td>
+			        <select size="1" name="add_status_mode" id="id_add_status_mode">
+			          <option value="0"><%GetString("NewUI","286");%></option>
+			          <option value="1"><%GetString("NewUI","287");%></option>					  
+			        </select>
+				</td>
+			</tr>
+		</table>
+		</td>	
+		<tr>
+		<th><%GetString("ECO","5");%></th>
+	    <td>
+		<table>	
+			<tr>				
+				<td>
+			        <select size="1" name="add_access_start_time" id="id_add_access_start_time">
+			          <option value="0">&nbsp;0:00</option>			          
+					  <option value="1">&nbsp;1:00</option>					  
+					  <option value="2">&nbsp;2:00</option>					  
+					  <option value="3">&nbsp;3:00</option>					  
+					  <option value="4">&nbsp;4:00</option>					  
+					  <option value="5">&nbsp;5:00</option>					  
+					  <option value="6">&nbsp;6:00</option>					  
+					  <option value="7">&nbsp;7:00</option>					  
+					  <option value="8">&nbsp;8:00</option>					  
+					  <option value="9">&nbsp;9:00</option>					  
+					  <option value="10">10:00</option>					 
+					  <option value="11">11:00</option>					  
+					  <option value="12">12:00</option>					  
+					  <option value="13">13:00</option>					  
+					  <option value="14">14:00</option>					  
+					  <option value="15">15:00</option>					  
+					  <option value="16">16:00</option>					  
+					  <option value="17">17:00</option>					  
+					  <option value="18">18:00</option>					  
+					  <option value="19">19:00</option>					
+					  <option value="20">20:00</option>					  
+					  <option value="21">21:00</option>					  
+					  <option value="22">22:00</option>					  
+					  <option value="23">23:00</option>					 
+					  <option value="24" style="display: none;">24:00</option>					 
+			        </select>
+			    </td>
+			</tr>
+		</table>
+	  </td>
+	  <tr>
+	  <th><%GetString("ECO","6");%></th>
+	  <td>
+		<table>	
+			<tr>				
+				<td>
+			        <select size="1" name="add_access_end_time" id="id_add_access_end_time">
+			          <option value="0" style="display: none;">&nbsp;0:00</option>			          
+					  <option value="1">&nbsp;1:00</option>					  
+					  <option value="2">&nbsp;2:00</option>					  
+					  <option value="3">&nbsp;3:00</option>					  
+					  <option value="4">&nbsp;4:00</option>					  
+					  <option value="5">&nbsp;5:00</option>					  
+					  <option value="6">&nbsp;6:00</option>					  
+					  <option value="7">&nbsp;7:00</option>					  
+					  <option value="8">&nbsp;8:00</option>					  
+					  <option value="9">&nbsp;9:00</option>					  
+					  <option value="10">10:00</option>					 
+					  <option value="11">11:00</option>					  
+					  <option value="12">12:00</option>					  
+					  <option value="13">13:00</option>					  
+					  <option value="14">14:00</option>					  
+					  <option value="15">15:00</option>					  
+					  <option value="16">16:00</option>					  
+					  <option value="17">17:00</option>					  
+					  <option value="18">18:00</option>					  
+					  <option value="19">19:00</option>					
+					  <option value="20">20:00</option>					  
+					  <option value="21">21:00</option>					  
+					  <option value="22">22:00</option>					  
+					  <option value="23">23:00</option>
+					  <option value="24">24:00</option>
+			        </select>
+				</td>
+		    </tr>
+			<tr><td>&nbsp</td></tr>
+		  </table>
+		</td>	
+		<tr>
+		<th><%GetString("Date","4");%></th>
+		<td>
+		  <table>
+			<tr>				
+				<td>
+			        <table>
+						<tr>
+							<td align="center"><font color="red"><%GetString("ECO","15");%></font></td>
+							<td align="center"><%GetString("ECO","16");%></td>
+							<td align="center"><%GetString("ECO","17");%></td>
+							<td align="center"><%GetString("ECO","18");%></td>
+							<td align="center"><%GetString("ECO","19");%></td>
+							<td align="center"><%GetString("ECO","20");%></td>
+							<td align="center"><%GetString("ECO","21");%></td>
+						</font></tr>
+						<tr>
+							<td align="center"><input type="checkbox" name="s_sun" id="s_week_0" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_mon" id="s_week_1" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_tue" id="s_week_2" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_wed" id="s_week_3" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_thu" id="s_week_4" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_fri" id="s_week_5" value="1"></td>
+							<td align="center"><input type="checkbox" name="s_sat" id="s_week_6" value="1"></td>
+						</tr>
+					</table>
+				</td>
+		    </tr>
+		</table>
+	  </td>
+    </tr>
+  </table>
+  <input type="button" value="<%GetString("NewUI","288");%>" id="id_Eidt_time" onClick="Edit_Access_Time();"><br/><br/>
+  <input type="button" value="<%GetString("ECO","28");%>" id="id_Add" onClick="AddDoSubmit();" style="display: none;">
+  <input type="button" value="<%GetString("NewUI","245");%>" id="id_Cancel" onClick="Cancel();" style="display: none;"> 
+  <input type="button" value="<%GetString("DhcpsLease","5");%>" id="id_Save_edit" onClick="SaveDoSubmit();" style="display: none;">
+  <input type="button" value="<%GetString("NewUI","214");%>" id="id_Cancel_edit" onClick="Cancel();" style="display: none;">  
+    <br/>  
+  <br><br>  
+</div>
+
+<input type="hidden" name="add_item" id="id_add_item" value="0">
+<input type="hidden" name="edit_item" id="id_edit_item" value="0">
+<input type="hidden" name="delete_item" id="id_delete_item" value="0">
+<input type="hidden" name="add_delete_item" id="id_add_delete_item" value="0">
+  
+
+
+<input type="hidden" name="Access_Control_Sche_0_0"   id = "id_Access_Control_Sche_0_0" value="<%NvramGet("Access_Control_Sche_0_0");%>">
+<input type="hidden" name="Access_Control_Sche_1_0"   id = "id_Access_Control_Sche_1_0" value="<%NvramGet("Access_Control_Sche_1_0");%>">
+<input type="hidden" name="Access_Control_Sche_2_0"   id = "id_Access_Control_Sche_2_0" value="<%NvramGet("Access_Control_Sche_2_0");%>">
+<input type="hidden" name="Access_Control_Sche_3_0"   id = "id_Access_Control_Sche_3_0" value="<%NvramGet("Access_Control_Sche_3_0");%>">
+<input type="hidden" name="Access_Control_Sche_4_0"   id = "id_Access_Control_Sche_4_0" value="<%NvramGet("Access_Control_Sche_4_0");%>">
+<input type="hidden" name="Access_Control_Sche_5_0"   id = "id_Access_Control_Sche_5_0" value="<%NvramGet("Access_Control_Sche_5_0");%>">
+<input type="hidden" name="Access_Control_Sche_6_0"   id = "id_Access_Control_Sche_6_0" value="<%NvramGet("Access_Control_Sche_6_0");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_1"   id = "id_Access_Control_Sche_0_1" value="<%NvramGet("Access_Control_Sche_0_1");%>">
+<input type="hidden" name="Access_Control_Sche_1_1"   id = "id_Access_Control_Sche_1_1" value="<%NvramGet("Access_Control_Sche_1_1");%>">
+<input type="hidden" name="Access_Control_Sche_2_1"   id = "id_Access_Control_Sche_2_1" value="<%NvramGet("Access_Control_Sche_2_1");%>">
+<input type="hidden" name="Access_Control_Sche_3_1"   id = "id_Access_Control_Sche_3_1" value="<%NvramGet("Access_Control_Sche_3_1");%>">
+<input type="hidden" name="Access_Control_Sche_4_1"   id = "id_Access_Control_Sche_4_1" value="<%NvramGet("Access_Control_Sche_4_1");%>">
+<input type="hidden" name="Access_Control_Sche_5_1"   id = "id_Access_Control_Sche_5_1" value="<%NvramGet("Access_Control_Sche_5_1");%>">
+<input type="hidden" name="Access_Control_Sche_6_1"   id = "id_Access_Control_Sche_6_1" value="<%NvramGet("Access_Control_Sche_6_1");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_2"   id = "id_Access_Control_Sche_0_2" value="<%NvramGet("Access_Control_Sche_0_2");%>">
+<input type="hidden" name="Access_Control_Sche_1_2"   id = "id_Access_Control_Sche_1_2" value="<%NvramGet("Access_Control_Sche_1_2");%>">
+<input type="hidden" name="Access_Control_Sche_2_2"   id = "id_Access_Control_Sche_2_2" value="<%NvramGet("Access_Control_Sche_2_2");%>">
+<input type="hidden" name="Access_Control_Sche_3_2"   id = "id_Access_Control_Sche_3_2" value="<%NvramGet("Access_Control_Sche_3_2");%>">
+<input type="hidden" name="Access_Control_Sche_4_2"   id = "id_Access_Control_Sche_4_2" value="<%NvramGet("Access_Control_Sche_4_2");%>">
+<input type="hidden" name="Access_Control_Sche_5_2"   id = "id_Access_Control_Sche_5_2" value="<%NvramGet("Access_Control_Sche_5_2");%>">
+<input type="hidden" name="Access_Control_Sche_6_2"   id = "id_Access_Control_Sche_6_2" value="<%NvramGet("Access_Control_Sche_6_2");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_3"   id = "id_Access_Control_Sche_0_3" value="<%NvramGet("Access_Control_Sche_0_3");%>">
+<input type="hidden" name="Access_Control_Sche_1_3"   id = "id_Access_Control_Sche_1_3" value="<%NvramGet("Access_Control_Sche_1_3");%>">
+<input type="hidden" name="Access_Control_Sche_2_3"   id = "id_Access_Control_Sche_2_3" value="<%NvramGet("Access_Control_Sche_2_3");%>">
+<input type="hidden" name="Access_Control_Sche_3_3"   id = "id_Access_Control_Sche_3_3" value="<%NvramGet("Access_Control_Sche_3_3");%>">
+<input type="hidden" name="Access_Control_Sche_4_3"   id = "id_Access_Control_Sche_4_3" value="<%NvramGet("Access_Control_Sche_4_3");%>">
+<input type="hidden" name="Access_Control_Sche_5_3"   id = "id_Access_Control_Sche_5_3" value="<%NvramGet("Access_Control_Sche_5_3");%>">
+<input type="hidden" name="Access_Control_Sche_6_3"   id = "id_Access_Control_Sche_6_3" value="<%NvramGet("Access_Control_Sche_6_3");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_4"   id = "id_Access_Control_Sche_0_4" value="<%NvramGet("Access_Control_Sche_0_4");%>">
+<input type="hidden" name="Access_Control_Sche_1_4"   id = "id_Access_Control_Sche_1_4" value="<%NvramGet("Access_Control_Sche_1_4");%>">
+<input type="hidden" name="Access_Control_Sche_2_4"   id = "id_Access_Control_Sche_2_4" value="<%NvramGet("Access_Control_Sche_2_4");%>">
+<input type="hidden" name="Access_Control_Sche_3_4"   id = "id_Access_Control_Sche_3_4" value="<%NvramGet("Access_Control_Sche_3_4");%>">
+<input type="hidden" name="Access_Control_Sche_4_4"   id = "id_Access_Control_Sche_4_4" value="<%NvramGet("Access_Control_Sche_4_4");%>">
+<input type="hidden" name="Access_Control_Sche_5_4"   id = "id_Access_Control_Sche_5_4" value="<%NvramGet("Access_Control_Sche_5_4");%>">
+<input type="hidden" name="Access_Control_Sche_6_4"   id = "id_Access_Control_Sche_6_4" value="<%NvramGet("Access_Control_Sche_6_4");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_5"   id = "id_Access_Control_Sche_0_5" value="<%NvramGet("Access_Control_Sche_0_5");%>">
+<input type="hidden" name="Access_Control_Sche_1_5"   id = "id_Access_Control_Sche_1_5" value="<%NvramGet("Access_Control_Sche_1_5");%>">
+<input type="hidden" name="Access_Control_Sche_2_5"   id = "id_Access_Control_Sche_2_5" value="<%NvramGet("Access_Control_Sche_2_5");%>">
+<input type="hidden" name="Access_Control_Sche_3_5"   id = "id_Access_Control_Sche_3_5" value="<%NvramGet("Access_Control_Sche_3_5");%>">
+<input type="hidden" name="Access_Control_Sche_4_5"   id = "id_Access_Control_Sche_4_5" value="<%NvramGet("Access_Control_Sche_4_5");%>">
+<input type="hidden" name="Access_Control_Sche_5_5"   id = "id_Access_Control_Sche_5_5" value="<%NvramGet("Access_Control_Sche_5_5");%>">
+<input type="hidden" name="Access_Control_Sche_6_5"   id = "id_Access_Control_Sche_6_5" value="<%NvramGet("Access_Control_Sche_6_5");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_6"   id = "id_Access_Control_Sche_0_6" value="<%NvramGet("Access_Control_Sche_0_6");%>">
+<input type="hidden" name="Access_Control_Sche_1_6"   id = "id_Access_Control_Sche_1_6" value="<%NvramGet("Access_Control_Sche_1_6");%>">
+<input type="hidden" name="Access_Control_Sche_2_6"   id = "id_Access_Control_Sche_2_6" value="<%NvramGet("Access_Control_Sche_2_6");%>">
+<input type="hidden" name="Access_Control_Sche_3_6"   id = "id_Access_Control_Sche_3_6" value="<%NvramGet("Access_Control_Sche_3_6");%>">
+<input type="hidden" name="Access_Control_Sche_4_6"   id = "id_Access_Control_Sche_4_6" value="<%NvramGet("Access_Control_Sche_4_6");%>">
+<input type="hidden" name="Access_Control_Sche_5_6"   id = "id_Access_Control_Sche_5_6" value="<%NvramGet("Access_Control_Sche_5_6");%>">
+<input type="hidden" name="Access_Control_Sche_6_6"   id = "id_Access_Control_Sche_6_6" value="<%NvramGet("Access_Control_Sche_6_6");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_7"   id = "id_Access_Control_Sche_0_7" value="<%NvramGet("Access_Control_Sche_0_7");%>">
+<input type="hidden" name="Access_Control_Sche_1_7"   id = "id_Access_Control_Sche_1_7" value="<%NvramGet("Access_Control_Sche_1_7");%>">
+<input type="hidden" name="Access_Control_Sche_2_7"   id = "id_Access_Control_Sche_2_7" value="<%NvramGet("Access_Control_Sche_2_7");%>">
+<input type="hidden" name="Access_Control_Sche_3_7"   id = "id_Access_Control_Sche_3_7" value="<%NvramGet("Access_Control_Sche_3_7");%>">
+<input type="hidden" name="Access_Control_Sche_4_7"   id = "id_Access_Control_Sche_4_7" value="<%NvramGet("Access_Control_Sche_4_7");%>">
+<input type="hidden" name="Access_Control_Sche_5_7"   id = "id_Access_Control_Sche_5_7" value="<%NvramGet("Access_Control_Sche_5_7");%>">
+<input type="hidden" name="Access_Control_Sche_6_7"   id = "id_Access_Control_Sche_6_7" value="<%NvramGet("Access_Control_Sche_6_7");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_8"   id = "id_Access_Control_Sche_0_8" value="<%NvramGet("Access_Control_Sche_0_8");%>">
+<input type="hidden" name="Access_Control_Sche_1_8"   id = "id_Access_Control_Sche_1_8" value="<%NvramGet("Access_Control_Sche_1_8");%>">
+<input type="hidden" name="Access_Control_Sche_2_8"   id = "id_Access_Control_Sche_2_8" value="<%NvramGet("Access_Control_Sche_2_8");%>">
+<input type="hidden" name="Access_Control_Sche_3_8"   id = "id_Access_Control_Sche_3_8" value="<%NvramGet("Access_Control_Sche_3_8");%>">
+<input type="hidden" name="Access_Control_Sche_4_8"   id = "id_Access_Control_Sche_4_8" value="<%NvramGet("Access_Control_Sche_4_8");%>">
+<input type="hidden" name="Access_Control_Sche_5_8"   id = "id_Access_Control_Sche_5_8" value="<%NvramGet("Access_Control_Sche_5_8");%>">
+<input type="hidden" name="Access_Control_Sche_6_8"   id = "id_Access_Control_Sche_6_8" value="<%NvramGet("Access_Control_Sche_6_8");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_9"   id = "id_Access_Control_Sche_0_9" value="<%NvramGet("Access_Control_Sche_0_9");%>">
+<input type="hidden" name="Access_Control_Sche_1_9"   id = "id_Access_Control_Sche_1_9" value="<%NvramGet("Access_Control_Sche_1_9");%>">
+<input type="hidden" name="Access_Control_Sche_2_9"   id = "id_Access_Control_Sche_2_9" value="<%NvramGet("Access_Control_Sche_2_9");%>">
+<input type="hidden" name="Access_Control_Sche_3_9"   id = "id_Access_Control_Sche_3_9" value="<%NvramGet("Access_Control_Sche_3_9");%>">
+<input type="hidden" name="Access_Control_Sche_4_9"   id = "id_Access_Control_Sche_4_9" value="<%NvramGet("Access_Control_Sche_4_9");%>">
+<input type="hidden" name="Access_Control_Sche_5_9"   id = "id_Access_Control_Sche_5_9" value="<%NvramGet("Access_Control_Sche_5_9");%>">
+<input type="hidden" name="Access_Control_Sche_6_9"   id = "id_Access_Control_Sche_6_9" value="<%NvramGet("Access_Control_Sche_6_9");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_10"   id = "id_Access_Control_Sche_0_10" value="<%NvramGet("Access_Control_Sche_0_10");%>">
+<input type="hidden" name="Access_Control_Sche_1_10"   id = "id_Access_Control_Sche_1_10" value="<%NvramGet("Access_Control_Sche_1_10");%>">
+<input type="hidden" name="Access_Control_Sche_2_10"   id = "id_Access_Control_Sche_2_10" value="<%NvramGet("Access_Control_Sche_2_10");%>">
+<input type="hidden" name="Access_Control_Sche_3_10"   id = "id_Access_Control_Sche_3_10" value="<%NvramGet("Access_Control_Sche_3_10");%>">
+<input type="hidden" name="Access_Control_Sche_4_10"   id = "id_Access_Control_Sche_4_10" value="<%NvramGet("Access_Control_Sche_4_10");%>">
+<input type="hidden" name="Access_Control_Sche_5_10"   id = "id_Access_Control_Sche_5_10" value="<%NvramGet("Access_Control_Sche_5_10");%>">
+<input type="hidden" name="Access_Control_Sche_6_10"   id = "id_Access_Control_Sche_6_10" value="<%NvramGet("Access_Control_Sche_6_10");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_11"   id = "id_Access_Control_Sche_0_11" value="<%NvramGet("Access_Control_Sche_0_11");%>">
+<input type="hidden" name="Access_Control_Sche_1_11"   id = "id_Access_Control_Sche_1_11" value="<%NvramGet("Access_Control_Sche_1_11");%>">
+<input type="hidden" name="Access_Control_Sche_2_11"   id = "id_Access_Control_Sche_2_11" value="<%NvramGet("Access_Control_Sche_2_11");%>">
+<input type="hidden" name="Access_Control_Sche_3_11"   id = "id_Access_Control_Sche_3_11" value="<%NvramGet("Access_Control_Sche_3_11");%>">
+<input type="hidden" name="Access_Control_Sche_4_11"   id = "id_Access_Control_Sche_4_11" value="<%NvramGet("Access_Control_Sche_4_11");%>">
+<input type="hidden" name="Access_Control_Sche_5_11"   id = "id_Access_Control_Sche_5_11" value="<%NvramGet("Access_Control_Sche_5_11");%>">
+<input type="hidden" name="Access_Control_Sche_6_11"   id = "id_Access_Control_Sche_6_11" value="<%NvramGet("Access_Control_Sche_6_11");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_12"   id = "id_Access_Control_Sche_0_12" value="<%NvramGet("Access_Control_Sche_0_12");%>">
+<input type="hidden" name="Access_Control_Sche_1_12"   id = "id_Access_Control_Sche_1_12" value="<%NvramGet("Access_Control_Sche_1_12");%>">
+<input type="hidden" name="Access_Control_Sche_2_12"   id = "id_Access_Control_Sche_2_12" value="<%NvramGet("Access_Control_Sche_2_12");%>">
+<input type="hidden" name="Access_Control_Sche_3_12"   id = "id_Access_Control_Sche_3_12" value="<%NvramGet("Access_Control_Sche_3_12");%>">
+<input type="hidden" name="Access_Control_Sche_4_12"   id = "id_Access_Control_Sche_4_12" value="<%NvramGet("Access_Control_Sche_4_12");%>">
+<input type="hidden" name="Access_Control_Sche_5_12"   id = "id_Access_Control_Sche_5_12" value="<%NvramGet("Access_Control_Sche_5_12");%>">
+<input type="hidden" name="Access_Control_Sche_6_12"   id = "id_Access_Control_Sche_6_12" value="<%NvramGet("Access_Control_Sche_6_12");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_13"   id = "id_Access_Control_Sche_0_13" value="<%NvramGet("Access_Control_Sche_0_13");%>">
+<input type="hidden" name="Access_Control_Sche_1_13"   id = "id_Access_Control_Sche_1_13" value="<%NvramGet("Access_Control_Sche_1_13");%>">
+<input type="hidden" name="Access_Control_Sche_2_13"   id = "id_Access_Control_Sche_2_13" value="<%NvramGet("Access_Control_Sche_2_13");%>">
+<input type="hidden" name="Access_Control_Sche_3_13"   id = "id_Access_Control_Sche_3_13" value="<%NvramGet("Access_Control_Sche_3_13");%>">
+<input type="hidden" name="Access_Control_Sche_4_13"   id = "id_Access_Control_Sche_4_13" value="<%NvramGet("Access_Control_Sche_4_13");%>">
+<input type="hidden" name="Access_Control_Sche_5_13"   id = "id_Access_Control_Sche_5_13" value="<%NvramGet("Access_Control_Sche_5_13");%>">
+<input type="hidden" name="Access_Control_Sche_6_13"   id = "id_Access_Control_Sche_6_13" value="<%NvramGet("Access_Control_Sche_6_13");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_14"   id = "id_Access_Control_Sche_0_14" value="<%NvramGet("Access_Control_Sche_0_14");%>">
+<input type="hidden" name="Access_Control_Sche_1_14"   id = "id_Access_Control_Sche_1_14" value="<%NvramGet("Access_Control_Sche_1_14");%>">
+<input type="hidden" name="Access_Control_Sche_2_14"   id = "id_Access_Control_Sche_2_14" value="<%NvramGet("Access_Control_Sche_2_14");%>">
+<input type="hidden" name="Access_Control_Sche_3_14"   id = "id_Access_Control_Sche_3_14" value="<%NvramGet("Access_Control_Sche_3_14");%>">
+<input type="hidden" name="Access_Control_Sche_4_14"   id = "id_Access_Control_Sche_4_14" value="<%NvramGet("Access_Control_Sche_4_14");%>">
+<input type="hidden" name="Access_Control_Sche_5_14"   id = "id_Access_Control_Sche_5_14" value="<%NvramGet("Access_Control_Sche_5_14");%>">
+<input type="hidden" name="Access_Control_Sche_6_14"   id = "id_Access_Control_Sche_6_14" value="<%NvramGet("Access_Control_Sche_6_14");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_15"   id = "id_Access_Control_Sche_0_15" value="<%NvramGet("Access_Control_Sche_0_15");%>">
+<input type="hidden" name="Access_Control_Sche_1_15"   id = "id_Access_Control_Sche_1_15" value="<%NvramGet("Access_Control_Sche_1_15");%>">
+<input type="hidden" name="Access_Control_Sche_2_15"   id = "id_Access_Control_Sche_2_15" value="<%NvramGet("Access_Control_Sche_2_15");%>">
+<input type="hidden" name="Access_Control_Sche_3_15"   id = "id_Access_Control_Sche_3_15" value="<%NvramGet("Access_Control_Sche_3_15");%>">
+<input type="hidden" name="Access_Control_Sche_4_15"   id = "id_Access_Control_Sche_4_15" value="<%NvramGet("Access_Control_Sche_4_15");%>">
+<input type="hidden" name="Access_Control_Sche_5_15"   id = "id_Access_Control_Sche_5_15" value="<%NvramGet("Access_Control_Sche_5_15");%>">
+<input type="hidden" name="Access_Control_Sche_6_15"   id = "id_Access_Control_Sche_6_15" value="<%NvramGet("Access_Control_Sche_6_15");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_16"   id = "id_Access_Control_Sche_0_16" value="<%NvramGet("Access_Control_Sche_0_16");%>">
+<input type="hidden" name="Access_Control_Sche_1_16"   id = "id_Access_Control_Sche_1_16" value="<%NvramGet("Access_Control_Sche_1_16");%>">
+<input type="hidden" name="Access_Control_Sche_2_16"   id = "id_Access_Control_Sche_2_16" value="<%NvramGet("Access_Control_Sche_2_16");%>">
+<input type="hidden" name="Access_Control_Sche_3_16"   id = "id_Access_Control_Sche_3_16" value="<%NvramGet("Access_Control_Sche_3_16");%>">
+<input type="hidden" name="Access_Control_Sche_4_16"   id = "id_Access_Control_Sche_4_16" value="<%NvramGet("Access_Control_Sche_4_16");%>">
+<input type="hidden" name="Access_Control_Sche_5_16"   id = "id_Access_Control_Sche_5_16" value="<%NvramGet("Access_Control_Sche_5_16");%>">
+<input type="hidden" name="Access_Control_Sche_6_16"   id = "id_Access_Control_Sche_6_16" value="<%NvramGet("Access_Control_Sche_6_16");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_17"   id = "id_Access_Control_Sche_0_17" value="<%NvramGet("Access_Control_Sche_0_17");%>">
+<input type="hidden" name="Access_Control_Sche_1_17"   id = "id_Access_Control_Sche_1_17" value="<%NvramGet("Access_Control_Sche_1_17");%>">
+<input type="hidden" name="Access_Control_Sche_2_17"   id = "id_Access_Control_Sche_2_17" value="<%NvramGet("Access_Control_Sche_2_17");%>">
+<input type="hidden" name="Access_Control_Sche_3_17"   id = "id_Access_Control_Sche_3_17" value="<%NvramGet("Access_Control_Sche_3_17");%>">
+<input type="hidden" name="Access_Control_Sche_4_17"   id = "id_Access_Control_Sche_4_17" value="<%NvramGet("Access_Control_Sche_4_17");%>">
+<input type="hidden" name="Access_Control_Sche_5_17"   id = "id_Access_Control_Sche_5_17" value="<%NvramGet("Access_Control_Sche_5_17");%>">
+<input type="hidden" name="Access_Control_Sche_6_17"   id = "id_Access_Control_Sche_6_17" value="<%NvramGet("Access_Control_Sche_6_17");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_18"   id = "id_Access_Control_Sche_0_18" value="<%NvramGet("Access_Control_Sche_0_18");%>">
+<input type="hidden" name="Access_Control_Sche_1_18"   id = "id_Access_Control_Sche_1_18" value="<%NvramGet("Access_Control_Sche_1_18");%>">
+<input type="hidden" name="Access_Control_Sche_2_18"   id = "id_Access_Control_Sche_2_18" value="<%NvramGet("Access_Control_Sche_2_18");%>">
+<input type="hidden" name="Access_Control_Sche_3_18"   id = "id_Access_Control_Sche_3_18" value="<%NvramGet("Access_Control_Sche_3_18");%>">
+<input type="hidden" name="Access_Control_Sche_4_18"   id = "id_Access_Control_Sche_4_18" value="<%NvramGet("Access_Control_Sche_4_18");%>">
+<input type="hidden" name="Access_Control_Sche_5_18"   id = "id_Access_Control_Sche_5_18" value="<%NvramGet("Access_Control_Sche_5_18");%>">
+<input type="hidden" name="Access_Control_Sche_6_18"   id = "id_Access_Control_Sche_6_18" value="<%NvramGet("Access_Control_Sche_6_18");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_19"   id = "id_Access_Control_Sche_0_19" value="<%NvramGet("Access_Control_Sche_0_19");%>">
+<input type="hidden" name="Access_Control_Sche_1_19"   id = "id_Access_Control_Sche_1_19" value="<%NvramGet("Access_Control_Sche_1_19");%>">
+<input type="hidden" name="Access_Control_Sche_2_19"   id = "id_Access_Control_Sche_2_19" value="<%NvramGet("Access_Control_Sche_2_19");%>">
+<input type="hidden" name="Access_Control_Sche_3_19"   id = "id_Access_Control_Sche_3_19" value="<%NvramGet("Access_Control_Sche_3_19");%>">
+<input type="hidden" name="Access_Control_Sche_4_19"   id = "id_Access_Control_Sche_4_19" value="<%NvramGet("Access_Control_Sche_4_19");%>">
+<input type="hidden" name="Access_Control_Sche_5_19"   id = "id_Access_Control_Sche_5_19" value="<%NvramGet("Access_Control_Sche_5_19");%>">
+<input type="hidden" name="Access_Control_Sche_6_19"   id = "id_Access_Control_Sche_6_19" value="<%NvramGet("Access_Control_Sche_6_19");%>">
+
+<input type="hidden" name="Access_Control_Sche_0_20"   id = "id_Access_Control_Sche_0_20" value="<%NvramGet("Access_Control_Sche_0_20");%>">
+<input type="hidden" name="Access_Control_Sche_1_20"   id = "id_Access_Control_Sche_1_20" value="<%NvramGet("Access_Control_Sche_1_20");%>">
+<input type="hidden" name="Access_Control_Sche_2_20"   id = "id_Access_Control_Sche_2_20" value="<%NvramGet("Access_Control_Sche_2_20");%>">
+<input type="hidden" name="Access_Control_Sche_3_20"   id = "id_Access_Control_Sche_3_20" value="<%NvramGet("Access_Control_Sche_3_20");%>">
+<input type="hidden" name="Access_Control_Sche_4_20"   id = "id_Access_Control_Sche_4_20" value="<%NvramGet("Access_Control_Sche_4_20");%>">
+<input type="hidden" name="Access_Control_Sche_5_20"   id = "id_Access_Control_Sche_5_20" value="<%NvramGet("Access_Control_Sche_5_20");%>">
+<input type="hidden" name="Access_Control_Sche_6_20"   id = "id_Access_Control_Sche_6_20" value="<%NvramGet("Access_Control_Sche_6_20");%>">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<div class="button22" id="id_access_apply" name="access_apply" onclick="Apply();">
+	<div class="button_text2"><%GetString("NAT","4");%></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<TITLE>AirStation Settings</TITLE>
+
+<script language="JavaScript">
+var err_item="<%GetString("Confirm","13");%>";
+var err_description="<%GetString("Confirm","14");%>";
+
+var BrowserDetect = {
+	init: function () {
+		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+		this.version = this.searchVersion(navigator.userAgent)
+			|| this.searchVersion(navigator.appVersion)
+			|| "an unknown version";
+		this.OS = this.searchString(this.dataOS) || "an unknown OS";
+	},
+	searchString: function (data) {
+		for (var i=0;i<data.length;i++)	{
+			var dataString = data[i].string;
+			var dataProp = data[i].prop;
+			this.versionSearchString = data[i].versionSearch || data[i].identity;
+			if (dataString) {
+				if (dataString.indexOf(data[i].subString) != -1){
+					if (data[i].identity == "Explorer")
+					{
+						return 2;
+					}
+					else{
+						return 1;
+					}
+				}
+			}
+			else if (dataProp)
+				return data[i].identity;
+		}
+	},
+	searchVersion: function (dataString) {
+		var index = dataString.indexOf(this.versionSearchString);
+		if (index == -1) return;
+		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+	},
+	dataBrowser: [
+		{
+			string: navigator.userAgent,
+			subString: "iPhone",
+			identity: "iPhone"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "iPad",
+			identity: "iPad"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "iPod",
+			identity: "iPod"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Android",
+			identity: "Android"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Nitro",
+			identity: "Nitro"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Nintendo DSi",
+			identity: "Nintendo DSi"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Nintendo 3DS",
+			identity: "Nintendo 3DS"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "DoCoMo",
+			identity: "DoCoMo"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "UP.Browser",
+			identity: "UP.Browser"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "J-PHONE",
+			identity: "J-PHONE"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Vodafone",
+			identity: "Vodafone"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "SoftBank",
+			identity: "SoftBank"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "DDIPOCKET",
+			identity: "DDIPOCKET"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "MOT",
+			identity: "MOT"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "KDDI",
+			identity: "KDDI"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "WILLCOM",
+			identity: "WILLCOM"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Opera Mini",
+			identity: "Opera Mini"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Windows CE",
+			identity: "Windows CE"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "N06A3",
+			identity: "N06A3"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "PSP",
+			identity: "PSP"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "SONY/COM",
+			identity: "SONY/COM"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "MSIE",
+			identity: "Explorer",
+			versionSearch: "MSIE"
+		}
+	],
+	dataOS : [
+		{
+			string: navigator.platform,
+			subString: "Win",
+			identity: "Windows"
+		},
+		{
+			string: navigator.platform,
+			subString: "Mac",
+			identity: "Mac"
+		},
+		{
+			   string: navigator.userAgent,
+			   subString: "iPhone",
+			   identity: "iPhone/iPod"
+	    },
+		{
+			string: navigator.platform,
+			subString: "Linux",
+			identity: "Linux"
+		}
+	]
+
+
+};
+BrowserDetect.init();
+
+var dnsdetect="<%NvramGet("smartDNS");%>";
+var dnsredirect="<%NvramGet("DNS_Redirect");%>";
+
+if(BrowserDetect.browser=="1")
+{
+	if (dnsredirect == "1")
+	  top.window.location="auto_detect_dns_redirect_entrance.html";
+	else if (dnsdetect == "1")
+	{
+		top.window.location="auto_detect_entrance.html";
+	}
+	else{
+		top.window.location="auto_detect_judge_smart.html";
+	}
+}
+else
+{
+	if (dnsredirect == "1")
+	  top.window.location="auto_detect_dns_redirect_entrance_normal.html";
+	else if (dnsdetect == "1")
+	{
+		top.window.location="auto_detect_entrance_normal.html";
+	}
+	else{
+		top.window.location="auto_detect_judge.html";
+	}
+}
+
+</script>
+</HEAD>
+<BODY>
+	<form name="main" method="POST">
+		<input type="hidden" name="PageName" value="top_wizard_inet_start_ori.html">
+		<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>
+</BODY>
+</HTML>

@@ -1,0 +1,202 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+
+<script language="JavaScript">
+	function init(){
+
+		if ('5' == '<%NvramGet("AutoWDS_WIFIApCli_UImode");%>')
+		{
+			if ('1' == '<%NvramGet("AUTO_WDS_AOSS2");%>')
+			{
+				setTimeout("aoss_timer()", 3000); //AOSS2
+			}
+			else{
+				setTimeout("aoss_timer()", 5000); //AOSS1
+			}
+		}
+		else{
+			setTimeout("checkwds()", 3000); //Manual or WPS
+		}
+
+		/*if ('3' == '<%NvramGet("AutoWDS_WIFIApCli_UImode");%>')
+		{
+			setTimeout("checkwds()", 40000); //Manual
+		}
+		else if ('5' == '<%NvramGet("AutoWDS_WIFIApCli_UImode");%>')
+		{
+			setTimeout("aoss_timer()", 5000); //AOSS
+		}
+		else if ('7' == '<%NvramGet("AutoWDS_WIFIApCli_UImode");%>')
+		{
+			setTimeout("checkwds()", 120000); //WPS
+		}
+		else{
+			setTimeout("checkwds()", 1000);//Nothing
+		}*/
+	}
+
+	function checkwds(){		
+
+		//self.location.href = 'auto_detect_wds_setting_confirm_return_page.html';
+
+		if ('1' == '<%NvramGet("WIFIApCliStatus");%>' || '1' == '<%NvramGet("WIFIApCliStatus_5g");%>')
+		{
+			window.location.href = 'auto_detect_wds_setting_success.html';
+		}
+		else{
+			if ('1' == '<%NvramGet("Wizardwdsfail");%>')
+			{
+				window.location.href = 'auto_detect_wds_setting.html';
+			}
+			else{
+				window.location.href = 'auto_detect_wds_setting_confirm.html';
+			}
+		}
+	}
+
+	function aoss_timer(){
+		if( <%NvramGet("WizardAossTimer");%> <= 330 && '1' != '<%NvramGet("WIFIAOSSClientWDS");%>' && '1' == '<%NvramGet("WDS_AOSS_Running");%>' && '1' != '<%NvramGet("AUTO_WDS_rewifi_AOSS_end");%>')
+		{
+			document.main.submit();
+		}
+		else
+		{
+			if ('1' == '<%NvramGet("AUTO_WDS_rewifi_AOSS_end");%>' || '1' == '<%NvramGet("Wizardwdsfail");%>')
+			{
+				self.location.href = 'auto_detect_wds_setting_confirm_return_page.html';
+			}
+			else
+			{
+				document.main.submit();
+			}
+		}
+	}
+</script>
+
+</head>
+
+<BODY class="WIZ_BODY" onload="init();">
+<FORM method="POST" name="main">
+<input type="hidden" name="wds_sw_interrupt" value="0">
+<table class=WIZ_FRAME>
+<tbody>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("AutoDetectNocablePPPoEWDS","39");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("AutoDetectNocablePPPoEWDS","42");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+     	
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>&nbsp;<%GetString("AutoDetectNocablePPPoEWDS","43");%>
+     			</td>
+     			<td class=TBL_R></td>
+                  </tr>
+                  <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			  <table>
+     			    <tbody>
+     				 <tr>
+     				   <td>
+     					<p><%GetString("AutoDetectNocablePPPoEWDS","44");%></p>
+     				   </td>
+     				 </tr>
+     			    </tbody>
+     			  </table>
+     			</TD>
+     			<TD class=TBL_R></TD>
+     		   </TR>
+     		   <TR class=FOOT>
+     			<TD class=TBL_L></TD>
+     			<TD class=TBL_C></TD>
+     			<TD class=TBL_R></TD>
+     		   </TR>
+     		 </TBODY>
+     	    </TABLE>
+     	  </td>
+     	  <TD class=TBL_R></TD>
+     	</TR>
+
+		<tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			  <!--TABLE>
+     			    <TBODY>
+     				 <TR>
+     				   <TD>
+     					<ul>
+     					  <li>
+     					    <A href='javascript:document.main.submit();'>
+     					    <%GetString("AutoDetectNocablePPPoEWDS","45");%>
+     					    </A>
+     			          </li>
+     					</ul>
+     				   </TD>
+     				 </TR>
+     			    </TBODY>
+     			  </TABLE-->   
+     			</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+
+      <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L></td>
+     		<td class=NAVI_C></td>
+     		<td class=NAVI_R></td>
+     	  </tr>
+        </tbody>
+      </table>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</tbody>
+</table>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</FORM>
+</BODY>
+</HTML>

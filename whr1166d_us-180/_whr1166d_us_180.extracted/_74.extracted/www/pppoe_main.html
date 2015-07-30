@@ -1,0 +1,128 @@
+<html>
+<head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<link rel="stylesheet" type="text/css" href="WHR-G300N-160149-style-ENG.css">   
+<link rel="stylesheet" type="text/css" href="WHR-G300N-160149-style-ad-ENG.css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="javascript" src="common.js"></script>
+ <script language="JavaScript">
+  <!--
+  var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='pppoe_main.html'", 10000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+
+  function Init()
+  {
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+	var f=document.forms[0];
+	var pppoenum = '<%NvramGet("PPPoENumNow");%>';
+	var pppoe = '<%NvramGet("PPPoEDefault");%>';
+	var unnumberIP = '<%NvramGet("UnIPIFIndex");%>';
+
+	top.content_helpframe.document.location.href = "./help/help_pppoe_main.html";
+
+	if (pppoenum != 0)
+	{
+		f.pppoedefault.value = pppoe;
+		f.ipunnum.value = unnumberIP;
+	}
+  }
+
+  function apply()
+  {
+	var f=nosave_SETUP;
+	var pppoenum = '<%NvramGet("PPPoENumNow");%>';
+
+	if (pppoenum != 0) 
+	{
+		f.PPPoEDefault.value = f.pppoedefault.value;
+		f.UnIPIFIndex.value = f.ipunnum.value;
+	}
+
+	YAHOO.util.Connect.setForm('nosave_SETUP'); 
+    YAHOO.util.Connect.asyncRequest('POST','pppoe_main.html'+'?timestampt='+new Date().toString(),oCallback); 
+  }
+
+  // -->
+</script>
+</head>
+
+<body  id="id_main" style="display:none;" class="BFK_BODY" onLoad="Init();">
+<br>
+
+
+<form name="nosave_SETUP" onsubmit="return onceOnly(this);" method="POST">
+<input type="hidden" name="PPPoEDefault" value="">
+<input type="hidden" name="UnIPIFIndex" value="">
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Multipppoe","2");%></th>
+      <td>
+		<%PPPoEUserListMain("List");%>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <%GetString("Multipppoe","4");%></th>
+      <td>
+		<%PPPoEUserListMain("ipunnumList");%>
+      </td>
+    </tr>
+  </table>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+  <hr>
+  <table class="AD_TTL2">
+    <tr>
+      <td><%GetString("Multipppoe","6");%></td>
+    </tr>
+  </table>
+  
+  <%PPPoEUserListMain("Content");%>
+  
+  <p><input type="button" value="<%GetString("Multipppoe","11");%>" onClick="location.href='pppoe.html'"></p>
+
+  <table class="AD_TTL2">
+    <tr>
+      <td><%GetString("Multipppoe","12");%></td>
+    </tr>
+  </table>
+
+  <%PPPoEUserListMain("RouteContent");%>
+
+  <p>
+    <input type="button" value="<%GetString("Multipppoe","18");%>" onClick="location.href='pppoe_route.html'">
+  </p>
+  <br/>
+  <div class="button5" id="DEF_UNNUM_SET" name="DEF_UNNUM_SET" onclick="apply();">
+	<div class="button_text"><%GetString("Multipppoe","5");%></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+
+
+<html>
+
+<head>
+<META http-equiv="Content-Style-Type "content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-help-ENG.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<script src="OpenHelp.html"></script>
+<title> Help </title>
+<script src="OnceOnly.html"></script>
+<script language="javascript">
+function openNew(url) { 
+	
+  var  mode;
+  if ("<%GetSystemInfo("HardwareModeSwitchStatus");%>" == "Router mode")
+	mode = "ROUTER";
+  else
+    mode = "BRIDGE";  
+
+  var str;
+  str = "<%NvramGet("FirmwareVersionCopy");%>"
+  
+  var  model = str.slice(0,9);
+  var  version = str.slice(18);   
+	
+  url = url.replace("MODEL","model="+model);
+  url = url.replace("REGION","region="+"<%NvramGet("Region");%>");
+  url = url.replace("VERSION","version="+version);
+  url = url.replace("MODE","mode="+mode);
+  
+  detail = "toolbar=no,scrollbars=yes,menubar=no,width=400,height=600";
+  window.open(url,'thiswindow',detail,false);
+}
+</script>
+</head>
+<body>
+<p class="HELP_TTL1"><%GetString("HelpWireless","14");%></p><hr>
+<p class="HELP_BODY2">
+<%GetString("HelpWireless","15");%><br>
+<%GetString("HelpWireless","16");%><br>
+<%GetString("HelpWireless","17");%><br>
+</p><br>
+
+<p class="HELP_TTL2"><%GetString("HelpWireless","18");%></p>
+<p class="HELP_BODY2">
+<%GetString("HelpWireless","19");%><br>
+
+</p><br>
+
+<p class="HELP_TTL2"><%GetString("HelpWireless","20");%></p>
+<p class="HELP_BODY2">
+<%GetString("HelpWireless","21");%><br>
+<%GetString("HelpWireless","22");%><br>
+
+</p><br>
+
+<p class="HELP_TTL2"><%GetString("HelpWireless","23");%></p>
+<p class="HELP_BODY2">
+<%GetString("HelpWireless","24");%><br>
+
+</p><br>
+
+
+</body>
+</html>

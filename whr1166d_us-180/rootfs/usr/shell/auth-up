@@ -1,0 +1,41 @@
+#!/bin/sh
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+PPTPDEnable=`nvram get PPTPEnable`
+
+if [ "$PPTPDEnable" == "0" ]
+then
+	exit 0
+fi
+
+PPPLINE=$1
+USER=$2
+
+if [ "$PPPLINE" != "ppp10" ] && [ "$PPPLINE" != "ppp11" ] && [ "$PPPLINE" != "ppp12" ] 
+then
+	exit 0
+fi
+
+mkdir -p /tmp/pptpd/pid/
+
+if [ -f "/tmp/pptpd/pid/$USER" ]
+then
+	kill -HUP `cat "/tmp/pptpd/pid/$USER"`;
+	rm "/tmp/pptpd/pid/$USER";
+fi
+
+PID=`cat /var/run/$1.pid`
+# after same account check, limit connection number here
+CURNUM=`ls -l /tmp/pptpd/pid | wc -l`
+
+echo "$1:$2:$3:$4:$5:$6:$PID:$CURNUM" > /tmp/pptp_auth_up
+
+if [ "$CURNUM" == "3" ] # max simultaneous connection number is 3
+then
+	kill -HUP $PID; # terminate this connection, no more connection
+else
+	echo $USER > "/tmp/pptpd/$PPPLINE";
+fi
+
+

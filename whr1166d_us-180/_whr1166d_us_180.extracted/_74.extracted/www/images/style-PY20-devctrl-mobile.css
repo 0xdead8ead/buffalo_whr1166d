@@ -1,0 +1,283 @@
+.setting_main_devctrl {
+	text-align: left;
+	padding: 0px;
+}
+.devimg {
+	width: 100px;
+	height: 100px;
+	padding: 23px;
+	float:left;
+}
+.devimg_wan {
+	background: url(/images/py20_device_m_ineternet.png) no-repeat center center;
+}
+.devimg_ap {
+	background: url(/images/py20_device_m_ap.png) no-repeat center center;
+}
+.devimg_game {
+	background: url(/images/py20_device_m_game.png) no-repeat center center;
+}
+.devimg_nas {
+	background: url(/images/py20_device_m_nas.png) no-repeat center center;
+}
+.devimg_pc {
+	background: url(/images/py20_device_m_pc.png) no-repeat center center;
+}
+.devimg_printer {
+	background: url(/images/py20_device_m_printer.png) no-repeat center center;
+}
+.devimg_stb {
+	background: url(/images/py20_device_m_stb.png) no-repeat center center;
+}
+.devimg_tablet {
+	background: url(/images/py20_device_m_tablet.png) no-repeat center center;
+}
+.devimg_tv {
+	background: url(/images/py20_device_m_tv.png) no-repeat center center;
+}
+.devimg_unknown {
+	background: url(/images/py20_device_m_unknown.png) no-repeat center center;
+}
+
+.notice_icon_all {
+	height: 120px;
+	float: left;
+	position: relative;
+	top: 22px;
+	left: -122px;
+}
+.notice_icon {
+	width: 32px;
+	height: 32px;
+}
+.notice_person {
+	background: url(/images/py20_notice_m_person.png) no-repeat center center;
+}
+.notice_ban {
+	background: url(/images/py20_notice_m_ban.png) no-repeat center center;
+}
+.notice_wireless {
+	background: url(/images/py20_notice_m_wireless.png) no-repeat center center;
+}
+
+.qos_icon_up {
+	float: left;
+	margin: 0px 7px 0px 0px;
+	width: 28px;
+	height: 28px;
+	position: relative;
+	top: 3px;
+	background: url(/images/py20_priority_m_up.png) no-repeat center center;
+}
+.qos_icon_down {
+	float: left;
+	margin: 0px 7px 0px 0px;
+	width: 28px;
+	height: 28px;
+	position: relative;
+	top: 3px;
+	background: url(/images/py20_priority_m_down.png) no-repeat center center;
+}
+.devtxt {
+	position: relative;
+	left: -15px;
+	font-size: 30px;
+	padding-top: 12px;
+}
+
+.wan_ap {
+	position: absolute;
+	top: 397px;
+	left: 25px;
+}
+.wan_ap_ext {
+	position: absolute;
+	top: 440px;
+	left: 25px;
+}
+.wandevice {
+	width: 568px;
+	height: 147px;
+	margin: 9px;
+	background: url(/images/py20_devctrl_mitem_disable.png) no-repeat center center;
+}
+.wantxt {
+	padding-top: 2px;
+	font-size: 30px;
+	padding-top: 12px;
+}
+.wanline {
+	display: none;
+}
+.wanline2 {
+	display: none;
+}
+.landevice {
+	width: 568px;
+	height: 147px;
+	margin: 10px;
+	position: relative;
+	top: 312px;
+}
+.landevice_enable {
+	background: url(/images/py20_devctrl_mitem.png) no-repeat center center;
+	cursor: pointer;
+}
+.landevice_disable {
+	background: url(/images/py20_devctrl_mitem_disable.png) no-repeat center center;
+}
+.landevice_pad {
+	background-color: #FF0000;
+	width: 568px;
+	height: 147px;
+	margin: 9px;
+	visibility: hidden;
+}
+
+.tab {
+	position: relative;
+	top: 1px;
+	left: 0px;
+}
+.tab_head_active {
+	float: left;
+	background-color: #D5D5D5;
+	width: 60px;
+	height: 61px;
+	padding: 7px 29px;
+	border-top: 1px solid #666666;
+	border-right: 1px solid #666666;
+	border-left: 1px solid #666666;
+	border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	z-index: 2;
+	cursor: pointer;
+}
+.tab_head {
+	float: left;
+	background-color: #E6E6E6;
+	width: 60px;
+	height: 60px;
+	padding: 7px 29px;
+	cursor: pointer;
+}
+.tabimg {
+	width: 60px;
+	height: 60px;
+}
+.tab0 {
+	background: url(/images/py20_devctrl_mtab0.png) no-repeat center center;
+}
+.tab0_current {
+	background: url(/images/py20_devctrl_mtab0_current.png) no-repeat center center;
+}
+.tab1 {
+	background: url(/images/py20_devctrl_mtab1.png) no-repeat center center;
+}
+.tab1_current {
+	background: url(/images/py20_devctrl_mtab1_current.png) no-repeat center center;
+}
+.tab2 {
+	background: url(/images/py20_devctrl_mtab2.png) no-repeat center center;
+}
+.tab2_current {
+	background: url(/images/py20_devctrl_mtab2_current.png) no-repeat center center;
+}
+.tab3 {
+	background: url(/images/py20_devctrl_mtab3.png) no-repeat center center;
+}
+.tab3_current {
+	background: url(/images/py20_devctrl_mtab3_current.png) no-repeat center center;
+}
+.tab4 {
+	background: url(/images/py20_devctrl_mtab4.png) no-repeat center center;
+}
+.tab4_current {
+	background: url(/images/py20_devctrl_mtab4_current.png) no-repeat center center;
+}
+.tab_body {
+	clear: both;
+	background-color: #D5D5D5;
+	width: 590px;
+	padding: 2px;
+	margin-bottom: 50px;
+	border: 1px solid #666666;
+	z-index: 1;
+}
+.tab_left {
+	border-radius: 0px 5px 5px 5px;
+	-moz-border-radius: 0px 5px 5px 5px;
+	-webkit-border-radius: 0px 5px 5px 5px;
+}
+.tab_center {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.tab_right {
+	border-radius: 5px 0px 5px 5px;
+	-moz-border-radius: 5px 0px 5px 5px;
+	-webkit-border-radius: 5px 0px 5px 5px;
+}
+.disp_more {
+	margin: 8px;
+	padding: 15px 0px 15px 0px;
+	width: 569px;
+	font-size: 30px;
+	background-color: #FFFFFF;
+	border: 2px solid #999999;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	cursor: pointer;
+	position: relative;
+	top: 312px;
+}
+
+/* form
+---------------------------------------*/
+.form_name {
+	font-size: 30px;
+	width: 390px;
+	margin: 45px 0px 0px 20px;
+}
+.form_img {
+	width: 100px;
+	height: 100px;
+	margin: 10px 20px 10px 20px;
+	padding: 5px;
+	float:left;
+}
+.form_imglist {
+	clear: both;
+	width: 582px;
+	margin: 0px 0px 30px 0px;
+	padding: 5px;
+	background-color: #D5D5D5;
+	border: 2px solid #666666;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+.form_imglist_outarea {
+	float:left;
+	width: 128px;
+	height: 130px;
+	margin: 8px;
+	background: url(/images/py20_tab_m_panel_small_normal.png) no-repeat center center;
+	cursor: pointer;
+}
+.form_imglist_outarea:hover {
+	background: url(/images/py20_tab_m_panel_small_hover.png) no-repeat center center;
+}
+.form_imglist_item {
+	width: 100px;
+	height: 100px;
+	margin: 14px;
+	cursor: pointer;
+}
+.form_qos {
+	font-size: 30px;
+	width: 590px;
+}

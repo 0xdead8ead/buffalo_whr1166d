@@ -1,0 +1,80 @@
+Bug Hunting Notes for Buffalo Wireless AC Router
+================================================
+
+Potentially interesting web-ui scripts:
+
+	Script Location:					
+
+		/www/ui/cgi/sysinfo.cgi
+
+	Potentially injection parameter:
+
+		wan_ifname
+
+	Input to Script:
+
+		# get interface names from sysevent
+		wan_ifname=`sysevent get wan_ifname`
+
+	Use of variable in script that could lead to command injection:
+
+		if [ "$SECTION" == "" ] || [ "$SECTION" == "ipnet" ] ; then   ##### <---- section variable parameter must be ipnet or blank
+		# echo "section=ipnet"
+		# IP networking information
+		echo "ifconfig:"
+		echo ""
+		echo "`ifconfig`"
+		echo ""
+		echo "cat /etc/resolv.conf:"
+		echo ""
+		echo "`cat /etc/resolv.conf`"
+		echo ""
+		echo "ip link:"
+		echo ""
+		echo "`ip link`"
+		echo ""
+		echo "ip neigh:"
+		echo ""
+		echo "`ip neigh`"
+		echo ""
+		echo "ip -6 addr show:"
+		echo ""
+		echo "`ip -6 addr show`"
+		echo ""
+		echo "ip -6 route show:"
+		echo ""
+		echo "`ip -6 route show`"
+		echo ""
+		echo "ip tunnel show:"
+		echo ""
+		echo "`ip tunnel show`"
+		echo ""
+		echo "rdisc6 -r1 $wan_ifname:"  
+		echo ""
+		echo "`rdisc6 -r1 $wan_ifname`"   #### <------- Possible Injection
+
+
+
+/www/ui/cgi/getstinfo.cgi
+
+	Code:
+
+		#!/bin/sh
+		echo Content-Type: text/plain
+		echo ""
+
+		SSID=`syscfg get tc_vap_ssid`
+		PASS=`syscfg get tc_vap_passphrase`
+
+		echo "SSID=`nfc_obfuscation -e $SSID`"
+		echo "Passphrase=`nfc_obfuscation -e $PASS`"
+
+
+	Here again, possible injection point may be in the syscfg. A malicious SSID or Passphrase could possibly result in command injection.
+
+
+
+
+
+
+

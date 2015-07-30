@@ -1,0 +1,114 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script src="OpenHelp.html"></script>
+<script language="Javascript">
+<!--
+
+var exec_DoSubmit = false;
+function DoSubmit()
+{
+	if(exec_DoSubmit == true){
+		
+		return false;
+	} else {
+		
+		exec_DoSubmit = true;
+	}
+	
+     document.form_update.fwupbutton.disabled = 1;
+	if (document.form_update.upmethod[0].checked == true)
+	{
+     document.form_update.submit();
+}
+	else
+	{
+		document.online_form.submit();
+	}
+	
+}
+
+function upmethod_select()
+{
+	if (document.form_update.upmethod[0].checked == true) 
+	{
+		document.form_update.file.disabled = 0;
+	} 
+	else 
+	{
+		document.form_update.file.disabled = 1;
+	}
+}
+//  -->
+</script>
+</head>
+
+<body class="BFK_BODY">
+<br>
+
+
+<form name="form_update" method="POST" enctype="multipart/form-data">
+  <table class=AD_SET>
+    <tr>
+      <th><%GetString("Fwupdate","1");%><br><%GetString("Fwupdate","2");%></th>
+      <td>
+        <p align="left"><%NvramGet("FirmwareVersion");%>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Fwupdate","17");%></th>
+      <td>
+        <table>
+			<tr>
+				<td>
+					<input type="radio" value="local" name="upmethod" onClick="upmethod_select();" checked><%GetString("Fwupdate","18");%>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="radio" value="online" name="upmethod" onClick="upmethod_select();"><%GetString("Fwupdate","19");%>
+				</td>
+			</tr>
+		</table>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Fwupdate","1");%><br><%GetString("Fwupdate","4");%></th>
+      <td>
+     <input type="file" name="file" size="50">
+      </td>
+    </tr>
+  </table>
+ <input type="button" name="fwupbutton" onClick="DoSubmit();" value="<%GetString("Fwupdate","5");%>">
+</form>
+
+
+<p><%GetString("Fwupdate","6");%></p>
+<p align=center>
+<script>
+	if ('<%NvramGet("Region");%>' == 'JP')
+	{
+		document.write("<A href=\"http://buffalo.jp/download/driver/\" target=\"_new\">");
+	}
+	else
+	{
+		document.write("<A href=\"http://www.buffalotech.com\" target=\"_new\">");
+	}
+</script>
+     <%GetString("Fwupdate","7");%>
+     </a>
+</p>
+
+<form name="online_form" method="POST">
+<input type="hidden" name="nosave_onlinefwcheck" value="1">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

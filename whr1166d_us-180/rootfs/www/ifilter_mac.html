@@ -1,0 +1,371 @@
+
+
+<!-- saved from url=(0061)http://192.168.11.1/cgi-bin/cgi?req=frm&frm=i_filter_reg.html -->
+<html><head>
+<meta http-equiv="Content-Type" content="text/html"; charset="<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+var exMac_list=["<%NvramGet("ifilterExMac1");%>","<%NvramGet("ifilterExMac2");%>","<%NvramGet("ifilterExMac3");%>","<%NvramGet("ifilterExMac4");%>","<%NvramGet("ifilterExMac5");%>","<%NvramGet("ifilterExMac6");%>","<%NvramGet("ifilterExMac7");%>","<%NvramGet("ifilterExMac8");%>","<%NvramGet("ifilterExMac9");%>","<%NvramGet("ifilterExMac10");%>","<%NvramGet("ifilterExMac11");%>","<%NvramGet("ifilterExMac12");%>"];
+
+function check_borwser(){
+		var isIE = navigator.userAgent.search("MSIE") > -1;      
+		var isIE7 = navigator.userAgent.search("MSIE 7") > -1;      
+		var isFirefox = navigator.userAgent.search("Firefox") > -1;      
+		var isOpera = navigator.userAgent.search("Opera") > -1;      
+		var isSafari = navigator.userAgent.search("Safari") > -1;  
+		
+		if (isIE7)
+			return 1; 
+		if (isFirefox)
+			return 2;      
+		if (isSafari)
+			return 3;      
+		if (isOpera) 	
+			return 4;
+		if (isIE) 
+			return 5;	
+}
+
+function add_mac()
+{
+	var i=0;
+	var space=0;
+	var register_mac = document.forms[0].input_mac;
+
+	var word='\r'+'\n';
+	var arrMac_ie=register_mac.value.split(word);
+	var len_ie=register_mac.value.split(word).length;
+	
+	var arrMac_f=register_mac.value.split(String.fromCharCode(10));
+	var len_f=register_mac.value.split(String.fromCharCode(10)).length;
+	var lenspace;
+
+	//var macnum="<%NvramGet("MACNum");%>";
+	var i,j,k,n;
+	var arrMacspace;
+	var arrMacspace2;
+	var lenspace2;
+	var esstringflag;
+	var len;
+	var space=0;
+	var order=1;
+
+	for(i=0; i<12; i++)
+	{
+		if(exMac_list[i]=="")
+			space++;
+	}
+	
+	
+	
+	if (register_mac.value.length!=0)
+	{
+		if(check_borwser()==2)
+			len=len_f;
+		else
+			len=len_ie;
+
+		for(i=0;i<len;i++)
+		{
+			//String.fromCharCode(32);
+			if(check_borwser()==2)
+			{
+				arrMacspace=arrMac_f[i].split(" ");
+				lenspace=arrMac_f[i].split(" ").length;
+			}
+			else
+			{
+				arrMacspace=arrMac_ie[i].split(" ");
+				lenspace=arrMac_f[i].split(" ").length;
+			}		
+			for(j=0;j<lenspace;j++)
+			{
+				arrMacspace[j]=arrMacspace[j].toUpperCase();
+				if (arrMacspace[j]== "undefined" || arrMacspace[j].length==0)
+					continue;
+				var check_mac_num=check_mac(arrMacspace[j]); 
+				
+				if(check_mac_num!=0)
+				{
+                    if(check_mac_num==1)
+                    {
+						alert("<%GetString("MacReg","17");%>");
+					}
+					else if(check_mac_num==2)
+					{
+						alert("<%GetString("MacReg","18");%>");
+					}
+					return false;
+				}
+				if(!Escape_String(arrMacspace[j]))	
+				{
+					alert("<%GetString("MacReg","17");%>");
+					return false;
+				}
+				
+				if (i>0)
+				{
+				    for (k=i-1; k>=0; k--)
+				    {
+						if(check_borwser()==2)
+						{
+							arrMacspace2=arrMac_f[k].split(' ');    
+							lenspace2=arrMac_f[k].split(' ').length;
+
+						}
+						else
+						{
+							arrMacspace2=arrMac_ie[k].split(' ');    
+							lenspace2=arrMac_ie[k].split(' ').length;
+						}
+						
+							arrMacspace2[0]=arrMacspace2[0].toUpperCase();
+					
+            				if (arrMacspace[j]==arrMacspace2[0] )
+            				{
+              					//document.getElementById("id_saveflag").value = 3;
+								alert("<%GetString("MacReg","19");%>");
+								return false;
+								
+            				}
+          			}   
+				}       
+				
+				for (n=0;n<12;n++)
+				{       
+					if(exMac_list[n]==arrMacspace[j])
+					{
+						alert("<%GetString("MacReg","19");%>");
+						return false;
+					}
+					
+					if(order>space)
+					{
+						alert("<%GetString("RouteReg","9");%>");
+						return false;
+					}
+				}
+				document.getElementById("id_reg_mac" + order).value = arrMacspace[j];
+				order++;
+			}
+		}
+	
+	}
+	else
+	{
+		alert("<%GetString("MacReg","17");%>");
+		return false;
+	}
+/*	
+	for(i=0; i<12; i++)
+	{
+		if(exMac_list[i]==register_mac)
+		{
+			alert("duplicate mac");
+			return false;
+		}
+		if(exMac_list[i]=="")
+			space++;
+	}
+	if(space==0)
+	{
+		alert("Exception Mac list is full");
+		return false;
+	}
+	
+	document.forms[0].reg_mac.value = register_mac;
+*/	
+	document.forms[0].submit();
+}
+
+function add_mac_byPC(mac)
+{
+	document.forms[0].reg_mac1.value = mac;
+	document.forms[0].submit();
+}
+
+
+function del_mac(index)
+{
+	document.getElementById("id_delid").value=index;
+	document.forms[1].submit();
+}
+
+function init_form()
+{
+	var i=0;
+	var empty=0;
+	var exStr;
+	top.content_helpframe.document.location.href = "./help/help_ifilter_reg.html";
+	
+	for(i=0;i<12;i++)
+	{
+		if(exMac_list[i]=="")
+		{
+			exStr= "exMac" + (i+1).toString();
+			document.getElementById(exStr).style.display="none";
+			empty++;
+		}
+	}
+	if(empty!=12)
+	{
+		document.getElementById("NoMAC").style.display="none";
+	}
+}
+//<tr><td colspan="4" class="NO_ENTRY">フィルター除外パソコンリストに無いMACアドレスは検出されていません</td></tr>
+
+</script>
+</head>
+<body class="BFK_BODY" onload="init_form();">
+
+<input type="button" value="編集を終了して前の画面へ戻る" onClick="location.href='ifilter.html'">
+<hr>
+
+
+<form method="POST" name="addMAC">
+	<input type="hidden" value="" id="id_reg_mac1" name="reg_mac1">
+	<input type="hidden" value="" id="id_reg_mac2" name="reg_mac2">
+	<input type="hidden" value="" id="id_reg_mac3" name="reg_mac3">
+	<input type="hidden" value="" id="id_reg_mac4" name="reg_mac4">
+	<input type="hidden" value="" id="id_reg_mac5" name="reg_mac5">
+	<input type="hidden" value="" id="id_reg_mac6" name="reg_mac6">
+	<input type="hidden" value="" id="id_reg_mac7" name="reg_mac7">
+	<input type="hidden" value="" id="id_reg_mac8" name="reg_mac8">
+	<input type="hidden" value="" id="id_reg_mac9" name="reg_mac9">
+	<input type="hidden" value="" id="id_reg_mac10" name="reg_mac10">
+	<input type="hidden" value="" id="id_reg_mac11" name="reg_mac11">
+	<input type="hidden" value="" id="id_reg_mac12" name="reg_mac12">
+  <table class="AD_TTL2">
+    <tbody><tr><td>フィルター除外パソコンリストの新規追加</td></tr>
+  </tbody></table>
+  <table class="AD_SET">
+    <tbody>
+      <tr>
+	<th>登録するMACアドレス</th>
+	<td><textarea rows="3" name="input_mac" cols="20"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+  <p><input type="button" name="ADD_NEW" value="新規追加" onClick="add_mac();"></p>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+  <hr>
+
+<form method="POST" name="maclist">
+  <input type="hidden" value="0" id="id_delid" name="DELID">
+  <table class="AD_TTL2">
+    <tbody><tr><td>フィルター除外パソコンリスト</td></tr>
+  </tbody></table>
+  <table class="AD_LIST">
+    <tbody>
+      <tr>
+	<th>MACアドレス</th>
+	<th>IPアドレス</th>
+	<th>パソコン名</th>
+	<th>操作</th>
+      </tr>
+	<tr id="NoMAC"><td colspan="4" class="NO_ENTRY">MACアドレスが登録されていません</td></tr>  
+	  
+	<tr id="exMac1">
+		<td><%NvramGet("ifilterExMac1");%></td>
+		<%GetIfilterExInfo("1");%>
+		<td><input type="button" value="削除" name="Do_DL1" onClick="del_mac(1);" ></td>
+	</tr>
+	<tr id="exMac2">
+		<td><%NvramGet("ifilterExMac2");%></td>
+		<%GetIfilterExInfo("2");%>
+		<td><input type="button" value="削除" name="Do_DL2" onClick="del_mac(2);" ></td>
+	</tr>
+	<tr id="exMac3">
+		<td><%NvramGet("ifilterExMac3");%></td>
+		<%GetIfilterExInfo("3");%>
+		<td><input type="button" value="削除" name="Do_DL3" onClick="del_mac(3);" ></td>
+	</tr>
+	<tr id="exMac4">
+		<td><%NvramGet("ifilterExMac4");%></td>
+		<%GetIfilterExInfo("4");%>
+		<td><input type="button" value="削除" name="Do_DL4" onClick="del_mac(4);" ></td>
+	</tr>
+	<tr id="exMac5">
+		<td><%NvramGet("ifilterExMac5");%></td>
+		<%GetIfilterExInfo("5");%>
+		<td><input type="button" value="削除" name="Do_DL5" onClick="del_mac(5);" ></td>
+	</tr>
+	<tr id="exMac6">
+		<td><%NvramGet("ifilterExMac6");%></td>
+		<%GetIfilterExInfo("6");%>
+		<td><input type="button" value="削除" name="Do_DL6" onClick="del_mac(6);" ></td>
+	</tr>
+	<tr id="exMac7">
+		<td><%NvramGet("ifilterExMac7");%></td>
+		<%GetIfilterExInfo("7");%>
+		<td><input type="button" value="削除" name="Do_DL7" onClick="del_mac(7);" ></td>
+	</tr>
+	<tr id="exMac8">
+		<td><%NvramGet("ifilterExMac8");%></td>
+		<%GetIfilterExInfo("8");%>
+		<td><input type="button" value="削除" name="Do_DL8" onClick="del_mac(8);" ></td>
+	</tr>
+	<tr id="exMac9">
+		<td><%NvramGet("ifilterExMac9");%></td>
+		<%GetIfilterExInfo("9");%>
+		<td><input type="button" value="削除" name="Do_DL9" onClick="del_mac(9);" ></td>
+	</tr>
+	<tr id="exMac10">
+		<td><%NvramGet("ifilterExMac10");%></td>
+		<%GetIfilterExInfo("10");%>
+		<td><input type="button" value="削除" name="Do_DL10" onClick="del_mac(10);" ></td>
+	</tr>
+	<tr id="exMac11">
+		<td><%NvramGet("ifilterExMac11");%></td>
+		<%GetIfilterExInfo("11");%>
+		<td><input type="button" value="削除" name="Do_DL11" onClick="del_mac(11);" ></td>
+	</tr>
+	<tr id="exMac12">
+		<td><%NvramGet("ifilterExMac12");%></td>
+		<%GetIfilterExInfo("12");%>
+		<td><input type="button" value="削除" name="Do_DL12" onClick="del_mac(12);" ></td>
+	</tr>	
+	
+
+    </tbody>
+  </table>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+
+
+
+<hr>
+
+<form method="POST" name="pclist">
+  <table class="AD_TTL2">
+    <tbody><tr><td>検出されたパソコンリスト</td></tr>
+  </tbody></table>
+  <table class="AD_LIST">
+    <tbody>
+      <tr>
+	      <th>MACアドレス</th>
+	      <th>IPアドレス</th>
+	      <th>パソコン名</th>
+	      <th>操作</th>
+      </tr>
+	
+		<%ShowPCAtIfilterMAC();%>
+	
+
+    </tbody>
+  </table>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+
+</body></html>

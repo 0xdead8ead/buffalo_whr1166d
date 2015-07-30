@@ -1,0 +1,198 @@
+.clear_both {
+	clear: both;
+}
+.panel_action {
+	padding: 0px;
+	background-color: #FFFFFF;
+	cursor: pointer;
+	border: none;
+	border-radius: 10px 10px 0px 0px;
+	-moz-border-radius: 10px 10px 0px 0px;
+	-webkit-border-radius: 10px 10px 0px 0px;
+}
+.panel {
+	width: 592px;
+	margin: 0px 0px 20px 0px;
+	padding: 0px;
+	background-color: #E6E6E6;
+	text-align: left;
+	border: 2px solid #999999;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+.panel_norton {
+	width: 304px;
+	height: 70px;
+	margin-left: 88px;
+	background: url(/images/py20_banner_norton_m.png) no-repeat center center;
+}
+.panel_icon {
+	padding: 16px 25px 16px 25px;
+	float: left;
+}
+.panel_title {
+	width: 440px;
+	padding: 30px 0px 0px 0px;
+	font-size: 30px;
+	float: right;
+}
+.panel_right {
+	padding: 35px 25px 0px 0px;
+	float: right;
+}
+.panel_border {
+	margin: 0px;
+	padding: 0px;
+	clear: both;
+	border-bottom: 2px solid #999999;
+}
+.panel_sub {
+	padding: 26px;
+	color: #333333;
+	font-size: 18px;
+	border-top: 2px solid #999999;
+}
+.panel_subicon {
+	padding: 8px;
+	float:left
+}
+.panel_subtext {
+	width: 420px;
+	font-size:24px;
+	padding: 0px 0px 0px 85px;
+}
+.panel_buttontext {
+	float: left;
+	width: 275px;
+	font-size:24px;
+	padding: 0px 0px 0px 85px;
+}
+.ipsw {
+	list-style-type: none;
+	margin: 0;
+	padding-left: 360px;
+}
+.panel_subicon_11a {
+	float: left;
+	width: 38px;
+	height: 28px;
+	margin: 2px 20px 0px 26px;
+	background: url(/images/py20_subicon_5g_m.png) no-repeat right center;
+}
+.panel_subicon_11g {
+	float: left;
+	width: 38px;
+	height: 28px;
+	margin: 2px 20px 0px 26px;
+	background: url(/images/py20_subicon_2g_m.png) no-repeat center center;
+}
+
+.panel_subicon_text {
+	font-size:24px;
+	
+	/* for Android4.1.2(#95357) */
+	height: 28px;
+}
+.panel_blank {
+	display:none;
+}
+.panel_advanced {
+	color: #FFFFFF;
+	background-color: #666666;
+	height: 92px;
+	width: 594px;
+	text-align: left;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #999999;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	cursor: pointer;
+}
+.panel_advanced:hover {
+	color: #66AAFF;
+	border-color: #66AAFF;
+}
+.icon_advanced {
+	width: 60px;
+	height: 60px;
+	margin: 16px 30px 0px 25px;
+	background: url(/images/py20_header_advanced_m.png) no-repeat center center;
+	float: left;
+}
+.text_advanced {
+	padding: 30px 0px 0px 0px;
+	font-size: 24px;
+}
+.panel_end {
+	cleat: both;
+}
+
+/* AOSS
+---------------------------------------*/
+.aoss_bg{
+	height: 2000px;
+	width: 640px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+}
+.aoss_body
+{
+	width: 580px;
+	padding: 30px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 4;
+}
+.aoss_text
+{
+	font-size: 14px;
+}
+
+
+/* NAS
+---------------------------------------*/
+.ptsubicon {
+	margin: 8px 20px 15px 35px;
+	width: 32px;
+	height: 32px;
+	float: left;
+}
+.ptsubicon0 {
+	background: url(/images/py20_num_m_01.png) no-repeat;
+}
+.ptsubicon1 {
+	background: url(/images/py20_num_m_02.png) no-repeat;
+}
+.ptsubicon2 {
+	background: url(/images/py20_num_m_03.png) no-repeat;
+}
+.ptsubicon3 {
+	background: url(/images/py20_num_m_04.png) no-repeat;
+}
+.ptinfo_left {
+	width: 450px;
+	float: left;
+}
+.ptinfo_gauge_outer {
+	height: 13px;
+	width: 100%;
+	background-color: #CCCCCC;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+.ptinfo_gauge_inner {
+	height: 13px;
+	background: url(/images/py20_gauge_mfill_middle.png) repeat-x top center;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}

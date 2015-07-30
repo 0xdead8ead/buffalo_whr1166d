@@ -1,0 +1,315 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<title>AirStation Settings</title>
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+
+function confirm_wan_mode(){
+		var str = "";
+
+		str += "<TABLE><TR><TD>";
+	
+		if ('<%NvramGet("tmp_store_WanMethod");%>' == '1')
+		{
+			str += "DHCP";
+		}
+		else if ('<%NvramGet("tmp_store_WanMethod");%>' == '3')
+		{
+			str += "Static IP";
+		}
+		else{
+			//Do Nothing
+		}
+	
+		str += "</TD></TR></TABLE>";
+		
+		document.getElementById('Method_IP_Address').innerHTML = str;
+}
+
+function init(){
+	if ('<%NvramGet("auto_pppoe");%>' == '1')
+	{
+		PPPoE.style.display="";
+		DHCPSTATIC.style.display="none";
+	}
+	else
+	{
+		PPPoE.style.display="none";
+		DHCPSTATIC.style.display="";
+
+		confirm_wan_mode();
+	}
+}
+
+function apply()
+{
+	var f = document.forms[1];
+	var f2 = document.forms[2];
+	var f3 = document.forms[3];
+
+	if ('<%NvramGet("tmp_store_WanMethod");%>' == '1')
+	{
+		f.InternetDefaultGateway.value = "<%NvramGet("tmp_store_InternetDefaultGateway");%>";
+		f.InternetDNS1.value = "<%NvramGet("tmp_store_InternetDNS1");%>";
+		f.InternetDNS2.value = "<%NvramGet("tmp_store_InternetDNS2");%>";
+		f.WanMethod.value = "1";
+		f.WanIPAssignment.value = "1";
+
+		f.submit();	
+	}
+	else if ('<%NvramGet("tmp_store_WanMethod");%>' == '2')
+	{
+		f2.PPPoE1Username.value = "<%NvramGet("tmp_store_PPPoEUsername");%>";
+		f2.PPPoE1Password.value = "<%NvramGet("tmp_store_PPPoEPassword");%>";
+		f2.PPPoE1IPFixed.value = "<%NvramGet("tmp_store_PPPoESIPEnabled");%>";
+		f2.PPPoE1IP.value = "<%NvramGet("tmp_store_PPPoEstaticIP");%>";
+		f2.PPPoE1DNS1.value = "<%NvramGet("tmp_store_PPPoEDNS1");%>";
+		f2.PPPoE1DNS2.value = "<%NvramGet("tmp_store_PPPoEDNS2");%>";
+		f2.WanMethod.value = "2";
+		f2.WanIPAssignment.value = "2";
+
+		f2.submit();	
+	}
+	else{
+		f3.WANStaticIP.value = "<%NvramGet("tmp_store_WANStaticIP");%>";
+		f3.WANStaticMASK.value = "<%NvramGet("tmp_store_WANStaticMASK");%>";
+		f3.InternetDefaultGateway.value = "<%NvramGet("tmp_store_InternetDefaultGateway");%>";
+		f3.InternetDNS1.value = "<%NvramGet("tmp_store_InternetDNS1");%>";
+		f3.InternetDNS2.value = "<%NvramGet("tmp_store_InternetDNS2");%>";
+		f3.WanMethod.value = "3";
+		f3.WanIPAssignment.value = "3";
+
+		f3.submit();	
+	}
+}
+
+</script>
+
+</HEAD>
+<BODY class=WIZ_BODY onload="init();">
+
+<form name="main" method="POST">
+
+<TABLE class=WIZ_FRAME>
+  <TBODY>
+	<tr class=HEAD>
+		<td class=TBL_L></td>
+	    <td class=TBL_C></td>
+	    <td class=TBL_R></td>
+	</tr>
+    <tr class=TBL>
+		<td class=TBL_L></td>
+	    <td class=TBL_C>
+		  <table class=WIZ_FRAME2>
+			<tbody>
+	          <TR class=HEAD>
+		        <TD class=TBL_L></TD>
+	            <TD class=TBL_C><%GetString("AutoDetectNocablePPPoEWDS","9");%></TD>
+	            <TD class=TBL_R></TD>
+	          </TR>
+	          <TR class=HEAD2>
+	            <TD class=TBL_L></TD>
+	            <TD class=TBL_C><%GetString("AutoDetectJudgePPPoEConfig","2");%></TD>
+	            <TD class=TBL_R></TD>
+	          </TR>
+	          <TR class=TBL>
+	            <TD class=TBL_L></TD>
+	            <td class=TBL_C>
+		     	    <table class=WIZ_FRAME3>
+		                <tbody>
+		                  <tr class=HEAD>
+		                    <td class=TBL_L></td>
+		                    <td class=TBL_C>
+     			  
+			     			  &nbsp;<%GetString("AutoDetectNocablePPPoEWDS","36");%>
+     				  
+     					    </td>
+			     			<td class=TBL_R></td>
+			     		  </tr>
+     					  <tr class=TBL>
+			     			<td class=TBL_L></td>
+			     			<td class=TBL_C>
+							  <DIV id="PPPoE" style="display: none;">
+			     			  <TABLE class=WIZ_SET>
+			     			    <TBODY>
+			     				 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","12");%></th>
+			     				   <TD><%NvramGet("tmp_store_PPPoEUsername");%></TD>
+			     				 </TR>
+			     				 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","13");%></th>
+			     				   <TD><%NvramGet("tmp_store_PPPoEPassword");%></TD>
+			     				 </TR>
+								 <TR>
+			     				   <th><%GetString("InterPPPoEReg","58");%></th>
+			     				   <TD><%NvramGet("tmp_store_PPPoEstaticIP");%></TD>
+			     				 </TR>
+								 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","15");%></th>
+			     				   <TD>
+									<TABLE>
+									  <TR>
+									    <TD>
+											<%GetString("AutoDetectNocablePPPoEWDS","31");%>
+										</TD>
+										<TD>
+			     							<%NvramGet("tmp_store_PPPoEDNS1");%>
+			     					    </TD>
+									  </TR>
+									  <TR>
+									    <TD>
+											<%GetString("AutoDetectNocablePPPoEWDS","32");%>
+										</TD>
+										<TD>
+			     							<%NvramGet("tmp_store_PPPoEDNS2");%>
+										</TD>
+									  </TR>
+									</TABLE>
+								   </TD>
+     							 </TR>
+								 <!--TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","20");%></th>
+			     				   <TD><%NvramGet("tmp_store_PPPoEDNS1");%></TD>
+			     				 </TR>
+			     				 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","21");%></th>
+			     				   <TD><%NvramGet("tmp_store_PPPoEDNS2");%></TD>
+			     				 </TR-->
+			     			    </TBODY>
+     						  </TABLE>
+							  </DIV>
+
+							  <DIV id="DHCPSTATIC" style="display: none;">
+							  <TABLE class=WIZ_SET>
+     						    <TBODY>
+			     				 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","24");%></th>
+			     				   <TD><DIV id="Method_IP_Address"></DIV></TD>
+			     				 </TR>
+			     				 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","25");%></th>
+			     				   <TD><%NvramGet("tmp_store_WANStaticIP");%></TD>
+			     				 </TR>
+								 <TR>
+		     					   <th><%GetString("AutoDetectNocablePPPoEWDS","30");%></th>
+			     				   <TD><%NvramGet("tmp_store_WANStaticMASK");%></TD>
+			     				 </TR>	
+								 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","26");%></th>
+			     				   <TD><%NvramGet("tmp_store_InternetDefaultGateway");%></TD>
+			     				 </TR>
+			     				 <TR>
+			     				   <th><%GetString("AutoDetectNocablePPPoEWDS","15");%></th>
+			     				   <TD>
+									<TABLE>
+									  <TR>
+									    <TD>
+											<%GetString("AutoDetectNocablePPPoEWDS","31");%>
+										</TD>
+										<TD>
+			     							<%NvramGet("tmp_store_InternetDNS1");%>
+			     					    </TD>
+									  </TR>
+									  <TR>
+									    <TD>
+											<%GetString("AutoDetectNocablePPPoEWDS","32");%>
+										</TD>
+										<TD>
+			     							<%NvramGet("tmp_store_InternetDNS2");%>
+										</TD>
+									  </TR>
+									</TABLE>
+								   </TD>
+     							 </TR>
+     							</TBODY>
+     						  </TABLE>
+     						  </DIV>
+     						</td>
+     						<td class=TBL_R></td>
+     					  </tr>
+						  <tr class=FOOT>
+			                <td class=TBL_L></td>
+					        <td class=TBL_C></td>
+		                    <td class=TBL_R></td>
+		                  </tr>
+		                </tbody>
+     				</table>
+     			</TD>
+				<TD class=TBL_R></TD>
+			  </TR>
+	          <TR class=FOOT>
+	            <TD class=TBL_L></TD>
+	            <TD class=TBL_C></TD>
+	            <TD class=TBL_R></TD>
+	          </TR>
+			</TBODY>
+		  </TABLE>
+	 	  <table class=NAVI>
+	        <tbody>
+	          <tr>
+	            <td class=NAVI_L>
+		     		<INPUT type="button" value="<%GetString("AutoDetectJudgePPPoEConfig","13");%>" onClick="self.location.href='auto_detect_store_setting_end.html'">
+	            </td>
+				<td class=NAVI_C></td>
+	     		<td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("AutoDetectJudgePPPoEConfig","14");%>" onClick="apply();">
+	     		</td>
+		      </tr>
+	        </TBODY>
+	      </TABLE>
+		</td>
+		<td class=TBL_R></td>
+	</tr>
+	<tr class=FOOT>
+		<td class=TBL_L></td>
+		<td class=TBL_C></td>
+		<td class=TBL_R></td>
+	</tr>
+  </TBODY>
+</TABLE>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST">
+<input type="hidden" name="InternetDefaultGateway" value="">
+<input type="hidden" name="InternetDNS1" value="">
+<input type="hidden" name="InternetDNS2" value="">
+<input type="hidden" name="WanMethod" value="">
+<input type="hidden" name="WanIPAssignment" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST">
+<INPUT type="hidden" name="PPPoE1Name" value="profile01">
+<input type="hidden" name="PPPoE1Username" value="">
+<input type="hidden" name="PPPoE1Password" value="">
+<input type="hidden" name="PPPoE1IPFixed" value="">
+<input type="hidden" name="PPPoE1IP" value="">
+<input type="hidden" name="PPPoE1DNS1" value="">
+<input type="hidden" name="PPPoE1DNS2" value="">
+<input type="hidden" name="WanMethod" value="">
+<input type="hidden" name="WanIPAssignment" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST">
+<input type="hidden" name="WANStaticIP" value="">
+<input type="hidden" name="WANStaticMASK" value="">
+<input type="hidden" name="InternetDefaultGateway" value="">
+<input type="hidden" name="InternetDNS1" value="">
+<input type="hidden" name="InternetDNS2" value="">
+<input type="hidden" name="WanMethod" value="">
+<input type="hidden" name="WanIPAssignment" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</BODY>
+</HTML>
+
+ 

@@ -1,0 +1,247 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<link rel="stylesheet" type="text/css" href="/images/style-PY20-advanced.css">
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+
+<style type="text/css">
+	<!--
+	.mainContents table,
+	.mainContents tbody,
+	.mainContents tr,
+	.mainContents th,
+	.mainContents td
+	{
+		background-color: #E6E6E6 !important;
+		border:none !important;
+		color: #000000 !important;
+	}
+
+	body {
+		font-family: Helvetica !important;
+		font-size: 12px !important;
+		margin: 0px !important;
+		background-color: #808080 !important;
+	}
+	.mainContents table.WIZ_FRAME tr.HEAD
+	{
+		display: none !important;
+	}
+		#main
+	{
+		min-height: 300px !important;
+	}
+	.mainContents div.C_ERR p
+	{
+		text-align: left;
+	}
+	.mainContents a
+	{
+		text-decoration: underline !important;
+	}
+	-->
+</style>
+
+<script language="JavaScript">
+  <!--
+     ReloadTime = <%CheckConnection("redirect_secs");%>;
+function ReloadTimer()
+{
+	setTimeout("location.href='top_wizard_connect_check.html'" , ReloadTime);
+}
+function AutoClose()
+{
+	var PPPstate="<%NvramGet("PPPoE1State");%>";
+    
+  if(PPPstate=="2")
+  {
+    var obj = document.getElementById("id_PPPoEsucess");
+    //setTimeout('Close();', 60000);
+    obj.style.display="";
+    obj.innerHTML = "<BR/>&nbsp; <%GetString("AutoDetectSmart","55");%><BR/>";
+    obj.innerHTML += "&nbsp; <%GetString("AutoDetectSmart","56");%>";    
+  }
+  else
+  {
+    //document.getElementById("id_PPPoEsucess").style.display="";
+		var obj = document.getElementById("id_PPPoEsucess");
+		//setTimeout('Close();', 60000);
+		obj.style.display="";
+		obj.innerHTML = "<BR/>&nbsp; <%GetString("AutoDetectSmart","55");%><BR/>";
+		obj.innerHTML += "&nbsp; <%GetString("AutoDetectSmart","56");%>";
+  }
+}
+function back()
+{
+	document.check_connect.submit();
+}
+function init()
+{
+	checkBrowserCss();
+	document.getElementById("wrapper").style.display="";
+}
+//-->
+</script>
+<title>WHR-1166D - BUFFALO AirStation</title>
+
+</HEAD>
+<BODY class=WIZ_BODY onLoad="init();<%CheckConnection("onload_jscall");%>" id="id_main">
+<center>
+<div id="wrapper" style="display:none;">
+	<div class="head"><!-- header -->
+		<span class="headerLogo">
+			<img alt="BUFFALO" src="/images/py20_logo_buffalo.png">
+		</span>
+		<span class="statusArea">
+			<span class="statusIcon status_home" onclick="top.location.href='index.html'" style="display: none;"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="" style="display: none;"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick()" style="display: none;"></span>
+			<span class="statusIcon status_logout" onclick="location.href='logout.html'" style="display: none;"></span>
+			<span style="clear:both"></span>
+		</span>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="title_wizard">
+		<img src="/images/py20_header_i_at_s.png" width="36" height="36" class="title_icon"/>
+		<div class="title_text" id="title_text">
+		<%GetString("TopMain","66");%>
+		</div>	
+	</div>
+	
+	<div class="contents">
+		<div class="mainContents">
+			<div class="without_button_area">
+				<div class="setting_main">
+					<div id="main">
+					<TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+                 <%GetString("TopMain","66");%>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+     			<td class=TBL_C>&nbsp;<%GetString("TopMain","66");%></td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+                  <div id="id_PPPoEsucess" style="dispaly:none; text-align:left;"></div>
+                  <TABLE class=WIZ_CONN_CHECK>
+                    <TBODY>
+                      <TR>
+     <TD <%CheckConnection("step_cabling");%>><div name="cabling"><%CheckConnection("string_cabling");%></div></TD>
+     <TD <%CheckConnection("step_ifconfig");%>><div name="ifconfig"><%CheckConnection("string_ifconfig");%></div></TD>
+     <TD <%CheckConnection("step_nameresolution");%>><div name="namereso"><%CheckConnection("string_nameresolution");%></div></TD>
+                      </TR>
+                    </TBODY>
+                  </TABLE>
+                  <IFRAME 
+                  	src= "inframe_check_info.html"
+                  	name="ok_image" id="id_chkok" width="400" height="100" scrolling="no" border="0" marginheight="0" marginwidth="0" leftmargin="0" topmargin="0">
+                  </IFRAME>
+                  <BR>
+                  <%CheckConnection("link");%>
+     				  <BR>
+     				  <BR>
+     				</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+<form method="POST" name="check_connect" action="redirect.html">
+<input type="hidden" name="PageName" value="check_connect.html">
+ 	 <table class=NAVI>
+        <tbody>
+			<%CheckConnection("line");%>
+          <tr>
+            <td class=NAVI_L>
+            <%CheckConnection("button_back");%>
+            </td>
+			
+            <td class=NAVI_C>
+			<%CheckConnection("button_finish");%>
+     		</td>
+     	  <td class=NAVI_R>
+     	  </td>
+     	</tr>
+        </TBODY>
+      </TABLE>
+      <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+					</div><!-- #main -->
+				</div><!-- #setting_main -->
+			</div><!-- #without_button_area -->
+		</div><!-- #mainContents -->
+	</div><!-- #contents -->
+
+	<div class="footer">
+		<div class="aistation_logo"></div>
+		<div class="modelname">
+			<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+		</div>
+		<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+	</div>
+
+</div><!-- #wrapper -->
+</center>
+</BODY>
+</HTML>

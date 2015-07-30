@@ -1,0 +1,711 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<title><%GetString("TopWizardInetStart","1");%></title>
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function gotoprf()
+{
+	top.location.href='index.html?page=nat_reg.html';
+}
+
+function apply()
+{
+	var tcpp="", tcpp2, tcpp3, tcpp4="";
+	var udpp="", udpp2, udpp3, udpp4="";
+	var tcpport=document.forms[0].tcp_port.value;
+	var udpport=document.forms[0].udp_port.value;
+	tcpp2=tcpport.split(',');
+	udpp2=udpport.split(',');
+	//hehe add 2011.10.25
+	//tcp
+	for (i=0; i<16; i++)
+	{
+		eval("document.forms[0].tcpport_" + i).value = "";	
+		eval("document.forms[0].udpport_" + i).value = "";
+	}
+	for (i=0; i<tcpp2.length; i++)
+	{
+		if (tcpp2[i].search("-") > 0)
+		{
+			eval("document.forms[0].tcpport_" + i).value = tcpp2[i];
+
+			tcpp3 = tcpp2[i].split("-");
+
+			tcpp4 += tcpp3;
+
+			if (i!=tcpp2.length-1)
+			{
+				tcpp4 += ",";
+			}
+		}
+		else{
+			tcpp4 += tcpp2[i];
+
+			if (i!=tcpp2.length-1)
+			{
+				tcpp4 += ",";
+			}
+		
+			eval("document.forms[0].tcpport_" + i).value = tcpp2[i];
+		}
+	}
+	tcpp = tcpp4.split(",");
+
+	//udp
+	for (i=0; i<udpp2.length; i++)
+	{
+		if (udpp2[i].search("-") > 0)
+		{
+			eval("document.forms[0].udpport_" + i).value = udpp2[i];
+
+			udpp3 = udpp2[i].split("-");
+
+			udpp4 += udpp3;
+
+			if (i!=udpp2.length-1)
+			{
+				udpp4 += ",";
+			}
+		}
+		else{
+			udpp4 += udpp2[i];
+
+			if (i!=udpp2.length-1)
+			{
+				udpp4 += ",";
+			}
+
+			eval("document.forms[0].udpport_" + i).value = udpp2[i];
+		}
+	}
+	udpp = udpp4.split(",");
+	//add end
+  
+  if (document.forms[0].tcp_port.value.length==0 && document.forms[0].udp_port.value.length==0)
+  {
+    Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","30");%>");
+    return;
+  }
+	  
+	if (!check_port(document.forms[0].tcp_port.value))
+	{
+	/* hebe marked 2011.10.26
+	  if (tcpp.length!=2 && document.forms[0].tcp_port.value.length!=0)
+	  {
+      Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+      return;
+    }
+    else if (document.forms[0].tcp_port.value.length!=0)
+    {
+      if (!check_port(tcpp[0]) || !check_port(tcpp[1]) || (parseInt(tcpp[0],10)>parseInt(tcpp[1],10)) || isEmpty(tcpp[0]) || isEmpty(tcpp[1]))
+      {
+        Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+        return;
+      }
+    }
+	*/
+
+		if (document.forms[0].tcp_port.value.length!=0)
+	    {
+			for (i=0; i<tcpp.length; i++)
+			{
+				if (!check_port(tcpp[i]) || isEmpty(tcpp[i]))
+			    {
+					Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+			        return;
+			    }	
+			}
+
+			for (i=0; i<16; i++)
+			{
+				if (eval("document.forms[0].tcpport_" + i).value.search("-"))
+				{
+					tcpp5 = eval("document.forms[0].tcpport_" + i).value.split("-");
+
+					if ((parseInt(tcpp5[0],10)>parseInt(tcpp5[1],10)))
+					{
+						Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+				        return;
+					}
+				}			
+			}
+	    }
+	}
+
+	if (!check_port(document.forms[0].udp_port.value))
+	{
+	  /*if (udpp.length!=2 && document.forms[0].udp_port.value.length!=0)
+	  {
+      Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+      return;
+    }
+    else if (document.forms[0].udp_port.value.length!=0)
+    {
+      if (!check_port(udpp[0]) || !check_port(udpp[1]) || (parseInt(udpp[0],10)>parseInt(udpp[1],10)) || isEmpty(udpp[0]) || isEmpty(udpp[1]))
+      {
+        Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+        return;
+      }
+    }
+	*/
+
+		if (document.forms[0].udp_port.value.length!=0)
+		{
+			for (i=0; i<udpp.length; i++)
+			{
+				if (!check_port(udpp[i]) || isEmpty(udpp[i]))
+			    {
+					Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+			        return;
+			    }	
+			}
+
+			for (i=0; i<16; i++)
+			{
+				if (eval("document.forms[0].udpport_" + i).value.search("-"))
+				{
+					udpp5 = eval("document.forms[0].udpport_" + i).value.split("-");
+
+					if ((parseInt(udpp5[0],10)>parseInt(udpp5[1],10)))
+					{
+						Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","29");%>");
+				        return;
+					}
+				}			
+			}
+		}
+  }
+  
+  if (!isEmpty(document.forms[0].tcp_port.value))
+  {
+    if (!check_same_rule(document.forms[0].tcp_port.value,"TCP")){
+      return;
+	}
+  }
+  if (!isEmpty(document.forms[0].udp_port.value))
+  {
+    if (!check_same_rule(document.forms[0].udp_port.value,"UDP")){
+      return;
+	 }
+  }
+  
+  document.getElementById("ip_manual").value = ip_normalize_0(document.getElementById("ip_manual").value);
+
+  if (document.getElementById("manual_ipset").checked == true)
+  {  
+  	if (document.getElementById("ip_manual").value.length!=0)
+	  {
+  	  if (!isAllowValueIP(document.getElementById("ip_manual").value))
+	    {
+	      Show_WizardError("<%GetString("WizardFuncInet","31");%>", "<%GetString("WizardFuncInet","34");%>");
+	      return;
+	    }
+	    if (!check_ip_format(document.getElementById("ip_manual").value,"<%GetString("WizardFuncInet","31");%>","")){
+	      return;
+		 }
+	  }
+	  else
+	  {
+	    Show_WizardError("<%GetString("WizardFuncInet","31");%>", "<%GetString("WizardFuncInet","32");%>");
+	    return;
+	  }
+  }
+  Hide_error();
+
+  if (document.getElementById("auto_ipset").checked == true){
+  	document.getElementById("id_lansideip").value="<%GetLanIPAddress();%>";
+  }
+  else if (document.getElementById("manual_ipset").checked == true){
+  	document.getElementById("id_lansideip").value=document.getElementById("ip_manual").value;
+  }
+  
+  var tcp_num;
+  var udp_num;
+  if (document.forms[0].tcp_port.value.length == 0)
+  	tcp_num = 0;
+  else
+  	tcp_num = tcpp.length;
+  if (document.forms[0].udp_port.value.length == 0)
+  	udp_num = 0;
+  else
+  	udp_num = udpp.length;
+  var index="<%NvramGet("PortForwardCount");%>";
+	index=parseInt(index);
+  var PortForwardCount = tcp_num + udp_num + index;
+  if(PortForwardCount > 32)
+  {
+  	Show_WizardError2("<%GetString("FilterIp","69");%>");
+  	return;
+  }
+  document.forms[0].submit();
+}
+
+
+function check_same_rule(portno,porttype)
+{
+  var protnum="";
+  var tablewanip="";
+  var i;
+  var rule_count_string='<%NvramGet("PortForwardCount");%>';
+  var rule_count=parseInt(rule_count_string, 10);
+  var tablewanp;
+  var tablewport="";
+  var wanp;
+
+  wanp=portno.split('-');
+  
+  for (i=1; i<=rule_count; i++)
+  {
+    tablewport="";
+    tablewanp="";
+
+    tablewport=document.getElementById("id_wport"+i).innerHTML;
+    tablewanp=tablewport.split('-');
+    
+    if ((portno==document.getElementById("id_wport"+i).innerHTML) && (porttype==document.getElementById("id_proto"+i).innerHTML))
+    {
+      Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","41");%>");
+      return false;
+    }
+    else if (porttype==document.getElementById("id_proto"+i).innerHTML)
+    {
+      if (tablewanp.length==1 && wanp.length==2)
+      {
+        tablewport=parseInt(tablewport,10);
+        wanp[0]=parseInt(wanp[0],10);
+        wanp[1]=parseInt(wanp[1],10);
+        
+        if (tablewport>=wanp[0] && tablewport<=wanp[1])
+        {
+          Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","41");%>");
+          return false;
+        }
+      }
+      else if (tablewanp.length==2)
+      {
+        tablewanp[0]=parseInt(tablewanp[0],10);
+        tablewanp[1]=parseInt(tablewanp[1],10);
+        
+        if (wanp.length==1)
+        {
+          portno=parseInt(portno,10);
+          
+          if (portno>=tablewanp[0] && portno<=tablewanp[1])
+          {
+            Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","41");%>");
+            return false;
+          }
+        }
+        else if (wanp.length==2)
+        {
+          wanp[0]=parseInt(wanp[0],10);
+          wanp[1]=parseInt(wanp[1],10);
+          
+          if (((wanp[0]>=tablewanp[0] && wanp[0]<=tablewanp[1]) || (wanp[1]>=tablewanp[0] && wanp[1]<=tablewanp[1])) || ((tablewanp[0]>=wanp[0] && tablewanp[0]<=wanp[1]) || (tablewanp[1]>=wanp[0] && tablewanp[1]<=wanp[1])))
+          {
+            Show_WizardError("<%GetString("WizardFuncInet","28");%>", "<%GetString("WizardFuncInet","41");%>");
+            return false;
+          }
+        }
+      }
+    }
+  }
+  
+  return true;
+}
+
+function check_ip_format(ip, item, type)
+{
+	var n;
+	var lanip='<%NvramGet("LanIPAddr");%>';
+	var lanmask='<%NvramGet("LanNetmask");%>';
+	
+	if (ip=="0.0.0.0")
+	{
+    		Show_WizardError(item, "<%GetString("WizardFuncInet","35");%>");
+    		return false;
+  	}
+  	if (ip=="255.255.255.255")
+  	{
+   		Show_WizardError(item, "<%GetString("WizardFuncInet","36");%>");
+    		return false;
+  	}
+  	if (ip==lanip)
+  	{
+   		Show_WizardError(item, "<%GetString("WizardFuncInet","37");%>");
+    		return false;
+  	}
+	if (!isBlank(ip))
+	{
+		n = ip.split('.');
+		if (n.length!=4)
+		{
+     			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false;
+    		}
+		if(isBlank(n[0]))
+		{
+		  	Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false;
+    		}	
+		else if((isNaN(n[0]))||(n[0]<=0)||!check_integer(n[0])||check_initial_zero(n[0])||n[0]>255) 
+		{
+      			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false; 
+    		}
+    		else if (n[0]==127)
+    		{
+    		  	Show_WizardError(item, "<%GetString("WizardFuncInet","39");%>");
+    		  	return false;
+    		}
+    		else if ((n[0]>=224)&&(n[0]<=239))
+    		{
+    		  	Show_WizardError(item, "<%GetString("WizardFuncInet","49");%>");
+    		  	return false;
+    		}
+			else if ((n[0]>=240)&&(n[0]<=255))
+    		{
+    		  	Show_WizardError(item, "<%GetString("WizardFuncInet","40");%>");
+    		  	return false;
+    		}	
+			
+		if(isBlank(n[1]))
+		{
+      			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false;
+    		}
+		//else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])||check_initial_zero(n[1])) 
+		else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])) //hebe modify 2011/10/21
+		{
+      			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false; 
+    		}		
+		
+		if(isBlank(n[2]))
+		{
+      			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false;
+    		}
+		//else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])||check_initial_zero(n[2])) 
+		else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])) //hebe modify 2011/10/21
+		{
+      			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false; 
+    		}
+		
+		if(isBlank(n[3]))
+		{
+      			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false;
+    		}
+		//else if((isNaN(n[3]))||(n[3]<=0)||(n[3]>=255)||!check_integer(n[3])||check_initial_zero(n[3])) 
+		else if((isNaN(n[3]))||(n[3]<=0)||(n[3]>=255)||!check_integer(n[3]))  //hebe modify 2011/10/21
+		{
+      			Show_WizardError(item, "<%GetString("WizardFuncInet","38");%>");
+      			return false; 
+    		}
+	}
+
+	return true;
+}
+
+function isEmpty(s)
+{
+	if(s.length==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function check_initial_zero(tmp)
+{	
+	if(tmp.length>1&&tmp.charAt(0)=="0")
+	{
+		return true;
+	}
+	return false;
+}
+
+function Init()
+{	
+	var index="<%NvramGet("PortForwardCount");%>";
+	index=parseInt(index);
+	if (index>=32)
+	{
+		document.getElementById("id_fallbl").style.display="";
+		document.getElementById("id_addbl").style.display="none";
+		document.getElementById("id_fallbt").style.display="none";
+	}
+}
+
+function isAllowValueIP(s,item)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || (c=='.'))
+		{
+      continue;
+		}
+		else
+		{
+		  Show_WizardError(item, "<%GetString("WizardFuncInet","34");%>");
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+  // -->
+</script>
+</HEAD>
+<BODY class=WIZ_BODY onload="Init();">
+
+<form  method="POST" name="main" >
+<input type="hidden" name="udpport_0"   value="">
+	<input type="hidden" name="udpport_1"   value="">
+	<input type="hidden" name="udpport_2"   value="">
+	<input type="hidden" name="udpport_3"   value="">
+	<input type="hidden" name="udpport_4"   value="">
+	<input type="hidden" name="udpport_5"   value="">
+	<input type="hidden" name="udpport_6"   value="">
+	<input type="hidden" name="udpport_7"   value="">
+	<input type="hidden" name="udpport_8"   value="">
+	<input type="hidden" name="udpport_9"   value="">
+	<input type="hidden" name="udpport_10"   value="">
+	<input type="hidden" name="udpport_11"   value="">
+	<input type="hidden" name="udpport_12"   value="">
+	<input type="hidden" name="udpport_13"   value="">
+	<input type="hidden" name="udpport_14"   value="">
+	<input type="hidden" name="udpport_15"   value="">
+	
+	<input type="hidden" name="tcpport_0"   value="">
+	<input type="hidden" name="tcpport_1"   value="">
+	<input type="hidden" name="tcpport_2"   value="">
+	<input type="hidden" name="tcpport_3"   value="">
+	<input type="hidden" name="tcpport_4"   value="">
+	<input type="hidden" name="tcpport_5"   value="">
+	<input type="hidden" name="tcpport_6"   value="">
+	<input type="hidden" name="tcpport_7"   value="">
+	<input type="hidden" name="tcpport_8"   value="">
+	<input type="hidden" name="tcpport_9"   value="">
+	<input type="hidden" name="tcpport_10"   value="">
+	<input type="hidden" name="tcpport_11"   value="">
+	<input type="hidden" name="tcpport_12"   value="">
+	<input type="hidden" name="tcpport_13"   value="">
+	<input type="hidden" name="tcpport_14"   value="">
+	<input type="hidden" name="tcpport_15"   value="">
+<table class=WIZ_FRAME>
+<tbody>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+
+        <table class=WIZ_FRAME2>
+        <tbody>
+
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("WizardFuncInet","1");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("WizardFuncInet","2");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+               <div id="id_fallbl" style="display:none;">  
+		<table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+                      &nbsp;<%GetString("WizardFuncInet","3");%>
+                      <p class=C_WARN><%GetString("NatReg","77");%></p>
+                    </td>
+     			<td class=TBL_R></td>
+                  </tr>
+                  <tr class=TBL>
+                       <td class=TBL_L></td>
+                       <td class=TBL_C>
+
+                  <table class=WIZ_TIPS>
+                    <tbody>
+                      <tr>
+                        <td>
+							<%GetString("WizardFuncInet","42");%>
+                            <a href="javascript:;" onClick="gotoprf();"><%GetString("WizardFuncInet","3");%></a>].
+                        </td>
+                        <td class=TBL_R></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                    </td>
+                    <td class=TBL_R></td>
+                  </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+                </table>
+                        	
+               </div>
+               <div id="id_addbl">  
+                <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+                      &nbsp;<%GetString("WizardFuncInet","3");%>
+                               <div id="id_errtbl" class="C_ERR" style="display:none;"></div>             
+                    </td>
+                    <td class=TBL_R></td>
+                  </tr>  
+                  <tr class=TBL>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+                      <table class=WIZ_SET>
+                      <tbody>
+                      <tr>
+                        <th><%GetString("WizardFuncInet","4");%></th>
+                        <td>
+                        	<INPUT name=tcp_port maxlength="32">
+							
+                        </Td>
+                      </tr>
+                      <tr>
+                        <th><%GetString("WizardFuncInet","5");%></th>
+                        <td>
+                        	<INPUT name=udp_port maxlength="32">
+							
+     			</td>
+                      </tr>
+                      <tr>
+                        <th><%GetString("WizardFuncInet","6");%></th>
+                        <td>
+                                      <INPUT type="radio" value="0" name="nosave_inet_lanip" id="auto_ipset" checked><%GetString("WizardFuncInet","7");%> (
+                                      <%GetLanIPAddress();%>)
+                                        <BR>                            
+                                        <INPUT type="radio" value="1" name="nosave_inet_lanip" id="manual_ipset"><%GetString("WizardFuncInet","8");%>                    	
+                                        <INPUT size="20" type="text" id="ip_manual" maxlength="15">     	
+                                        <INPUT type="hidden" name="l_ip" id="id_lansideip" value="">  
+                        </td>
+			</tr>
+                      </tbody>
+                      </table>
+                      <table class=WIZ_TIPS>
+                      <tbody>
+                      <tr>
+                        <td>
+                        <%GetString("WizardFuncInet","9");%>
+                                      	<BR><%GetString("WizardFuncInet","42");%></td>                        
+                                  </tr>                      
+                                </tbody>                      
+                              </table>                    </td>                    
+                            <td class=TBL_R></td>                  
+                      </tr>                  
+                          <tr class=FOOT>                    
+                            <td class=TBL_L></td>                    
+                            <td class=TBL_C></td>                    
+                            <td class=TBL_R></td>                  
+
+                  </tr>
+                </tbody>
+                </table>
+                </div> 
+                </td>
+                    <td class=TBL_R></td>
+              </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+            </tbody>
+          </table>
+
+		  
+            </TD>
+            <TD class=TBL_R></TD>
+			  </tr>
+			  <tr class=TBL>
+			  	<td class=TBL_L></td>
+
+
+			    <td class=TBL_C align="center">
+
+
+
+
+
+        <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+                  <INPUT type="button" value="<%GetString("WizardFuncInet","11");%>" onClick="top.location.href='index.html'">
+                  </TD>
+            <td class=NAVI_C></td>
+            <td class=NAVI_R id="id_fallbt">
+
+                  <INPUT type="button" value="<%GetString("WizardFuncInet","12");%>" onclick="apply()">
+
+            </td>
+          </tr>
+        </tbody>
+        </table>
+	</td>
+	<td class=TBL_R></td>
+  </tr>  
+        <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+
+				<!-- PRF table begin-->
+				<%GetPRFTable();%>
+				<!-- PRF table end-->
+			</TD>
+            <TD class=TBL_R></TD>
+          </TR>
+    </TBODY>
+  </TABLE>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<form method="POST">
+	
+
+	<input type="hidden" name="lansideip"   value="">
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</BODY>
+</HTML>

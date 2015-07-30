@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css"
+><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+function setMACEnable(item)
+{
+	if(document.getElementById(item+"_tmp").checked == true)
+	{
+		document.getElementById(item).value = 1;
+		document.getElementById("content").style.display="none";
+		document.getElementById("confirm").style.display="";
+	}
+	else
+	{
+		document.getElementById(item).value = 0;
+		document.forms[0].submit();
+	}
+	
+}
+function Back()
+{
+	document.getElementById("content").style.display="";
+	document.getElementById("confirm").style.display="none";
+	document.getElementById("mac_enable_tmp").checked = false;
+}
+function Apply()
+{
+	document.forms[0].submit();
+}
+//-->
+</script>
+</head>
+<body class="BFK_BODY">
+<br>
+<br>
+<%CheckAOSSActing("mac.html");%>
+<p class=C_WARN> </p>
+
+<form method="POST" action="mac.html">
+<div id="content">
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Mac","1");%></th>
+      <td>
+        <input type="checkbox" value="0" id="mac_enable_tmp" <%NvramMatch("WIFIMACFilterEnable","1","checked");%>><%GetString("Mac","2");%>
+      	<input type="hidden" value="0" name="WIFIMACFilterEnable" id="mac_enable">
+      </td>
+    </tr>
+  </table>
+  <p><input type="button" value="<%GetString("Mac","3");%>" onClick="setMACEnable('mac_enable');"></p>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+  <hr>
+<table class="AD_TTL2">
+  <tr>
+    <td><%GetString("Mac","4");%>
+     </td>
+  </tr>
+</table>
+<table class="AD_LIST">
+  <tr>
+    <th><%GetString("Mac","5");%></th>
+    <th><%GetString("Mac","6");%></th>
+  </tr>
+  <%GetWirelessMACList("status");%>
+</table>
+     <input type="button" value="<%GetString("Mac","8");%>" onClick="Changelink('mac_reg.html', 'help_mac_reg.html');">
+</div>
+<div id="confirm" style="display:none;">
+<body class="BFK_BODY">
+	<p>
+		<BR><%GetString("Mac","12");%>
+	</p>
+	<p><%GetString("Mac","13");%></p>
+
+	<div class="C_CONFIRM">
+		<p><%GetString("Mac","14");%><br>
+		<ol>
+			<li><%GetString("Mac","15");%></li>
+			<li><%GetString("Mac","16");%></li>
+			<li><%GetString("Mac","17");%></li>
+		</ol>
+		&nbsp;&nbsp;&nbsp;<%GetString("Mac","18");%>
+		</p>
+     <input type="submit" value="<%GetString("Mac","3");%>" onClick="Apply();">
+     <input type="button" value="<%GetString("Mac","19");%>" onClick="Back();">
+	</div>
+</table>
+</div>    
+</body>
+</html>

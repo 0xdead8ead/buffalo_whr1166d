@@ -1,0 +1,196 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<script src="OpenHelp.html"></script>
+<script language="JavaScript">
+
+<!--
+function DoSubmit()
+{
+	//document.forms[0].submit();
+	
+	document.form_update.fwupbutton.disabled = 1;
+	if (document.form_update.upmethod[0].checked == true)
+	{
+		document.form_update.submit();
+	}
+	else
+	{
+		document.online_form.submit();
+	}
+}
+
+function upmethod_select()
+{
+	if (document.form_update.upmethod[0].checked == true) 
+	{
+		document.form_update.file.disabled = 0;
+	} 
+	else 
+	{
+		document.form_update.file.disabled = 1;
+	}
+}
+//-->
+</script>
+<title><%GetString("TopWizardInetStart","1");%></title>
+<script src="OnceOnly.html"></script>
+</HEAD>
+<BODY class=WIZ_BODY>
+<form name="form_update" onsubmit="return onceOnly(this);"  method="POST" action="wizard_func_fwup.html" enctype="multipart/form-data">
+
+
+
+<table class=WIZ_FRAME>
+<tbody>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+
+        <table class=WIZ_FRAME2>
+        <tbody>
+          <tr class=HEAD>
+            <td class=TBL_L></td>
+            <td class=TBL_C><%GetString("WizardFuncFwup","1");%></td>
+            <td class=TBL_R></td>
+          </tr>
+          <tr class=HEAD2>
+            <td class=TBL_L></td>
+            <td class=TBL_C></td>
+            <td class=TBL_R></td>
+          </tr>
+          <tr class=TBL>
+            <td class=TBL_L></td>
+            <td class=TBL_C>
+
+              <table class=WIZ_FRAME3>
+              <tbody>
+                <tr class=HEAD>
+                  <td class=TBL_L></td>
+                  <td class=TBL_C>
+                        <%GetString("WizardFuncFwup","2");%>
+                  </td>
+                  <td class=TBL_R></td>
+                </tr>
+                <tr class=TBL>
+                  <td class=TBL_L></td>
+                  <td class=TBL_C>
+                    <table class=WIZ_SET>
+                    <tbody>
+                      <tr>
+                        <th><%GetString("WizardFuncFwup","17");%></th>
+                        <td>
+                          <table>
+													<tr>
+														<td>
+															<input type="radio" value="local" name="upmethod" onClick="upmethod_select();" checked><%GetString("WizardFuncFwup","18");%>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<input type="radio" value="online" name="upmethod" onClick="upmethod_select();"><%GetString("WizardFuncFwup","19");%>
+														</td>
+													</tr>
+													</table>
+                                
+                                
+                        </td>
+                      </tr>
+                      <tr>
+                        <th><%GetString("WizardFuncFwup","3");%></th>
+                        <td>
+                                <input type="file" name="file" size="45">
+                                
+                                
+                        </td>
+                      </tr>
+                    </tbody>
+                    </table>
+                    <table class=WIZ_TIPS>
+                    <tbody>
+                      <tr>
+                        <td>
+                                <%GetString("WizardFuncFwup","8");%>
+                                <p style="text-align:center;">
+									<script>
+									if ('<%NvramGet("Region");%>' == 'JP')
+									{
+										document.write("<a href=\"http://buffalo.jp/download/driver/\" target=\"_new\">");
+									}
+									else
+									{
+										document.write("<a href=\"http://www.buffalotech.com\" target=\"_new\">");
+									}
+									</script>
+									<%GetString("WizardFuncFwup","5");%>
+									</a>
+                                </p>
+                        </td>
+                      </tr>
+                    </tbody>
+                    </table>
+
+                  </td>
+                  <td class=TBL_R></td>
+                </tr>
+                <tr class=FOOT>
+                  <td class=TBL_L></td>
+                  <td class=TBL_C></td>
+                  <td class=TBL_R></td>
+                </tr>
+              </tbody>
+              </table>
+            </td>
+            <td class=TBL_R></td>
+          </tr>
+          <tr class=FOOT>
+            <td class=TBL_L></td>
+            <td class=TBL_C></td>
+            <td class=TBL_R></td>
+          </tr>
+        </tbody>
+        </table>
+        <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+                  <INPUT type="button" value="<%GetString("WizardFuncFwup","6");%>" onClick="top.location.href='index.html'">
+            </td>
+            <td class=NAVI_C></td>
+            <td class=NAVI_R>
+                  <INPUT type="button" name="fwupbutton" value="<%GetString("WizardFuncFwup","7");%>" onClick="DoSubmit()">
+            </td>
+          </tr>
+        </tbody>
+        </table>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</tbody>
+</table>
+<!--<input type=hidden name=sWebSessionnum value=47>-->
+<!--<input type=hidden name=sWebSessionid value=-678843008>-->
+</form>
+<form name="online_form" method="POST">
+<input type="hidden" name="nosave_onlinefwcheck_wizard" value="1">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</BODY>
+</HTML>

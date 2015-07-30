@@ -1,0 +1,892 @@
+body {
+	font-size: 12px;
+	margin: 0 0 0 20px;
+	background-color: #808080;
+}
+.test_gray{
+        font-size: 12px;
+        margin: 0px 0 0 0px;
+        background-color: #E6E6E6;
+}
+
+.test_wireless_gray{
+        font-size: 12px;
+        margin: 0px 0 0 15px;
+        background-color: #E6E6E6;
+		width: 100%;
+}
+
+a{
+    text-decoration: none;
+}
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+a:active {
+    text-decoration: none;
+}
+img.vbottom {
+	vertical-align: bottom;
+}
+input[type="password"]{
+	font-family: sans-serif;
+}
+input[type="text"]{
+	font-family: sans-serif;
+}
+input[type="button"]{
+	font-family: sans-serif;
+}
+input[type="submit"]{
+	font-family: sans-serif;
+}
+.left-float {
+	float: left;
+}
+.right-float {
+	float: right;
+}
+
+/* login
+---------------------------------------*/
+.login_base{
+	width: 324px;
+	height: 448px;
+    position:absolute;
+	background-color: #E6E6E6;
+	border: 0px solid #666666;
+	box-shadow: 1px 2px 7px #999999;
+}
+.login_head {
+	padding: 25px 38px 0px 38px;
+	background-color: #E6E6E6;
+	border: 0px solid #666666;
+	border-radius: 10px 10px 0px 0px;
+	-moz-border-radius: 10px 10px 0px 0px;
+	-webkit-border-radius: 10px 10px 0px 0px;
+}
+.login_logo {
+	margin: 0px 0px 20px 0px;
+}
+.login_contents {
+	margin:0px;
+	padding: 0px 38px 0px 38px;
+	background-color: #E6E6E6;
+}
+.form_area {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+.login_main {
+	min-height: 300px;
+}
+.login_devinfo {
+    margin: 0px 0px 35px 0px;
+}
+.editbox {
+	font-family: sans-serif;
+	width: 100%;
+	min-height: 21px;
+	margin: 0px 0px 20px 0px;
+}
+.ismobile {
+	text-align: left;
+	padding: 0px 0px 0px 0px;
+}
+.button_login {
+	width: 100%;
+	height: 26px;
+	padding: 0px 4px 0px 4px;
+	text-align: center;
+	color: #FFFFFF;
+	border: none;
+	background-color: #69727E;
+	background:
+		url(/images/py20_button_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left.png) no-repeat top left,
+		url(/images/py20_button_normal_right.png) no-repeat top right;
+	cursor: pointer;
+}
+.button_login:hover {
+	color: #66AAFF;
+	background-color: #A7ACB2;
+	background:
+		url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_hover_left.png) no-repeat top left,
+		url(/images/py20_button_hover_right.png) no-repeat top right;
+}
+.errortxt {
+	font-size: 14px;
+	color: #DD3333;
+	padding:55px 0px;
+}
+
+
+/* head
+---------------------------------------*/
+.head {
+	margin:0px auto;
+	width: 940px;
+	height:110px;
+	background-color: #E6E6E6;
+	background-image: url(/images/py20_header_bg.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+.headerLogo {
+	width: 113px;
+	height: 21px;
+	float: left;
+	padding: 28px 0px 0px 30px;
+	vertical-align: bottom;
+}
+.statusArea {
+	float: right;
+	padding:15px 10px 0px 0px;
+}
+.statusIcon {
+	float: left;
+	width: 36px;
+	height: 36px;
+	vertical-align: bottom;
+	padding:5px;
+	margin:0px 12px 0px 12px;
+	border-style: hidden;
+	cursor: pointer;
+}
+.statusIcon:hover {
+	border: 0px solid #666666;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	box-shadow: 1px 2px 7px #999999;
+}
+.status_home {
+	background: url(/images/py20_status_home.png) no-repeat center center;
+}
+.status_wan_ok {
+	background: url(/images/py20_status_internet_ok.png) no-repeat center center;
+}
+.status_wan_ng {
+	background: url(/images/py20_status_internet_ng.png) no-repeat center center;
+}
+.status_repeater_ok {
+	background: url(/images/py20_status_repeater_normal.png) no-repeat center center;
+}
+.status_repeater_ng {
+	background: url(/images/py20_status_repeater_dis_normal.png) no-repeat center center;
+}
+.status_info_none {
+	background: url(/images/py20_status_info_none.png) no-repeat center center;
+}
+.status_info {
+	background: url(/images/py20_status_info.png) no-repeat center center;
+}
+.status_info_blink_on {
+	background: url(/images/py20_status_info.png) no-repeat center center;
+}
+.status_info_blink_off {
+	background: url(/images/py20_status_info_none.png) no-repeat center center;
+}
+.status_support_ok {
+	background: url(/images/py20_status_help_active.png) no-repeat center center;
+}
+.status_support_ng {
+	background: url(/images/py20_status_help.png) no-repeat center center;
+}
+.status_logout {
+	background: url(/images/py20_status_logout.png) no-repeat center center;
+}
+/* top bar
+---------------------------------------*/
+.title {
+	height: 60px;
+	width: 100%;
+	margin: 0px auto;
+	margin-left:-15px;
+	background-color: #FFFFFF;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_devctrl {
+	height: 60px;
+	width: 940px;
+	margin: 0px auto;
+	background-color: #FFFFFF;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_guest {
+	height: 60px;
+	width: 940px;
+	margin: 0px auto;
+	background-color: #FFFFFF;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_norton {
+	height: 60px;
+	width: 940px;
+	margin: 0px auto;
+	background-color: #FFFFFF;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_wireless {
+	height: 60px;
+	width: 940px;
+	margin: 0px auto;
+	background-color: #FFFFFF;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_wizard {
+	height: 60px;
+	width: 940px;
+	margin: 0px auto;
+	background-color: #FFFFFF;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_icon {
+	height: 36px;
+	width: 36px;
+	margin: 11px 10px 0px 36px;
+	float: left;
+}
+.titleimg_wireless {
+	background: url(/images/py20_header_wireless.png) no-repeat center center;
+}
+.titleimg_nas {
+	background: url(/images/py20_header_nas.png) no-repeat center center;
+}
+.titleimg_guest {
+	background: url(/images/py20_header_guest_port.png) no-repeat center center;
+}
+.titleimg_qos {
+	background: url(/images/py20_header_qos.png) no-repeat center center;
+}
+.titleimg_parental {
+	background: url(/images/py20_header_parental_control.png) no-repeat center center;
+}
+.titleimg_devctrl {
+	background: url(/images/py20_header_devctrl.png) no-repeat center center;
+}
+.title_text {
+	padding: 17px 0px 0px 10px;
+	font-size: 18px;
+	color: #333333;
+	float: left;
+}
+
+/* main
+---------------------------------------*/
+.contents {
+	width: 940px;
+	margin:0px auto;
+	padding: 20px 0px 0px 0px;
+	background-color: #E6E6E6;
+}
+.mainContents {
+	margin: 0px 20px 0px 20px;
+}
+.without_button_area {
+	min-height: 360px;
+}
+.without_button_area_ex {
+	min-height: 468px;
+}
+.setting_main {
+	text-align: left;
+	padding: 0px 0px 0px 40px;
+}
+
+/* footer
+---------------------------------------*/
+.footer {
+	clear: both;
+	margin: 0px;
+	padding: 5px 0px 10px 25px;
+	height:16px;
+	background-color: #E6E6E6;
+}
+.aistation_logo {
+	float: left;
+	width: 88px;
+	height: 11px;
+	background: url(/images/py20_logo_airstation.png) no-repeat center center;
+}
+.modelname {
+	width: 400px;
+	text-align: left;
+	float: left;
+	padding: 0px 0px 0px 20px;
+	color: #666666;
+}
+.modelname_prefix {
+	margin-right: 10px;
+	font-family:"Time New Roman";
+}
+.copyright {
+	padding: 0px 34px 0px 0px;
+	font-size:10px;
+	line-height:16px;
+	color:#666666;
+	text-align:right;
+	font-family:"Time New Roman";
+}
+
+/* indicator
+---------------------------------------*/
+.waiting_base{
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+	-moz-opacity: 0.6;
+}
+.waiting_body
+{
+	width: 240px;
+	height: 240px;
+	padding: 20px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	color: #FFFFFF;
+	font-size: 14px;
+	margin-top:-120px;
+	margin-left:-120px;
+	z-index: 4;
+}
+.indicator{
+	text-align: center;
+	margin: 50px 0px 50px 0px;
+}
+
+
+/* button
+---------------------------------------*/
+.button1 {
+	width: 105px;
+	height: 26px;
+	margin: 0px 5px 0px 5px;
+	padding: 0px 4px 0px 4px;
+	color: #FFFFFF;
+	font-weight: bold;
+	border: none;
+	background:
+		url(/images/py20_button_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left.png) no-repeat top left,
+		url(/images/py20_button_normal_right.png) no-repeat top right;
+	cursor: pointer;
+}
+.button1:hover {
+	padding: 0px 4px 0px 4px;
+	color: #66AAFF;
+	background:
+		url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_hover_left.png) no-repeat top left,
+		url(/images/py20_button_hover_right.png) no-repeat top right;
+}
+.button2 {	
+	height: 26px;	
+	margin: 0px 0px 0px 20px;
+	padding: 0px 4px 0px 4px;
+	color: #FFFFFF;
+	border: none;
+	background-color: #69727E;
+	background:
+		url(/images/py20_button_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left.png) no-repeat top left,
+		url(/images/py20_button_normal_right.png) no-repeat top right;
+	float: right;
+	cursor: pointer;
+}
+.button2:hover {
+	color: #66AAFF;
+	background-color: #A7ACB2;
+	background:
+		url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_hover_left.png) no-repeat top left,
+		url(/images/py20_button_hover_right.png) no-repeat top right;
+}
+.button2_disable {
+	height: 26px;	
+	margin: 0px 0px 0px 20px;
+	padding: 0px 4px 0px 4px;
+	color: #CCCCCC;
+	border: none;
+	background-color: #A7ACB2;
+	background:
+		url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_hover_left.png) no-repeat top left,
+		url(/images/py20_button_hover_right.png) no-repeat top right;
+	float: right;
+}
+.button3 {
+	height: 18px;
+	margin: 0px 10px 0px 0px;
+	padding: 0px 4px 0px 4px;
+	color: #333333;
+	border: none;
+	background:
+		url(/images/py20_button_download_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_download_normal_left.png) no-repeat top left,
+		url(/images/py20_button_download_normal_right.png) no-repeat top right;
+	float: left;
+	cursor: pointer;
+}
+.button3:hover {
+	color: #66AAFF;
+	background:
+		url(/images/py20_button_download_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_download_hover_left.png) no-repeat top left,
+		url(/images/py20_button_download_hover_right.png) no-repeat top right;
+}
+.button3_disable {
+	height: 18px;
+	margin: 0px 10px 0px 0px;
+	padding: 0px 4px 0px 4px;
+	color: #A0A0A0;
+	border: none;
+	background:
+		url(/images/py20_button_download_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_download_hover_left.png) no-repeat top left,
+		url(/images/py20_button_download_hover_right.png) no-repeat top right;
+	float: left;
+	cursor: default;
+}
+.button4 {
+        height: 26px;
+        margin: 0px 0px 0px 20px;
+        padding: 0px 4px 0px 4px;
+        color: #FFFFFF;
+        border: none;
+        background-color: #69727E;
+        background:
+                url(/images/py20_button_red_normal_middle.png) repeat-x top center content-box,
+                url(/images/py20_button_red_normal_left.png) no-repeat top left,
+                url(/images/py20_button_red_normal_right.png) no-repeat top right;
+        float: right;
+        cursor: pointer;
+}
+.button4:hover {
+        color: #66AAFF;
+        background-color: #A7ACB2;
+        background:
+                url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+                url(/images/py20_button_hover_left.png) no-repeat top left,
+                url(/images/py20_button_hover_right.png) no-repeat top right;
+}
+.button4_disable {
+        height: 26px;
+        margin: 0px 0px 0px 20px;
+        padding: 0px 4px 0px 4px;
+        color: #CCCCCC;
+        border: none;
+        background-color: #A7ACB2;
+        background:
+                url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+                url(/images/py20_button_hover_left.png) no-repeat top left,
+                url(/images/py20_button_hover_right.png) no-repeat top right;
+        float: right;
+}
+.button5 {	
+	height: 26px;	
+	position: absolute; 
+    bottom: 20px; 
+    right: 20px;
+	margin: 0px 0px 0px 20px;
+	padding: 0px 4px 0px 4px;
+	color: #FFFFFF;
+	border: none;
+	background-color: #69727E;
+	background:
+		url(/images/py20_button_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left.png) no-repeat top left,
+		url(/images/py20_button_normal_right.png) no-repeat top right;
+	float: right;
+	cursor: pointer;
+}
+.button5:hover {
+	color: #66AAFF;
+	background-color: #A7ACB2;
+	background:
+		url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_hover_left.png) no-repeat top left,
+		url(/images/py20_button_hover_right.png) no-repeat top right;
+}
+.button5_disable {
+	height: 26px;
+	position: absolute; 
+    bottom: 20px; 
+    right: 20px;	
+	margin: 0px 0px 0px 20px;
+	padding: 0px 4px 0px 4px;
+	color: #CCCCCC;
+	border: none;
+	background-color: #A7ACB2;
+	background:
+		url(/images/py20_button_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_hover_left.png) no-repeat top left,
+		url(/images/py20_button_hover_right.png) no-repeat top right;
+	float: right;
+}
+.button_devctrl {
+	color: #333333;
+	height: 26px;
+	margin: 0px 0px 0px 20px;
+	padding: 0px 3px 0px 30px;
+	background:
+		url(/images/py20_button_device_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_device_left.png) no-repeat top left,
+		url(/images/py20_button_device_right.png) no-repeat top right;
+	float: right;
+	cursor: pointer;
+}
+.button_devctrl:hover {
+	color: #66AAFF;
+	background:
+		url(/images/py20_button_device_hover_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_device_hover_left.png) no-repeat top left,
+		url(/images/py20_button_device_hover_right.png) no-repeat top right;
+}
+.button_text {
+	padding: 3px 20px 0px 20px;
+	font-size: 14px;
+	font-weight: bold;
+}
+.button_text_small {
+	padding: 1px 20px 0px 20px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.button {
+	font-family: inherit;
+	border: none;
+	width:100px;
+	height:30px;
+	margin-left: 10px;
+	text-align:center;
+	background:url(/images/aoss2_btn_next.gif) no-repeat left center;
+	cursor: pointer;
+}
+.button_middle {
+	padding: 1px 5px 1px 5px;
+	font-size: 10px;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: 1px outset #999999;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	cursor: pointer;
+}
+.button_middle:link {
+	color: #000000;
+}
+.button_middle:visited {
+	color: #000000;
+}
+.button_middle:active {
+	color: #000000;
+}
+.button_middle:hover {
+	color: #66AAFF;
+	border: 1px outset #66AAFF;
+}
+.button_advanced1 {
+	width: 41px;
+	height: 41px;
+	margin: 10px 30px 0px 0px;
+	background: url(/images/py20_button_advanced_normal.png) no-repeat left center;
+	float: right;
+	cursor: pointer;
+}
+.button_advanced1:hover {
+	background:url(/images/py20_button_advanced_hover.png) no-repeat left center;
+}
+.button_advanced2 {
+	width: 41px;
+	height: 41px;
+	margin: 3px 0px 0px 0px;
+	background: url(/images/py20_button_advanced_normal.png) no-repeat left center;
+	float: right;
+	cursor: pointer;
+}
+.button_advanced2:hover {
+	background:url(/images/py20_button_advanced_hover.png) no-repeat left center;
+}
+.advanced_button_left {
+	width: 245px;
+	padding-bottom: 10px;
+	float: left;
+}
+
+/* warning
+---------------------------------------*/
+.warning{
+	width: 120px;
+	padding: 7px;
+	font-size: 10px;
+	color: #333333;
+	background-color: #FFDD66;
+	position: absolute;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	filter: alpha(opacity=90);
+	opacity: 0.9;
+	-moz-opacity: 0.9;
+	z-index: 1;
+	margin-top: 30px;
+	margin-left: 304px;
+}
+
+
+/* popup
+---------------------------------------*/
+.popup_bg{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 2;
+}
+.popup{
+	font-size: 10px;
+	width: 240px;
+	color: #333333;
+	background-color: #FFFFFF;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 1px solid #666666;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	z-index: 3;
+	cursor: pointer;
+	box-shadow: 1px 2px 7px #999999;
+}
+.popup_item {
+	padding: 10px;
+}
+.popup_info_item {
+	padding: 10px;
+	border-bottom: 1px solid #666666;
+}
+.info_block {
+	padding: 0px 0px 0px 10px;
+}
+
+.popup_left {
+	width: 22px;
+	height: 22px;
+	float: left;
+}
+.popup_right {
+	width: 189px;
+	float: left;
+	padding: 4px 0px 0px 9px;
+}
+.popup_icon1 {
+	background: url(/images/py20_info_notice.png) no-repeat center center;
+}
+.popup_icon2 {
+	background: url(/images/py20_info_warning.png) no-repeat center center;
+}
+.popup_icon3 {
+	background: url(/images/py20_info_error.png) no-repeat center center;
+}
+
+
+/* backalert
+---------------------------------------*/
+.backalert_bg{
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+	-moz-opacity: 0.6;
+}
+.backalert_body
+{
+	width: 240px;
+	padding: 20px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top:-120px;
+	margin-left:-120px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	z-index: 4;
+}
+
+.backalert_body_dup
+{
+	width: 240px;
+	padding: 20px;
+	background-color: rgba(0,0,0,0);
+	color: #FFFFFF;	
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top:-120px;
+	margin-left:-120px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	z-index: 4;
+}
+
+/* confirm
+---------------------------------------*/
+.confirm_bg{
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+	-moz-opacity: 0.6;
+}
+.confirm_body {
+	min-height: 110px;
+	width: 240px;
+	padding: 20px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top:-120px;
+	margin-left:-120px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	z-index: 4;
+}
+.confirm_text
+{
+	font-size: 12px;
+	min-height: 90px;
+}
+
+/* etc
+---------------------------------------*/
+.input_item {
+	margin: 0px;
+	padding: 0px 1px 15px 20px;
+}
+.editbox_check {
+	width: 15px;
+	height: 15px;
+	margin-right: 5px;
+	vertical-align:middle;
+}
+.editbox_long {
+	width: 300px;
+}
+.editbox_select {
+	font-family: sans-serif;
+	width: 307px;
+}
+.editbox_webaxsuser {
+	width: 285px;
+}
+.button_area{
+	padding: 10px 0px 10px 30px;
+	margin: 0px 14px 0px 14px;
+}
+.help_uname {
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #FFFFFF;
+	background-color: #000010;
+	position: absolute;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+.help_pass {
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #FFFFFF;
+	background-color: #000010;
+	position: absolute;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+.disklist{
+	width: 246px;
+	border: 1px solid #000000;
+	margin: 0px 0px 10px 0px;
+}
+
+/* PC edition depend
+---------------------------------------*/
+.main_left {
+	margin: 0px 0px 0px 0px;
+	padding: 0px 60px 0px 16px;
+	float: left;
+	width: 327px;
+}
+.main_right {
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 40px;
+	border-left: 2px solid #CCCCCC;
+	float: left;
+	min-height: 338px;
+	width: 327px;
+}
+
+.helpcontents {
+	width: 940px;
+	background-color: #E6E6E6;
+}
+
+.helpmaincontents {
+	float: right;
+}
+
+.helpbutton {
+	outline: none; /* for Firefox */
+	hlbr:expression(this.onFocus=this.blur()); /* for IE */
+}
+
+.norton_word{
+	font-size: 13px;
+}
+
+.norton_word_2{
+	font-size: 10px;
+}

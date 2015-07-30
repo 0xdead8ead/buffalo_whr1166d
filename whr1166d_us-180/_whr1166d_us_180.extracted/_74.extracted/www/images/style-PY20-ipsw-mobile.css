@@ -1,0 +1,74 @@
+.iPhoneCheckContainer {
+  -webkit-transform:translate3d(0,0,0);
+  position: relative;
+  height: 64px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.iPhoneCheckContainer label {
+    white-space: nowrap;
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    display: block;
+    height: 56px;
+    position: absolute;
+    width: 70px;
+    top: 0;
+    padding: 17px 13px 0px 0px;
+    overflow: hidden;
+}
+
+label.iPhoneCheckLabelOn {
+  color: white;
+  background-image: url('/images/ipswsym_on_m.png?1284697268');
+  background-repeat: no-repeat;
+  background-position: left;
+  text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+  left: 0;
+  padding: 17px 0px 0px 20px;
+}
+label.iPhoneCheckLabelOff {
+  color: #8b8b8b;
+  background-image: url('/images/ipswsym_off_m.png?1284697268');
+  background-repeat: no-repeat;
+  background-position: right;
+  text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.6);
+  text-align: right;
+  right: 0;
+}
+
+.iPhoneCheckHandle {
+  display: block;
+  height: 60px;
+  cursor: pointer;
+  position: absolute;
+  top: 7px;
+  left: 0px;
+  width: 0;
+  background-image: url('/images/ipsw_slider_left_m.png?1284697268');
+  background-repeat: no-repeat;
+  background-position: -3px center;
+  padding-left: 7px;
+}
+
+.iPhoneCheckHandleRight {
+  height: 100%;
+  width: 100%;
+  padding-right: 3px;
+  background-image: url('/images/ipsw_slider_right_m.png?1284697268');
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.iPhoneCheckHandleCenter {
+  height: 100%;
+  width: 100%;
+  background-image: url('/images/ipsw_slider_center_m.png?1284697268');
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+

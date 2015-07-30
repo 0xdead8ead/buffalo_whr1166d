@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<link rel="stylesheet" type="text/css" href="/images/style-PY20-advanced.css">
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<style type="text/css">
+	<!--
+	.mainContents table,
+	.mainContents tbody,
+	.mainContents tr,
+	.mainContents th,
+	.mainContents td
+	{
+		background-color: #E6E6E6 !important;
+		border:none !important;
+		color: #000000 !important;
+	}
+
+	body {
+		font-family: Helvetica !important;
+		font-size: 12px !important;
+		margin: 0px !important;
+		background-color: #808080 !important;
+	}
+	.mainContents table.WIZ_FRAME tr.HEAD
+	{
+		display: none !important;
+	}
+		#main
+	{
+		min-height: 300px !important;
+	}
+	.mainContents div.C_ERR p
+	{
+		text-align: left;
+	}
+	.mainContents a
+	{
+		text-decoration: underline !important;
+	}
+	-->
+</style>
+<script language="JavaScript">
+<!-- 
+var busy = false;
+function Close()
+{
+     if (!busy)
+     {
+     	busy = true;
+     	if (navigator.appName == "Netscape")
+     	{
+     		window.open("", "_top");
+     		window.close();
+     	}
+     	else
+     	{
+     		if (document.all && (navigator.userAgent.match(/MSIE (\d\.\d)/), RegExp.$1) >= 5.5)
+     		{
+     			var w = window.open("", "_top");
+     			w.opener = window;
+     			w.close();
+     		}
+     		else
+     		{
+     			window.close();
+     			var timer = setTimeout("busy = false; Close();", 500);
+     		}
+     	}
+     }
+}
+function init()
+{
+	checkBrowserCss();
+}
+//-->
+</script>
+<title>WHR-1166D - BUFFALO AirStation</title>
+ <script language="JavaScript">
+  <!--
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+  // -->
+</script>
+</HEAD>
+<BODY class=WIZ_BODY id="id_main" onLoad="init();setTimeout('Close();', 60000);">
+<center>
+<div id="wrapper">
+	<div class="head"><!-- header -->
+		<span class="headerLogo">
+			<img alt="BUFFALO" src="/images/py20_logo_buffalo.png">
+		</span>
+		<span class="statusArea">
+			<span class="statusIcon status_home" onclick="top.location.href='index.html'" style="display: none;"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="" style="display: none;"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick()" style="display: none;"></span>
+			<span class="statusIcon status_logout" onclick="location.href='logout.html'" style="display: none;"></span>
+			<span style="clear:both"></span>
+		</span>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="title_wizard">
+		<img src="/images/py20_header_i_at_s.png" width="36" height="36" class="title_icon"/>
+		<div class="title_text" id="title_text">
+		<%GetString("AutoDetectSmart","31");%>
+		</div>	
+	</div>
+
+	<div class="contents">
+		<div class="mainContents">
+			<div class="without_button_area">
+				<div class="setting_main">
+					<div id="main">
+					<TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("WizardDetectCloseWin","3");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+     			  &nbsp;<%GetString("WizardDetectCloseWin","5");%>
+     			</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			  <table class=WIZ_TIPS>
+     			    <tr>
+     				 <TD>
+     				   &nbsp;<%GetString("AutoDetectSmart","33");%><br>
+     				   &nbsp;<%GetString("AutoDetectSmart","34");%><br>
+     				   <br>
+     				   &nbsp;<%GetString("AutoDetectSmart","35");%>
+     				 </TD>
+     			    </tr>
+     			  </table>
+     			</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+					</div><!-- #main -->
+				</div><!-- #setting_main -->
+			</div><!-- #without_button_area -->
+		</div><!-- #mainContents -->
+	</div><!-- #contents -->
+
+	<div class="footer">
+		<div class="aistation_logo"></div>
+		<div class="modelname">
+			<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+		</div>
+		<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+	</div>
+
+</div><!-- #wrapper -->
+</center>
+</BODY>
+</HTML>
+
+

@@ -1,0 +1,769 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+ <HEAD>
+	<title>WHR-1166D - BUFFALO AirStation</title>
+	<meta HTTP-EQUIV="Content-Type" Content="text/html; charset=<%ChangeCharset();%>"></meta>
+	<meta name="viewport" content="width=640">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+	<META http-equiv="Content-Style-Type" content="text/css">
+	<link rel="stylesheet" type="text/css" href="/images/style-PY20-common-mobile.css">
+	<link rel="stylesheet" type="text/css" href="/images/style-PY20-panel-mobile.css">
+	<link rel="stylesheet" type="text/css" href="/images/style-PY20-ipsw-mobile.css">
+	<script type="text/javascript" src="/js/prototype.js"></script>
+	<script type="text/javascript" src="/js/py20_common.js"></script>
+	<script type="text/javascript" src="/js/py20_icon_popup.js"></script>
+	<script type="text/javascript" src="/js/py20_backalert.js"></script>
+	<script type="text/javascript" src="/js/cookiectrl.js"></script>
+	<script type="text/javascript" src="/js/py20_set_wait.js"></script>
+	<script type="text/javascript" src="/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/common_json2lang.js"></script>
+	<script type="text/javascript" src="/js/py20_adjust_iframe.js"></script>
+	<script type="text/javascript" src="/js/py20_apply_button.js"></script>
+	<script type="text/javascript" src="/js/ipsw/scriptaculous.js"></script>
+	<script type="text/javascript" src="/js/ipsw/iphone-style-checkboxes.js"></script>
+	<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+	<script language="JavaScript">
+	  <!--
+var oCallback = {
+success:function(oResponse) { 
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+//			window.setTimeout("updateInnerHtml()", 6000);
+			if ("<%NvramGet("WPSEnable");%>" == "0")
+				window.setTimeout("top.dispWaiting(false)", 180000);
+			else
+				window.setTimeout("top.dispWaiting(false)", 125000);
+}, 
+failure:function(oResponse) { 
+alert(oResponse.errorText); 
+} 
+}
+	var err_item="<%GetString("Confirm","13");%>";
+	var err_description="<%GetString("Confirm","14");%>";
+	var err_CONTENTS="<%GetString("Confirm","15");%>:";
+  
+	  var exec = false;
+	  function onceOnly(thform) {
+		if(exec == true){ 
+		  return false;
+		} else {
+		  exec = true;
+		  return true;
+		} 
+	  }
+
+	var cbGUEST;
+	var cbQOS;
+	var cbPARENTAL;
+	var routeMode = '<%NvramGet("RouterMode");%>';
+	var remain_time_hour;
+	var remain_time_minute;
+	var guestport_enable = '<%NvramGet("GuestPortEnabled");%>';
+	var iconDisable = false;
+	  
+	function handleInfoIconOnClick()
+	{
+		document.getElementById("popup_bg").style.display = "";
+		document.getElementById("popup_info").style.display="";
+	}
+
+	function handBodyOnLoad()
+	{
+		var guestportEnable = '<%NvramGet("GuestPortEnabled");%>';
+		var WanIP = "<%GetWanIPAddress();%>";
+		var nt_agree = '<%NvramGet("Nortonagree");%>';
+		var timerId;
+		var isIE = navigator.userAgent.search("MSIE") > -1;
+		var isPhone = navigator.userAgent.match(/Android|iPhone|iPad/i);
+
+		document.getElementById("id_body").style.display = "";
+		getIconState();
+		setInterval(getIconState, 2000);
+		
+		
+		if (routeMode == 1)
+		{
+			if (WanIP.length < 16 && nt_agree == 1) //Wan: Connect & Norton: agree
+			{
+				document.getElementById("btnblank_PARENTAL").style.display = "block";
+				cbPARENTAL = $$(".button_PARENTAL input[type=checkbox]").first();
+				new iPhoneStyle(cbPARENTAL);
+			}
+			else
+			{
+				document.getElementById("btnblank_PARENTAL").style.display = "none";
+			}
+		}
+		document.getElementById("button_GUEST").checked = (guestportEnable=="1")?true:false;
+		cbGUEST = $$('.button_GUEST input[type=checkbox]').first();
+		new iPhoneStyle(cbGUEST);
+		//cbQOS = $$(".button_QOS input[type=checkbox]").first();
+		//new iPhoneStyle(cbQOS);
+		if (routeMode == 1)
+		{
+			initHandle(0);
+		}
+		else
+		{
+			initHandle(1);
+		}
+
+		getGuestTime();
+	setInterval(getGuestTime, 2000);
+
+		elId("inner_WPS/AOSS").innerHTML = ("<%NvramGet("WPSEnable");%>"=="1")?"<%GetString("NewUI","50");%>: <%GetString("NewUI","123");%>":"<%GetString("NewUI","50");%>: <%GetString("NewUI","124");%>";
+		//top.maskin(1000);
+	//	top.dispWaiting(true);
+	//	setTimeout("top.handleErrDialogOnOk()",1000);
+		disSSID();
+		//handleDataget();
+		getDeviceControl();
+		setInterval(getDeviceControl,2000)
+	}
+
+	
+		function disSSID()
+	{
+		var ssid = '<%NvramGet_WPAPSK("WIFIModuleEnable");%>';
+		var ssid_5g = '<%NvramGet_WPAPSK("WIFIModuleEnable_5g");%>';
+		if (ssid=="1")
+		{
+			document.getElementById("inner_WIRELESS_band0" ).style.display = "";
+			document.getElementById("inner_WIRELESS_ssid0" ).style.display = "";
+			document.getElementById("inner_WIRELESS_ssid0_text" ).style.display = "";
+		}
+		else
+		{
+			document.getElementById("inner_WIRELESS_band0" ).style.display = "none";
+			document.getElementById("inner_WIRELESS_ssid0" ).style.display = "none";
+			document.getElementById("inner_WIRELESS_ssid0_text" ).style.display = "none";
+		}
+		if(ssid_5g=="1")
+		{
+			document.getElementById("inner_WIRELESS_band1" ).style.display = "";
+			document.getElementById("inner_WIRELESS_ssid1" ).style.display = "";
+			document.getElementById("inner_WIRELESS_ssid1_text" ).style.display = "";
+		}
+		else
+		{
+			document.getElementById("inner_WIRELESS_band1" ).style.display = "none";
+			document.getElementById("inner_WIRELESS_ssid1" ).style.display = "none";
+			document.getElementById("inner_WIRELESS_ssid1_text" ).style.display = "none";
+		}
+	}
+	
+	function initHandle(num)
+	{
+		var ids = ["GUEST","PARENTAL"];
+		for(i = 0; i <= num; i++)
+		{
+			el = document.getElementById("btnblank_" + ids[i]);
+			if(el.addEventListener)
+			{// Firefox
+				el.addEventListener("click", handleBlankOnClick, false);
+			}
+			else if(el.attachEvent)
+			{// IE
+				el.attachEvent("onclick", handleBlankOnClick);
+			}
+			else
+			{
+				el.onclick = handleBlankOnClick;
+			}
+		}
+	}
+//AOSS/WPS
+function dispAossDialog(disp)
+{
+	elId("aoss_bg").style.display = disp;
+	elId("aoss_body").style.display = disp;
+	if(disp == "")
+	{
+		if(window.scroll)
+		{
+			window.scroll(0,0);
+		}
+	}
+}
+function handleAossOk()
+{
+	dispAossDialog("none");
+	YAHOO.util.Connect.setForm('AOSSWPS'); 
+    YAHOO.util.Connect.asyncRequest('POST','index.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+function handleAossCancel()
+{
+	dispAossDialog("none");
+}	
+
+function handleAOSSWPSOnClick()
+{
+			//top.dispWaiting(true);
+			//setTimeout("top.handleErrDialogOnOk()",10000);
+    YAHOO.util.Connect.setForm('AOSSWPS'); 
+    YAHOO.util.Connect.asyncRequest('POST','index.html'+'?timestampt='+new Date().toString(),oCallback); 
+//		document.forms[1].submit();
+}
+//for guest port lease time countdown start
+function getGuestTime()
+{
+	getJsonParam("GUEST_PORT", guestport_time_countdown);
+	
+}
+
+function guestport_time_countdown(req)
+{
+	var data = req.responseText.evalJSON();
+	
+	if (data.GuestPort==0 || ("<%NvramGet("GuestPortLeaseTime");%>"=="0" && data.remain_time_minute==0))
+	{
+		document.getElementById("lease_time").style.display = "none";
+	}
+	else if(data.GuestPort==1)
+	{
+		document.getElementById("lease_time").style.display = "";
+		if (data.remain_time_hour>0)
+		{
+			document.getElementById("span_wireless_count_hours").innerHTML = data.remain_time_hour;
+			if (data.remain_time_hour==1)
+			document.getElementById("hour_string").innerHTML = '<%GetString("NewUI","46");%>';
+			else
+			document.getElementById("hour_string").innerHTML = '<%GetString("NewUI","47");%>';
+		}
+		if ( data.remain_time_minute>0 || (remain_time_hour==0 &&  data.remain_time_minute==0))
+		{
+			document.getElementById("span_wireless_count_minutes").innerHTML =  data.remain_time_minute;
+			if ( data.remain_time_minute>1)
+			document.getElementById("minute_string").innerHTML = '<%GetString("NewUI","153");%>';
+			else
+			document.getElementById("minute_string").innerHTML = '<%GetString("NewUI","152");%>';
+		}
+	}
+}
+//for guest port lease time countdown End
+
+
+	// Stop bubbling 
+	function handleBlankOnClick(evt)
+	{
+		if(evt.target)
+		{// Firefox
+			evt.stopPropagation();
+		}
+		else if(window.event.srcElement)
+		{// IE
+			window.event.cancelBubble = true;
+		}
+	}
+
+	var almid_ipsw;
+	function handleChange(elem)
+	{
+		if(!isUndefined(almid_ipsw))
+		{
+			window.clearTimeout(almid_ipsw);
+		}
+		almid_ipsw = window.setTimeout("handleChangeComplete('" + elem.id + "')", 1000);
+	}
+
+	function handleChangeComplete(id)
+	{
+		if(id == "button_GUEST"){
+			getJsonParam("GUEST", handleChangeGuestPost);
+		} else if(id == "button_PARENTAL"){
+			getJsonParam("PARENTAL", handleChangeParentalPost);
+		}
+	}
+
+	function getJsonParam(category, handle)
+	{
+		new Ajax.Request("/Ajax_get_value.html&action="+category+"?timestampt="+new Date().toString(),
+			{method : 'get', onComplete : handle});
+	}
+
+	function handleChangeGuestPost(req)
+	{
+	//	alert("Enter handleChangeGuestPost()");
+		var post = false ;
+	//	var data = req.responseText.evalJSON();
+		var data = {
+			"SUPPORT":true,
+			"FUNCTION":false
+			}
+		if(data.SUPPORT)
+		{
+			if(data.FUNCTION){
+				if(document.getElementById("button_GUEST").checked == false){
+					post = true ;
+				}
+			} else {
+				if(document.getElementById("button_GUEST").checked == true){
+					post = true ;
+				}
+			}
+		}
+document.getElementById("indicator").style.display = "";
+document.getElementById("waiting_err_text").style.display = "none";
+document.getElementById("waiting_err_btn").style.display = "none";
+dispWaiting(true);
+setTimeout("dispWaiting(false)",25000);
+		getJsonParam("GUEST_Change&type=ipbutton&val="+(document.getElementById("button_GUEST").checked?"ON":"OFF"), changesuccess);
+//		if(post){
+//			var post = "el=" + "button_GUEST" + "&val=" + (document.getElementById("button_GUEST").checked? "ON" : "OFF");
+//			ajaxPost(post, handleButtonOnComplete);
+//		}
+	}
+	
+	function handleChangeParentalPost(req)
+	{
+			
+		document.getElementById("indicator").style.display = "";
+		document.getElementById("waiting_err_text").style.display = "none";
+		document.getElementById("waiting_err_btn").style.display = "none";
+		dispWaiting(true);
+		setTimeout("dispWaiting(false)",30000);
+		getJsonParam("Parental_Change&type=ipbutton&val="+(document.getElementById("button_PARENTAL").checked?"ON":"OFF"), changesuccess);
+//		
+	}
+	
+	function changesuccess(){
+	//dispWaiting(false);
+	//setTimeout("dispWaiting(false)",20000);
+	}
+
+  function getDeviceControl()
+  {
+  	getJsonParam("changeGetDeviceControl", handleDataget);
+  }
+
+	function handleDataget(req)
+	{
+		//var data = <%GetDevctrl("");%>;
+    var data = req.responseText.evalJSON();
+		document.getElementById("span_wire_count").innerHTML = data.WIRECOUNT;
+		document.getElementById("span_wireless_count").innerHTML = data.WIRELESSCOUNT;
+	}
+
+	function goAdvanced()
+	{
+		top.location.href = "index_adv.html&item=0";
+	}
+	  // -->
+	</script>
+</HEAD>
+<BODY onload="handBodyOnLoad();" id="id_body" style="display:none;">
+<form method="POST" name="main_form">
+<input type="hidden" name="checkitem" value="0">
+<div id="wrapper">
+	<div class="head"><!-- header -->
+		<img src="/images/py20_logo_buffalo.png" alt="BUFFALO" class="headerLogo" />
+		<div class="statusArea">
+			<span class="statusIcon status_home" onclick="top.location.href='index.html'"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="handleInternetIconOnClick('popup_internet', this, 'top_main.html')" style="<%CheckModedis();%>"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick()" style=""></span>
+			<span id="icon_LOGOUT" class="statusIcon status_logout" onclick="location.href='logout.html'"></span>
+			<span style="clear:both"></span>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="test_gray" id="main">
+		<div class="contents"><!-- contents -->
+			<div class="mainContents">
+				<div class="without_button_area_ex">
+				<!-- WIRELESS/PC -->
+					<div class="panel" id="panel_WIRELESS">
+					<div class="panel_action" onClick="top.location.href = 'setting_basic_wireless.html';">
+						<img class="panel_icon" src="/images/py20_header_wireless_m.png" width="60" height="60">
+						<img class="panel_right" src="/images/py20_arrow_next_m.png" width="16" height="25">
+						  <div class="panel_title">
+							<%GetString("NewUI","48");%>
+						  </div>
+						  <div style="clear:both;"></div>
+					</div>
+					<div class="panel_sub">
+						<table>
+							<tr>
+								<td><div style="display: none;" id="inner_WIRELESS_band0" class="panel_subicon_11g"></div></td>
+								<td><div style="display: none;" id="inner_WIRELESS_ssid0" class="panel_subicon_text"><%GetString("NewUI","42");%>:&nbsp;</div></td>
+								<td style="word-break:break-all"><div style="display: none;" id="inner_WIRELESS_ssid0_text" class="panel_subicon_text"><%NvramGetAdv("WIFISsid1");%></div></td>
+							</tr>
+							<tr><td><br></td></tr><!-- blink line -->
+							<tr>							
+								<td><div style="display: none;" id="inner_WIRELESS_band1" class="panel_subicon_11a"></div></td>
+								<td><div style="display: none;" id="inner_WIRELESS_ssid1" class="panel_subicon_text"><%GetString("NewUI","42");%>:&nbsp;</div></td>
+								<td style="word-break:break-all"><div style="display: none;" id="inner_WIRELESS_ssid1_text" class="panel_subicon_text"><%NvramGetAdv("WIFISsid1_5g");%></div></td>
+							</tr>
+							<tr><td><br></td></tr><!-- blink line -->
+						</table>
+					</div>
+				</div>
+					
+				<!-- AOSS/mobile -->
+				<div class="panel" id="panel_WPS/AOSS">
+					<div id="AOSS_WPS" class="panel_action" onClick="dispAossDialog('');">
+						<img class="panel_icon" src="/images/py20_header_aoss_m.png" width="60" height="60">
+						<img class="panel_right" src="/images/py20_arrow_next_m.png" width="16" height="25">
+						<div class="panel_title">
+							<%GetString("NewUI","49");%>/<%GetString("NewUI","50");%>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+					<div class="panel_sub">
+						<div class="panel_subtext" id="inner_WPS/AOSS"></div>
+					</div>
+				</div>
+				<!-- NAS/mobile -->
+				<div class="panel" id="panel_NAS" style="display: none;">
+					<div class="panel_action" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_nas.html';">
+						<img class="panel_icon" src="/images/py20_header_nas_m.png" width="60" height="60">
+						<img class="panel_right" src="/images/py20_arrow_next_m.png" width="16" height="25">
+						<div class="panel_title">
+							<span data-file=setting_basic class=label_title_nas_m_setting_basic ></span>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+					<div class="panel_sub">
+						<div id="inner_NAS">
+							<div id="nodisk" class="panel_subtext" style="display: none;"></div>
+							<div id="ptinfo0" style="display: none;">
+								<div class="ptsubicon ptsubicon0"></div>
+								<div class="ptinfo_left">
+									<div id="ptinfo_text0"></div>
+									<div class="ptinfo_gauge_outer">
+										<div class="ptinfo_gauge_inner" id="ptinfo_gauge0"></div>
+									</div>
+								</div>
+								<div style="clear:both;"></div>
+							</div>
+							<div id="ptinfo1" style="display: none;">
+								<div class="ptsubicon ptsubicon1"></div>
+								<div class="ptinfo_left">
+									<div id="ptinfo_text1"></div>
+									<div class="ptinfo_gauge_outer">
+										<div class="ptinfo_gauge_inner" id="ptinfo_gauge1"></div>
+									</div>
+								</div>
+								<div style="clear:both;"></div>
+							</div>
+							<div id="ptinfo2" style="display: none;">
+								<div class="ptsubicon ptsubicon2"></div>
+								<div class="ptinfo_left">
+									<div id="ptinfo_text2"></div>
+									<div class="ptinfo_gauge_outer">
+										<div class="ptinfo_gauge_inner" id="ptinfo_gauge2"></div>
+									</div>
+								</div>
+								<div style="clear:both;"></div>
+							</div>
+							<div id="ptinfo3" style="display: none;">
+								<div class="ptsubicon ptsubicon3"></div>
+								<div class="ptinfo_left">
+									<div id="ptinfo_text3"></div>
+									<div class="ptinfo_gauge_outer">
+										<div class="ptinfo_gauge_inner" id="ptinfo_gauge3"></div>
+									</div>
+								</div>
+								<div style="clear:both;"></div>
+							</div>
+						</div>
+					</div>
+					<div id="btnblank_DLMAN" style="text-align: center;display: none;"></div>
+				</div>
+				<!-- GUEST/mobile -->
+				<div class="panel" id="panel_GUEST">
+					<div class="panel_action" onClick="top.location.href = 'setting_basic_guest.html';">
+						<img class="panel_icon" src="/images/py20_header_guest_port_m.png" width="60" height="60">
+						<img class="panel_right" src="/images/py20_arrow_next_m.png" width="16" height="25">
+						<div class="panel_title">
+							<%GetString("NewUI","53");%>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+					<div class="panel_sub">
+						<div class="panel_buttontext" id="inner_GUEST">
+						  <div id="password_auth"><%GetString("NewUI","54");%>: <%NvramMatch("GuestPortAuthEnabled","0","Off");%> <%NvramMatch("GuestPortAuthEnabled","1","On");%><br><br></div>
+						  <div id="lease_time" style="padding: 0px 19px; font-size: 11px;display: none;">
+							<%GetString("NewUI","57");%>:<br><span id="span_wireless_count_hours" ></span>   <span id="hour_string"></span>   <span id="span_wireless_count_minutes">  </span>  <span id="minute_string"></span> <br>
+						  </div>
+						  <div id="inner_SSID">
+							<%GetString("NewUI","42");%>: <%NvramGetAdv("WIFISsid4");%><br>
+						  </div>
+						</div>
+						<div id="btnblank_GUEST">
+							<ol class="ipsw button_GUEST">
+							  <li>
+								<input type="checkbox" id="button_GUEST" name="button_GUEST">
+							  </li>
+							</ol>
+						<div style="clear:both;"></div>
+						</div>
+					</div>
+				</div>
+				<!-- QOS/mobile -->
+				<div class="panel" id="panel_QOS" style="display: none;">
+					<div class="panel_action" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_qos.html';">
+						<img class="panel_icon" src="/images/py20_header_qos_m.png" width="60" height="60">
+						<img class="panel_right" src="/images/py20_arrow_next_m.png" width="16" height="25">
+						<div class="panel_title">
+							<span data-file=dic class=common_dic_menu_apps_qos ></span>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+					<div class="panel_sub">
+						<div class="panel_buttontext" id="inner_QOS"></div>
+						<ol class="ipsw button_QOS">
+							<li>
+								<input type="checkbox" id="button_QOS" name="button_QOS"/>
+							</li>
+						</ol>
+					</div>
+				</div>
+				<!-- PARENTAL/mobile -->
+				<div class="panel" id="panel_PARENTAL" style="<%CheckModedis();%>">
+					<div class="panel_action" onClick="top.location.href = 'setting_basic_norton.html';">
+						<img class="panel_icon" src="/images/py20_header_parental_control_m.png" width="60" height="60">
+						<img class="panel_right" src="/images/py20_arrow_next_m.png" width="16" height="25">
+						<div class="panel_title"><%GetString("NewUI","85");%></div>
+						<div style="clear:both;"></div>
+					</div>
+					<div class="panel_sub">
+					<div class="panel_subtext" id="inner_PARENTAL">
+					<%GetString("NewUI","121");%>: <%GetNortonStr();%><img src="images/py20_banner_norton_small.png">
+					</div>
+						<div class="panel_buttontext" id="inner_PARENTAL"></div>
+						<div id="btnblank_PARENTAL">
+							<ol class="ipsw button_PARENTAL">
+								<li>
+									<input type="checkbox" id="button_PARENTAL" name="button_PARENTAL"/>
+								</li>
+							</ol>
+							<div style="clear:both;"></div>
+							<div id="parental_banner" class=""></div>
+						</div>
+					</div>
+				</div>
+				<!-- DEVCTL/mobile -->
+				<div class="panel" id="panel_DEVCTRL" style="<%CheckModedis();%>">
+					<div class="panel_action" onClick="top.location.href = 'setting_basic_devctrl.html';">
+						<img class="panel_icon" src="/images/py20_header_devctrl_m.png" width="60" height="60">
+						<img class="panel_right" src="/images/py20_arrow_next_m.png" width="16" height="25">
+						<div class="panel_title">
+							<%GetString("NewUI","60");%>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+					<div class="panel_sub">
+						<div class="panel_subtext" id="inner_DEVCTRL"><%GetString("NewUI","62");%>: <span id="span_wireless_count"></span><br>
+						<%GetString("NewUI","61");%>: <span id="span_wire_count"></span></div>
+					</div>
+				</div>
+					<div class="panel_advanced" id="panel_ADVANCED" onClick="goAdvanced();">
+					  <div class="icon_advanced"></div>
+					  <div class="text_advanced"><%GetString("NewUI","63");%></div>
+					</div>
+				</div>
+			</div>
+	<div class="footer">
+		<div class="aistation_logo"></div>
+		<div class="modelname">
+			<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+		</div>
+		<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+	</div>
+		</div>
+
+	</div><!-- #main -->
+
+</div><!-- #wrapper -->
+	<div class="waiting_base" id="waiting_base" style="display: none;"></div>
+	<div class="waiting_body" id="waiting_body" style="display: none;">
+		<div class="indicator" id="indicator">
+			<img class="progress" src="/images/py20_a_busy.gif"><br />
+			<span data-file=py20_common_waiting class=label_waiting_py20_common_waiting ><%GetString("NewUI","170");%></span>
+		</div>
+		<div id="waiting_err_text"></div>
+		<input class="button3" id="waiting_err_btn" type="button" value="OK" onClick="handleErrDialogOnOk()"/>
+	</div>
+	<div class="backalert_bg" id="backalert_bg" style="display: none;"></div>
+	<div class="backalert_body" id="backalert_body" style="display: none;">
+		<span><%GetString("NewUI","150");%></span><br />
+		<input type="checkbox" id="cb_backalert"><span><%GetString("NewUI","151");%></span><br />
+		<div>
+			<input type="button" value="Continue" onClick="handleBackalertOkOnClick()"/>
+			<input type="button" value="Cancel" onClick="handleBackalertCancelOnClick()"/>
+		</div>
+	</div>
+	<div class="popup_bg" id="popup_bg" style="display: none;" onClick="undispPopupAll()"></div>
+	<div class="popup" id="popup_internet" style="display: none;" onClick="undispPopup('popup_internet')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","171");%>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_repeater" style="display: none;" onClick="undispPopup('popup_repeater')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_repeater_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_info" style="display: none;" onClick="undispPopup('popup_info')">
+		<div class="popup_info_item" id="infotype1" style="display: none;">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info1_py20_common_popup ></span><br />
+				(<span data-file=py20_common_popup class=label_verion_py20_common_popup ></span> <span id="popup_current_ver"></span> -> <span id="popup_new_ver"></span>)<br />
+				<input type="button" class="button_middle" value="To firmware update screen" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=wizard_func_fwupdate_online.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype2" style="display: none;">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info2_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info2_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype3" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info3_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info3_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype4" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info4_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info4_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=48&sWebSessionid=829375816';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype5" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info5_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info5_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=49&sWebSessionid=2032920744';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype6" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info6_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info6_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=APPS&ITEM=WEB_AXS';"
+				/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype7" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info7_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info7_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=50&sWebSessionid=184989856';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype8" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info8_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info8_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_nas.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype9" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info9_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info9_py20_common_popup" onClick="UpdateIfilterSrvStatus()">
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_item" id="info_behavior">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","125");%>
+				<div class="info_block">
+					<!--<%GetString("NewUI","126");%>-->
+					<div id="info_behavior_router" style="display: none;">
+						<%GetString("NewUI","127");%>
+						<div id="behavior_router_connect">
+							<%GetString("NewUI","128");%>:
+							<div id="wanip"></div>
+						</div>
+						<div id="behavior_router_disconnect">
+							<%GetString("NewUI","129");%>
+						</div>
+					</div>
+					<div id="info_behavior_bridge" style="display: none;">
+						<%GetString("NewUI","130");%>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_support" style="display: none;" onClick="undispPopup('popup_support')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_support_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	
+	<div class="aoss_bg" id="aoss_bg" style="display: none;"></div>
+	<div class="aoss_body" id="aoss_body" style="display: none;">
+		<div class="aoss_text">
+			<div id="aoss2_off" style="">
+				<%GetString("NewUI","243");%><br>
+				</br>
+			</div>
+			<br></br>
+		</div>
+    <div>
+        <input class="button1" type="button" onclick="handleAossOk();" value="<%GetString("NewUI","244");%>"/>
+        <input class="button1" type="button" onclick="handleAossCancel();"  value="<%GetString("NewUI","245");%>"/>
+    </div>
+	</div>	
+
+</div>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" id="AOSSWPS" name="AOSSWPS">
+<input type="hidden" name="checkitem" value="1">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

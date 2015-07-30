@@ -1,0 +1,697 @@
+<html>
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script type="text/javascript">
+<!--
+
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+//			window.setTimeout("updateInnerHtml()", 6000);
+			//window.setTimeout("top.dispWaiting(false)", 5000);
+			window.setTimeout("window.location.href='aoss.html'", 5000);
+}, 
+failure:function(oResponse) { 
+//alert(oResponse.errorText); 
+} 
+};
+
+var exec=0;
+var check_show="<%ShowAOSSError();%>";
+var check_wifi="<%CheckAOSSItem();%>";
+    
+function SetReset() {
+if(window.navigator.appName=="Microsoft Internet Explorer")
+	window.location.reload();
+else
+	window.location.replace("aoss.html");
+}
+
+function check_ssid_duplicated()
+{
+	var ssid0;
+	//var ssid1;
+	var ssid2;
+	var ssid3;
+	
+	ssid0=document.getElementById("id_SSID1").value;
+	//ssid1=document.getElementById("id_SSID2").value;
+	ssid2=document.getElementById("id_SSID3").value;
+	ssid3=document.getElementById("id_SSID4").value;
+
+	ssid4=document.getElementById("id_SSID0").value;
+		
+	if( ssid0 == ssid2 || ssid0 == ssid3 ){
+		return false;
+	}else if(ssid2 == ssid3){
+		return false;
+	}
+
+	if( ssid4 == ssid0 || ssid4 == ssid2 || ssid4 == ssid3 ){
+		return false;
+	}
+	
+	return true;
+}
+
+function check_ssid_duplicated_5g()
+{
+	var ssid0;
+	//var ssid1;
+	var ssid2;
+	var ssid3;
+	
+	ssid0=document.getElementById("id_SSID1_5g").value;
+	//ssid1=document.getElementById("id_SSID2").value;
+	ssid2=document.getElementById("id_SSID3_5g").value;
+	ssid3=document.getElementById("id_SSID4_5g").value;
+
+	ssid4=document.getElementById("id_SSID0_5g").value;
+		
+	if( ssid0 == ssid2 || ssid0 == ssid3 ){
+		return false;
+	}else if(ssid2 == ssid3){
+		return false;
+	}
+
+	if( ssid4 == ssid0 || ssid4 == ssid2 || ssid4 == ssid3 ){
+		return false;
+	}
+	
+	return true;
+}
+
+function GenerateRandomValue(Length, Type){
+	
+	if(Type == "Upper"){
+		BaseStr = "0123456789ABCDEF" ;
+	} else {
+		BaseStr = "0123456789abcdef" ;
+	}
+	var GeneratedValue = "" ;
+	
+	for(i=0 ; i<Length ; i++){
+		rnd = Math.floor(BaseStr.length * Math.random()) ;
+		GeneratedValue = GeneratedValue + BaseStr.substr(rnd,1);
+	}
+	
+	return GeneratedValue;
+}
+
+function SetRandom()
+{
+	document.getElementById("id_SSID1").value = GenerateRandomValue(32, "Upper") ;
+	document.getElementById("id_WPAPSK1").value  = GenerateRandomValue(63, "Lower") ;
+	
+	//document.getElementById("id_SSID2").value = GenerateRandomValue(32, "Upper") ;
+	//document.getElementById("id_WPAPSK2").value  = GenerateRandomValue(63, "Lower") ;
+	
+	document.getElementById("id_SSID3").value = GenerateRandomValue(32, "Upper") ;
+	document.getElementById("id_WEPKey1_S3").value = GenerateRandomValue(26, "Upper") ;
+	document.getElementById("id_WEPKey2_S3").value = GenerateRandomValue(26, "Upper") ;
+	document.getElementById("id_WEPKey3_S3").value = GenerateRandomValue(26, "Upper") ;
+	document.getElementById("id_WEPKey4_S3").value = GenerateRandomValue(26, "Upper") ;
+	
+	document.getElementById("id_SSID4").value = GenerateRandomValue(32, "Upper") ;
+	document.getElementById("id_WEPKey1_S4").value = GenerateRandomValue(10, "Upper") ;
+	document.getElementById("id_WEPKey2_S4").value = GenerateRandomValue(10, "Upper") ;
+	document.getElementById("id_WEPKey3_S4").value = GenerateRandomValue(10, "Upper") ;
+	document.getElementById("id_WEPKey4_S4").value = GenerateRandomValue(10, "Upper") ;
+	
+	
+	document.getElementById("id_SSID1_5g").value = GenerateRandomValue(32, "Upper") ;
+	document.getElementById("id_WPAPSK1_5g").value  = GenerateRandomValue(63, "Lower") ;
+	
+	//document.getElementById("id_SSID2").value = GenerateRandomValue(32, "Upper") ;
+	//document.getElementById("id_WPAPSK2").value  = GenerateRandomValue(63, "Lower") ;
+	
+	document.getElementById("id_SSID3_5g").value = GenerateRandomValue(32, "Upper") ;
+	document.getElementById("id_WEPKey1_S3_5g").value = GenerateRandomValue(26, "Upper") ;
+	document.getElementById("id_WEPKey2_S3_5g").value = GenerateRandomValue(26, "Upper") ;
+	document.getElementById("id_WEPKey3_S3_5g").value = GenerateRandomValue(26, "Upper") ;
+	document.getElementById("id_WEPKey4_S3_5g").value = GenerateRandomValue(26, "Upper") ;
+	
+	document.getElementById("id_SSID4_5g").value = GenerateRandomValue(32, "Upper") ;
+	document.getElementById("id_WEPKey1_S4_5g").value = GenerateRandomValue(10, "Upper") ;
+	document.getElementById("id_WEPKey2_S4_5g").value = GenerateRandomValue(10, "Upper") ;
+	document.getElementById("id_WEPKey3_S4_5g").value = GenerateRandomValue(10, "Upper") ;
+	document.getElementById("id_WEPKey4_S4_5g").value = GenerateRandomValue(10, "Upper") ;
+}
+
+function PresetKEY()
+{
+    if(<%NvramGet("WIFIAOSSMode");%>=="1")
+    {
+        document.getElementById("id_WPAPSK1").value='<%NvramGet("WIFIFacWPAPSK1");%>';
+        
+        //document.getElementById("id_WPAPSK2").value='<%NvramGet("WIFIFacWPAPSK2");%>';
+        
+        document.getElementById("id_WEPKey1_S3").value='<%NvramGet("WIFIFacWEPKey1_S3");%>';
+        document.getElementById("id_WEPKey2_S3").value='<%NvramGet("WIFIFacWEPKey2_S3");%>';
+        document.getElementById("id_WEPKey3_S3").value='<%NvramGet("WIFIFacWEPKey3_S3");%>';
+        document.getElementById("id_WEPKey4_S3").value='<%NvramGet("WIFIFacWEPKey4_S3");%>';
+        
+        document.getElementById("id_WEPKey1_S4").value='<%NvramGet("WIFIFacWEPKey1_S4");%>';
+        document.getElementById("id_WEPKey2_S4").value='<%NvramGet("WIFIFacWEPKey2_S4");%>';
+        document.getElementById("id_WEPKey3_S4").value='<%NvramGet("WIFIFacWEPKey3_S4");%>';
+        document.getElementById("id_WEPKey4_S4").value='<%NvramGet("WIFIFacWEPKey4_S4");%>';
+    
+    
+        document.getElementById("id_WPAPSK1_5g").value='<%NvramGet("WIFIFacWPAPSK1");%>';
+        document.getElementById("id_WEPKey1_S3_5g").value='<%NvramGet("WIFIFacWEPKey1_S3");%>';
+        document.getElementById("id_WEPKey2_S3_5g").value='<%NvramGet("WIFIFacWEPKey2_S3");%>';
+        document.getElementById("id_WEPKey3_S3_5g").value='<%NvramGet("WIFIFacWEPKey3_S3");%>';
+        document.getElementById("id_WEPKey4_S3_5g").value='<%NvramGet("WIFIFacWEPKey4_S3");%>';
+        document.getElementById("id_WEPKey1_S4_5g").value='<%NvramGet("WIFIFacWEPKey1_S4");%>';
+        document.getElementById("id_WEPKey2_S4_5g").value='<%NvramGet("WIFIFacWEPKey2_S4");%>';
+        document.getElementById("id_WEPKey3_S4_5g").value='<%NvramGet("WIFIFacWEPKey3_S4");%>';
+        document.getElementById("id_WEPKey4_S4_5g").value='<%NvramGet("WIFIFacWEPKey4_S4");%>';
+    }
+}
+
+
+function StartAoss(mode)//caspar modify 20090618: fix noon aoss error message in syslog page
+{
+	//var check_wifi="<%CheckAOSSItem();%>";
+	if (check_wifi=="1")
+		document.actionForm.AOSSAction.value=2;
+	else if (check_wifi=="2")
+		document.actionForm.AOSSAction.value=2;
+	else
+		document.actionForm.AOSSAction.value=mode;
+    
+    document.actionForm.submit();
+    if(window.navigator.appName=="Microsoft Internet Explorer")
+    {
+        if(check_show==1)
+        {
+          window.location.reload();          
+        }
+    }
+}
+
+function CheckAoss()//caspar modify 20090618: fix noon aoss error message in syslog page
+{
+
+	top.dispWaiting(false);
+	if(<%NvramGet("WIFIAOSSMode");%>=="1")
+	{
+		var mobile = navigator.userAgent.search("Mobile") > -1;
+		var isIE = navigator.userAgent.search("Trident") > -1;	//for IE 11
+		if( mobile == 0 && isIE )	//for IE
+		{
+			document.getElementById("id_WPAPSK1_5g").size = "85";
+			document.getElementById("id_WPAPSK1").size = "85";
+		}
+		else if (mobile)	//for mobile
+		{
+			document.getElementById("id_WPAPSK1_5g").size = "63";
+			document.getElementById("id_WPAPSK1").size = "63";
+		}
+		else	//for other browser
+		{
+			document.getElementById("id_WPAPSK1_5g").size = "72";
+			document.getElementById("id_WPAPSK1").size = "72";
+		}
+	}
+	
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+
+	var now_ecomode="<%NvramGet("now_eco_mode");%>";
+	var userdefmode_wlan="<%NvramGet("userdefmode_wlan");%>";
+	if (now_ecomode == "2" && userdefmode_wlan == "1")
+	{
+		id_AOSS_item.style.display="none";
+		id_AOSS_eco_error_message.style.display="";
+	}
+	
+	if(check_show=="1")
+	{
+		if (check_wifi=="1")
+		{
+	     		Show_error("<%GetString("Aoss","27");%>","<%GetString("Aoss","41");%>");
+	     		return;		
+		}
+		else if (check_wifi=="2")
+		{
+	     		Show_error("<%GetString("Aoss","43");%>","<%GetString("Aoss","42");%>");
+	     		return;	
+		}
+	}
+}
+
+function initBridge()
+{
+    var notBridge="<%NvramGet("RouterMode");%>";
+    if(notBridge=="0")
+    {
+        document.getElementById("id_WIFIAOSSExclusiveSSID").disabled=true;
+        document.getElementById("id_WIFIAOSSExclusiveSSID").selectedIndex=1;
+    }
+}
+
+function SetAoss()
+{
+	var i,n;
+	var mode="<%NvramGet("WIFIAOSSMode");%>";
+	document.aossForm.WIFIAOSSButtonEnable.disabled=false;
+	document.aossForm.WIFIAOSSButtonEnable.value=(document.getElementById("id_WIFIAOSSButtonEnable").checked)?"1":"0";
+	
+	if(mode=="1")
+	{
+		for(i=1;i<=4;i++)
+		{
+			if (i==2){continue;}
+			
+			var ssid_title = new Array("WPA-PSK-AES","WPA-PSK-TKIP","WEP128","WEP64");	
+			//var err_ssid_title = ssid_title[i-1]+" "+"<%GetString("Aoss","65");%> (<%GetString("Aoss","66");%>)";//SSID setting //tag_11g_11b
+			var err_ssid_title = ssid_title[i-1]+" "+"<%GetString("Aoss","65");%> ";//SSID setting
+			if(document.getElementById("id_SSID"+i).value.length==0)
+			{
+				Show_error(err_ssid_title,"<%GetString("Aoss","67");%>");//Not configured
+				return;
+			}
+			if(!check_ascii(document.getElementById("id_SSID"+i).value))
+			{
+				Show_error(err_ssid_title,"<%GetString("Aoss","68");%>");//Contains invalid character
+				return;
+			}
+			if (i<=4)
+			{
+				var ssid=document.getElementById("id_SSID"+i).value;
+				for (n=0;n<ssid.length;n++)
+				{
+					if (ssid.charAt(n)==' ')
+					{
+						Show_error(err_ssid_title,"<%GetString("Aoss","41");%>");
+						return;
+					}
+				}
+			}
+
+			if(i<=2)
+			{
+				var err_title;
+				if(i==1)
+					//err_title="<%GetString("Aoss","69");%> (<%GetString("Aoss","66");%>)";//WPA-PSK-AES encryption key setting
+					err_title="<%GetString("Aoss","69");%> ";//WPA-PSK-AES encryption key setting
+				else
+					//err_title="<%GetString("Aoss","70");%> (<%GetString("Aoss","66");%>)";//WPA-PSK-TKIP encryption key setting
+					err_title="<%GetString("Aoss","70");%> ";//WPA-PSK-TKIP encryption key setting
+				var err_msg="";
+				var key_value=document.getElementById("id_WPAPSK"+i).value;
+					
+				if (key_value.length==0)
+					err_msg="<%GetString("Aoss","67");%>";
+
+				if (key_value.length<8)
+					err_msg="<%GetString("Aoss","71");%>";//Invalid pre-shared key setting.
+
+				for (n=0;n<key_value.length;n++)
+				{
+					if (key_value.charAt(n)==' ')
+						err_msg="<%GetString("Aoss","42");%>";
+				}
+				if (isBlank(key_value))
+					err_msg="<%GetString("Aoss","72");%>";//If AOSS function is used for wireless connection, the WPA-PSK must be 8 to 63 digits alphanumeric character except space.
+					
+				if(!check_ascii(key_value))
+					err_msg="<%GetString("Aoss","71");%>";//Invalid pre-shared key setting.
+				
+				if (err_msg!="")
+				{
+					Show_error(err_title,err_msg);
+					return;
+				}					
+			}
+
+			if(i>=3)
+			{			
+				var err_title;
+				if(i==3)
+					//err_title="<%GetString("Aoss","73");%>(<%GetString("Aoss","66");%>)";//128
+					err_title="<%GetString("Aoss","73");%>";//128
+				else if (i==4)
+					//err_title="<%GetString("Aoss","74");%>(<%GetString("Aoss","66");%>)";//64
+					err_title="<%GetString("Aoss","74");%>";//64
+				for (j=1;j<=4;j++)
+				{
+					var err_msg="";
+					var err_CON="";
+					var key_value=document.getElementById("id_WEPKey"+j+"_S"+i+"").value;
+					if (key_value.length==0)
+						err_msg="<%GetString("Aoss","75");%>";//WEP encryption key not set.
+
+						var key_length = 0;
+						
+						if (i==3)
+							key_length = 26;
+						else if (i==4)
+							key_length = 10;
+
+						
+						if(key_length==key_value.length)
+						{
+							if(!check_0Tof(key_value))
+								err_msg="<%GetString("Aoss","68");%>";						
+						}
+						else
+						{
+							if(!check_ascii(key_value))
+								err_msg="<%GetString("Aoss","68");%>";
+							if ((key_value.length!=(key_length/2)) && (key_value.length>0))
+								err_msg="<%GetString("Aoss","76");%>";//Entered value is too small	
+							//if (key_value.length>key_length/2 && key_value.length>0)
+								//err_msg="<%GetString("Aoss","80");%>";						
+						}
+	
+						if (i==3)
+						{
+							if(key_value=="00000000000000000000000000")//"description: WEP Key"
+							{
+								err_msg="<%GetString("Aoss","77");%>";
+								err_CON="<%GetString("Aoss","78");%>";//A Zero value cannot be specified.
+							}
+						}
+						else if(i==4)
+						{	
+							if(key_value=="0000000000")
+							{
+								err_msg="<%GetString("Aoss","77");%>";							
+								err_CON="<%GetString("Aoss","78");%>";
+							}
+						}
+					if (err_msg!="")
+					{
+						Show_error_3(err_title,err_msg,err_CON);
+						return;
+					}
+				}					
+			}
+		}
+
+		if(!check_ssid_duplicated())
+		{
+      Show_error("<%GetString("WlanMulti","25");%>","<%GetString("WlanMulti","74");%>");
+			return false;
+    }
+    
+    for(i=1;i<=4;i++)
+		{
+			if (i==2){continue;}
+			
+			var ssid_title = new Array("WPA-PSK-AES","WPA-PSK-TKIP","WEP128","WEP64");	
+			//var err_ssid_title = ssid_title[i-1]+" "+"<%GetString("Aoss","65");%> (<%GetString("Aoss","66");%>)";//SSID setting //tag_11g_11b
+			var err_ssid_title = ssid_title[i-1]+" "+"<%GetString("Aoss","65");%> ";//SSID setting
+			if(document.getElementById("id_SSID"+i+"_5g").value.length==0)
+			{
+				Show_error(err_ssid_title,"<%GetString("Aoss","67");%>");//Not configured
+				return;
+			}
+			if(!check_ascii(document.getElementById("id_SSID"+i+"_5g").value))
+			{
+				Show_error(err_ssid_title,"<%GetString("Aoss","68");%>");//Contains invalid character
+				return;
+			}
+			if (i<=4)
+			{
+				var ssid=document.getElementById("id_SSID"+i+"_5g").value;
+				for (n=0;n<ssid.length;n++)
+				{
+					if (ssid.charAt(n)==' ')
+					{
+						Show_error(err_ssid_title,"<%GetString("Aoss","41");%>");
+						return;
+					}
+				}
+			}
+
+			if(i<=2)
+			{
+				var err_title;
+				if(i==1)
+					//err_title="<%GetString("Aoss","69");%> (<%GetString("Aoss","66");%>)";//WPA-PSK-AES encryption key setting
+					err_title="<%GetString("Aoss","69");%> ";//WPA-PSK-AES encryption key setting
+				else
+					//err_title="<%GetString("Aoss","70");%> (<%GetString("Aoss","66");%>)";//WPA-PSK-TKIP encryption key setting
+					err_title="<%GetString("Aoss","70");%> ";//WPA-PSK-TKIP encryption key setting
+				var err_msg="";
+				var key_value=document.getElementById("id_WPAPSK"+i+"_5g").value;
+					
+				if (key_value.length==0)
+					err_msg="<%GetString("Aoss","67");%>";
+
+				if (key_value.length<8)
+					err_msg="<%GetString("Aoss","71");%>";//Invalid pre-shared key setting.
+
+				for (n=0;n<key_value.length;n++)
+				{
+					if (key_value.charAt(n)==' ')
+						err_msg="<%GetString("Aoss","42");%>";
+				}
+				if (isBlank(key_value))
+					err_msg="<%GetString("Aoss","72");%>";//If AOSS function is used for wireless connection, the WPA-PSK must be 8 to 63 digits alphanumeric character except space.
+					
+				if(!check_ascii(key_value))
+					err_msg="<%GetString("Aoss","71");%>";//Invalid pre-shared key setting.
+				
+				if (err_msg!="")
+				{
+					Show_error(err_title,err_msg);
+					return;
+				}					
+			}
+
+			if(i>=3)
+			{			
+				var err_title;
+				if(i==3)
+					//err_title="<%GetString("Aoss","73");%>(<%GetString("Aoss","66");%>)";//128
+					err_title="<%GetString("Aoss","73");%>";//128
+				else if (i==4)
+					//err_title="<%GetString("Aoss","74");%>(<%GetString("Aoss","66");%>)";//64
+					err_title="<%GetString("Aoss","74");%>";//64
+				for (j=1;j<=4;j++)
+				{
+					var err_msg="";
+					var err_CON="";
+					var key_value=document.getElementById("id_WEPKey"+j+"_S"+i+"_5g").value;
+					if (key_value.length==0)
+						err_msg="<%GetString("Aoss","75");%>";//WEP encryption key not set.
+
+						var key_length = 0;
+						
+						if (i==3)
+							key_length = 26;
+						else if (i==4)
+							key_length = 10;
+
+						
+						if(key_length==key_value.length)
+						{
+							if(!check_0Tof(key_value))
+								err_msg="<%GetString("Aoss","68");%>";						
+						}
+						else
+						{
+							if(!check_ascii(key_value))
+								err_msg="<%GetString("Aoss","68");%>";
+							if ((key_value.length!=(key_length/2)) && (key_value.length>0))
+								err_msg="<%GetString("Aoss","76");%>";//Entered value is too small	
+							//if (key_value.length>key_length/2 && key_value.length>0)
+								//err_msg="<%GetString("Aoss","80");%>";						
+						}
+	
+						if (i==3)
+						{
+							if(key_value=="00000000000000000000000000")//"description: WEP Key"
+							{
+								err_msg="<%GetString("Aoss","77");%>";
+								err_CON="<%GetString("Aoss","78");%>";//A Zero value cannot be specified.
+							}
+						}
+						else if(i==4)
+						{	
+							if(key_value=="0000000000")
+							{
+								err_msg="<%GetString("Aoss","77");%>";							
+								err_CON="<%GetString("Aoss","78");%>";
+							}
+						}
+					if (err_msg!="")
+					{
+						Show_error_3(err_title,err_msg,err_CON);
+						return;
+					}
+				}					
+			}
+		}
+
+		if(!check_ssid_duplicated_5g())
+		{
+      Show_error("<%GetString("WlanMulti","25");%>","<%GetString("WlanMulti","74");%>");
+			return false;
+    }
+    
+    document.getElementById("aoss_content").style.display="none";
+    document.getElementById("aoss_confirm").style.display="";
+	}
+	else apply();
+}
+
+function apply()
+{
+	//document.aossForm.submit();
+	YAHOO.util.Connect.setForm('aossForm'); 
+    YAHOO.util.Connect.asyncRequest('POST','aoss.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+
+// -->
+</script>
+</head>
+
+<body class="BFK_BODY" onload="CheckAoss();" id="id_main" style="display:none;">
+<div id="aoss_content">
+<br>
+<div id="id_errtbl" class="C_ERR">
+</div>
+<form method="POST" name="actionForm">
+  <input type="hidden" name="AOSSAction" value="1">
+  <input type="hidden" id="id_SSID0" value="<%NvramGetAdv("WIFISsid0");%>">
+  <input type="hidden" id="id_SSID0_5g" value="<%NvramGetAdv("WIFISsid0_5g");%>">
+
+  <div id="id_AOSS_item" style="display: block;">
+  <%GetAOSSItem_5g("aossstart");%>
+  <%GetAOSSItem_5g("aossstop");%>
+  </div>
+  <div id="id_AOSS_eco_error_message" class="C_ERR" style="display: none;">
+	<%GetString("Aoss","82");%>
+  </div>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+  <hr>
+
+<form method="POST" name="aossForm">
+	<table class="AD_TTL2">
+	  <tr><td><%GetString("Aoss","1");%> </td></tr>
+	</table>
+	<table class="AD_SET">
+  <tr> 
+	<th><%GetString("Aoss","2");%></th>
+	<td>
+  <table>
+  	<tr>
+	  <td><span class="WLAN11A"><%GetString("Aoss","84");%></span></td>
+	  <td>
+      <%GetAOSSItem_5g("wepmode");%>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="WLAN11G"><%GetString("Aoss","85");%></span></td>
+    <td>
+      <%GetAOSSItem("wepmode");%>
+    </td>
+  </tr>
+  </table>
+  </td>
+  </tr>
+  
+  <!--<tr>
+    <th><%GetString("Aoss","46");%></th>
+    <td><span class="WLAN11G"><%GetString("Aoss","44");%></span>
+	  <select size="1" name="WIFIAOSSAdvEncryptionEnable" <%NvramMatch("WIFIAOSSMode", "0", "disabled");%>>
+		<option value="1" <%NvramMatch("WIFIAOSSAdvEncryptionEnable","1","selected");%>><%GetString("Aoss","47");%></option>
+		<option value="0" <%NvramMatch("WIFIAOSSAdvEncryptionEnable","0","selected");%>><%GetString("Aoss","48");%></option>
+	  </select>
+	</td>
+  </tr>-->
+  <tr>
+  <th><%GetString("Aoss","49");%></th>
+  <td>
+  <table>
+  <tr>
+  <td>
+  <%GetString("Aoss","50");%>
+  </td>
+  </tr>
+  <tr>
+    <td><span class="WLAN11A"><%GetString("Aoss","84");%>&nbsp;&nbsp;&nbsp;</span>
+	  <select size="1" name="WIFIAOSSExclusiveSSID_5g" id="id_WIFIAOSSExclusiveSSID_5g" <%NvramMatch("WIFIAOSSMode", "0", "disabled");%>>
+		<option value="1" <%NvramMatch("WIFIAOSSExclusiveSSID_5g","1","selected");%>><%GetString("Aoss","47");%></option>
+		<option value="0" <%NvramMatch("WIFIAOSSExclusiveSSID_5g","0","selected");%>><%GetString("Aoss","48");%></option>
+	  </select>
+	</td>
+	</tr>
+	<tr>
+    <td><span class="WLAN11G"><%GetString("Aoss","85");%></span>
+	  <select size="1" name="WIFIAOSSExclusiveSSID" id="id_WIFIAOSSExclusiveSSID" <%NvramMatch("WIFIAOSSMode", "0", "disabled");%>>
+		<option value="1" <%NvramMatch("WIFIAOSSExclusiveSSID","1","selected");%>><%GetString("Aoss","47");%></option>
+		<option value="0" <%NvramMatch("WIFIAOSSExclusiveSSID","0","selected");%>><%GetString("Aoss","48");%></option>
+	  </select>
+	  </td>
+  </tr>  
+  </table>
+	</td>
+  </tr>
+  
+  
+  <tr>
+    <th><%GetString("Aoss","11");%></th>
+    <td>
+    	<input type="hidden" name="WIFIAOSSButtonEnable" value="<%NvramGet("WIFIAOSSButtonEnable");%>" disabled>
+        <input type="checkbox" id="id_WIFIAOSSButtonEnable" value="1" <%NvramMatch("WIFIAOSSButtonEnable","1","checked");%>><%GetString("Aoss","8");%>
+    </td>
+  </tr>
+</table>
+
+<%GetAOSSSecurityInformation_5g();%>
+<%GetAOSSSecurityInformation();%>
+<%GetAOSSClientTable_24g_5g("display");%>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</div>
+<div id="aoss_confirm" style="display:none;">  
+  <p><%GetString("Aoss","55");%><BR><%GetString("Aoss","56");%>(<%GetString("Aoss","57");%>)  </p>
+  <p>
+		<%GetString("Aoss","58");%>
+  </p>
+  <div class="C_CONFIRM">
+      <p>
+<%GetString("Aoss","59");%><br>
+  	<ol>
+<%GetString("Aoss","60");%>
+<%GetString("Aoss","61");%>
+<%GetString("Aoss","62");%>
+  	</ol>
+<%GetString("Aoss","63");%>
+  	</p>
+  	<input type="button" name="nosave_apply" value="<%GetString("Aoss","12");%>" onclick="apply();">
+    <input type="button" name="nosave_back" value="<%GetString("Aoss","64");%>" onClick=location.href="aoss.html">
+  </div>
+</div>
+<br/>
+<br/>
+<br/>
+</body>
+</html>
+

@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+
+var exec_DoSubmit = false;
+function dosubmit()
+{
+	if(exec_DoSubmit == true){
+		
+		return false;
+	} else {
+		
+		exec_DoSubmit = true;
+	}
+	
+	document.form_fwlist.update_button.disabled = 1;
+	document.form_fwlist.RETURN.disabled = 1;
+	
+	document.form_fwlist.submit();
+	
+}
+
+function init(val)
+{
+	// MODELNAME Ver.1.00(R2.12/B1.00)
+	var verstr="<%NvramGet("FirmwareVersion");%>";
+	var begin=verstr.indexOf(" ")+1;
+	document.getElementById("currentversion").innerHTML=verstr.substring(begin);
+}
+
+// -->
+</script>
+</head>
+
+<body onload="init()" class="BFK_BODY">
+<br>
+
+
+<form method="POST" name="form_fwlist">
+<p><%GetString("Fwupdate","22");%></p>
+<table class=AD_INFO>
+    <tr>
+      <th><%GetString("Fwupdate","23");%></th>
+      <th><%GetString("Fwupdate","24");%></th>
+      <th><%GetString("Fwupdate","25");%></th>
+      <th><%GetString("Fwupdate","26");%></th>  
+    </tr>
+
+
+<%ShowXMLTable();%>
+
+
+</table>
+
+<p><input type="button" name="update_button" value="<%GetString("Fwupdate","27");%>" onclick="dosubmit();">&nbsp;<input type="button" name="RETURN" value="<%GetString("Fwupdate","28");%>" onclick="location.href='fwupdate.html'"></p>
+<p><%GetString("Fwupdate","29");%>:&nbsp;<span id="currentversion"></span></p>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript">
+
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+//			window.setTimeout("updateInnerHtml()", 6000);
+			//window.setTimeout("top.dispWaiting(false)", 20000);
+			window.setTimeout("window.location.href='wlan_gpaccount.html'", 25000);
+}, 
+failure:function(oResponse) { 
+//alert(oResponse.errorText); 
+} 
+};
+
+var Edit_ShowPassword=0;
+
+function PasswordClear()
+{
+    var tmp_str = "";
+    for(i=0; i < document.forms[0].edit_pass.value.length; i++){
+        if(document.forms[0].edit_pass.value.charAt(i) != "*"){
+            tmp_str+=document.forms[0].edit_pass.value.charAt(i);
+        }
+    }
+    document.forms[0].edit_pass.value=tmp_str;
+    tmp_str="";
+    /*
+    for(i=0; i < document.forms[0].edit_pass2.value.length; i++){
+        if(document.forms[0].edit_pass2.value.charAt(i) != "*"){
+            tmp_str+=document.forms[0].edit_pass2.value.charAt(i);
+        }
+    }
+    document.forms[0].edit_pass2.value=tmp_str;
+    */
+
+//    document.forms[0].edit_pass.value="";
+//    document.forms[0].edit_pass2.value="";
+    document.forms[0].TEST_INPUT.value = 1; 
+
+
+
+}
+
+
+
+function CheckPasswordInput() 
+{ 
+    if(document.forms[0].TEST_INPUT.value == 0 && document.forms[0].edit_pass.value != "********") PasswordClear();
+} 
+
+
+/*
+function CheckPasswordCheckInput() 
+{ 
+    if(document.forms[0].TEST_INPUT.value == 0 && document.forms[0].edit_pass2.value != "********") PasswordClear(); 
+} 
+*/
+
+
+function init_list()
+{
+
+	top.dispWaiting(false);
+	document.getElementById("id_main").style.display = "block";
+
+	top.content_helpframe.document.location.href = "./help/help_guest_port_user.html";
+	var user_num=5, flag = 0;
+
+	if("<%NvramGet("GuestPortUN1");%>"=="")
+	{
+		document.getElementById("id_user1").style.display="none";
+		user_num--;
+		flag++;
+	}
+	if("<%NvramGet("GuestPortUN2");%>"=="")
+	{
+		document.getElementById("id_user2").style.display="none";
+		user_num--;
+		flag++;
+	}
+	if("<%NvramGet("GuestPortUN3");%>"=="")
+	{
+		document.getElementById("id_user3").style.display="none";
+		user_num--;
+		flag++;
+	}
+	if("<%NvramGet("GuestPortUN4");%>"=="")
+	{
+		document.getElementById("id_user4").style.display="none";
+		user_num--;
+		flag++;
+	}
+	if("<%NvramGet("GuestPortUN5");%>"=="")
+	{
+		document.getElementById("id_user5").style.display="none";
+		user_num--;
+		flag++;
+	}
+	
+	if(user_num==5)
+	{
+		document.getElementById("id_maxuser").style.display="";
+		document.getElementById("id_changeuser").style.display="none";		
+	}
+	if(flag < 5) 				
+		document.getElementById("id_user0").style.display="none";
+		
+}
+
+function edit_user(index)
+{
+	var i;
+	
+	Edit_ShowPassword=1;
+	
+	document.getElementById("id_maxuser").style.display="none";
+	document.getElementById("id_changeuser").style.display="";
+	document.getElementById("id_add").style.display="none";
+	document.getElementById("id_editing").style.display="";
+	document.getElementById("id_user_add").style.display="none";
+	document.getElementById("id_user_modify").style.display="";
+
+	
+	for(i=1;i<=5;i++)
+	{
+		if(i==index)
+		{
+			document.getElementById("work"+i).style.display="none";
+			document.getElementById("edit"+i).style.display="";
+		}
+		else
+		{
+			document.getElementById("work"+i).style.display="";
+			document.getElementById("edit"+i).style.display="none";		
+		}
+	}
+	if(index==1)
+	{
+		document.getElementById("id_username").value="<%NvramGet("GuestPortUN1");%>";
+	}
+	if(index==2)
+	{
+		document.getElementById("id_username").value="<%NvramGet("GuestPortUN2");%>";
+	}
+	if(index==3)
+	{
+		document.getElementById("id_username").value="<%NvramGet("GuestPortUN3");%>";
+	}
+	if(index==4)
+	{
+		document.getElementById("id_username").value="<%NvramGet("GuestPortUN4");%>";
+	}
+	if(index==5)
+	{
+		document.getElementById("id_username").value="<%NvramGet("GuestPortUN5");%>";
+	}
+	
+	document.getElementById("id_GuestPassword").value="********";
+	//document.getElementById("id_edit_pass2").value="********";
+	document.getElementById("id_editid").value=index;
+	document.getElementById("id_edituser").value = document.getElementById("id_username").value;
+}
+
+function DoSubmit()
+{	
+
+	var user_str = document.getElementById("id_username").value;
+
+	if(document.getElementById("id_username").value=="" )
+	{
+		//alert("<%GetString("Guestport","61");%>");
+		document.getElementById("waran_id_2").style.display="block";
+		document.getElementById("waran_id_1").style.display="none";
+		document.getElementById("waran_id_3").style.display="none";
+		document.getElementById("waran_id_4").style.display="none";
+		document.getElementById("id_maxuser").style.display="none";
+		document.getElementById("id_changeuser").style.display="";
+		document.getElementById("id_add").style.display="none";
+		document.getElementById("id_editing").style.display="";
+		document.getElementById("id_user_add").style.display="none";
+		document.getElementById("id_user_modify").style.display="";
+		return;
+	}	
+
+	if(!Escape_String(user_str))
+	{
+		//alert("Escape_String");
+		//Invalid character.
+		//check_errmsg("Websites","<%GetString("WDS","18");%>");	
+		document.getElementById("waran_id_3").style.display="block";
+		document.getElementById("waran_id_1").style.display="none";
+		document.getElementById("waran_id_2").style.display="none";
+		document.getElementById("waran_id_4").style.display="none";
+		document.getElementById("id_maxuser").style.display="none";
+		document.getElementById("id_changeuser").style.display="";
+		document.getElementById("id_add").style.display="none";
+		document.getElementById("id_editing").style.display="";
+		document.getElementById("id_user_add").style.display="none";
+		document.getElementById("id_user_modify").style.display="";
+		return;
+	}
+	
+	if ( user_str.search('"')>=0 || user_str.search("'")>=0 || user_str.search("/")>=0 || user_str.search(" ")>=0 )
+	{
+		//alert("invalid character");
+		document.getElementById("waran_id_3").style.display="block";
+		document.getElementById("waran_id_1").style.display="none";
+		document.getElementById("waran_id_2").style.display="none";
+		document.getElementById("waran_id_4").style.display="none";
+		document.getElementById("id_maxuser").style.display="none";
+		document.getElementById("id_changeuser").style.display="";
+		document.getElementById("id_add").style.display="none";
+		document.getElementById("id_editing").style.display="";
+		document.getElementById("id_user_add").style.display="none";
+		document.getElementById("id_user_modify").style.display="";
+		return;
+	}
+	
+	if((document.getElementById("id_username").value == "<%NvramGet("GuestPortUN1");%>" || document.getElementById("id_username").value == "<%NvramGet("GuestPortUN2");%>" || document.getElementById("id_username").value == "<%NvramGet("GuestPortUN3");%>" || document.getElementById("id_username").value == "<%NvramGet("GuestPortUN4");%>" || document.getElementById("id_username").value == "<%NvramGet("GuestPortUN5");%>") && document.getElementById("id_username").value != document.getElementById("id_edituser").value )
+	{
+		//alert("<%GetString("Guestport","60");%>");
+		document.getElementById("waran_id_1").style.display="block";
+		document.getElementById("waran_id_2").style.display="none";
+		document.getElementById("waran_id_3").style.display="none";
+		document.getElementById("waran_id_4").style.display="none";
+		document.getElementById("id_maxuser").style.display="none";
+		document.getElementById("id_changeuser").style.display="";
+		document.getElementById("id_add").style.display="none";
+		document.getElementById("id_editing").style.display="";
+		document.getElementById("id_user_add").style.display="none";
+		document.getElementById("id_user_modify").style.display="";
+		return;
+	}
+
+	document.getElementById("id_pass").value=document.getElementById("id_GuestPassword").value;
+	var pass_str = document.getElementById("id_pass").value;
+	
+	if(!Escape_String(pass_str))
+	{
+		//alert("Escape_String pass");
+		//Invalid character.
+		//check_errmsg("Websites","<%GetString("WDS","18");%>");	
+		document.getElementById("waran_id_4").style.display="block";
+		document.getElementById("waran_id_1").style.display="none";
+		document.getElementById("waran_id_2").style.display="none";
+		document.getElementById("waran_id_3").style.display="none";
+		document.getElementById("id_maxuser").style.display="none";
+		document.getElementById("id_changeuser").style.display="";
+		document.getElementById("id_add").style.display="none";
+		document.getElementById("id_editing").style.display="";
+		document.getElementById("id_user_add").style.display="none";
+		document.getElementById("id_user_modify").style.display="";
+		return;
+	}
+	
+	if ( pass_str.search('"')>=0 || pass_str.search("'")>=0 || pass_str.search("/")>=0 || pass_str.search(" ")>=0 )
+	{
+		//alert("invalid character pass");
+		document.getElementById("waran_id_4").style.display="block";
+		document.getElementById("waran_id_1").style.display="none";
+		document.getElementById("waran_id_2").style.display="none";
+		document.getElementById("waran_id_3").style.display="none";
+		document.getElementById("id_maxuser").style.display="none";
+		document.getElementById("id_changeuser").style.display="";
+		document.getElementById("id_add").style.display="none";
+		document.getElementById("id_editing").style.display="";
+		document.getElementById("id_user_add").style.display="none";
+		document.getElementById("id_user_modify").style.display="";
+		return;
+	}
+	
+	/*if(document.getElementById("id_edit_pass").value==document.getElementById("id_edit_pass2").value)
+	{
+		document.getElementById("id_pass").value=document.getElementById("id_edit_pass").value;
+	}
+	else
+	{
+		alert("<%GetString("Password","7");%>");
+		return;
+	}*/
+
+	
+	
+	/*if(document.getElementById("id_pass").value=="")
+	{
+		alert("<%GetString("Password","7");%>");
+		return;
+	}*/
+		
+
+	//document.forms[0].submit();
+	YAHOO.util.Connect.setForm(document.forms[0]); 
+    YAHOO.util.Connect.asyncRequest('POST','wlan_gpaccount.html'+'?timestampt='+new Date().toString(),oCallback);
+}
+function DoAdd()
+{	
+	document.getElementById("id_editid").value=0;
+	document.getElementById("id_delid").value=0;
+	DoSubmit();
+}
+
+function ShowPassword()
+{
+	if(document.getElementById("id_ShowPassword").checked == true)
+	{
+		if(Edit_ShowPassword==1)
+		{
+			document.getElementById("id_GuestPassword").value="";
+		}
+		document.getElementById("id_GuestPassword").type="text";
+	}
+	else
+		document.getElementById("id_GuestPassword").type="password";
+}
+
+function del_user(index)
+{
+	document.getElementById("id_delid").value=index;
+	//document.forms[1].submit();
+	YAHOO.util.Connect.setForm(document.forms[1]); 
+    YAHOO.util.Connect.asyncRequest('POST','wlan_gpaccount.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+
+function Refresh()
+{
+	document.getElementById("id_username").value="";
+	location.reload() ;
+	document.getElementById("id_main").style.display = "none";
+	top.document.getElementById("indicator").style.display = "";
+	top.document.getElementById("waiting_err_text").style.display = "none";
+	top.document.getElementById("waiting_err_btn").style.display = "none";
+	top.dispWaiting(true);
+	window.setTimeout("window.location.href='wlan_gpaccount.html'", 20000);
+}
+
+</script>
+
+</head>
+
+<body onload="init_list();" id="id_main" style="display:none;">
+
+
+<br/>
+
+<p><input type="button" value="<%GetString("Guestport","24");%>" onClick="Changelink('wlan_guestport.html', 'help_guest_port.html');">
+ </p>
+ 
+ <div id ="waran_id_1" name="waran_1" class="C_ERR" style="display:none"><hr><%GetString("WDS","47");%><%GetString("NewUI","13");%><br><%GetString("VPN","76");%></div>
+ <div id ="waran_id_2" name="waran_2" class="C_ERR" style="display:none"><hr><%GetString("WDS","47");%><%GetString("NewUI","13");%><br><%GetString("Guestport","61");%></div>
+ <div id ="waran_id_3" name="waran_3" class="C_ERR" style="display:none"><hr><%GetString("WDS","47");%><%GetString("NewUI","13");%><br><%GetString("WDS","18");%></div>
+ <div id ="waran_id_4" name="waran_4" class="C_ERR" style="display:none"><hr><%GetString("WDS","47");%><%GetString("NewUI","14");%><br><%GetString("WDS","18");%></div>
+ 
+<hr>
+
+<form method="POST" name="modifyuser">
+
+  <table class="AD_TTL2">
+    <tr>
+      <td id="id_user_add">
+      <%GetString("Guestport","25");%>
+    
+      
+      </td>
+	  <td id="id_user_modify" style="display:none">
+	  <%GetString("Guestport","59");%>
+	  
+	  </td>
+    </tr>
+     <tr>
+		<td nowrap id="id_maxuser" style="display:none">
+			<p class="WARN"> <%GetString("Guestport","26");%><br><%GetString("Guestport","27");%></p>
+		</td>
+    </tr>
+  </table>
+
+  
+  <div id="id_changeuser">
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Guestport","28");%></th>
+      <td>
+        <input type="text" id="id_username" name="username" size="45"  maxlength="64" 
+        value="">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Guestport","29");%></th>
+      <td>
+        <input type="hidden" name="TEST_INPUT" value="0">
+        <input type="password" id="id_GuestPassword" name="edit_pass" size="45" maxlength="64" 
+        value=""
+        onkeyup="CheckPasswordInput()">
+        <br>
+		<input type="checkbox" id="id_ShowPassword" onclick="ShowPassword();" ><%GetString("NewUI","193");%>
+       <!---- <input type="password" name="edit_pass2" id="id_edit_pass2" size="45" maxlength="64" 
+        value=""
+        onkeyup="CheckPasswordCheckInput()"> &#x28;<%GetString("Guestport","30");%>&#x29;---->
+      </td>
+    </tr>
+  </table>
+
+  <p>
+  	
+     	 <input type="hidden" id="id_pass" name="password" value=""> 
+     	 <input type="hidden" value="0" id="id_editid" name="EDITID">
+		 <input type="hidden" value="" id="id_edituser">
+		
+     	<span id="id_add"><input type="button" value="<%GetString("Guestport","31");%>" name="action" onClick="DoAdd();"></span>
+     	<span id="id_editing" style="display:none">
+			<input type="button" value="<%GetString("RouteReg","11");%>" name="save" onClick="DoSubmit();">
+			<input type="button" value="<%GetString("RouteReg","12");%>" name="cancel" onClick="Refresh();">
+		</span>
+  </p>
+  
+  </div>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+ 
+
+<hr>
+  <table class="AD_TTL2">
+    <tr>
+      <td><%GetString("NewUI","268");%></td>
+    </tr>
+  </table>
+
+  
+<form method="POST" name="userlist">
+  <input type="hidden" value="0" id="id_delid" name="DELID">
+  
+  <table class="AD_LIST">
+    <tr>
+      <th><%GetString("Guestport","17");%></th>
+      <th><%GetString("Guestport","20");%></th>
+    </tr>
+	
+	<tr id="id_user0" >
+     	<td colspan="2" align="center"><div name="NoReg"><%GetString("NewUI","250");%></div></td>
+    </tr>
+	
+    <tr id="id_user1">
+     	<td>
+				<%NvramGet("GuestPortUN1");%>
+     	</td>
+     	<td id="work1">
+			
+     			<input type="button" value="<%GetString("Guestport","32");%>" name="Do_ED1" onClick="edit_user(1);">
+     			<input type="button" value="<%GetString("Guestport","33");%>" name="Do_DL1" onClick="del_user(1);" >
+     			
+
+     	</td>
+		<td id="edit1" style="display:none">
+				<center><span class=C_WARN><%GetString("Guestport","34");%></span></center>
+		</td>
+		
+    </tr>
+    
+	<tr id="id_user2">
+     	<td>
+				<%NvramGet("GuestPortUN2");%>
+     	</td>
+     	<td id="work2">
+			
+     			<input type="button" value="<%GetString("Guestport","32");%>" name="Do_ED2" onClick="edit_user(2);">
+     			<input type="button" value="<%GetString("Guestport","33");%>" name="Do_DL2" onClick="del_user(2);" >
+     			
+
+     	</td>
+		<td id="edit2" style="display:none">
+				<center><span class=C_WARN><%GetString("Guestport","34");%></span></center>
+		</td>
+		
+    </tr>
+	
+	<tr id="id_user3">
+     	<td>
+				<%NvramGet("GuestPortUN3");%>
+     	</td>
+     	<td id="work3">
+			
+     			<input type="button" value="<%GetString("Guestport","32");%>" name="Do_ED3" onClick="edit_user(3);">
+     			<input type="button" value="<%GetString("Guestport","33");%>" name="Do_DL3" onClick="del_user(3);" >
+     			
+
+     	</td>
+		<td id="edit3" style="display:none">
+				<center><span class=C_WARN><%GetString("Guestport","34");%></span></center>
+		</td>
+		
+    </tr>
+	   
+	
+	<tr id="id_user4">
+     	<td>
+				<%NvramGet("GuestPortUN4");%>
+     	</td>
+     	<td id="work4">
+			
+     			<input type="button" value="<%GetString("Guestport","32");%>" name="Do_ED4" onClick="edit_user(4);">
+     			<input type="button" value="<%GetString("Guestport","33");%>" name="Do_DL4" onClick="del_user(4);" >
+     			
+
+     	</td>
+		<td id="edit4" style="display:none">
+				<center><span class=C_WARN><%GetString("Guestport","34");%></span></center>
+		</td>
+		
+    </tr>
+	
+	<tr id="id_user5">
+     	<td>
+				<%NvramGet("GuestPortUN5");%>
+     	</td>
+     	<td id="work5">
+			
+     			<input type="button" value="<%GetString("Guestport","32");%>" name="Do_ED5" onClick="edit_user(5);">
+     			<input type="button" value="<%GetString("Guestport","33");%>" name="Do_DL5" onClick="del_user(5);" >
+     			
+
+     	</td>
+		<td id="edit5" style="display:none">
+				<center><span class=C_WARN><%GetString("Guestport","34");%></span></center>
+		</td>
+		
+    </tr>
+  </table>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

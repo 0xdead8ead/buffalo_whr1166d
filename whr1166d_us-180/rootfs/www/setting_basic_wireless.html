@@ -1,0 +1,1086 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+ <HEAD>
+	<title>WHR-1166D - BUFFALO AirStation</title>
+	<meta HTTP-EQUIV="Content-Type" Content="text/html; charset=<%ChangeCharset();%>"></meta>
+	<meta name="viewport" content="width=<%NvramMatch("MobileDevice","1","640");%><%NvramMatch("MobileDevice","0","940");%>">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+	<META http-equiv="Content-Style-Type" content="text/css">
+	<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+	<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+	<link rel="alternate stylesheet" id="mobilecss_common" type="text/css" href="/images/style-PY20-common-mobile.css">
+	<link rel="alternate stylesheet" id="anothercss_advanced" type="text/css" href="/images/style-PY20-advanced.css">
+	<script type="text/javascript" src="/js/prototype.js"></script>
+	<script type="text/javascript" src="/js/py20_common.js"></script>
+	<script type="text/javascript" src="/js/py20_icon_popup.js"></script>
+	<script type="text/javascript" src="/js/py20_backalert.js"></script>
+	<script type="text/javascript" src="/js/cookiectrl.js"></script>
+	<script type="text/javascript" src="/js/py20_set_wait.js"></script>
+	<script type="text/javascript" src="/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/common_json2lang.js"></script>
+	<script type="text/javascript" src="/js/py20_adjust_iframe.js"></script>
+	<script type="text/javascript" src="/js/py20_apply_button.js"></script>
+	<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+	<script language="javascript" src="common.js"></script>
+	<style type="text/css">
+	body {  margin: 0 auto; }	
+</style>
+<script language="JavaScript">
+<!--
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("indicator").style.display = "";
+			document.getElementById("waiting_err_text").style.display = "none";
+			document.getElementById("waiting_err_btn").style.display = "none";
+			dispWaiting(true);
+			window.setTimeout("window.location.href='logout.html';", 25000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+var err_ssid_x = true;
+var err_key_x = true;
+var err_ssid_y = true;
+var err_key_y = true;
+var iconDisable = false;
+
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+
+	xPosition = element.offsetLeft;
+	yPosition = element.offsetTop;
+    return { x: xPosition, y: yPosition };
+}
+
+function handleFormOnKeyup(el, warnid)
+{
+	switch(warnid)
+	{
+		default:
+			break;
+		case "warning_ssid_x":
+			if (el.value.length>32)
+			{
+				err_ssid_x = false;
+				document.getElementById("warning_ssid_x" ).style.display = "";
+				document.getElementById("warning_ssid_x0" ).style.display = "";
+				document.getElementById("warning_ssid_x1" ).style.display = "none";
+			}
+			else
+			{
+				var i;
+				var char_code;
+				for(i = 0; i < el.value.length; i++)
+				{
+					char_code = el.value.charCodeAt(i);
+					if((char_code <= 31) || (char_code >=  127))
+					{
+						err_ssid_x = false;
+						document.getElementById("warning_ssid_x" ).style.display = "";
+						document.getElementById("warning_ssid_x0" ).style.display = "none";
+						document.getElementById("warning_ssid_x1" ).style.display = "";
+					}
+					else 
+					{
+						err_ssid_x = true;
+						document.getElementById("warning_ssid_x" ).style.display = "none";
+						document.getElementById("warning_ssid_x0" ).style.display = "none";
+						document.getElementById("warning_ssid_x1" ).style.display = "none";
+					}
+			    }
+				
+				if (el.value.length==0)
+				{
+					err_ssid_x = true;
+					document.getElementById("warning_ssid_x" ).style.display = "none";
+					document.getElementById("warning_ssid_x0" ).style.display = "none";
+					document.getElementById("warning_ssid_x1" ).style.display = "none";					
+				}
+			}
+			break;
+		case "warning_key_x":
+			if(el.value.length > 0)
+			{
+				if((el.value.length < 8) || (el.value.length > 64))
+				{
+					err_key_x = false;
+					document.getElementById("warning_key_x" ).style.display = "";
+					document.getElementById("warning_key_x0" ).style.display = "none";
+					document.getElementById("warning_key_x1" ).style.display = "";
+					document.getElementById("warning_key_x2" ).style.display = "none";
+				}
+				else if (el.value.length == 64 && !check_0Tof(el.value))
+				{
+					err_key_x = false;
+					document.getElementById("warning_key_x" ).style.display = "";
+					document.getElementById("warning_key_x0" ).style.display = "none";
+					document.getElementById("warning_key_x1" ).style.display = "none";
+					document.getElementById("warning_key_x2" ).style.display = "";
+				}
+				else
+				{
+					var i;
+					var char_code;
+					var re = new RegExp("[^A-Fa-f0-9]");
+					if(re.test(el.value))
+					{
+						err_key_x = false;
+						document.getElementById("warning_key_x" ).style.display = "";
+						document.getElementById("warning_key_x0" ).style.display = "none";
+						document.getElementById("warning_key_x1" ).style.display = "none";
+						document.getElementById("warning_key_x2" ).style.display = "";
+					}
+					for(i = 0; i < el.value.length; i++)
+					{
+						char_code = el.value.charCodeAt(i);
+						if((char_code <= 31) || (char_code >=  127))
+						{
+							err_key_x = false;
+							document.getElementById("warning_key_x" ).style.display = "";
+							document.getElementById("warning_key_x0" ).style.display = "";
+							document.getElementById("warning_key_x1" ).style.display = "none";
+							document.getElementById("warning_key_x2" ).style.display = "none";
+						}
+						else
+						{
+							err_key_x = true;
+							document.getElementById("warning_key_x" ).style.display = "none";
+							document.getElementById("warning_key_x0" ).style.display = "none";
+							document.getElementById("warning_key_x1" ).style.display = "none";
+							document.getElementById("warning_key_x2" ).style.display = "none";		
+						}
+					}
+				}
+			}
+			else
+			{
+							err_key_x = true;
+							document.getElementById("warning_key_x" ).style.display = "none";
+							document.getElementById("warning_key_x0" ).style.display = "none";
+							document.getElementById("warning_key_x1" ).style.display = "none";
+							document.getElementById("warning_key_x2" ).style.display = "none";						
+			}
+			break;
+		case "warning_ssid_y":
+			if (el.value.length>32)
+			{
+				err_ssid_y = false;
+				document.getElementById("warning_ssid_y" ).style.display = "";
+				document.getElementById("warning_ssid_y0" ).style.display = "";
+				document.getElementById("warning_ssid_y1" ).style.display = "none";
+			}
+			else
+			{
+				var i;
+				var char_code;
+				for(i = 0; i < el.value.length; i++)
+				{
+					char_code = el.value.charCodeAt(i);
+					if((char_code <= 31) || (char_code >=  127))
+					{
+						err_ssid_y = false;
+						document.getElementById("warning_ssid_y" ).style.display = "";
+						document.getElementById("warning_ssid_y0" ).style.display = "none";
+						document.getElementById("warning_ssid_y1" ).style.display = "";
+					}
+					else 
+					{
+						err_ssid_y = true;
+						document.getElementById("warning_ssid_y" ).style.display = "none";
+						document.getElementById("warning_ssid_y0" ).style.display = "none";
+						document.getElementById("warning_ssid_y1" ).style.display = "none";
+					}
+			    }
+				
+				if (el.value.length==0)
+				{
+					err_ssid_y = true;
+					document.getElementById("warning_ssid_y" ).style.display = "none";
+					document.getElementById("warning_ssid_y0" ).style.display = "none";
+					document.getElementById("warning_ssid_y1" ).style.display = "none";		
+				}
+			}
+			break;
+		case "warning_key_y":
+			if(el.value.length > 0)
+			{
+				if((el.value.length < 8) || (el.value.length > 64))
+				{
+					err_key_y = false;
+					document.getElementById("warning_key_y" ).style.display = "";
+					document.getElementById("warning_key_y0" ).style.display = "none";
+					document.getElementById("warning_key_y1" ).style.display = "";
+					document.getElementById("warning_key_y2" ).style.display = "none";
+				}
+				else
+				{
+					var i;
+					var char_code;
+					var re = new RegExp("[^A-Fa-f0-9]");
+					if(re.test(el.value))
+					{
+						err_key_y = false;
+						document.getElementById("warning_key_y" ).style.display = "";
+						document.getElementById("warning_key_y0" ).style.display = "none";
+						document.getElementById("warning_key_y1" ).style.display = "none";
+						document.getElementById("warning_key_y2" ).style.display = "";
+					}
+					for(i = 0; i < el.value.length; i++)
+					{
+						char_code = el.value.charCodeAt(i);
+						if((char_code <= 31) || (char_code >=  127))
+						{
+							err_key_y = false;
+							document.getElementById("warning_key_y" ).style.display = "";
+							document.getElementById("warning_key_y0" ).style.display = "";
+							document.getElementById("warning_key_y1" ).style.display = "none";
+							document.getElementById("warning_key_y2" ).style.display = "none";
+						}
+						else
+						{
+							err_key_y = true;
+							document.getElementById("warning_key_y" ).style.display = "none";
+							document.getElementById("warning_key_y0" ).style.display = "none";
+							document.getElementById("warning_key_y1" ).style.display = "none";
+							document.getElementById("warning_key_y2" ).style.display = "none";
+						}
+					}
+				}
+			}
+			else
+			{
+				err_key_y = true;
+				document.getElementById("warning_key_y" ).style.display = "none";
+				document.getElementById("warning_key_y0" ).style.display = "none";
+				document.getElementById("warning_key_y1" ).style.display = "none";
+				document.getElementById("warning_key_y2" ).style.display = "none";
+			}
+			break;
+	}
+	handlebuttonaccept();
+}
+
+//function handleAutoChannel()
+//{
+//	if (document.getElementById("input_CH0").options[document.getElementById("input_CH0").selectedIndex].value=="0")
+//		document.getElementById("WIFIAutoChannelSelect").value="1";
+//	if (document.getElementById("input_CH1").options[document.getElementById("input_CH1").selectedIndex].value=="0")
+//		document.getElementById("WIFIAutoChannelSelect_5g").value="1";
+//}
+
+function isSsidChange()
+{
+	var prevSSID = new Array(2);
+	prevSSID[0] = document.getElementById("SSID1").value;
+	prevSSID[1] = document.getElementById("SSID1_5g").value;
+	var bRet = false;
+	for(i=0; (i < prevSSID.length) && (i < 2); i++)
+	{
+		if(prevSSID[i] != "")
+		{
+			if(prevSSID[i] != elId("input_SSID" + i).value)
+			{
+				bRet = true;
+				break;
+			}
+		}
+	}
+	return bRet;
+}
+
+var prevAUTH = [-1,-1];
+
+function isAuthChange()
+{
+	var prevSSID = new Array(2);
+	prevSSID[0] = document.getElementById("SSID1").value;
+	prevSSID[1] = document.getElementById("SSID1_5g").value;
+	var prevKEY = new Array(2);
+	prevKEY[0] = document.getElementById("WIFIWPAPSK1").value;
+	prevKEY[1] = document.getElementById("WIFIWPAPSK1_5g").value;
+	var bRet = false;
+	for(i=0; (i < prevSSID.length) && (i < 2); i++)
+	{
+		if(prevAUTH[i] != -1)
+		{
+			if(prevAUTH[i] != elId("id_WIFIAuthType" + i).selectedIndex)
+			{
+				bRet = true;
+				break;
+			}
+		}
+		if(prevKEY[i] != elId("input_KEY" + i).value)
+		{
+			bRet = true;
+			break;
+		}
+	}
+	return bRet;
+}
+
+function handleAcceptOnClick()
+{
+	if(elId("button_accept").className != "button2_disable")
+	{
+		if(isSsidChange())
+		{
+			elId("confirm_target").innerHTML = "<%GetString("NewUI","239");%>";
+			dispConfirm(true);
+		}
+		else if(isAuthChange())
+		{
+			elId("confirm_target").innerHTML = "<%GetString("NewUI","240");%>";
+			dispConfirm(true);
+		}
+		else
+		{
+			startConfiguration();
+		}
+	}
+}
+
+//function handleAcceptOnClick()
+//{
+//	if (document.getElementById("button_accept").className != "button2_disable")
+//	{
+//		detect_wifimodule();
+////		document.wifiForm.submit();
+//		YAHOO.util.Connect.setForm('wifiForm'); 
+//		YAHOO.util.Connect.asyncRequest('POST','setting_basic_wireless.html'+'?timestampt='+new Date().toString(),oCallback); 
+////		setDirty(false);
+//
+//	}
+//}
+
+function dispConfirm(flg)
+{
+	var display = (flg ? "" : "none");
+	elId("confirm_bg").style.display = display;
+	elId("confirm_body").style.display = display;
+	if(flg)
+	{
+		if(window.scroll)
+		{
+			window.scroll(0,0);
+		}
+	}
+}
+
+function dispConfirm_dup(flg)
+{
+	var display = (flg ? "" : "none");
+	elId("backalert_bg_dup").style.display = display;
+	elId("backalert_body_dup").style.display = display;
+	if(flg)
+	{
+		if(window.scroll)
+		{
+			window.scroll(0,0);
+		}
+	}
+}
+
+function handleConfirmOk()
+{
+	dispConfirm(false);
+	var SSID = document.getElementById("input_SSID0").value;
+	var SSID_5g = document.getElementById("input_SSID1").value;
+	var SSID2 = document.getElementById("SSID2").value;
+	var SSID2_5g = document.getElementById("SSID2_5g").value;
+	var SSID_guest = document.getElementById("SSID_guest").value;
+	if(SSID == SSID2 || SSID == SSID_guest)
+	{
+		document.getElementById("backalert_bg_dup").style.display = "";
+		document.getElementById("backalert_body_dup").style.display = "";
+		return ;
+	}
+
+	if(SSID_5g == SSID2_5g || SSID_5g == SSID_guest)
+	{
+		document.getElementById("backalert_bg_dup").style.display = "";
+		document.getElementById("backalert_body_dup").style.display = "";
+		return ;
+	}
+	startConfiguration();
+}
+
+function startConfiguration(){
+	/*
+		if (document.getElementById("id_WIFIAuthType0").value == "OPEN")
+		{
+			document.getElementById("input_KEY0").value = "<%NvramGet_WPAPSK("WIFIWPAPSK1");%>";
+		}
+		if (document.getElementById("id_WIFIAuthType1").value == "OPEN")
+		{
+			document.getElementById("input_KEY1").value = "<%NvramGet_WPAPSK("WIFIWPAPSK1_5g");%>";
+		}
+		*/
+		detect_wifimodule();
+//		document.wifiForm.submit();
+		YAHOO.util.Connect.setForm('wifiForm'); 
+		YAHOO.util.Connect.asyncRequest('POST','setting_basic_wireless.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+
+
+function handleAuthOnChange(idx)
+{
+	if(document.getElementById("id_WIFIAuthType" + idx).value == "OPEN")
+	{
+		document.getElementById("keyarea" + idx).style.display = "none";
+		//document.getElementById("input_KEY" + idx).value = "";
+		document.getElementById("id_WIFIEncrypType" + idx).value = "NONE";
+	}
+	else
+	{	
+		document.getElementById("keyarea" + idx).style.display = "";	
+		document.getElementById("id_WIFIEncrypType" + idx).value = "AES";
+		if(document.getElementById("input_KEY" + idx).value =="NULL")
+		  document.getElementById("input_KEY" + idx).value ="";
+	}
+	handlebuttonaccept();
+}
+
+function handlebuttonaccept()
+{
+	if (document.getElementById("input_SSID0").value =="" || document.getElementById("input_SSID1").value =="")
+	 {
+		document.getElementById("button_accept").className = "button2_disable";
+	 }
+	 
+	else  if (document.getElementById("id_WIFIAuthType0").value!="OPEN" && document.getElementById("input_KEY0").value.length<8)
+	 {
+		document.getElementById("button_accept").className = "button2_disable";
+	 }
+	 
+	else  if (document.getElementById("id_WIFIAuthType1").value!="OPEN" && document.getElementById("input_KEY1").value.length<8)
+	 {
+		document.getElementById("button_accept").className = "button2_disable";
+	 }
+	 else if(err_ssid_x==false  || err_key_x==false || err_ssid_y==false || err_key_y==false)
+	{
+		document.getElementById("button_accept").className = "button2_disable";
+	}
+	else 
+	{
+		document.getElementById("button_accept").className = "button2";
+	}
+}
+
+function detect_wifimodule()
+{	
+	if (document.getElementById("id_WIFIModuleEnable").checked==true)
+	document.getElementById("wifi_dectect").value="1";
+	else if (document.getElementById("id_WIFIModuleEnable").checked==false)
+		document.getElementById("wifi_dectect").value="0";
+		
+	if (document.getElementById("id_WIFIModuleEnable_5g").checked==true)
+		document.getElementById("wifi_dectect_5g").value="1";
+	else if (document.getElementById("id_WIFIModuleEnable_5g").checked==false)
+			document.getElementById("wifi_dectect_5g").value="0";
+	
+}
+
+function handleInfoIconOnClick(id, el)
+{
+	var top = 0;
+	var left = 0;
+	if(getCookie("mobile") == "false")
+	{
+		top = getAbsoluteTop(el) + el.offsetHeight;
+		left = getAbsoluteLeft(el) + el.offsetWidth - 260;
+	}	
+	document.getElementById(id).style.top = top + "px";
+	document.getElementById(id).style.left = left + "px";	
+	document.getElementById("popup_bg").style.display = "";
+	document.getElementById("popup_info").style.display="";
+}
+
+function checkBrowserCssTopPage(){
+	var isIE = navigator.userAgent.search("MSIE") > -1;
+	if("<%NvramGet("MobileDevice");%>"=="1"){
+		$('mobilecss_common').rel = 'stylesheet';
+		$('iecss_common').disabled = true;
+		$('anothercss_common').disabled = true;
+		$('anothercss_advanced').disabled = true;
+	}else if(isIE){
+		$('iecss_common').rel = 'stylesheet';
+		$('anothercss_advanced').rel = 'stylesheet';
+		$('mobilecss_common').disabled = true;
+		$('anothercss_common').disabled = true;
+	}else{
+		$('anothercss_common').rel = 'stylesheet';
+		$('anothercss_advanced').rel = 'stylesheet';
+		$('mobilecss_common').disabled = true;
+		$('iecss_common').disabled = true;
+	}
+	setTimeout("document.getElementById('id_body').style.display = '';", 300);
+	
+}
+
+function init()
+{
+	//2.4g
+	if ("<%NvramGet("WIFIModuleEnable");%>" == "1")
+		document.getElementById("id_WIFIModuleEnable").checked =true;
+	else
+		document.getElementById("id_WIFIModuleEnable").checked =false;
+		
+	document.getElementById("id_WIFIAuthType0").value = "<%NvramGet("WIFIAuthType1");%>";
+	
+	if ("<%NvramGet("WIFIAuthType1");%>" == "OPEN")	
+		document.getElementById("keyarea0").style.display = "none";			
+	else
+		document.getElementById("keyarea0").style.display = "";
+
+	if ("<%NvramGet("WIFIAutoChannelSelect");%>" == "0")
+		document.getElementById("input_CH0").value = "<%NvramGet("WIFIChannel");%>";	
+	document.getElementById("WIFIHTBW").value = "<%NvramGet("WIFIBW_Option");%>";
+	
+	//	5g	
+	if ("<%NvramGet("WIFIModuleEnable_5g");%>" == "1")
+		document.getElementById("id_WIFIModuleEnable_5g").checked =true;
+	else
+		document.getElementById("id_WIFIModuleEnable_5g").checked =false;
+		
+	document.getElementById("id_WIFIAuthType1").value = "<%NvramGet("WIFIAuthType1_5g");%>";
+	
+	if ("<%NvramGet("WIFIAuthType1_5g");%>" == "OPEN")	
+		document.getElementById("keyarea1").style.display = "none";			
+	else
+		document.getElementById("keyarea1").style.display = "";
+		
+	if ("<%NvramGet("WIFIAutoChannelSelect_5g");%>" == "0")
+		document.getElementById("input_CH1").value = "<%NvramGet("WIFIChannel_5g");%>";	
+	document.getElementById("WIFIHTBW_5g").value = "<%NvramGet("WIFIBW_Option_5g");%>";
+	
+	// 2014/3/4 for Encryption from No Encryption to other Encryption method not to show default value
+	//if(document.getElementById("id_WIFIAuthType0").value == "OPEN")
+		//document.getElementById("input_KEY0").value = "";
+	//if(document.getElementById("id_WIFIAuthType1").value == "OPEN")
+		//document.getElementById("input_KEY1").value = "";
+}
+
+function handleBodyOnLoad()
+{	
+	checkBrowserCssTopPage();	
+	handleAuthOnChange(0);
+	handleAuthOnChange(1);
+	handlebuttonaccept();
+	for(idx=0; idx < 2; idx++)
+	{
+		prevAUTH[idx] = elId("id_WIFIAuthType" + idx).selectedIndex;
+	}
+	getIconState();
+	setInterval(getIconState, 2000);
+	init();	
+	//document.getElementById("button_accept").className = "button2_disable";	
+}
+
+function getJsonParam(category, handle)
+{
+	new Ajax.Request("/Ajax_get_value.html&action="+category+"?timestampt="+new Date().toString(),
+		{method : 'get', onComplete : handle});
+}
+
+// -->
+</script>
+
+<script type="text/javascript" src="jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="common_json2lang.js"></script>
+<script type="text/javascript">
+
+</script>
+
+
+</head>
+<body onLoad="handleBodyOnLoad();" id="id_body" style="display:none;">
+<div id="wrapper">
+	<div class="head"><!-- header -->
+		<img src="/images/py20_logo_buffalo.png" alt="BUFFALO" class="headerLogo" />
+		<div class="statusArea">
+			<span class="statusIcon status_home" onclick="handleHomeOnClick();"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="handleInternetIconOnClick('popup_internet', this, 'top_main.html')" style="<%CheckModedis();%>"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick('popup_info', this)" style=""></span>
+			<span id="icon_LOGOUT" class="statusIcon status_logout" onclick="location.href='logout.html'"></span>
+			<span style="clear:both"></span>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="title_wireless">
+	<div class="title_icon titleimg_wireless"></div>
+	<div class="title_text">
+	<div class="panel_title"> <%GetString("NewUI","23");%>
+	</div>
+	</div>
+	<div style="clear: both;"></div>
+	</div>
+		
+	<div class="contents"><!-- contents -->
+		<div class="mainContents">
+			<div class="main">
+				<div class="without_button_area">
+				<form     method="POST" class="form_area"  id="wifiForm" name="wifiForm">
+				<!-- startof main -->
+						<div class="setting_main">
+						<div style="" class="main_left" id="band0">
+							<div style="display: none;" id="bandtype0">g</div>
+							<div class="input_item">
+								<div class="advanced_button_left">
+									<div id="bandname0"> <%GetString("NewUI","24");%></div>
+									<label onclick="">
+									<input type="hidden" id="wifi_dectect" name="WIFIModuleEnable" value="<%NvramGet("WIFIModuleEnable");%>">
+									<input type="hidden" name="WIFISsid1Enable" id="id_WIFISsid1Enable" value="<%NvramGet("WIFISsid1Enable");%>">
+									<input type="checkbox"  id="id_WIFIModuleEnable" class="editbox_check" <%NvramMatch("WIFIModuleEnable","1","checked");%> onChange="detect_wifimodule();setDirty(true);"> <%GetString("NewUI","26");%><br>
+									<input type="hidden" id="SSID1" value="<%NvramGetAdv("WIFISsid1");%>">
+									<input type="hidden" id="SSID1_5g" value="<%NvramGetAdv("WIFISsid1_5g");%>">
+									<input type="hidden" id="SSID2" value="<%NvramGetAdv("WIFISsid3");%>">
+									<input type="hidden" id="SSID2_5g" value="<%NvramGetAdv("WIFISsid3_5g");%>">
+									<input type="hidden" id="SSID_guest" value="<%NvramGetAdv("WIFISsid4");%>">
+									<input type="hidden" id="WIFIWPAPSK1" value="<%NvramGetAdv("WIFIWPAPSK1");%>">
+									<input type="hidden" id="WIFIWPAPSK1_5g" value="<%NvramGetAdv("WIFIWPAPSK1_5g");%>">
+									</label>
+								</div>
+								<div class="button_advanced2" onclick="top.location.href='index_adv.html&item=1'"></div>
+								<div style="clear: both;"></div>
+								
+								<div class="warning" id="warning_ssid_x" style="display: none;">
+									<div id="warning_ssid_x0" style="display: none;">
+									<%GetString("NewUI","106");%>
+									</div>
+									<div id="warning_ssid_x1" style="display: none;">
+									<%GetString("NewUI","107");%>
+									</div>
+									<div id="warning_ssid_x2" style="display: none;">
+									<%GetString("NewUI","28");%>
+									</div>
+								</div>
+							</div>
+							<div class="input_item">
+								<%GetString("NewUI","27");%><br>
+								<input type="text" id="input_SSID0" name="WIFISsid1"  onkeyup="handleFormOnKeyup(this, 'warning_ssid_x')" placeholder="<%GetString("NewUI","28");%>" onkeyup=""  onChange="setDirty(true);" class="editbox_long" value="<%NvramGetAdv("WIFISsid1");%>">
+							</div>
+							<div class="input_item">
+								<%GetString("NewUI","29");%><br>
+								<select name="WIFIAuthType1"  id="id_WIFIAuthType0" onChange="handleAuthOnChange(0);setDirty(true);" class="editbox_select">
+								<option value="OPEN" <%NvramMatch("WIFIAuthType1","OPEN","selected");%>><%GetString("NewUI","33");%></option>
+								<option value="WPAPSK" <%NvramMatch("WIFIAuthType1","WPAPSK","selected");%>><%GetString("NewUI","31");%></option>
+								<option value="WPA2PSK" <%NvramMatch("WIFIAuthType1","WPA2PSK","selected");%>><%GetString("NewUI","30");%></option>
+								<option value="WPAPSKWPA2PSK" <%NvramMatch("WIFIAuthType1","WPAPSKWPA2PSK","selected");%>> <%GetString("NewUI","32");%></option>
+								 <input type="hidden" name="WIFIEncrypType1" id="id_WIFIEncrypType0" value="<%NvramGet("WIFIEncrypType1");%>">
+								</select>
+								
+								<div id="warning_key_x" class="warning" style="display: none;">
+									<div id="warning_key_x0" style="display: none;">
+									<%GetString("NewUI","108");%>
+									</div>
+									<div id="warning_key_x1" style="display: none;">
+									<%GetString("NewUI","109");%>
+									</div>
+									<div id="warning_key_x2" style="display: none;">
+									<%GetString("NewUI","110");%>
+									</div>
+								</div>
+							</div>
+							<div id="keyarea0" class="input_item"  style="display: none;">
+								<%GetString("NewUI","34");%><br>
+								<input type="text" id="input_KEY0" name="WIFIWPAPSK1"  onkeyup="handleFormOnKeyup(this, 'warning_key_x')" placeholder="<%GetString("NewUI","35");%>" onkeyup="" onChange="setDirty(true);" class="editbox_long" value="<%NvramGetAdv("WIFIWPAPSK1");%>">
+							</div>
+							<div class="input_item">
+								<%GetString("NewUI","36");%><br>
+								<select id="input_CH0" name="WIFIChannel" class="editbox_select" onChange="setDirty(true);">
+								<!--<option value="0" ><%GetString("NewUI","37");%><%GetChannelString();%></option>
+								<option value="1" <%NvramMatch("WIFIChannel","1","selected");%>>1</option>
+								<option value="2" <%NvramMatch("WIFIChannel","2","selected");%>>2</option>
+								<option value="3" <%NvramMatch("WIFIChannel","3","selected");%>>3</option>
+								<option value="4" <%NvramMatch("WIFIChannel","4","selected");%>>4</option>
+								<option value="5" <%NvramMatch("WIFIChannel","5","selected");%>>5</option>
+								<option value="6" <%NvramMatch("WIFIChannel","6","selected");%>>6</option>
+								<option value="7" <%NvramMatch("WIFIChannel","7","selected");%>>7</option>
+								<option value="8" <%NvramMatch("WIFIChannel","8","selected");%>>8</option>
+								<option value="9" <%NvramMatch("WIFIChannel","9","selected");%>>9</option>
+								<option value="10" <%NvramMatch("WIFIChannel","10","selected");%>>10</option>
+								<option value="11" <%NvramMatch("WIFIChannel","11","selected");%>>11</option>-->
+								<%GetChannelList_pannel();%>
+								</select>
+							</div>
+							
+							
+							<div class="input_item">
+								<%GetString("NewUI","38");%><br>
+								<select  id="WIFIHTBW" name="WIFIHTBW" class="editbox_select" onChange="setDirty(true);">
+								<option value="0" <%NvramMatch("WIFIBW_Option","0","selected");%>><%GetString("NewUI","115");%></option>
+								<option value="1" <%NvramMatch("WIFIBW_Option","1","selected");%>><%GetString("NewUI","116");%></option>
+								<!--<option value="2" <%NvramMatch("WIFIBW_Option","2","selected");%>><%GetString("NewUI","117");%></option>-->
+								</select>
+							</div>
+						</div>
+						<div style="" class="main_right" id="band1">
+							<div style="display: none;" id="bandtype1">
+							a</div>
+							<div class="input_item">
+								<div class="advanced_button_left">
+									<div id="bandname1">
+									<%GetString("NewUI","25");%></div>
+									<label onclick="">
+									<input type="hidden" id="wifi_dectect_5g" name="WIFIModuleEnable_5g" value="<%NvramGet("WIFIModuleEnable_5g");%>">
+									<input type="hidden" name="WIFISsid1Enable_5g" id="id_WIFISsid1Enable" value="<%NvramGet("WIFISsid1Enable_5g");%>">
+									<input type="checkbox"  id="id_WIFIModuleEnable_5g"   class="editbox_check" <%NvramMatch("WIFIModuleEnable_5g","1","checked");%> onChange="detect_wifimodule();setDirty(true);">
+									<%GetString("NewUI","26");%>
+									<br>
+									</label>
+								</div>
+								<div class="button_advanced2" onclick="top.location.href='index_adv.html&item=2'"></div>
+								<div style="clear: both;"></div>
+								
+								<div class="warning" id="warning_ssid_y" style="display: none;">
+									<div id="warning_ssid_y0" style="display: none;">
+									<%GetString("NewUI","106");%>
+									</div>
+									<div id="warning_ssid_y1" style="display: none;">
+									<%GetString("NewUI","107");%>
+									</div>
+									<div id="warning_ssid_y2" style="display: none;">
+									<%GetString("NewUI","28");%>
+									</div>
+								</div>
+							</div>
+							<div class="input_item"  >
+								<%GetString("NewUI","27");%><br>
+								<input type="text" id="input_SSID1" name="WIFISsid1_5g"  onkeyup="handleFormOnKeyup(this, 'warning_ssid_y')"  placeholder="<%GetString("NewUI","28");%>" class="editbox_long" onChange="setDirty(true);" value="<%NvramGetAdv("WIFISsid1_5g");%>" >
+							</div>
+							<div class="input_item">
+								<%GetString("NewUI","29");%><br>
+								<select id="id_WIFIAuthType1" name="WIFIAuthType1_5g" onChange="handleAuthOnChange(1);setDirty(true);"  class="editbox_select">
+								<option value="OPEN" <%NvramMatch("WIFIAuthType1_5g","OPEN","selected");%>><%GetString("NewUI","33");%></option>
+								<option value="WPAPSK" <%NvramMatch("WIFIAuthType1_5g","WPAPSK","selected");%>><%GetString("NewUI","31");%></option>
+								<option value="WPA2PSK" <%NvramMatch("WIFIAuthType1_5g","WPA2PSK","selected");%>><%GetString("NewUI","30");%></option>
+								<option value="WPAPSKWPA2PSK" <%NvramMatch("WIFIAuthType1_5g","WPAPSKWPA2PSK","selected");%>> <%GetString("NewUI","32");%></option>
+								</select>
+								 <input type="hidden" name="WIFIEncrypType1_5g" id="id_WIFIEncrypType1" value="<%NvramGet("WIFIEncrypType1_5g");%>">
+							
+								<div id="warning_key_y" class="warning" style="display: none;">
+									<div id="warning_key_y0" style="display: none;">
+									 <%GetString("NewUI","108");%>
+									</div>
+									<div id="warning_key_y1" style="display: none;">
+										<%GetString("NewUI","109");%>
+									</div>
+									<div id="warning_key_y2" style="display: none;">
+									   <%GetString("NewUI","110");%>
+									</div>
+								</div>
+							</div>
+							<div id="keyarea1" class="input_item" style="display: none;">
+								<%GetString("NewUI","34");%><br>
+								<input type="text" id="input_KEY1" name="WIFIWPAPSK1_5g"   onkeyup="handleFormOnKeyup(this, 'warning_key_y')"  placeholder="<%GetString("NewUI","35");%>" class="editbox_long"  onChange="setDirty(true);" value="<%NvramGetAdv("WIFIWPAPSK1_5g");%>">
+							</div>
+							<div class="input_item">
+								<%GetString("NewUI","36");%><br>
+								<select  id="input_CH1" name="WIFIChannel_5g" class="editbox_select" onChange="setDirty(true);">
+								<!--<option value="0"><%GetString("NewUI","37");%><%GetChannelString_5g();%></option>
+								<option value="36" <%NvramMatch("WIFIChannel_5g","36","selected");%>>36</option>
+								<option value="40" <%NvramMatch("WIFIChannel_5g","40","selected");%>>40</option>
+								<option value="44" <%NvramMatch("WIFIChannel_5g","44","selected");%>>44</option>
+								<option value="48" <%NvramMatch("WIFIChannel_5g","48","selected");%>>48</option>
+								<option value="149" <%NvramMatch("WIFIChannel_5g","149","selected");%>>149</option>
+								<option value="153" <%NvramMatch("WIFIChannel_5g","153","selected");%>>153</option>
+								<option value="157" <%NvramMatch("WIFIChannel_5g","157","selected");%>>157</option>
+								<option value="161" <%NvramMatch("WIFIChannel_5g","161","selected");%>>161</option>-->
+								<%GetChannelList_pannel_5g();%>
+								</select>
+							</div>
+							<div class="input_item">
+								<%GetString("NewUI","38");%><br>
+								<select  id="WIFIHTBW_5g" name="WIFIHTBW_5g" class="editbox_select" onChange="setDirty(true);">
+								<option value="0" <%NvramMatch("WIFIBW_Option_5g","0","selected");%>><%GetString("NewUI","118");%></option>
+								<option value="1" <%NvramMatch("WIFIBW_Option_5g","1","selected");%>><%GetString("NewUI","119");%></option>
+								<option value="2" <%NvramMatch("WIFIBW_Option_5g","2","selected");%>><%GetString("NewUI","120");%></option>
+								</select>
+							</div>
+						</div>
+						<div style="clear: both;"></div>
+					</div>
+					
+				</div>	
+				
+				<!-- start buttun area---->
+				<div class="button_area">
+					<div id="button_accept" class="button2" onClick="handleAcceptOnClick();">
+						<div class="button_text">
+						<%GetString("NewUI","40");%>
+						</div>
+					</div>
+					<div class="button2" onClick="handleBackOnClick();">
+						<div class="button_text">
+						<%GetString("NewUI","39");%>
+						</div>
+					</div>
+					<div style="clear: both;"></div>
+					<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+				</form>
+				</div>
+				<!-- End buttun area---->
+				
+				
+			</div><!-- #main -->
+		</div><!-- #mainContents -->
+	<div class="footer">
+		<div class="aistation_logo"></div>
+		<div class="modelname">
+			<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+		</div>
+		<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+	</div>
+	</div><!-- #contents -->
+
+
+</div><!-- #wrapper -->
+	<!--
+	<div class="warning" id="warning_ssid_x" style="top: 268px; left: 530px; display: none;">
+		<div id="warning_ssid_x0" style="display: none;">
+		<%GetString("NewUI","106");%>
+		</div>
+		<div id="warning_ssid_x1" style="display: none;">
+		<%GetString("NewUI","107");%>
+		</div>
+		<div id="warning_ssid_x2" style="display: none;">
+		<%GetString("NewUI","28");%>
+		</div>
+	</div>
+	
+	<div id="warning_key_x" class="warning" style="top: 370px; left: 522px;display: none;">
+    <div id="warning_key_x0" style="display: none;">
+	<%GetString("NewUI","108");%>
+    </div>
+    <div id="warning_key_x1" style="display: none;">
+	<%GetString("NewUI","109");%>
+    </div>
+    <div id="warning_key_x2" style="display: none;">
+	<%GetString("NewUI","110");%>
+    </div>
+   </div>
+   
+   <div class="warning" id="warning_ssid_y" style="top: 268px; left: 959px; display: none;">
+		<div id="warning_ssid_y0" style="display: none;">
+		<%GetString("NewUI","106");%>
+		</div>
+		<div id="warning_ssid_y1" style="display: none;">
+		<%GetString("NewUI","107");%>
+		</div>
+		<div id="warning_ssid_y2" style="display: none;">
+		<%GetString("NewUI","28");%>
+		</div>
+	</div>
+	
+	<div id="warning_key_y" class="warning" style="top: 370px; left: 951px; display: none;">
+    <div id="warning_key_y0" style="display: none;">
+     <%GetString("NewUI","108");%>
+    </div>
+    <div id="warning_key_y1" style="display: none;">
+        <%GetString("NewUI","109");%>
+    </div>
+    <div id="warning_key_y2" style="display: none;">
+       <%GetString("NewUI","110");%>
+    </div>
+   </div>
+	-->
+
+	<div class="waiting_base" id="waiting_base" style="display: none;"></div>
+	<div class="waiting_body" id="waiting_body" style="display: none;">
+		<div class="indicator" id="indicator">
+			<img class="progress" src="/images/py20_a_busy.gif"><br />
+			<span data-file=py20_common_waiting class=label_waiting_py20_common_waiting ><%GetString("NewUI","170");%></span>
+		</div>
+		<div id="waiting_err_text"></div>
+		<input class="button3" id="waiting_err_btn" type="button" value="OK" onClick="handleErrDialogOnOk()"/>
+	</div>
+	<div class="backalert_bg" id="backalert_bg" style="display: none;"></div>
+	<div class="backalert_body" id="backalert_body" style="display: none;">
+		<span> <%GetString("NewUI","111");%></span><br />
+		<input type="checkbox" id="cb_backalert"><span> <%GetString("NewUI","112");%></span><br />
+		<div>
+			<input type="button" value=" <%GetString("NewUI","113");%>" onClick="handleBackalertOkOnClick()"/>
+			<input type="button" value=" <%GetString("NewUI","114");%>" onClick="handleBackalertCancelOnClick()"/>
+		</div>
+	</div>
+	<div class="popup_bg" id="popup_bg" style="display: none;" onClick="undispPopupAll()"></div>
+	<div class="popup" id="popup_internet" style="display: none;" onClick="undispPopup('popup_internet')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","171");%>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_repeater" style="display: none;" onClick="undispPopup('popup_repeater')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_repeater_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_info" style="display: none;" onClick="undispPopup('popup_info')">
+		<div class="popup_info_item" id="infotype1" style="display: none;">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info1_py20_common_popup ></span><br />
+				(<span data-file=py20_common_popup class=label_verion_py20_common_popup ></span> <span id="popup_current_ver"></span> -> <span id="popup_new_ver"></span>)<br />
+				<input type="button" class="button_middle" value="To firmware update screen" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=wizard_func_fwupdate_online.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype2" style="display: none;">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info2_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info2_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype3" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info3_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info3_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype4" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info4_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info4_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=48&sWebSessionid=829375816';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype5" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info5_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info5_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=49&sWebSessionid=2032920744';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype6" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info6_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info6_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=APPS&ITEM=WEB_AXS';"
+				/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype7" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info7_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info7_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=50&sWebSessionid=184989856';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype8" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info8_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info8_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_nas.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype9" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info9_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info9_py20_common_popup" onClick="UpdateIfilterSrvStatus()">
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		
+			<div class="popup_item" id="info_behavior">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","125");%>
+				<div class="info_block">
+					<!--<%GetString("NewUI","126");%>-->
+					<div id="info_behavior_router" style="display: none;">
+						<%GetString("NewUI","127");%>
+						<div id="behavior_router_connect">
+							<%GetString("NewUI","128");%>:
+							<div id="wanip"></div>
+						</div>
+						<div id="behavior_router_disconnect">
+							<%GetString("NewUI","129");%>
+						</div>
+					</div>
+					<div id="info_behavior_bridge" style="display: none;">
+						<%GetString("NewUI","130");%>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_support" style="display: none;" onClick="undispPopup('popup_support')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_support_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>	
+	<div class="confirm_bg" id="confirm_bg" style="display: none;"></div>
+	<div class="confirm_body" id="confirm_body" style="display: none;">
+		<div class="confirm_text">
+				<span data-file=setting_basic_wireless class=label_confirm_wireless_head_setting_basic_wireless ><%GetString("NewUI","238");%></span><br />
+				<br />
+				<div id="confirm_target"></div>
+				<span data-file=setting_basic_wireless class=label_confirm_wireless_setting_basic_wireless ><%GetString("NewUI","241");%><br /><%GetString("NewUI","242");%></span><br />
+			<br />
+		</div>
+		<div>
+			<!--<input class="button2" type="button" value="<%GetString("NewUI","40");%>" data-file=dic data-value="common_dic_BUTTON_APPLY" onClick="handleConfirmOk();"/>
+			<input class="button2" type="button" value="<%GetString("NewUI","114");%>" data-file=dic data-value="common_dic_BUTTON_CANCEL" onClick="dispConfirm(false);"/>-->
+			
+			<div class="button2" onClick="dispConfirm(false);">
+				<div class="button_text">
+					<%GetString("NewUI","114");%>
+				</div>
+			</div>
+			<div class="button2" onClick="handleConfirmOk();">
+				<div class="button_text">
+					<%GetString("NewUI","40");%>
+				</div>
+			</div>
+					
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+	<div class="backalert_bg" id="backalert_bg_dup" style="display: none;"></div>
+	<div class="backalert_body_dup" id="backalert_body_dup" style="display: none;">
+		<span><%GetString("NewUI","297");%></span><br />				
+		<input type="button" value="<%GetString("NewUI","19");%>" onClick="dispConfirm_dup(false);"/>		
+	</div>
+</body>
+</html>

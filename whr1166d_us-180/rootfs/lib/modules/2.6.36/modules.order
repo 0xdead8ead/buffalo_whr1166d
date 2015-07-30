@@ -1,0 +1,6 @@
+kernel/crypto/aes_generic.ko
+kernel/crypto/ansi_cprng.ko
+kernel/drivers/scsi/scsi_wait_scan.ko
+kernel/drivers/net/wireless/rlt_wifi_ap/rlt_wifi.ko
+kernel/net/ipv6passthru/ipv6passthru.ko
+kernel/net/nat/hw_nat/hw_nat.ko

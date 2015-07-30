@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/frameset.dtd">
+<HTML><HEAD><TITLE>AirStation Settings</TITLE>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<META http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>" />
+<META http-equiv="Cache-Control" content="no-cache" />
+<META http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT" />
+<META http-equiv="Content-Style-Type" content="text/css" />
+<LINK href="WHR-G300N-160149-style-ENG.css" type="text/css" rel="stylesheet" />
+<LINK href="WHR-G300N-160149-style-ad-ENG.css" type="text/css" rel="stylesheet" />
+<script language="JavaScript">
+var err_item="<%GetString("Confirm","13");%>";
+var err_description="<%GetString("Confirm","14");%>";
+var err_CONTENTS="<%GetString("Confirm","15");%>:";
+</script>
+
+<META content="MSHTML 6.00.6000.16735" name="GENERATOR" />
+</HEAD>
+<FRAMESET border="0" frameSpacing="0" frameBorder="0" cols="<%GetColsSize();%>">
+	<FRAME name="mnu_l" src="top_wizard_detail_blank_l.html" scrolling="no" />
+		<FRAMESET border="0" rows="<%GetRowsSize();%>" frameBorder="0" noresize>
+			<FRAME name="mnu" src="menu.html" noResize scrolling="no" />
+				<FRAMESET border="0" frameBorder="0" cols="*,240" />
+					<FRAME name="frm" src=" <%GetRedirectFlag();%>" />
+					<FRAME name="help" src="./help/<% TurnMenu("help_top_setup.html"); %>" />
+				</FRAMESET>
+			<FRAME name="copyright" src="copyright.html" noResize scrolling="no" />
+		</FRAMESET>
+	<FRAME name="mnu_r" src="top_wizard_detail_blank_r.html" scrolling="no" />
+<NOFRAMES></NOFRAMES>
+</FRAMESET></HTML>

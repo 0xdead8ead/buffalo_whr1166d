@@ -1,0 +1,909 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<link rel="stylesheet" type="text/css" href="/images/style-PY20-advanced.css">
+
+<style type="text/css">
+	<!--
+	.mainContents table,
+	.mainContents tbody,
+	.mainContents tr,
+	.mainContents th,
+	.mainContents td
+	{
+		background-color: #E6E6E6 !important;
+		border:none !important;
+		color: #000000 !important;
+	}
+
+	body {
+		font-family: Helvetica !important;
+		font-size: 12px !important;
+		margin: 0px !important;
+		background-color: #808080 !important;
+	}
+	.mainContents table.WIZ_FRAME tr.HEAD
+	{
+		display: none !important;
+	}
+		#main
+	{
+		min-height: 300px !important;
+	}
+	.mainContents div.C_ERR p
+	{
+		text-align: left;
+	}
+	.mainContents a
+	{
+		text-decoration: underline !important;
+	}
+	-->
+</style>
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+
+function isEmpty(s)
+{
+	if(s.length==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function check_initial_zero(tmp)
+{
+	if(tmp.length>1&&tmp.charAt(0)=="0")
+	{
+		return true;
+	}
+	return false;
+}
+
+function isAllowValueIP(s,item)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || (c=='.'))
+		{
+      continue;
+		}
+		else
+		{
+			Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","18");%>");
+      return false;
+		}
+	}
+	
+	return true;
+}
+
+function check_ip_format(ip, item, type,netmask)
+{
+  var n;
+  var lanip=document.main.LanIPAddr.value;
+  var lanmask=document.main.LanNetmask.options[document.main.LanNetmask.selectedIndex].value;
+	var canNotSetTo255=0;
+  if (netmask)
+	{
+		if (netmask.length > 0)
+		{
+			o = netmask.split('.');
+			if (o.length==4)
+			{
+				if (o[2]>=254)
+					canNotSetTo255=1;
+			}
+		}
+	}
+	
+  
+  if(!isAllowValueIP(ip,item))
+  {
+    return false;
+  }
+  if (ip=="0.0.0.0")
+  {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","21");%>");
+    return false;
+  }
+  if (ip=="255.255.255.255")
+  {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","22");%>");
+    return false;
+  }
+  
+  if (!isBlank(ip))
+  {
+    n = ip.split('.');
+    
+    if (n.length!=4)
+    {
+      Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+      return false;
+    }
+    else
+    {
+      if(isBlank(n[0]))
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }	
+      else if((isNaN(n[0]))||(n[0]<=0)||!check_integer(n[0])||check_initial_zero(n[0])) 
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }
+      else if (n[0]==127)
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","24");%>");
+        return false;
+      }
+      else if (n[0]>=240 && n[0]<=255)
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","25");%>");
+        return false;
+      }	
+      
+      if(isBlank(n[1]))
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }
+      else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])||check_initial_zero(n[1])) 
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }		
+      
+      if(isBlank(n[2]))
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }
+      else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])||check_initial_zero(n[2])) 
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false; 
+      }
+      
+      if(isBlank(n[3]))
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }
+      else if((isNaN(n[3]))||(n[3]<0)||(n[3]>255)||!check_integer(n[3])||check_initial_zero(n[3]))
+      {
+        if (!(canNotSetTo255==0 && n[3]==255))
+        {
+            Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+            return false;
+        }
+      }
+    }
+    
+    if (type=="defaultgw")//check default getway
+    {
+      if (!check_the_same_subnet(lanip,ip,lanmask))
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","26");%>");
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function ip2long(ip)
+{
+    var ips = ip.split('.');
+    var iplong = 0;
+    iplong = ips[0]*Math.pow(256,3)+ips[1]*Math.pow(256,2)+ips[2]*Math.pow(256,1)+ips[3]*Math.pow(256,0)
+    return iplong;
+}
+
+function long2ip(l) 
+{
+    var ip1 = Math.floor(l/Math.pow(256,3));
+    var ip2 = Math.floor((l%Math.pow(256,3))/Math.pow(256,2));
+    var ip3 = Math.floor(((l%Math.pow(256,3))%Math.pow(256,2))/Math.pow(256,1));
+    var ip4 = Math.floor((((l%Math.pow(256,3))%Math.pow(256,2))%Math.pow(256,1))/Math.pow(256,0));
+    return ip1 + '.' + ip2 + '.' + ip3 + '.' + ip4;
+}
+
+function NetworkIP(ip, mask)
+{
+    return ip - (ip & (Math.pow(2, 32-mask)-1)) ;
+}
+
+function BrocastIP(ip, mask) 
+{
+    return ip + (Math.pow(2, (32 - mask))-1);
+}
+
+function turnCIDRMask(mask) 
+{
+    var masks = mask.split('.');
+    var count=0;
+    var i,j;
+    var tmp;
+    for(i=0;i<=3;i++)
+    {
+        tmp=parseInt(masks[i],10);         
+        tmp=tmp.toString(2);
+        for(j=0;j<=8;j++)
+        {
+            if(tmp.charAt(j)=="1")
+            count+=1;
+        }
+    }
+    return count;
+}
+
+function checkIsNetworkBroadcast(ip,netmask,netmaskindex,item)
+{
+
+    var mask=turnCIDRMask(netmask);
+    var FirstIP=NetworkIP(ip2long(ip), mask);
+    var LastIP=BrocastIP(FirstIP, mask);
+    var _NetworkIP=long2ip(FirstIP);
+    var _BrocastIP=long2ip(LastIP);
+    var _Mask=long2ip(((Math.pow(2, 32)-1) - (Math.pow(2, (32-mask))-1)));
+    var flag_network_fail=0,flag_broadcast_fail=0;
+
+    //alert("[_NetworkIP:"+_NetworkIP+"][_BrocastIP:"+_BrocastIP+"][sMask:"+_Mask+"]");
+    if(ip==_NetworkIP)
+        flag_network_fail=1;
+    if(ip==_BrocastIP)
+        flag_broadcast_fail=1;
+        
+    if(flag_network_fail==1)
+    {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","27");%>");
+            return false;	
+    }
+    if (flag_broadcast_fail)
+    {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","28");%>");
+        return false;
+    }
+      
+      return true;
+}
+   
+function checkbroadcast(lanip,lanmask,dhcpip,endip,num) 
+{
+	var i=0;
+	var ip,mask,start,end;
+	var lastip=new Array(4);
+	var startip,endip,chkip;
+	var setflag=0;
+	ip=lanip.split('.');
+	mask=lanmask.split('.');
+	start=dhcpip.split('.');
+	end=endip.split('.');
+	for (i=3;i>=0;i--)
+	{
+		if (mask[i]==0)
+			lastip[i]=255;
+		else
+		{
+			if (mask[i]!=255)
+				lastip[i]=(ip[i]&mask[i])+(255-mask[i]);
+			else
+				lastip[i]=start[i];
+		}
+			
+	}
+	//startip=start[0]+":"+start[1]+":"+start[2]+":"+start[3];
+	//chkip=lastip[0]+":"+lastip[1]+":"+lastip[2]+":"+lastip[3];
+	//alert("before:startip:"+startip+"endip:"+endip+"chkip:"+chkip);
+	startip=Math.pow(255,3)*(parseInt(start[0],10))+Math.pow(255,2)*(parseInt(start[1],10))+255*(parseInt(start[2],10))+(parseInt(start[3],10));  
+	endip=Math.pow(255,3)*(parseInt(end[0],10))+Math.pow(255,2)*(parseInt(end[1],10))+255*(parseInt(end[2],10))+(parseInt(end[3],10));
+	chkip=Math.pow(255,3)*(parseInt(lastip[0],10))+Math.pow(255,2)*(parseInt(lastip[1],10))+255*(parseInt(lastip[2],10))+(parseInt(lastip[3],10));
+	//alert("after:startip:"+startip+"endip:"+endip+"chkip:"+chkip);
+	if ((parseInt(startip,10)<=parseInt(chkip,10))&&(parseInt(endip,10)>=parseInt(chkip,10)))	
+		return false;
+	else
+		return true;
+}
+   
+function ipBig(ip1,ip2)
+{
+	var start, end;
+	var startip, endip;
+	start=ip1.split('.');
+	startip=Math.pow(255,3)*(parseInt(start[0],10))+Math.pow(255,2)*(parseInt(start[1],10))+255*(parseInt(start[2],10))+(parseInt(start[3],10));
+ 	end=ip2.split('.');
+ 	endip=Math.pow(255,3)*(parseInt(end[0],10))+Math.pow(255,2)*(parseInt(end[1],10))+255*(parseInt(end[2],10))+(parseInt(end[3],10));
+	
+	if (parseInt(startip,10)>parseInt(endip,10))//ip1 > ip2
+		return true;
+	else //if ip1<=ip2
+		return false;
+}
+  
+function checkDHCPRange()
+{
+  
+  var lanip=document.main.LanIPAddr.value;
+  var lanmask=document.main.LanNetmask.options[document.main.LanNetmask.selectedIndex].value;
+  var dhcpstartip=document.main.DHCPSIPStart.value;
+  var dhcpendip=document.getElementById("id_DHCPSIPEnd").value;
+	var dhcpendipnum_3,dhcpendipnum_2;
+    var item="<%GetString("AutoDetectJudgeLANIPConfig","29");%>";
+	var n1,n2;
+  var n1_3,n2_3,n1_2,n2_2;
+	var dhcpendip_ip;
+	
+	if (!check_the_same_subnet(dhcpstartip,lanip,lanmask))//start ip should be same subnetmask wuth lanip
+  {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","26");%>");
+    return false;
+  }
+  
+  n1=dhcpstartip.split('.');
+  n2=lanip.split('.');
+  n1_3=parseInt(n1[3],10);//start ip
+  n2_3=parseInt(n2[3],10);//lan ip
+  dhcpendipnum_3=parseInt(dhcpendip,10)+n1_3-1;//start+end-1
+  
+  if (n1[2]==n2[2])
+  {
+    dhcpendip_ip=n1[0]+"."+n1[1]+"."+n1[2]+"."+dhcpendipnum_3.toString();
+    
+    if (dhcpendipnum_3>255)
+    {
+      dhcpendipnum_3=dhcpendipnum_3-255;
+      dhcpendipnum_2=parseInt(n1[2],10)+1;
+      dhcpendip_ip=n1[0]+"."+n1[1]+"."+dhcpendipnum_2.toString()+"."+dhcpendipnum_3.toString();
+    }
+    if (!check_the_same_subnet(dhcpendip_ip,lanip,lanmask))//end ip should be same subnetmask with lanip
+    {
+      Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","26");%>");
+      return false;
+    }
+    if (!ipBig(dhcpstartip,lanip) && !ipBig(lanip,dhcpendip_ip))//can't include lanip
+    {
+      Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","30");%>");
+      return false;
+    }
+  }
+  else //if (n1[2]!=n2[2])
+  {
+    dhcpendipnum_3=dhcpendipnum_3-255;
+    dhcpendipnum_2=parseInt(n1[2],10)+1;
+    dhcpendip_ip=n1[0]+"."+n1[1]+"."+dhcpendipnum_2.toString()+"."+dhcpendipnum_3.toString();
+    
+    if (!check_the_same_subnet(dhcpendip_ip,lanip,lanmask))//end ip should be same subnetmask with lanip
+    {
+      Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","26");%>");
+      return false;
+    }
+    if (!ipBig(dhcpstartip,lanip) && !ipBig(lanip,dhcpendip_ip))//can't include lanip  if(dhcpstartip <= lanip <= dhcpendip)
+    {
+      Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","30");%>");
+      return false;
+    }
+  }    
+  //---------------------------add 0423
+   var d_mask=turnCIDRMask(lanmask);
+   var FirstIP=NetworkIP(ip2long(lanip), d_mask);
+   var LastIP=BrocastIP(FirstIP, d_mask);
+   var _BrocastIP=long2ip(LastIP);   
+  if (dhcpstartip==_BrocastIP)
+  {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","28");%>");
+    return false;
+  }
+
+  //alert(lanip+" : "+lanmask+" : "+dhcpstartip+" : "+dhcpendip_ip+" : "+dhcpendip);
+  if(!checkbroadcast(lanip,lanmask,dhcpstartip,dhcpendip_ip,dhcpendip))
+  {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","26");%>");
+      return false;
+  }
+  //---------------------------add 0423 end  
+  document.main.DHCPSIPEnd.value=dhcpendip_ip;//set hidden dhcp end ip
+  
+  return true;
+}
+
+function checkExcludeRange(ip)
+{
+  var lanip=document.main.LanIPAddr.value;
+  var lanmask=document.main.LanNetmask.options[document.main.LanNetmask.selectedIndex].value;
+  var dhcpstartip=document.main.DHCPSIPStart.value;
+  var dhcpendip=document.getElementById("id_DHCPSIPEnd").value;
+  var dhcpendipnum;
+  var item="<%GetString("AutoDetectJudgeLANIPConfig","31");%>";
+  var n1,n2;
+  var n12,n22;
+  
+  if (!check_the_same_subnet(ip,lanip,lanmask))//same subnetmask
+  {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","26");%>");
+    return false;
+  }
+  
+  n1=dhcpstartip.split('.');
+  n2=ip.split('.');
+  n12=parseInt(n1[3],10);
+  n22=parseInt(n2[3],10);
+  dhcpendipnum=parseInt(dhcpendip,10)+n12-1;//start+end-1
+  
+  if (n22<n12 || n22>dhcpendipnum)//in dhcp range
+  {
+    Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","33");%>");
+    return false;
+  }
+  
+  return true;
+}
+
+function checkExcludeIP()
+{
+  var excip=document.main.DHCPSExcludedIPAll.value;
+  var n1,n2,n31,n32;
+  var i;
+  var item="<%GetString("AutoDetectJudgeLANIPConfig","31");%>";
+  
+  n1=excip.split(',');
+  
+  for (i=0; i<n1.length; i++)//divide with, and divide with-   and checkip(all ip)
+  {
+    if (isEmpty(n1[i]))
+    {
+      Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+      return false;
+    }
+    
+    n2=n1[i].split('-');
+    
+    if (n2.length==1)
+    {
+      if (isEmpty(n1[i]))
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }
+      if (!check_ip_format(n1[i],"<%GetString("AutoDetectJudgeLANIPConfig","31");%>",""))
+      {
+        return false;
+      }
+      if (!checkExcludeRange(n1[i]))
+      {
+        return false;
+      }
+    }
+    else if (n2.length==2)
+    {
+      if (isEmpty(n2[0]) || isEmpty(n2[1]))
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+        return false;
+      }
+      if (!check_ip_format(n2[0],"<%GetString("AutoDetectJudgeLANIPConfig","31");%>","") || !check_ip_format(n2[1],"<%GetString("AutoDetectJudgeLANIPConfig","31");%>",""))
+      {
+        return false;
+      }
+      
+      if (!checkExcludeRange(n2[0]) || !checkExcludeRange(n2[1]))//checkip(Excluded IP Addresses)  should in same subnetmask
+      {
+        return false;
+      }
+      
+      n31=n2[0].split('.');
+      n32=n2[1].split('.');
+      if (parseInt(n31[3],10)>=parseInt(n32[3],10))//check- first ip should big than later
+      {
+        Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","32");%>");
+        return false;
+      }
+    }
+    else//if more Character
+    {
+      Show_WizardError(item,"<%GetString("AutoDetectJudgeLANIPConfig","23");%>");
+      return false;
+    }
+  }
+ 
+  return true;
+}
+function InitForms()
+{
+  var dhcpstartip="<%NvramGet("DHCPSIPStart");%>";
+  var dhcpendip="<%NvramGet("DHCPSIPEnd");%>";
+  var dhcpendipnum="<%NvramGet("DHCPSMaxUser");%>";
+  var n1,n2;
+  
+  checkBrowserCss();
+  
+  dhcp_sv_select('main');
+  
+  n1=dhcpstartip.split('.');
+  n2=dhcpendip.split('.');
+
+  document.getElementById("id_DHCPSIPEnd").value=dhcpendipnum.toString();//set dhcp end ip num
+  
+    /*if (n1[2]==n2[2])
+  {
+    dhcpendipnum=parseInt(n2[3],10)-parseInt(n1[3],10)+1;//start-end+1
+    document.getElementById("id_DHCPSIPEnd").value=dhcpendipnum.toString();//set dhcp end ip num
+  }
+  else //if (n1[2]!=n2[2])
+  {
+    dhcpendipnum=parseInt(n2[3],10)+255-parseInt(n1[3],10)+1;//start+255-end+1
+    document.getElementById("id_DHCPSIPEnd").value=dhcpendipnum.toString();//set dhcp end ip num
+  }*/
+  
+}
+
+function dhcp_sv_select()
+{
+  var disable_flag = 0;
+  
+  if (document.getElementById("id_DHCPSEnable").checked == true) 
+  {
+    disable_flag = 0;
+    document.main.DHCPSEnable.value="1";
+  } 
+  else 
+  {
+    disable_flag = 1;
+    document.main.DHCPSEnable.value="0";
+  }
+  
+  document.main.DHCPSIPStart.disabled = disable_flag;
+  document.getElementById("id_DHCPSIPEnd").disabled = disable_flag;
+  document.main.DHCPSExcludedIPAll.disabled = disable_flag;
+}
+
+function apply()
+{
+  var lanip=document.main.LanIPAddr.value;
+  var lanmask=document.main.LanNetmask.options[document.main.LanNetmask.selectedIndex].value;
+  var dhcpstartip=document.main.DHCPSIPStart.value;
+  var dhcpendip=document.getElementById("id_DHCPSIPEnd").value;
+  var dhcpendipnum;
+  var n1,n2;
+  var n12,n22;
+  var dhcpendip_ip;
+
+  document.main.LanIPAddr.value = ip_normalize_0(document.main.LanIPAddr.value);
+  document.main.DHCPSIPStart.value = ip_normalize_0(document.main.DHCPSIPStart.value);
+
+  //fill DHCPSIPEnd
+  n1=dhcpstartip.split('.');
+  n2=lanip.split('.');
+  n12=parseInt(n1[3],10);//start ip
+  n22=parseInt(n2[3],10);//lan ip
+  dhcpendipnum=parseInt(dhcpendip,10)+n12-1;//start+end-1
+  dhcpendip_ip=n1[0]+"."+n1[1]+"."+n1[2]+"."+dhcpendipnum.toString();
+  document.main.DHCPSIPEnd.value=dhcpendip_ip;//set hidden dhcp end ip
+
+  //validate
+  if (isEmpty(document.main.LanIPAddr.value))
+  {
+    Show_WizardError("<%GetString("AutoDetectJudgeLANIPConfig","14");%>","<%GetString("AutoDetectJudgeLANIPConfig","15");%>");
+    return false;
+  }
+  if (!check_ip_format(document.main.LanIPAddr.value,"<%GetString("AutoDetectJudgeLANIPConfig","14");%>","lanip",lanmask))//checkip(LAN Side IP Address)
+  {
+    return false;
+  }
+  if (!checkIsNetworkBroadcast(document.main.LanIPAddr.value,document.main.LanNetmask.options[document.main.LanNetmask.selectedIndex].value,document.main.LanNetmask.selectedIndex,"<%GetString("AutoDetectJudgeLANIPConfig","14");%>"))
+  {
+    return false;
+  }
+  
+  if (document.getElementById("id_DHCPSEnable").checked==true)//if(DHCP Server Function checked)
+  {
+    if (isEmpty(document.main.DHCPSIPStart.value))
+    {
+      Show_WizardError("<%GetString("AutoDetectJudgeLANIPConfig","16");%>","<%GetString("AutoDetectJudgeLANIPConfig","15");%>");
+      return false;
+    }
+    if (!check_ip_format(document.main.DHCPSIPStart.value,"<%GetString("AutoDetectJudgeLANIPConfig","16");%>",""))//checkip(dhcp ip start)  can't include lanip
+    {
+      return false;
+    }
+    
+    if (isEmpty(document.getElementById("id_DHCPSIPEnd").value))//checkint(dhcp ip end)  1-256
+    {
+      Show_WizardError("<%GetString("AutoDetectJudgeLANIPConfig","17");%>","<%GetString("AutoDetectJudgeLANIPConfig","15");%>");
+      return false;
+    }
+    else if (!check_integer(document.getElementById("id_DHCPSIPEnd").value))
+    {
+      Show_WizardError("<%GetString("AutoDetectJudgeLANIPConfig","17");%>","<%GetString("AutoDetectJudgeLANIPConfig","18");%>");
+      return false;
+    }
+    else if (parseInt(document.getElementById("id_DHCPSIPEnd").value,10)<1)
+    {
+      Show_WizardError("<%GetString("AutoDetectJudgeLANIPConfig","17");%>","<%GetString("AutoDetectJudgeLANIPConfig","19");%>");
+      return false;
+    }
+    else if (parseInt(document.getElementById("id_DHCPSIPEnd").value,10)>256)
+    {
+      Show_WizardError("<%GetString("AutoDetectJudgeLANIPConfig","17");%>","<%GetString("AutoDetectJudgeLANIPConfig","20");%>");
+      return false;
+    }
+    
+    if (!checkDHCPRange())
+    {
+      return false;
+    }
+    
+    if (!isEmpty(document.main.DHCPSExcludedIPAll.value))
+    {
+      if (!checkExcludeIP())
+      {
+        return false;
+      }
+    }
+  }
+  //submit
+  document.main.submit();		
+}
+	
+//-->
+</script>
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<script src="/html/OpenHelp.html"></script>
+
+<title>WHR-1166D - BUFFALO AirStation</title>
+ <script language="JavaScript">
+  <!--
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+  // -->
+</script>
+</HEAD>
+<BODY class=WIZ_BODY onLoad="InitForms();" id="id_main">
+<form name="main" method="POST">
+<center>
+<div id="wrapper">
+	<div class="head"><!-- header -->
+		<span class="headerLogo">
+			<img alt="BUFFALO" src="/images/py20_logo_buffalo.png">
+		</span>
+		<span class="statusArea">
+			<span class="statusIcon status_home" onclick="top.location.href='index.html'" style="display: none;"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="" style="display: none;"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick()" style="display: none;"></span>
+			<span class="statusIcon status_logout" onclick="location.href='logout.html'" style="display: none;"></span>
+			<span style="clear:both"></span>
+		</span>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="title_wizard">
+		<img src="/images/py20_header_i_at_s.png" width="36" height="36" class="title_icon"/>
+		<div class="title_text" id="title_text">
+		<%GetString("AutoDetectJudgeLANIPConfig","2");%>
+		</div>	
+	</div>
+
+	<div class="contents">
+		<div class="mainContents">
+			<div class="without_button_area">
+				<div class="setting_main">
+					<div id="main">
+					<TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("AutoDetectJudgeLANIPConfig","1");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+     			  &nbsp;<%GetString("AutoDetectJudgeLANIPConfig","3");%>
+     			 	<div id="id_errtbl" class="C_ERR" style="display:none;">
+				</div>
+     			  
+     			    </td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			  <TABLE class=WIZ_SET>
+     			    <TBODY>
+     				   <th><%GetString("AutoDetectJudgeLANIPConfig","4");%></th>
+     				   <TD>
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     					      <TD>
+     					      &nbsp;<%GetString("AutoDetectJudgeLANIPConfig","5");%>&nbsp;
+     						 <input type="text" name="LanIPAddr" size="20" maxlength="15" value="<%NvramGet("LanIPAddr");%>">
+     					      </TD>
+     					      <TD></TD>
+     					    </TR>
+     					    <TR>
+     					      <TD>
+     					      &nbsp;<%GetString("AutoDetectJudgeLANIPConfig","6");%>&nbsp;
+                    <select size="1" name="LanNetmask">
+                        <option value="255.255.255.252" <%NvramMatch("LanNetmask", "255.255.255.252", "selected");%>>255.255.255.252</option>
+                        <option value="255.255.255.248" <%NvramMatch("LanNetmask", "255.255.255.248", "selected");%>>255.255.255.248</option>
+                        <option value="255.255.255.240" <%NvramMatch("LanNetmask", "255.255.255.240", "selected");%>>255.255.255.240</option>
+                        <option value="255.255.255.224" <%NvramMatch("LanNetmask", "255.255.255.224", "selected");%>>255.255.255.224</option>
+                        <option value="255.255.255.192" <%NvramMatch("LanNetmask", "255.255.255.192", "selected");%>>255.255.255.192</option>
+                        <option value="255.255.255.128" <%NvramMatch("LanNetmask", "255.255.255.128", "selected");%>>255.255.255.128</option>
+                        <option value="255.255.255.0" <%NvramMatch("LanNetmask", "255.255.255.0", "selected");%>>255.255.255.0</option>
+                        <option value="255.255.254.0" <%NvramMatch("LanNetmask", "255.255.254.0", "selected");%>>255.255.254.0</option>
+                        <option value="255.255.252.0" <%NvramMatch("LanNetmask", "255.255.252.0", "selected");%>>255.255.252.0</option>
+                        <option value="255.255.248.0" <%NvramMatch("LanNetmask", "255.255.248.0", "selected");%>>255.255.248.0</option>
+                        <option value="255.255.240.0" <%NvramMatch("LanNetmask", "255.255.240.0", "selected");%>>255.255.240.0</option>
+                        <option value="255.255.224.0" <%NvramMatch("LanNetmask", "255.255.224.0", "selected");%>>255.255.224.0</option>
+                        <option value="255.255.192.0" <%NvramMatch("LanNetmask", "255.255.192.0", "selected");%>>255.255.192.0</option>
+                        <option value="255.255.128.0" <%NvramMatch("LanNetmask", "255.255.128.0", "selected");%>>255.255.128.0</option>
+                        <option value="255.255.0.0" <%NvramMatch("LanNetmask", "255.255.0.0", "selected");%>>255.255.0.0</option>
+                        <option value="255.254.0.0" <%NvramMatch("LanNetmask", "255.254.0.0", "selected");%>>255.254.0.0</option>
+                        <option value="255.252.0.0" <%NvramMatch("LanNetmask", "255.252.0.0", "selected");%>>255.252.0.0</option>
+                        <option value="255.248.0.0" <%NvramMatch("LanNetmask", "255.248.0.0", "selected");%>>255.248.0.0</option>
+                        <option value="255.240.0.0" <%NvramMatch("LanNetmask", "255.240.0.0", "selected");%>>255.240.0.0</option>
+                        <option value="255.224.0.0" <%NvramMatch("LanNetmask", "255.224.0.0", "selected");%>>255.224.0.0</option>
+                        <option value="255.192.0.0" <%NvramMatch("LanNetmask", "255.192.0.0", "selected");%>>255.192.0.0</option>
+                        <option value="255.128.0.0" <%NvramMatch("LanNetmask", "255.128.0.0", "selected");%>>255.128.0.0</option>
+                        <option value="255.0.0.0" <%NvramMatch("LanNetmask", "255.0.0.0", "selected");%>>255.0.0.0</option>
+                        <option value="254.0.0.0" <%NvramMatch("LanNetmask", "254.0.0.0", "selected");%>>254.0.0.0</option>
+                        <option value="252.0.0.0" <%NvramMatch("LanNetmask", "252.0.0.0", "selected");%>>252.0.0.0</option>
+                        <option value="248.0.0.0" <%NvramMatch("LanNetmask", "248.0.0.0", "selected");%>>248.0.0.0</option>
+                        <option value="240.0.0.0" <%NvramMatch("LanNetmask", "240.0.0.0", "selected");%>>240.0.0.0</option>
+                        <option value="224.0.0.0" <%NvramMatch("LanNetmask", "224.0.0.0", "selected");%>>224.0.0.0</option>
+                        <option value="192.0.0.0" <%NvramMatch("LanNetmask", "192.0.0.0", "selected");%>>192.0.0.0</option>
+                        <option value="128.0.0.0" <%NvramMatch("LanNetmask", "128.0.0.0", "selected");%>>128.0.0.0</option>     
+                    </select>
+     					      </TD>
+     					    </TR>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>                      
+     				 <TR>
+     				   <th><%GetString("AutoDetectJudgeLANIPConfig","7");%>
+     				   </th>
+     				   <TD>
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     						 <TD>
+     						  <input type="checkbox" id="id_DHCPSEnable"  onClick="dhcp_sv_select();" <%NvramMatch("DHCPSEnable", "1", "checked");%>>
+                  <input type="hidden" value="<%NvramGet("DHCPSEnable");%>" name="DHCPSEnable">
+                  <%GetString("AutoDetectJudgeLANIPConfig","8");%>
+                 </TD>
+     						 <TD></TD>
+     					    </TR>
+     					    <TR>
+     						 <TD><%GetString("AutoDetectJudgeLANIPConfig","34");%>
+                             <!--</TD>
+     						 <TD>-->
+								<input type="text" name="DHCPSIPStart" size="20" maxlength="15" value="<%NvramGet("DHCPSIPStart");%>">
+                                <BR><%GetString("AutoDetectJudgeLANIPConfig","10");%>
+								<input type="text" id="id_DHCPSIPEnd" size="10" maxlength="3" value=""><%GetString("AutoDetectJudgeLANIPConfig","11");%><br>
+								<input type="hidden" value="<%NvramGet("DHCPSIPEnd");%>" name="DHCPSIPEnd">
+								<%GetString("AutoDetectJudgeLANIPConfig","12");%><input type="text" name="DHCPSExcludedIPAll" size="30" maxlength="128" value="<%NvramGet("DHCPSExcludedIPAll");%>">
+     						 </TD>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>
+     			    </TBODY>
+     			  </TABLE>
+     			</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+ 	 <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_C>
+     		
+            </td>
+     	  <td class=NAVI_R>
+				   <div class="button2"  onclick="apply()">
+					<div class="button_text"><%GetString("AutoDetectJudgeLANIPConfig","13");%></div>
+				  </div>
+     	  </td>
+     	</tr>
+        </TBODY>
+      </TABLE>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+					</div><!-- #main -->
+				</div><!-- #setting_main -->
+			</div><!-- #without_button_area -->
+		</div><!-- #mainContents -->
+	</div><!-- #contents -->
+
+	<div class="footer">
+		<div class="aistation_logo"></div>
+		<div class="modelname">
+			<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+		</div>
+		<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+	</div>
+
+</div><!-- #wrapper -->
+</center>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</BODY>
+</HTML>
+
+ 

@@ -1,0 +1,137 @@
+#!/bin/sh
+#
+# This sample code shows you one way to modify your setup to allow automatic
+# configuration of your resolv.conf for peer supplied DNS addresses when using
+# the `usepeerdns' option.
+#
+# In my case I just added this to my /etc/ppp/ip-down.local script. You may need to 
+# create an executable script if one does not exist.
+#
+# Nick Walker (nickwalker@email.com)
+#
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+REALDEVICE=$1
+if [ "$REALDEVICE" = "ppp10" ] || [ "$REALDEVICE" = "ppp11" ] || [ "$REALDEVICE" = "ppp12" ] 
+then
+	exit 0
+fi
+
+PPP_DEFAULT=`nvram get PPPoEDefault`
+
+if [ "$IFNAME" = "ppp0" ]; then
+	if [ $PPP_DEFAULT = "1"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE1IP"
+	PPP_DNS1="PPPoE1DNS1"
+	PPP_DNS2="PPPoE1DNS2"
+	PPP_MTU="PPPoE1MTU"
+	PPP_HOST="PPPoE1Hostname"
+	PPP_DOMAIN="PPPoE1Domain"
+	PPP_GATEWAY="PPPoE1Gateway"
+fi
+if [ "$IFNAME" = "ppp1" ]; then
+	if [ $PPP_DEFAULT = "2"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE2IP"
+	PPP_DNS1="PPPoE2DNS1"
+	PPP_DNS2="PPPoE2DNS2"
+	PPP_MTU="PPPoE2MTU"
+	PPP_HOST="PPPoE2Hostname"
+	PPP_DOMAIN="PPPoE2Domain"
+	PPP_GATEWAY="PPPoE2Gateway"
+fi
+if [ "$IFNAME" = "ppp2" ]; then
+	if [ $PPP_DEFAULT = "3"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE3IP"
+	PPP_DNS1="PPPoE3DNS1"
+	PPP_DNS2="PPPoE3DNS2"
+	PPP_MTU="PPPoE3MTU"
+	PPP_HOST="PPPoE3Hostname"
+	PPP_DOMAIN="PPPoE3Domain"
+	PPP_GATEWAY="PPPoE3Gateway"
+fi
+if [ "$IFNAME" = "ppp3" ]; then
+	if [ $PPP_DEFAULT = "4"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE4IP"
+	PPP_DNS1="PPPoE4DNS1"
+	PPP_DNS2="PPPoE4DNS2"
+	PPP_MTU="PPPoE4MTU"
+	PPP_HOST="PPPoE4Hostname"
+	PPP_DOMAIN="PPPoE4Domain"
+	PPP_GATEWAY="PPPoE4Gateway"
+fi
+if [ "$IFNAME" = "ppp4" ]; then
+	if [ $PPP_DEFAULT = "5"]; then
+		DEFAULT_CONN="1"
+	fi
+	PPP_IPName="PPPoE5IP"
+	PPP_DNS1="PPPoE5DNS1"
+	PPP_DNS2="PPPoE5DNS2"
+	PPP_MTU="PPPoE5MTU"
+	PPP_HOST="PPPoE5Hostname"
+	PPP_DOMAIN="PPPoE5Domain"
+	PPP_GATEWAY="PPPoE5Gateway"
+fi
+
+nvram set $PPP_IPName=""
+nvram set $PPP_DNS1=""
+nvram set $PPP_DNS2=""
+nvram set $PPP_GATEWAY=""
+
+	PPPoE1IP=`nvram get PPPoE1IP`
+	PPPoE2IP=`nvram get PPPoE2IP`
+	PPPoE3IP=`nvram get PPPoE3IP`
+	PPPoE4IP=`nvram get PPPoE4IP`
+	PPPoE5IP=`nvram get PPPoE5IP`
+	
+	PPPoE1DNS1=`nvram get PPPoE1DNS1`
+	PPPoE1DNS2=`nvram get PPPoE1DNS2`
+	PPPoE2DNS1=`nvram get PPPoE2DNS1`
+	PPPoE2DNS2=`nvram get PPPoE2DNS2`
+	PPPoE3DNS1=`nvram get PPPoE3DNS1`
+	PPPoE3DNS2=`nvram get PPPoE3DNS2`
+	PPPoE4DNS1=`nvram get PPPoE4DNS1`
+	PPPoE4DNS2=`nvram get PPPoE4DNS2`
+	PPPoE5DNS1=`nvram get PPPoE5DNS1`
+
+[ ! -z "$DNS1" ] && ( route del $DNS1 dev $IFNAME )
+[ ! -z "$DNS2" ] && ( route del $DNS2 dev $IFNAME )
+
+#RC_CONF=/etc/init.d/rc.conf
+RESOLV_CONF=/etc/resolv.conf
+
+#rm $RESOLV_CONF
+
+# include the enviro's
+#. $RC_CONF
+wan_check_flag=`nvram get WanCheckPhase`
+
+rm -f /tmp/ppp$UNIT_up_time
+
+#echo "" > $RESOLV_CONF
+if [ -n "$USEPEERDNS" ]; then
+		if [ "$DEFAULT_CONN" == "1" ]; then
+		nvram set WanCurrentIP=""
+		nvram set WanCurrentNetmask=""
+		nvram set WanCurrentGateway=""
+		nvram set WanCurrentDNS1=""
+		nvram set WanCurrentDNS2=""
+		nvram set WanCurrentDNS3=""
+		nvram set WanCurrentMTU=""
+		nvram set WanCurrentHostname=""
+		nvram set WanCurrentDomainName=""
+		fi
+
+#	if [ "$wan_check_flag" == "0" ] ; then
+#		/usr/sbin/gt_utils wan_service stop &
+#	fi
+fi
+gt_utils mppp_route restart

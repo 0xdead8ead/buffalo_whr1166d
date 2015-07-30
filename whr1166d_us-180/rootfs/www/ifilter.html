@@ -1,0 +1,464 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+
+var exMac_list=["<%NvramGet("ifilterExMac1");%>","<%NvramGet("ifilterExMac2");%>","<%NvramGet("ifilterExMac3");%>","<%NvramGet("ifilterExMac4");%>","<%NvramGet("ifilterExMac5");%>","<%NvramGet("ifilterExMac6");%>","<%NvramGet("ifilterExMac7");%>","<%NvramGet("ifilterExMac8");%>","<%NvramGet("ifilterExMac9");%>","<%NvramGet("ifilterExMac10");%>","<%NvramGet("ifilterExMac11");%>","<%NvramGet("ifilterExMac12");%>"];
+
+function set_display()
+{
+     if(document.form_main.ifilterEnabled.checked == true)
+     {
+     	document.getElementById("ifilter_ext_settings").style.display = "";
+     } else {
+     	document.getElementById("ifilter_ext_settings").style.display = "none";
+     }
+}
+
+rate = new Array(6);
+rate[5] = "<%NvramGet("ifilterBitmask_manual");%>";
+
+function CheckSet(i)
+{
+	var ret = false;
+
+
+
+	var byte = Math.floor(i / 8);
+	var bit  = i % 8;
+	var str;
+	var j;
+
+	var v = document.form_main.manual.checked;
+	if(v){
+
+
+
+		str = rate[5].substr((byte*2), 2);
+	} else {
+
+
+
+
+
+		var index = document.form_main.group.value;
+		
+
+
+
+		rate[5] = rate[index];
+		
+		str = rate[index].substr((byte*2), 2);
+	}
+
+
+
+	number = new Number("0x"+ str);
+	
+	var curbit = 0x80;
+
+
+
+	curbit >>>= bit;
+	
+	if(number & curbit) {
+		ret = true;
+	} else {
+		ret = false;
+	}
+	return(ret);
+}
+
+function set_category_check()
+{
+	document.form_main.category1.checked = CheckSet(1);document.form_main.category2.checked = CheckSet(2);document.form_main.category3.checked = CheckSet(3);document.form_main.category4.checked = CheckSet(4);document.form_main.category5.checked = CheckSet(5);document.form_main.category6.checked = CheckSet(6);document.form_main.category7.checked = CheckSet(7);document.form_main.category8.checked = CheckSet(8);document.form_main.category9.checked = CheckSet(9);document.form_main.category10.checked = CheckSet(10);document.form_main.category11.checked = CheckSet(11);document.form_main.category12.checked = CheckSet(12);document.form_main.category13.checked = CheckSet(13);document.form_main.category14.checked = CheckSet(14);document.form_main.category15.checked = CheckSet(15);document.form_main.category16.checked = CheckSet(16);document.form_main.category17.checked = CheckSet(17);document.form_main.category18.checked = CheckSet(18);document.form_main.category19.checked = CheckSet(19);document.form_main.category20.checked = CheckSet(20);document.form_main.category21.checked = CheckSet(21);document.form_main.category22.checked = CheckSet(22);document.form_main.category23.checked = CheckSet(23);document.form_main.category24.checked = CheckSet(24);document.form_main.category25.checked = CheckSet(25);document.form_main.category26.checked = CheckSet(26);document.form_main.category27.checked = CheckSet(27);document.form_main.category28.checked = CheckSet(28);document.form_main.category29.checked = CheckSet(29);document.form_main.category30.checked = CheckSet(30);document.form_main.category31.checked = CheckSet(31);document.form_main.category32.checked = CheckSet(32);document.form_main.category33.checked = CheckSet(33);document.form_main.category34.checked = CheckSet(34);document.form_main.category35.checked = CheckSet(35);document.form_main.category36.checked = CheckSet(36);document.form_main.category37.checked = CheckSet(37);document.form_main.category38.checked = CheckSet(38);document.form_main.category39.checked = CheckSet(39);document.form_main.category40.checked = CheckSet(40);document.form_main.category41.checked = CheckSet(41);document.form_main.category42.checked = CheckSet(42);document.form_main.category43.checked = CheckSet(43);document.form_main.category44.checked = CheckSet(44);document.form_main.category45.checked = CheckSet(45);document.form_main.category46.checked = CheckSet(46);document.form_main.category47.checked = CheckSet(47);document.form_main.category48.checked = CheckSet(48);document.form_main.category49.checked = CheckSet(49);document.form_main.category50.checked = CheckSet(50);document.form_main.category51.checked = CheckSet(51);document.form_main.category52.checked = CheckSet(52);document.form_main.category53.checked = CheckSet(53);document.form_main.category54.checked = CheckSet(54);document.form_main.category55.checked = CheckSet(55);document.form_main.category56.checked = CheckSet(56);document.form_main.category57.checked = CheckSet(57);document.form_main.category58.checked = CheckSet(58);document.form_main.category59.checked = CheckSet(59);document.form_main.category60.checked = CheckSet(60);document.form_main.category61.checked = CheckSet(61);document.form_main.category62.checked = CheckSet(62);document.form_main.category63.checked = CheckSet(63);document.form_main.category64.checked = CheckSet(64);document.form_main.category65.checked = CheckSet(65);document.form_main.category66.checked = CheckSet(66);document.form_main.category67.checked = CheckSet(67);
+}
+
+function check_manual_set()
+{
+  var v = document.form_main.manual.checked;
+	var all_disable;
+	if(v){
+		all_disable = false;
+    document.form_main.group.disabled= true;
+  } else {
+		all_disable = true;
+    document.form_main.group.disabled = false;
+	}
+  document.form_main.category1.disabled = all_disable;document.form_main.category2.disabled = all_disable;document.form_main.category3.disabled = all_disable;document.form_main.category4.disabled = all_disable;document.form_main.category5.disabled = all_disable;document.form_main.category6.disabled = all_disable;document.form_main.category7.disabled = all_disable;document.form_main.category8.disabled = all_disable;document.form_main.category9.disabled = all_disable;document.form_main.category10.disabled = all_disable;document.form_main.category11.disabled = all_disable;document.form_main.category12.disabled = all_disable;document.form_main.category13.disabled = all_disable;document.form_main.category14.disabled = all_disable;document.form_main.category15.disabled = all_disable;document.form_main.category16.disabled = all_disable;document.form_main.category17.disabled = all_disable;document.form_main.category18.disabled = all_disable;document.form_main.category19.disabled = all_disable;document.form_main.category20.disabled = all_disable;document.form_main.category21.disabled = all_disable;document.form_main.category22.disabled = all_disable;document.form_main.category23.disabled = all_disable;document.form_main.category24.disabled = all_disable;document.form_main.category25.disabled = all_disable;document.form_main.category26.disabled = all_disable;document.form_main.category27.disabled = all_disable;document.form_main.category28.disabled = all_disable;document.form_main.category29.disabled = all_disable;document.form_main.category30.disabled = all_disable;document.form_main.category31.disabled = all_disable;document.form_main.category32.disabled = all_disable;document.form_main.category33.disabled = all_disable;document.form_main.category34.disabled = all_disable;document.form_main.category35.disabled = all_disable;document.form_main.category36.disabled = all_disable;document.form_main.category37.disabled = all_disable;document.form_main.category38.disabled = all_disable;document.form_main.category39.disabled = all_disable;document.form_main.category40.disabled = all_disable;document.form_main.category41.disabled = all_disable;document.form_main.category42.disabled = all_disable;document.form_main.category43.disabled = all_disable;document.form_main.category44.disabled = all_disable;document.form_main.category45.disabled = all_disable;document.form_main.category46.disabled = all_disable;document.form_main.category47.disabled = all_disable;document.form_main.category48.disabled = all_disable;document.form_main.category49.disabled = all_disable;document.form_main.category50.disabled = all_disable;document.form_main.category51.disabled = all_disable;document.form_main.category52.disabled = all_disable;document.form_main.category53.disabled = all_disable;document.form_main.category54.disabled = all_disable;document.form_main.category55.disabled = all_disable;document.form_main.category56.disabled = all_disable;document.form_main.category57.disabled = all_disable;document.form_main.category58.disabled = all_disable;document.form_main.category59.disabled = all_disable;document.form_main.category60.disabled = all_disable;document.form_main.category61.disabled = all_disable;document.form_main.category62.disabled = all_disable;document.form_main.category63.disabled = all_disable;document.form_main.category64.disabled = all_disable;document.form_main.category65.disabled = all_disable;document.form_main.category66.disabled = all_disable;document.form_main.category67.disabled = all_disable;
+}
+
+function form_regist_disable()
+{
+	if("<%NvramGet("WanCurrentIP");%>" == "")
+	{
+		document.form_regist.JUMP.disabled= 1 ;
+	}
+	else
+	{
+		document.form_regist.JUMP.disabled= 0 ;
+		
+		document.getElementById("no_connect").style.display = "none";
+	}
+}
+
+function InitForms()
+{
+  	var i=0;
+	var empty=0;
+	var exStr;
+	var ifilter_reg = <%NvramGet("ifilterRegStatus");%>;
+
+	if(ifilter_reg==3)
+	{
+		document.getElementById("expDate").innerHTML = "<%NvramGet("ifilterExpDate");%>";
+	}
+	else if(ifilter_reg==5)
+	{
+		document.getElementById("expDate").innerHTML = "契約期間切れにより、「i-フィルター」は停止中です";
+	}
+	else if(ifilter_reg==4)
+	{
+		document.getElementById("expDate").innerHTML = "認証サーバーとの通信に失敗";
+	}	
+	else
+	{
+		document.getElementById("expDate").innerHTML = "「i-フィルター」は無効です";
+	}		
+
+	top.content_helpframe.document.location.href = "./help/help_ifilter.html";	
+	
+//     dhcp_sv_select('form_main');
+	set_display();
+  rate[0] = "<%NvramGet("ifilterBitmask_0");%>";rate[1] = "<%NvramGet("ifilterBitmask_1");%>";rate[2] = "<%NvramGet("ifilterBitmask_2");%>";rate[3] = "<%NvramGet("ifilterBitmask_3");%>";rate[4] = "00000000000000000000000000000000";
+  
+  document.form_main.group.options[<%NvramGet("ifilterRateGroup");%>].selected=true;
+  
+  
+
+	for(i=0;i<12;i++)
+	{
+		if(exMac_list[i]=="")
+		{
+			exStr= "exMac" + (i+1).toString();
+			document.getElementById(exStr).style.display="none";
+			empty++;
+		}
+	}
+	if(empty!=12)
+	{
+		document.getElementById("NoMAC").style.display="none";
+	}
+  
+  
+}
+//-->
+</script>
+ <script language="JavaScript">
+  <!--
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+  // -->
+  
+  //  
+
+</script>
+</head>
+
+<body class="BFK_BODY" onLoad="InitForms();set_category_check();check_manual_set();form_regist_disable();">
+
+
+<table bgcolor="#666666" border="0" cellspacing="1">
+ <tr>
+  <td bgcolor="#ffffff">
+   <font color="#666666" size="2">「ご利用上のご注意」</font>
+   <table>
+    <tr>
+     <td>
+     <ul><font color="#666666" size="2"><li>「i-フィルター」はデジタルアーツ株式会社の提供するサービスです。ご利用には同社のサービスサイトでのユーザー登録が必要となります。</li><li>本機能によりフィルターされるセッションは、デフォルトセッション中のHTTP通信のみとなります。PPPoEマルチセッションをご利用の場合や、SSL通信、外部プロキシサーバーをご利用の場合は、フィルター機能は動作しません。ご了承下さい。</li><li>サービスサーバーとの通信障害時、その旨を表示するページが表示されます。詳細については「i-フィルター」サービスサイトにてご確認下さい。</li>
+     <li>本機能をPPPoEマルチセッションでご利用になられる場合、デフォルトのセッションがインターネットに接続されている必要があります。</li>
+
+     <li>エアステーションのPPTPサーバーに接続しているPPTPクライアントは、i-フィルターの対象外となります。</li>
+
+     <li>本機能を利用する場合、ブラウジング等の速度が低下する場合があります。</li>
+     </font>
+     </ul>
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+</table>
+<br>
+<form   onsubmit="return onceOnly(this);"  method="post" name="form_regist" target="_top" action="https://sec2.daj.co.jp/ifilter/arsb/main/index.php">
+<input type="hidden" name="CgiUrl" value="http://<%NvramGet("LanIPAddr");%>/ifilterARS.html">
+  <input type="hidden" name="MacAddr" value="<%NvramGet("WanMacAddr");%>">
+
+  <table class="AD_SET">
+    <tbody>
+    <tr>
+     <th>ご利用の前に</th>
+     <td>
+			<input type="submit" name="JUMP" value="「i-フィルター」サービスページ >>">
+     </td>
+    </tr>
+    </tbody>
+  </table>
+  <TR>
+      <font size="2" color=gray>※．このボタンをクリックすると、インターネット上の「i-フィルター」サービスページへ接続します。<br>&nbsp;&nbsp;&nbsp;&nbsp;「i-フィルター」をはじめてご利用の方は、このボタンをクリックし、ユーザー登録を行ってください。
+      </font>
+	  <span id="no_connect">
+      <font size="2" color="red"><br>※．現在、インターネットに接続されていません。</font>
+	  </span>
+  </TR>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<br>
+<form method="post" name="form_main">
+  <table class="AD_SET">
+    <tbody>
+    <tr>
+     <th>「i-フィルター」機能</th>
+     <td>
+       <input type="checkbox" name="ifilterEnabled" onclick="set_display();" 
+	      <%NvramMatch("ifilterEnabled","1","checked");%> >使用する
+     </td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="AD_SET" id="ifilter_ext_settings" >
+    <tbody>
+    <tr>
+      <th>利用期限</th>
+      <td>
+        <table><td id="expDate"><%NvramGet("ifilterExpDate");%></td></table>
+      </td>
+    </tr>
+    <tr>
+      <th>閲覧禁止カテゴリー</th>
+      <td>
+	<table>
+	  <tr>
+	  	<td>
+	    <select size="1" name="group" maxlength="255" onchange="set_category_check();">
+	      <option value="0" >小学生向け</option>
+	      <option value="1" >中学生向け</option>
+	      <option value="2" >高校生向け</option>
+	      <option value="3" >リビング向け</option>
+	    </select>
+		
+	    <input type="checkbox" name="manual" value="man" onclick="set_category_check();check_manual_set();" <%NvramMatch("ifilterRateManual","1","checked");%> >手動で変更する
+		</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category1" value="1">性行為・性風俗</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category2" value="2">ヌード・アダルトグッズ</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category3" value="3">グラビア</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category4" value="4">性教育・性の話題</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category5" value="5">グロテスク</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category6" value="6">犯罪・武器</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category7" value="7">不適切な薬物使用</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category8" value="8">カルト・テロリズム</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category9" value="9">不正アクセス技術</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category10" value="10">ウイルス技術情報</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category11" value="11">違法ソフト・反社会行為</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category12" value="12">クラッシャーサイト</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category13" value="13">ギャンブル</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category14" value="14">懸賞・くじ</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category15" value="15">アルコール・タバコ</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category16" value="16">宗教</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category17" value="17">求人</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category18" value="18">コンピュータ用品</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category19" value="19">オフィス用品</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category20" value="20">消費者金融</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category21" value="21">不動産</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category22" value="22">出会い</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category23" value="23">Webメール</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category24" value="24">チャット</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category25" value="25">メールマガジン</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category26" value="26">会員向け掲示板</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category27" value="27">ソーシャルブックマーク</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category28" value="28">芸能</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category29" value="29">映画・演劇</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category30" value="30">音楽</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category31" value="31">TV・ラジオ</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category32" value="32">漫画・アニメ</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category33" value="33">ゲーム</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category34" value="34">スポーツ</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category35" value="35">占い・超常現象</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category36" value="36">旅行・観光</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category37" value="37">アミューズメント施設</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category38" value="38">旅客鉄道</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category39" value="39">グルメ</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category40" value="40">オンライントレード</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category41" value="41">インターネット銀行</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category42" value="42">投資情報</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category43" value="43">オンラインストレージ</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category44" value="44">動画・音楽配信</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category45" value="45">オークション</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category46" value="46">ショッピング</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category47" value="47">誹謗・中傷</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category48" value="48">主張</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category49" value="49">いたずら</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category50" value="50">ニュース</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category51" value="51">画像・動画検索エンジン</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category52" value="52">掲示板</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category53" value="53">SNS</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category54" value="54">ブログ</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category55" value="55">タウン情報</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category56" value="56">総合ソフトウェアダウンロード</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category57" value="57">ポータル</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category58" value="58">検索エンジン</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category59" value="59">アップローダー</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category60" value="60">ウェブ翻訳・URL変換</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category61" value="61">匿名アクセス・プロキシ</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category62" value="62">ホスティング</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category63" value="63">政府・自治体</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category64" value="64">学校・教育施設</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category65" value="65">軍事・防衛関連</td>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category66" value="66">緊急対応</td>
+	  </tr>
+	  <tr>
+	    <td class="ifilter"><INPUT TYPE="CHECKBOX" NAME="category67" value="67">特殊</td>
+	  </tr>
+	  <tr>
+	    <td colspan="3">※ チェックのついたカテゴリーの閲覧を禁止します。</td>
+	  </tr>
+	</table>
+      </td>
+    </tr>
+    </tbody>  
+  </table>
+
+  <p><input type="submit" value="設定" name="SETUP"></p>
+
+<hr>
+	<table class="AD_TTL2">
+		<tr>
+			<td>フィルター除外パソコンリスト</td>
+		</tr>
+	</table>
+  <table class="AD_LIST">
+    <tbody>
+      <tr>
+	<th>MACアドレス</th>
+	<th>IPアドレス</th>
+	<th>パソコン名</th>
+      </tr>
+	<tr id="NoMAC"><td colspan="3" class="NO_ENTRY">MACアドレスが登録されていません</td></tr>  
+	  
+	<tr id="exMac1">
+		<td><%NvramGet("ifilterExMac1");%></td>
+		<%GetIfilterExInfo("1");%>
+	</tr>
+	<tr id="exMac2">
+		<td><%NvramGet("ifilterExMac2");%></td>
+		<%GetIfilterExInfo("2");%>
+	</tr>
+	<tr id="exMac3">
+		<td><%NvramGet("ifilterExMac3");%></td>
+		<%GetIfilterExInfo("3");%>
+	</tr>
+	<tr id="exMac4">
+		<td><%NvramGet("ifilterExMac4");%></td>
+		<%GetIfilterExInfo("4");%>
+	</tr>
+	<tr id="exMac5">
+		<td><%NvramGet("ifilterExMac5");%></td>
+		<%GetIfilterExInfo("5");%>
+	</tr>
+	<tr id="exMac6">
+		<td><%NvramGet("ifilterExMac6");%></td>
+		<%GetIfilterExInfo("6");%>
+	</tr>
+	<tr id="exMac7">
+		<td><%NvramGet("ifilterExMac7");%></td>
+		<%GetIfilterExInfo("7");%>
+	</tr>
+	<tr id="exMac8">
+		<td><%NvramGet("ifilterExMac8");%></td>
+		<%GetIfilterExInfo("8");%>
+	</tr>
+	<tr id="exMac9">
+		<td><%NvramGet("ifilterExMac9");%></td>
+		<%GetIfilterExInfo("9");%>
+	</tr>
+	<tr id="exMac10">
+		<td><%NvramGet("ifilterExMac10");%></td>
+		<%GetIfilterExInfo("10");%>
+	</tr>
+	<tr id="exMac11">
+		<td><%NvramGet("ifilterExMac11");%></td>
+		<%GetIfilterExInfo("11");%>
+	</tr>
+	<tr id="exMac12">
+		<td><%NvramGet("ifilterExMac12");%></td>
+		<%GetIfilterExInfo("12");%>
+	</tr>	
+	
+
+    </tbody>
+  </table>
+	
+     <input type="button" value="除外パソコンリストの編集"
+      onClick="location.href='ifilter_mac.html'">
+<input type=hidden name=sWebSessionnum value=7><input type=hidden name=sWebSessionid value=1159052033>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

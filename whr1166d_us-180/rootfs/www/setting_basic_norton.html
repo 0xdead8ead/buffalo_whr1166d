@@ -1,0 +1,775 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+ <HEAD>
+	<title>WHR-1166D - BUFFALO AirStation</title>
+	<meta HTTP-EQUIV="Content-Type" Content="text/html; charset=<%ChangeCharset();%>"></meta>
+	<meta name="viewport" content="width=<%NvramMatch("MobileDevice","1","640");%><%NvramMatch("MobileDevice","0","940");%>">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+	<META http-equiv="Content-Style-Type" content="text/css">
+	<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+	<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+	<link rel="alternate stylesheet" id="mobilecss_common" type="text/css" href="/images/style-PY20-common-mobile.css">
+	<link rel="alternate stylesheet" id="anothercss_advanced" type="text/css" href="/images/style-PY20-advanced.css">
+	<link rel="alternate stylesheet" id="anothercss_parental" type="text/css" href="/images/style-PY20-parental.css">
+	<link rel="alternate stylesheet" id="iecss_parental" type="text/css" href="/images/style-PY20-parental-compatible.css">
+	<link rel="alternate stylesheet" id="mobilecss_parental" type="text/css" href="/images/style-PY20-parental-mobile.css">
+	<script type="text/javascript" src="/js/prototype.js"></script>
+	<script type="text/javascript" src="/js/py20_common.js"></script>
+	<script type="text/javascript" src="/js/cookiectrl.js"></script>
+	<script type="text/javascript" src="/js/py20_icon_popup.js"></script>
+	<script type="text/javascript" src="/js/py20_backalert.js"></script>
+	<script type="text/javascript" src="/js/py20_set_wait.js"></script>
+	<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<style type="text/css">
+	body {  margin: 0 auto; }
+	</style>
+<script language="JavaScript">
+<!--
+	var oCallback = {
+	success:function(oResponse) { 
+				document.getElementById("indicator").style.display = "";
+				document.getElementById("waiting_err_text").style.display = "none";
+				document.getElementById("waiting_err_btn").style.display = "none";
+				dispWaiting(true);
+				window.setTimeout("dispWaiting(false);", 30000);
+	}, 
+	failure:function(oResponse) { 
+	} 
+	}
+	var exec = false;
+	function onceOnly(thform) {
+		if(exec == true){ 
+			return false;
+		} else {
+			exec = true;
+			return true;
+		} 
+	}
+// -->
+
+	var waiting = false;
+	var popupDisable = false;
+	var iconDisable = false;
+
+	var WanIP = "<%GetWanIPAddress();%>";
+	var nt_agree = '<%NvramGet("Nortonagree");%>';
+
+	function checkBrowserCssTopPage(){
+		var isIE = navigator.userAgent.search("MSIE") > -1;
+		if("<%NvramGet("MobileDevice");%>"=="1"){
+			$('mobilecss_common').rel = 'stylesheet';
+			$('mobilecss_parental').rel = 'stylesheet';
+			$('iecss_common').disabled = true;
+			$('anothercss_common').disabled = true;
+			$('anothercss_advanced').disabled = true;
+			$('iecss_parental').disabled = true;
+			$('anothercss_parental').disabled = true;
+		}else if(isIE){
+			$('iecss_common').rel = 'stylesheet';
+			$('anothercss_advanced').rel = 'stylesheet';
+			$('iecss_parental').rel = 'stylesheet';
+			$('mobilecss_common').disabled = true;
+			$('anothercss_common').disabled = true;
+			$('anothercss_parental').disabled = true;
+			$('mobilecss_parental').disabled = true;
+		}else{
+			$('anothercss_common').rel = 'stylesheet';
+			$('anothercss_advanced').rel = 'stylesheet';
+			$('anothercss_parental').rel = 'stylesheet';
+			$('mobilecss_common').disabled = true;
+			$('iecss_common').disabled = true;
+			$('iecss_parental').disabled = true;
+			$('mobilecss_parental').disabled = true;
+		}
+		setTimeout("document.getElementById('id_body').style.display = '';", 300);
+	}
+
+	function handleBodyOnLoad()
+	{
+		/*iconImgPreLoad();
+		getJsonParam("DEVICE", handleDeviceParamOnComplete);
+		getJsonParam("FUNCTION", handleFunctionParamOnComplete);
+		updateInnerHtml();
+		*/
+		checkBrowserCssTopPage();
+		getIconState();
+		setInterval(getIconState, 2000);
+
+		if (isNaN(WanIP.charAt(0))) //Wan Disconnect
+		{
+			document.getElementById("input_agree").style.display = "block";
+			document.getElementById("cb_agree").disabled = true;
+			document.getElementById("text_agree").className = "agree_disable";
+			document.getElementById("wanwarn").style.display = "block";
+			setRadioDisabled(true);
+			document.getElementById("id_main").style.display = "block";
+			document.getElementById("button_accept").className = "button2_disable";
+			document.getElementById("norton_link_top").className = "parental_nolink";
+			document.getElementById("norton_link").className = "parental_nolink";
+			document.getElementById("faq_link").className = "norton_word parental_nolink";
+		}
+		else
+		{
+			if (nt_agree == 1)
+			{// agree
+				document.getElementById("input_agree").style.display = "none";
+				document.getElementById("excuse_bottom").style.display = "block";
+				setRadioDisabled(false);
+				document.getElementById("id_main").style.display = "block";
+				document.getElementById("button_accept").className = "button2";
+				document.getElementById("norton_link").className = "parental_link";
+				document.getElementById("faq_link").className = "norton_word parental_link";
+			}
+			else
+			{// not agree
+				document.getElementById("input_agree").style.display = "block";
+				document.getElementById("cb_agree").disabled = false;
+				document.getElementById("excuse_bottom").style.display = "none";
+				document.getElementById("text_agree").className = "block";
+				document.getElementById("wanwarn").style.display = "none";
+				setRadioDisabled(true);
+				document.getElementById("id_main").style.display = "block";
+				document.getElementById("button_accept").className = "button2_disable";
+				document.getElementById("norton_link_top").className = "parental_link";
+				document.getElementById("faq_link").className = "norton_word parental_link";
+			}
+		}
+	}
+
+	function getJsonParam(category, handle)
+	{
+		new Ajax.Request("/Ajax_get_value.html&action="+category,
+			{method : 'get', onComplete : handle});
+	}
+
+	function setRadioDisabled(flg)
+	{
+		document.getElementById("r_level3").disabled = flg;
+		document.getElementById("r_level2").disabled = flg;
+		document.getElementById("r_level1").disabled = flg;
+		document.getElementById("r_level0").disabled = flg;
+		
+		document.getElementById("w_level3").className = flg ? "norton_word agree_disable" : "norton_word";
+		document.getElementById("w2_level3").className = flg ? "norton_word_2 agree_disable" : "norton_word_2";
+		document.getElementById("w_level2").className = flg ? "norton_word agree_disable" : "norton_word";
+		document.getElementById("w2_level2").className = flg ? "norton_word_2 agree_disable" : "norton_word_2";
+		document.getElementById("w_level1").className = flg ? "norton_word agree_disable" : "norton_word";
+		document.getElementById("w2_level1").className = flg ? "norton_word_2 agree_disable" : "norton_word_2";
+		document.getElementById("w_level0").className = flg ? "norton_word agree_disable" : "norton_word";
+		document.getElementById("w2_level0").className = flg ? "norton_word_2 agree_disable" : "norton_word_2";
+
+		if (WanIP.length > 16) //Wan Disconnect
+		{
+			document.getElementById("text_agree").className = flg ? "agree_disable" : "";
+		}
+	}
+
+	function handleAgreeOnChange()
+	{
+		if(document.getElementById("cb_agree").checked)
+		{// agree
+			setRadioDisabled(false);
+			document.getElementById("button_accept").className = "button2";
+			document.getElementById("r_level1").checked = true;
+			document.getElementById("r_level0").checked = false;
+			//setRadioIdx(jQuery('#r_level1').attr('value'));
+		}
+		else
+		{// not agree
+			setRadioDisabled(true);
+			document.getElementById("button_accept").className = "button2_disable";
+			document.getElementById("r_level1").checked = false;
+			document.getElementById("r_level0").checked = true;
+			//setRadioIdx(jQuery('#r_level0').attr('value'));
+		}
+		setDirty(true);
+	}
+
+	function handleLinkOnClick(url)
+	{
+		if(document.getElementById("norton_link").className == "parental_link")
+		{
+			window.open(url);
+		}
+		else if(document.getElementById("norton_link_top").className == "parental_link")
+		{
+			window.open(url);
+		}
+	}
+
+	function handleAcceptOnClick()
+	{
+		if (document.getElementById("button_accept").className != "button2_disable")
+		{
+			if(document.getElementById("cb_agree").checked || '<%NvramGet("Nortonagree");%>' == '1')
+			{// agree
+				document.getElementById("id_Nortonagree").value = 1;
+			}
+			else
+			{// not agree
+				document.getElementById("id_Nortonagree").value = 0;
+			}
+
+//			document.nortonForm.submit();
+			YAHOO.util.Connect.setForm('nortonForm'); 
+			YAHOO.util.Connect.asyncRequest('POST','setting_basic_norton.html'+'?timestampt='+new Date().toString(),oCallback); 
+			setDirty(false);
+		}
+	}
+
+function handleInfoIconOnClick(id, el)
+{
+	var top = 0;
+	var left = 0;
+	if(getCookie("mobile") == "false")
+	{
+		top = getAbsoluteTop(el) + el.offsetHeight;
+		left = getAbsoluteLeft(el) + el.offsetWidth - 260;
+	}	
+	document.getElementById(id).style.top = top + "px";
+	document.getElementById(id).style.left = left + "px";	
+	document.getElementById("popup_bg").style.display = "";
+	document.getElementById("popup_info").style.display="";
+}
+	/*function getJsonParam(category, handle)
+	{
+		new Ajax.Request("/cgi-bin/cgi?req=fnc&fnc=%24{get_json_param("+ category +"," + getNowTime() + ")}",
+			{method : 'post', onComplete : handle});
+	}
+
+	function updateInnerHtml()
+	{
+		setDirty(false);
+		getJsonParam("PARENTAL", handleParentalParamOnComplete);
+	}
+
+	// set
+	///////////////////////////////////////////////////////////////////////
+	function handleAcceptOnClick()
+	{
+		if(document.getElementById("button_accept").className == "button2")
+		{
+			var post = "el=basic_setting_PARENTAL";
+			if(isDisp("input_agree"))
+			{
+				post += "&agree=" + (document.getElementById("cb_agree").checked ? 1 : 0);
+			}
+			for(i = 0; i < 4; i++)
+			{
+				if(document.getElementById("r_level" + i).checked)
+				{
+					post += "&polycy=" + i;
+					break;
+				}
+			}
+			ajaxPost(post, handleButtonOnComplete);
+		}
+	}
+
+	// get
+	///////////////////////////////////////////////////////////////////////
+	function handleDeviceParamOnComplete(req)
+	{
+		var data = req.responseText.evalJSON();
+		insertTitle(data.MODEL.escapeHTML());
+		document.getElementById("MODEL2").innerHTML    = data.MODEL.escapeHTML();
+		document.getElementById("COPYRIGHT").innerHTML = data.COPYRIGHT;
+		document.getElementById("VERSION").innerHTML   = data.VERSION.escapeHTML();
+		document.getElementById("popup_current_ver").innerHTML   = data.VERSION.escapeHTML();
+	}
+
+	function handleFunctionParamOnComplete(req)
+	{
+		var data = req.responseText.evalJSON();
+		
+		// icon
+		if(data.BASIC_ICON != undefined)
+		{
+			var label = ["WAN","REPEATER","INFO","SUPPORT","ECO"];
+			for(i = 0; i < label.length; i++)
+			{
+				if(data.BASIC_ICON.indexOf(label[i]) != -1)
+				{
+					document.getElementById("icon_" + label[i]).style.display = "";
+				}
+			}
+		}
+	}
+
+	function setRadioIdx(idx)
+	{
+		for(i = 0; i < 4; i++)
+		{
+			document.getElementById("r_level" + i).checked = (idx == i);
+		}
+	}
+
+	function handleParentalParamOnComplete(req)
+	{
+		var data = req.responseText.evalJSON();
+		if(data.SUPPORT)
+		{
+			if(!data.IFILTER)
+			{
+				if(data.AGREE)
+				{
+					document.getElementById("input_agree").style.display = "none";
+					document.getElementById("excuse_bottom").style.display = "";
+					setRadioDisabled(false);
+					document.getElementById("button_accept").className = "button2";
+				}
+				else
+				{
+					document.getElementById("input_agree").style.display = "";
+					document.getElementById("excuse_bottom").style.display = "none";
+					if(!data.INTERNET)
+					{
+						document.getElementById("wanwarn").style.display = "";
+					}
+					setRadioDisabled(true);
+				}
+				setRadioIdx(data.LEVEL);
+				if(data.INTERNET)
+				{
+					document.getElementById("norton_link_top").className = "parental_link";
+					document.getElementById("norton_link").className = "parental_link";
+
+					document.getElementById("faq_link").className = "parental_link";
+					jQuery("#faq_link").on("click", {url: data.FAQURL}, function(event)
+						{
+							if(document.getElementById("norton_link").className == "parental_link")
+							{
+								window.open(event.data.url);
+							}
+						});
+
+					document.getElementById("cb_agree").disabled = false;
+					document.getElementById("text_agree").className = "";
+				}
+			}
+		}
+	}*/
+
+</script>
+
+</head>
+<body onLoad="handleBodyOnLoad();" id="id_body" style="display:none;">
+<div id="wrapper">
+	<div class="head"><!-- header -->
+		<img src="/images/py20_logo_buffalo.png" alt="BUFFALO" class="headerLogo" />
+		<div class="statusArea">
+			<span class="statusIcon status_home" onclick="handleHomeOnClick();"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="handleInternetIconOnClick('popup_internet', this, 'top_main.html')" style="<%CheckModedis();%>"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick('popup_info', this)" style=""></span>
+			<span id="icon_LOGOUT" class="statusIcon status_logout" onclick="location.href='logout.html'"></span>
+			<span style="clear:both"></span>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="title_norton">
+		<div class="title_icon titleimg_parental"></div>
+		<div class="title_text">
+		  <%GetString("NewUI","122");%>
+		</div>
+		<div class="button_advanced1" onclick="top.location.href='index_adv.html&item=4'"></div>
+		<div style="clear: both;"></div>
+	</div>
+	
+	<div class="contents"><!-- contents -->
+		<div class="mainContents">
+			<div class="main" id="id_main" style="display: none;">
+				<div class="without_button_area">
+					<form  method="POST" class="form_area" name="nortonForm" id="nortonForm">
+					<!-- startof main -->
+					<div class="setting_main">
+						<div class="norton_top"></div>
+						<div class="norton_left">
+							<div class="input_item" id="input_level">
+								<div onClick="">
+									<div class="radio_right">
+										<table>
+											<tr>
+												<td valign="top"  style="padding:2px 0 0 0;">
+													<input type="radio" class="radio_left" name="ConnectSafe_Filtering_show_Level" id="r_level1" value="1" onChange="setDirty(true);" <% NvramMatch("ConnectSafe_Filtering_show_Level", "1", "checked"); %>/>													<in
+												</td>
+												<td>
+													<span class="norton_word" id="w_level1"><%GetString("NewUI","131");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div style="clear:both"></div>
+									<div class="express">
+										<table>
+											<tr>
+												<td>
+													<span class="norton_word_2" id="w2_level1"><%GetString("NewUI","132");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<label onClick="">
+									<div class="radio_right">
+										<table>
+											<tr>
+												<td valign="top" style="padding:2px 0 0 0;">
+													<input type="radio" class="radio_left" name="ConnectSafe_Filtering_show_Level" id="r_level2" value="2" onChange="setDirty(true);" <% NvramMatch("ConnectSafe_Filtering_show_Level", "2", "checked"); %>/>													
+												</td>
+												<td>
+													<span class="norton_word" id="w_level2"><%GetString("NewUI","133");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div style="clear:both"></div>
+									<div class="express">
+										<table>
+											<tr>
+												<td>
+													<span class="norton_word_2" id="w2_level2"><%GetString("NewUI","134");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</label>
+								<label onClick="">
+									<div class="radio_right">
+										<table>
+											<tr>
+												<td valign="top" style="padding:2px 0 0 0;">
+													<input type="radio" class="radio_left" name="ConnectSafe_Filtering_show_Level" id="r_level3" value="3" onChange="setDirty(true);" <% NvramMatch("ConnectSafe_Filtering_show_Level", "3", "checked"); %>/>													
+												</td>
+												<td>
+													<span class="norton_word" id="w_level3"><%GetString("NewUI","135");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div style="clear:both"></div>
+									<div class="express">
+										<table>
+											<tr>
+												<td>
+													<span class="norton_word_2" id="w2_level3"><%GetString("NewUI","136");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</label>
+								<label onClick="">
+									<div class="radio_right">
+										<table>
+											<tr>
+												<td valign="top" style="padding:2px 0 0 0;">
+													<input type="radio" class="radio_left" name="ConnectSafe_Filtering_show_Level" id="r_level0" value="0" onChange="setDirty(true);" <% NvramMatch("ConnectSafe_Filtering_show_Level", "0", "checked"); %>/>													
+													</td>
+													<td>
+													<span class="norton_word" id="w_level0"><%GetString("NewUI","137");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div style="clear:both"></div>
+									<div class="express">
+										<table>
+											<tr>
+												<td>
+													<span class="norton_word_2" id="w2_level0"><%GetString("NewUI","138");%></span>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</label>
+							</div>
+							<div class="excuse" id="input_agree" style="display: none;">
+								<label onClick="">
+									<table>
+										<tr class="norton_word">
+											<td>
+												<input type="hidden" name="Nortonagree" id="id_Nortonagree" value="<%NvramGet("Nortonagree");%>">
+												<input type="checkbox" class="editbox_check" id="cb_agree" onChange="handleAgreeOnChange()">
+												<span id="text_agree" class="">
+													<%GetString("NewUI","139");%>
+												</span>
+											</td>
+										</tr>
+									</table>
+								</label>
+								<div id="wanwarn" style="display: none;">
+									<table>
+										<tr>
+											<td class="wanwarn norton_word">
+											<%GetString("NewUI","140");%>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div class="excuse_top">
+									<table>
+										<tr class="norton_word">
+											<td>
+												<%GetString("NewUI","141");%>
+												<span style="font-weight:bold">
+													<%GetString("NewUI","142");%>
+													<span id="norton_link_top" class="parental_nolink" onClick="handleLinkOnClick('http://go.symantec.com/connectsafe_terms')">
+													<%GetString("NewUI","143");%> 
+													</span>
+													<%GetString("NewUI","144");%>
+												</span>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="excuse" id="excuse_bottom" style="display: none;">
+								<table>
+									<tr class="norton_word">
+										<td>
+											<%GetString("NewUI","145");%>
+											<span id="norton_link" class="parental_nolink" onClick="handleLinkOnClick('http://go.symantec.com/connectsafe_terms')"><%GetString("NewUI","146");%></span>
+											<br/>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<div class="excuse" id="faq">
+								<table>
+									<tr>
+										<td>
+											<br/>
+											<span id="faq_link" class="" onClick="handleLinkOnClick('http://buffalo-tech.norton-hosting.com/')"><%GetString("NewUI","148");%></span>
+											<br/>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+						</div>
+						<div class="norton_right"></div>
+						<div style="clear:both"></div>
+					</div>
+					<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+				</form>
+				</div>
+				<div class="button_area">
+					<div class="button_devctrl" onClick="top.location.href='setting_basic_devctrl.html'" style="display:<%NvramMatch("MobileDevice","1","");%><%NvramMatch("MobileDevice","0","none");%>">
+						<div class="button_text"><%GetString("NewUI","149");%></div>
+					</div>
+					<div class="button2" id="button_accept" onclick="handleAcceptOnClick();">
+						<div class="button_text"><%GetString("NewUI","40");%></div>
+					</div>
+					<div class="button2" onclick="handleBackOnClick();">
+						<div class="button_text"><%GetString("NewUI","39");%></div>
+					</div>
+					<div class="button_devctrl" onClick="top.location.href='setting_basic_devctrl.html'" style="display:<%NvramMatch("MobileDevice","1","none");%><%NvramMatch("MobileDevice","0","");%>">
+						<div class="button_text"><%GetString("NewUI","149");%></div>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+			</div><!-- End of main -->
+		</div><!-- #mainContents -->			
+	<div class="footer">
+		<div class="aistation_logo"></div>
+		<div class="modelname">
+			<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+		</div>
+		<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+	</div>
+	</div><!-- #contents -->
+				
+
+</div><!-- #wrapper -->
+
+    <div class="warning" id="warning_ssid_x" style="top: 207px; left: 530px; display: none;">
+		<div id="warning_ssid_x0" style="display: none;">
+		<%GetString("NewUI","106");%>
+		</div>
+		<div id="warning_ssid_x1" style="display: none;">
+		<%GetString("NewUI","107");%>
+		</div>
+		<div id="warning_ssid_x2" style="display: none;">
+		<%GetString("NewUI","28");%>
+		</div>
+	</div>
+	
+	<div id="warning_key_x" class="warning" style="top: 309px; left: 522px;;display: none;">
+    <div id="warning_key_x0" style="display: none;">
+	<%GetString("NewUI","108");%>
+    </div>
+    <div id="warning_key_x1" style="display: none;">
+	<%GetString("NewUI","109");%>
+    </div>
+    <div id="warning_key_x2" style="display: none;">
+	<%GetString("NewUI","110");%>
+    </div>
+   </div>
+   
+   
+	<div class="waiting_base" id="waiting_base" style="display: none;"></div>
+	<div class="waiting_body" id="waiting_body" style="display: none;">
+		<div class="indicator" id="indicator">
+			<img class="progress" src="/images/py20_a_busy.gif"><br />
+			<span data-file=py20_common_waiting class=label_waiting_py20_common_waiting ><%GetString("NewUI","170");%></span>
+		</div>
+		<div id="waiting_err_text"></div>
+		<input class="button3" id="waiting_err_btn" type="button" value="OK" onClick="handleErrDialogOnOk()"/>
+	</div>
+	<div class="backalert_bg" id="backalert_bg" style="display: none;"></div>
+	<div class="backalert_body" id="backalert_body" style="display: none;">
+		<span> <%GetString("NewUI","111");%></span><br />
+		<input type="checkbox" id="cb_backalert"><span> <%GetString("NewUI","112");%></span><br />
+		<div>
+			<input type="button" value=" <%GetString("NewUI","113");%>" onClick="handleBackalertOkOnClick()"/>
+			<input type="button" value=" <%GetString("NewUI","114");%>" onClick="handleBackalertCancelOnClick()"/>
+		</div>
+	</div>
+	<div class="popup_bg" id="popup_bg" style="display: none;" onClick="undispPopupAll()"></div>
+	<div class="popup" id="popup_internet" style="display: none;" onClick="undispPopup('popup_internet')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","171");%>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_repeater" style="display: none;" onClick="undispPopup('popup_repeater')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_repeater_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_info" style="display: none;" onClick="undispPopup('popup_info')">
+		<div class="popup_info_item" id="infotype1" style="display: none;">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info1_py20_common_popup ></span><br />
+				(<span data-file=py20_common_popup class=label_verion_py20_common_popup ></span> <span id="popup_current_ver"></span> -> <span id="popup_new_ver"></span>)<br />
+				<input type="button" class="button_middle" value="To firmware update screen" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=wizard_func_fwupdate_online.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype2" style="display: none;">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info2_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info2_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype3" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info3_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info3_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype4" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info4_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info4_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=48&sWebSessionid=829375816';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype5" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info5_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info5_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=49&sWebSessionid=2032920744';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype6" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info6_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info6_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=APPS&ITEM=WEB_AXS';"
+				/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype7" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info7_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle"  
+					value="" data-file=py20_common_popup data-value="label_button_info7_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=50&sWebSessionid=184989856';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype8" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info8_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info8_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_nas.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype9" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info9_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info9_py20_common_popup" onClick="UpdateIfilterSrvStatus()">
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		
+			<div class="popup_item" id="info_behavior">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","125");%>
+				<!--<div class="info_block">-->
+					<%GetString("NewUI","126");%>
+					<div id="info_behavior_router" style="display: none;">
+						<%GetString("NewUI","127");%>
+						<div id="behavior_router_connect">
+							<%GetString("NewUI","128");%>:
+							<div id="wanip"></div>
+						</div>
+						<div id="behavior_router_disconnect">
+							<%GetString("NewUI","129");%>
+						</div>
+					</div>
+					<div id="info_behavior_bridge" style="display: none;">
+						<%GetString("NewUI","130");%>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_support" style="display: none;" onClick="undispPopup('popup_support')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_support_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>		
+</body>
+</html>

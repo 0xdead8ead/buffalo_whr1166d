@@ -1,0 +1,56 @@
+.aplist {
+	padding: 5px;
+	background-color: #FFFFFF;
+	border: 0px solid #808080;
+	margin: 0px 0px 10px 0px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	box-shadow: 1px 1px 1px 1px #999999 inset;
+}
+
+.apitem {
+}
+.apselected {
+	background-color: #99CCFF;
+}
+
+.apicon {
+	width: 20px;
+	height: 14px;
+	margin: 3px 0px 3px 0px;
+	float: left;
+}
+.apconnect {
+	background: url(/images/py20_antenna_connect.png) no-repeat center center;
+}
+.apdisconnect {
+	background: url(/images/py20_antenna_ng.png) no-repeat center center;
+}
+.aplevel4 {
+	background: url(/images/py20_antenna_4.png) no-repeat center center;
+}
+.aplevel3 {
+	background: url(/images/py20_antenna_3.png) no-repeat center center;
+}
+.aplevel2 {
+	background: url(/images/py20_antenna_2.png) no-repeat center center;
+}
+.aplevel1 {
+	background: url(/images/py20_antenna_1.png) no-repeat center center;
+}
+.apcrypto {
+	background: url(/images/py20_antenna_sub_security.png) no-repeat center center;
+}
+.ap2g {
+	background: url(/images/py20_subicon_2g.png) no-repeat center center;
+}
+.ap5g {
+	background: url(/images/py20_subicon_5g.png) no-repeat center center;
+}
+
+.apssid {
+	padding: 1px 1px 1px 5px;
+	float: left;
+}
+

@@ -1,0 +1,359 @@
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function HandleKeyPressEvent(e)
+{
+ // handle i.e. (window.event) and firefox (e)
+ var eventInstance = window.event ? event : e;
+ 
+ // handle i.e. (charCode) and firefox (keyCode)
+ var unicode = eventInstance.charCode ? eventInstance.charCode : eventInstance.keyCode;
+ 
+ //alert(unicode); 
+ if(unicode==13)
+   gotoconfirm();
+ //var key = String.fromCharCode(unicode); 
+}
+function clear_wep()
+{
+        document.main.WIFIWEPKey1_S1.value = "";
+        document.main.WIFIWEPKey2_S1.value = "";
+        document.main.WIFIWEPKey3_S1.value = "";
+        document.main.WIFIWEPKey4_S1.value = "";
+}
+function gotoconfirm()
+{
+	var SSID3_enable = "<%NvramGet("WIFISsid3Enable");%>";
+	if(SSID3_enable == "1")
+	{
+		Show_error("<%GetString("WlanMulti","56");%>","<%GetString("WlanMulti","87");%>");
+		return false;
+	}
+	
+	var obj=document.getElementById("id_WEPKeyType");  
+	
+	if((obj.value=="A5")||(obj.value=="A13"))
+	{
+		//new_webtype="1"+old_webtype;
+		document.main.WIFIWEPKey1Type_S1.value="1";	//new_webtype;
+		document.main.WIFIWEPKey2Type_S1.value="1";
+		document.main.WIFIWEPKey3Type_S1.value="1";
+		document.main.WIFIWEPKey4Type_S1.value="1";
+	}
+	else if((obj.value=="H10")||(obj.value=="H26"))
+	{
+		//new_webtype="0"+old_webtype;
+		document.main.WIFIWEPKey1Type_S1.value="0";	//new_webtype;
+		document.main.WIFIWEPKey2Type_S1.value="0";
+		document.main.WIFIWEPKey3Type_S1.value="0";
+		document.main.WIFIWEPKey4Type_S1.value="0";
+	}
+
+//add start		
+	var err_title="WEP Key";
+	var n;
+	var j=0;
+		var key_type = document.getElementById("id_WEPKeyType").value;
+		var key_length = 0;
+		if (key_type=="A5")
+			key_length = 5;
+		else if (key_type=="A13")
+			key_length = 13;
+		else if (key_type=="H10")
+			key_length = 10;
+		else if (key_type=="H26")
+			key_length = 26;
+		
+		for (i=1;i<=4;i++)
+		{
+			if (document.getElementById("id_WIFIWEPKey" + i+ "_S1").value.length==0 &&
+				document.getElementById("id_WIFIWEPKeyIndex1_" + i).checked)
+			{
+				Show_WizardError(err_title,"<%GetString("WizardFuncWlanWep","27");%>");
+				return;
+			}
+			if (document.getElementById("id_WIFIWEPKey" + i+ "_S1").value!="******")
+			{
+				var key_value = document.getElementById("id_WIFIWEPKey" + i+ "_S1").value;
+
+				if (key_value.length<key_length && key_value.length>0)
+				{
+					Show_WizardError(err_title,"<%GetString("WizardFuncWlanWep","28");%>");
+					return;
+				}
+				if (key_value.length>key_length)
+				{
+					Show_WizardError(err_title,"<%GetString("WizardFuncWlanWep","29");%>");
+					return;
+				}
+
+				if (key_type=="H10" || key_type=="H26")
+				{
+					for (j=0;j<key_value.length;j++)
+					{
+						if (!((key_value.charAt(j)>='a' && key_value.charAt(j)<='f')||
+								(key_value.charAt(j)>='A' && key_value.charAt(j)<='F')||
+								(key_value.charAt(j)>='0' && key_value.charAt(j)<='9')))
+						{
+							Show_WizardError(err_title,"<%GetString("WizardFuncWlanWep","30");%>");
+							return;
+						}
+					}
+				}
+				if (key_type=="A5" || key_type=="A13")
+				{
+					if(!Escape_String(key_value))
+					{
+						Show_WizardError(err_title,"<%GetString("WizardFuncWlanWep","30");%>");
+						return;						
+					}
+				}
+				if (key_type=="H10")
+				{
+					if(key_value=="0000000000")
+					{
+						Show_error(err_title,"<%GetString("WizardFuncWlanWep","33");%>");
+						return false;
+					}
+				}
+				if (key_type=="H26")
+				{
+					if(key_value=="00000000000000000000000000")
+					{
+						Show_error(err_title,"<%GetString("WizardFuncWlanWep","33");%>");
+						return false;
+					}
+				}
+			}       
+		}               
+		for (i=1;i<=4;i++)
+		{               
+			if (document.getElementById("id_WIFIWEPKey" + i+ "_S1").value=="******")
+					document.getElementById("id_WIFIWEPKey" + i+ "_S1").disabled=true;
+		}               
+	document.getElementById("wep_title").innerHTML = "<%GetString("WizardFuncWlanWep","13");%>";
+	document.getElementById("wep_subtitle").innerHTML = "<%GetString("WizardFuncWlanWep","14");%>";
+	document.getElementById("content").style.display = "none";
+	document.getElementById("b_content").style.display = "none";
+	document.getElementById("confirm").style.display = "";
+	document.getElementById("b_confirm").style.display = "";
+}                               
+function apply()                
+{
+	document.main.submit();
+}
+// -->
+</script>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+</head>
+
+<BODY class="WIZ_BODY" onkeypress="javascript:HandleKeyPressEvent(event);">
+<FORM onsubmit="return false;" method="POST" name="main" action="wizard_func_wlan_wep.html">
+<input type="hidden" name="WIFIAuthType1" value="OPEN">
+<input type="hidden" name="WIFIEncrypType1" value="WEP">
+<input type="hidden" name="WIFIWEPKey1Type_S1" value="<%NvramGet("WIFIWEPKey1Type_S1");%>">
+<input type="hidden" name="WIFIWEPKey2Type_S1" value="<%NvramGet("WIFIWEPKey2Type_S1");%>">
+<input type="hidden" name="WIFIWEPKey3Type_S1" value="<%NvramGet("WIFIWEPKey3Type_S1");%>">
+<input type="hidden" name="WIFIWEPKey4Type_S1" value="<%NvramGet("WIFIWEPKey4Type_S1");%>">
+
+<table class=WIZ_FRAME>
+<tbody>
+    <tr class=HEAD>
+	<td class=TBL_L></td>
+	<td class=TBL_C></td>
+	<td class=TBL_R></td>
+    </tr>
+
+    <tr class=TBL>
+	<td class=TBL_L></td>
+	<td class=TBL_C>
+
+	    <table class=WIZ_FRAME2>
+	    <tbody>
+
+		<TR class=HEAD>
+		    <TD class=TBL_L></TD>
+            	    <TD class=TBL_C><%GetString("WizardFuncWlanWep","1");%></TD>
+     	  	    <TD class=TBL_R></TD>
+          	</TR>
+     		<TR class=HEAD2>
+     	  	    <TD class=TBL_L></TD>
+     	  	    <TD class=TBL_C id="wep_title"><%GetString("WizardFuncWlanWep","2");%></TD>
+     	  	    <TD class=TBL_R></TD>
+           	</TR>
+          	<TR class=TBL>
+            	    <TD class=TBL_L></TD>
+            	    <td class=TBL_C>
+     	    		<table class=WIZ_FRAME3>
+                	<tbody>
+                  	    <tr class=HEAD>
+                    		<td class=TBL_L></td>
+                    		<td class=TBL_C  id="wep_subtitle">&nbsp;<%GetString("WizardFuncWlanWep","3");%>
+                  		    <div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+     				</td>
+     				<td class=TBL_R></td>
+                  	    </tr>
+                  	    <tr class=TBL>
+     				<td class=TBL_L></td>
+     				<td class=TBL_C>
+     		    		    <div id="content">
+     			  		<table class=WIZ_SET>
+     			    		<TBODY>
+     				 	    <TR>
+     				   		<th><%GetString("WizardFuncWlanWep","4");%></th>
+     				   		    <TD>
+							<table border="0" cellspacing="0" cellpadding="0">
+							  <tr>
+							    <td colspan=2>
+							        <select size="1" onChange="clear_wep();" id="id_WEPKeyType">
+									<option value="A5" <%GetWEPKeyType("A5","selected","0");%>><%GetString("WizardFuncWlanWep","5");%></option>
+                							<option value="A13" <%GetWEPKeyType("A13","selected","0");%>><%GetString("WizardFuncWlanWep","6");%></option>
+                							<option value="H10" <%GetWEPKeyType("H10","selected","0");%>><%GetString("WizardFuncWlanWep","7");%></option>
+                							<option value="H26" <%GetWEPKeyType("H26","selected","0");%>><%GetString("WizardFuncWlanWep","8");%></option>
+							        </select>
+							    </td>
+							  </tr>
+							  <tr>
+							    <td><input type="radio" name="WIFIWEPKeyIndex1" id="id_WIFIWEPKeyIndex1_1" value="1" <%NvramMatch("WIFIWEPKeyIndex1", "1", "checked");%>>1:
+							    </td>
+							    <td><input type="password" name="WIFIWEPKey1_S1" id="id_WIFIWEPKey1_S1" size="40" 
+							    	         maxlength="26" value="<%ChangeKeyToStar("WIFIWEPKey1_S1");%>"></td>
+							  </tr>
+							  <tr>
+							    <td><input type="radio" name="WIFIWEPKeyIndex1" id="id_WIFIWEPKeyIndex1_2" value="2" <%NvramMatch("WIFIWEPKeyIndex1", "2", "checked");%>>2:
+							    </td>
+							    <td><input type="password" name="WIFIWEPKey2_S1" id="id_WIFIWEPKey2_S1" size="40" 
+							    	         maxlength="26" value="<%ChangeKeyToStar("WIFIWEPKey2_S1");%>"></td>
+							  </tr>
+							  <tr>
+							    <td><input type="radio" name="WIFIWEPKeyIndex1" id="id_WIFIWEPKeyIndex1_3" value="3" <%NvramMatch("WIFIWEPKeyIndex1", "3", "checked");%>>3:
+							    </td>
+							    <td><input type="password" name="WIFIWEPKey3_S1" id="id_WIFIWEPKey3_S1" size="40" 
+							    	         maxlength="26" value="<%ChangeKeyToStar("WIFIWEPKey3_S1");%>"></td>
+							  </tr>
+							  <tr>
+							    <td><input type="radio" name="WIFIWEPKeyIndex1" id="id_WIFIWEPKeyIndex1_4" value="4" <%NvramMatch("WIFIWEPKeyIndex1", "4", "checked");%>>4:
+							    </td>
+							    <td><input type="password" name="WIFIWEPKey4_S1" id="id_WIFIWEPKey4_S1" size="40" 
+							    	         maxlength="26" value="<%ChangeKeyToStar("WIFIWEPKey4_S1");%>"></td>
+							  </tr>
+							</table>
+                        			    </TD>
+                      				</TR>
+                    			    </TBODY>
+     			  		</table>
+                  			<TABLE class=WIZ_TIPS>
+                  			  <TBODY>
+                  			    <TR>
+                  			      <TD><P>
+            						<%GetString("WizardFuncWlanWep","9");%><br>
+            						<%GetString("WizardFuncWlanWep","10");%><br>
+            						<%GetString("WizardFuncWlanWep","31");%><br><br>
+            						<%GetString("WizardFuncWlanWep","11");%><br>
+                  			      </P>
+                  			      </TD>
+                  			    </TR>
+                  			  </TBODY>
+                  			</TABLE>
+               			    </div>
+              			    <div id="confirm" style="display:none;">
+      				    	<TABLE class=WIZ_TIPS>
+      				    	    <tr>
+     				    		<td>
+     				    		    <P><%GetString("WizardFuncWlanWep","15");%><br>
+				    		    <%GetString("WizardFuncWlanWep","16");%><br>
+      				    		    <%GetString("WizardFuncWlanWep","17");%><br>
+      				    		      
+      				    		    <p style="color:red;"></p>
+      				    		      
+      				    		    <%GetString("WizardFuncWlanWep","18");%><br>
+      				    		    <%GetString("WizardFuncWlanWep","19");%><br>
+      				    		    <ol>
+  				    			<li><%GetString("WizardFuncWlanWep","20");%></li>
+  				    			<li><%GetString("WizardFuncWlanWep","21");%></li>
+  				    			<li><%GetString("WizardFuncWlanWep","22");%></li>
+				    		    </ol>
+				    		    <%GetString("WizardFuncWlanWep","23");%>
+				    		    </P>
+     				    		</td>            
+     				    	    </tr>
+     				    	</TABLE>
+      	      			    </div>
+     				</TD>
+     				<TD class=TBL_R></TD>
+     		   	    </TR>
+     		   	    <TR class=FOOT>
+     			    	<TD class=TBL_L></TD>
+     			    	<TD class=TBL_C></TD>
+     			    	<TD class=TBL_R></TD>
+     		   	    </TR>
+     		 	</TBODY>
+     	    	    </TABLE>
+     	  	</td>
+     	  	<TD class=TBL_R></TD>
+     	    </TR>
+	    <TR class=FOOT>
+	      <TD class=TBL_L></TD>
+	      <TD class=TBL_C></TD>
+	      <TD class=TBL_R></TD>
+	    </TR>
+        </TBODY>
+      </TABLE>
+
+      <div id="b_content">
+      <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWep","24");%>" onClick=location.href="wizard_func_wlan_crypto_11g.html">
+     	  </td>
+     	  <td class=NAVI_C>
+     	  </td>
+     	  <td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWep","25");%>" onclick="gotoconfirm();">
+     	  </td>
+     	</tr>
+        </tbody>
+      </table>
+      </div>  
+     <div id="b_confirm" style="display:none;">
+      <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWep","24");%>" onClick=location.href="wizard_func_wlan_wep_11g.html">
+     	  </td>
+     	  <td class=NAVI_C>
+     	  </td>
+     	  <td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWep","25");%>" onclick="apply();">
+     	  </td>
+     	</tr>
+        </tbody>
+      </table>
+      </div>          
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</tbody>
+</table>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</FORM>
+</BODY>
+</HTML>

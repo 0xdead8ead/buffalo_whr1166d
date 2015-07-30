@@ -1,0 +1,138 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<script language="JavaScript">
+  <!--
+     ReloadTime = <%CheckConnection("redirect_secs");%>;
+function ReloadTimer()
+{
+	setTimeout("location.href='wizard_fun_connect_check.html'" , ReloadTime);
+}
+function AutoClose()
+{
+}
+function back()
+{
+	document.check_connect.submit();
+}
+
+//-->
+</script>
+<title><%GetString("TopWizardInetStart","1");%></title>
+
+</HEAD>
+<BODY class=WIZ_BODY onLoad="<%CheckConnection("onload_jscall");%>">
+  <TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+                 <%GetString("TopMain","66");%>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+                 <%GetString("TopMain","66");%>
+            </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+     			<td class=TBL_C>&nbsp;<%GetString("TopMain","66");%></td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+      
+                  <TABLE class=WIZ_CONN_CHECK>
+                    <TBODY>
+                      <TR>
+     <TD <%CheckConnection("step_cabling");%>><div name="cabling"><%CheckConnection("string_cabling");%></div></TD>
+     <TD <%CheckConnection("step_ifconfig");%>><div name="ifconfig"><%CheckConnection("string_ifconfig");%></div></TD>
+     <TD <%CheckConnection("step_nameresolution");%>><div name="namereso"><%CheckConnection("string_nameresolution");%></div></TD>
+                      </TR>
+                    </TBODY>
+                  </TABLE>
+                  <IFRAME 
+                  	src= "inframe_check_info.html"
+                  	name="ok_image" id="id_chkok" width="400" height="100" scrolling="no" border="0" marginheight="0" marginwidth="0" leftmargin="0" topmargin="0">
+                  </IFRAME>
+                  <BR>
+                  <%CheckConnection("link");%>
+     				  <BR>
+     				  <BR>
+     				</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+<form method="POST" name="check_connect" action="redirect.html">
+<input type="hidden" name="PageName" value="check_connect.html">
+ 	 <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+            <%CheckConnection("button");%>
+            </td>
+            <td class=NAVI_C align="center">
+			<%CheckConnection("button_finish");%>
+     		</td>
+     	  <td class=NAVI_R>
+     	  </td>
+     	</tr>
+        </TBODY>
+      </TABLE>
+      <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+</BODY>
+</HTML>

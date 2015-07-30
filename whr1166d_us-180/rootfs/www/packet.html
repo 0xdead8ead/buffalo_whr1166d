@@ -1,0 +1,65 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script src="OpenHelp.html"></script>
+<script src="OnceOnly.html"></script>
+</head>
+<body class="BFK_BODY">
+<br>
+<form   onsubmit="return onceOnly(this);"  action="packet.html" method="POST">
+     <table class="AD_INFO">
+           <tr>
+             <th rowspan="2" ><%GetString("Packet","1");%></th>
+             <th colspan="2"><%GetString("Packet","5");%></th>
+             <th colspan="2"><%GetString("Packet","8");%></th>
+           </tr>
+           <tr>
+             <th>&nbsp;&nbsp;<%GetString("Packet","6");%>&nbsp;&nbsp;</th>
+             <th><%GetString("Packet","7");%></th>
+             <th>&nbsp;&nbsp;<%GetString("Packet","6");%>&nbsp;&nbsp;</th>
+             <th><%GetString("Packet","7");%></th>
+           </tr>
+	   <tr <% TurnMenu("show"); %>>
+	     <th><%GetString("Packet","3");%></th>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WiredInternet", "SentNormal");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WiredInternet", "SentError");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WiredInternet", "ReceivedNormal");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WiredInternet", "ReceivedError");%></div></td>
+   	   </tr>
+   	 <%ShowPPPPacketInfo();%>
+	   <tr>
+	     <th><%GetString("Packet","2");%><%GetEthPacketInfo();%></th>
+	     <td><div class="DIGIT"><!--1161--><% NvramGet("tx_packets"); %></div></td>
+	     <td><div class="DIGIT"><!--0--><% NvramGet("tx_bad_packets"); %></div></td>
+	     <td><div class="DIGIT"><!--1660--><% NvramGet("rx_packets"); %></div></td>
+	     <td><div class="DIGIT"><!--0--><% NvramGet("tx_bad_packets"); %></div></td>
+   	   </tr>
+	   <tr>
+	     <th><%GetString("Packet","12");%></th>
+	     <td><div class="DIGIT"><!--203--><%GetPacketInfo("WirelessLAN_5g", "SentNormal");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WirelessLAN_5g", "SentError");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WirelessLAN_5g", "ReceivedNormal");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WirelessLAN_5g", "ReceivedError");%></div></td>
+   	   </tr>
+	   <tr>
+	     <th><%GetString("Packet","13");%></th>
+	     <td><div class="DIGIT"><!--203--><%GetPacketInfo("WirelessLAN", "SentNormal");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WirelessLAN", "SentError");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WirelessLAN", "ReceivedNormal");%></div></td>
+	     <td><div class="DIGIT"><!--0--><%GetPacketInfo("WirelessLAN", "ReceivedError");%></div></td>
+   	   </tr>
+     </table>
+     <p>
+     	<!--<input type="submit" value="Refresh" name="packet_exec">-->
+     	<input type="button" value="<%GetString("Packet","9");%>" onClick="location.href='packet.html'">
+     </p>
+     <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

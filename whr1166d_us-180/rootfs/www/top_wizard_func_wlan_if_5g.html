@@ -1,0 +1,23 @@
+
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<TITLE>AirStation Settings</TITLE>
+<script language="JavaScript">
+var err_item="<%GetString("Confirm","13");%>";
+var err_description="<%GetString("Confirm","14");%>";
+</script>
+</HEAD>
+<frameset cols="*,900,*" frameborder="no" border="0">
+  <frame name="mnu_l" src="top_wizard_detail_blank_l.html" scrolling="no">
+    <frameset rows="122,*,15" frameborder="0" border="0" noresize>
+        <frame name="upper" src="top_upper.html" scrolling="no" noresize>
+  	<frame name="lower" src="wizard_func_wlan_crypto_select_interface.html"  scrolling="auto" noresize>
+	<frame name="copyright" src="copyright.html" scrolling="no" noresize>
+    </frameset>
+  <frame name="mnu_r" src="top_wizard_detail_blank_r.html" scrolling="no">
+  <noframes>
+     <p><%GetString("TopWizardInetStart","2");%></p>
+  </noframes>
+</frameset>
+</HTML>

@@ -1,0 +1,2268 @@
+##1001
+AirStation Name
+Assign a name to the AirStation.<br>
+The AirStation name may include up to 64 alphanumeric characters and hyphens (-), but the first and last characters should not be hyphens. The default AirStation name is "AP" + its LAN-side MAC address.
+This is the hostname for the WAN-side DHCP server when the DHCP client is enabled. <br>When logs are transmitted to a syslog server, this hostname is displayed.<br>
+Administrator Password Settings
+Admin Name
+The admin username cannot be changed.
+Admin Password
+Configure the administrator password.<br>
+Password may contain up to 8 alphanumeric characters and underscores (_).<br>
+Note:
+Setting an admin password is recommended. The default admin password is "password" and should be changed after you first log in. For security reasons, the password is displayed as '*****'.<br>
+Note:
+If you lose your password, you can restore the AirStation's default settings by pushing the reset button on the unit for more than 3 seconds.<br>
+Time and Date
+Set the AirStation's internal clock.<br>
+Note:
+The AirStation's internal clock is reset to its default setting whenever power is lost.
+However, the AirStation may be configured to adjust its clock automatically even when rebooted by connecting it to a NTP server. You may also reset its time manually.
+Date
+You may set the AirStation's clock manually. The year range is from 2013 to 2037. All AirStation logs will be reset when the new time is entered.<br>
+Local Time
+You may set the AirStation's clock manually. Enter the hour in 24-hour format. All AirStation logs will be reset when the new time is entered.<br>
+Time Zone
+Configure the time zone.<br>
+The default is GMT+00:00.
+Apply
+Click to set the entered time.
+Refresh
+Puts the current time of the AirStation's internal clock in the time field.
+Get Current Time from Your PC
+This copies the time from your PC's clock to the AirStation's time field. It will not set the time zone. Click 'Apply' to set the time.
+NTP
+The AirStation can automatically set and update the time by accessing a NTP (Network Time Protocol) server. 
+NTP
+Enable to use an NTP server.<br>
+NTP Server
+Specify an NTP server. You can enter the server's hostname, domain and hostname, or IP address.<br>time.nist.gov is the default NTP server.<br>
+Update Interval
+Determines how often the AirStation checks the NTP server for the correct time.<br> 
+Note:
+If NTP is used with a PPPoE on-demand connection or a manual connection,  Automatic disconnection might not work properly.  Logs will use the previous time settings until NTP  synchronization is performed.
+Management Access
+You can enable limitations to prevent other PCs from changing the AirStation's settings. Note that checking all of these boxes at once will make it impossible to change the AirStation's settings until it is restored to its default settings.
+Log Output
+Checking this box will record "Management Access" information to a log.
+Prohibit configuration from wireless LAN
+Prohibits settings changes from any computer that is connected to the local network wirelessly.<br>
+Prohibit configuration from wired LAN
+Prohibits settings changes from LAN-side wired Ethernet computers.<br>
+Note:
+If  both wireless and wire connections are prohibited, you will not be able to access the admin interface until factory default settings are restored. <br>
+Internet-side Remote Access
+IP address and port number to allow remote access from the Internet.<br>
+Permit configuration from the wired WAN
+Permits router configuration from a wired computer on the WAN side.  If this is selected, enter an IP address and a port number from which  remote access from the WAN side is permitted.<br>  Access from the WAN side is not logged.
+Permitted IP address
+Enter the IP address that will be allowed to remotely access the router. To allow all IP addresses, leave this box blank.<br>
+Permitted Port
+Enter the port number for remotely accessing Settings from WAN side. Ports between 1 and 65535 may be set.<br>To remotely configure the AirStation from WAN side:<br>Type the following into a browser window (assuming port 8080 and a WAN-side IP address of "1.2.3.4"): "http://1.2.3.4:8080".<br>NAT must be enabled for this to work.
+Syslog Setup
+Transfers the AirStation's logs to a syslog server.<br>
+Transfer Logs
+Enable to have the AirStation transmit logs to a Syslog server. <br>
+Syslog Server
+Specify the name of your Syslog Server by hostname, hostname with domain or IP address.<br>Alphanumeric characters, hyphens '-', and periods '.' may be used.<br>The Syslog server name should not start or end with a hyphen '-' or period '.'.<br>
+Logs
+Select the types of information that should be logged by the AirStation.  The default is All.  The following items can be selected:
+Address Translation
+IP Filter
+Firewall
+ (includes discarded IP masquerade packets)
+PPPoE Client
+ (WAN side)
+Dynamic DNS
+ (WAN side)
+DHCP Client
+ (WAN side)
+DHCP Server
+ (LAN side)
+AOSS
+Wireless Client
+ (start/stop and client connection)
+Authentication
+Setting Changes
+System Boot
+NTP Client
+Wired
+ (WAN/LAN)
+Chart of Type Names
+Log Info
+Type
+Address Translation
+NAT
+IP Filter
+FILTER
+Firewall
+FIREWALL
+PPPoE Client
+PPPOE
+Dynamic DNS
+DDNS
+DHCP Client
+DHCPC
+DHCP Server
+DHCPS
+AOSS
+Wireless Client
+WIRELESS
+Authentication
+AUTH
+Setting Changes
+CONFIGURE
+System Boot
+BOOT
+NTP Client
+NTP
+Wired Link
+WIRED
+Apply
+This will apply the changes to settings from the fields above.
+Select All
+This checks all log types to be logged by the AirStation.
+Clear All
+This clears all checks from log types. Nothing will be logged by the AirStation.
+Note:
+The MAC address and AirStation name are added to the beginning of the message transferred to the syslog server.
+Save/Restore AirStation Settings
+Back Up Settings
+You may save the current configuration of the AirStation to a backup file on the PC.<br>
+Note:
+The AirStation will not be able to restore configurations from the saved file if it was created with a later version of the firmware than you are currently running, or created by a different product.
+Back Up
+Click 'Back Up' to back up your current AirStation configuration to a file.<br>
+Encrypt the configuration file with a password
+The backup file can be encrypted with a password. If used, the password will be required to restore settings from the file.
+Password
+The password can contain up to 8 alphanumeric characters or symbols.
+Restore Settings
+Restore the AirStation's configuration from a backup file on your PC.<br>
+Note:
+When configuration is restored, all settings are restored to the saved values. If these have been changed elsewhere in the network since the backup file was created, you may have to change these values back for your network to work correctly.
+Backup File
+Enter name of the backup file.<br>
+Browse
+Click to search for the backup file.
+Restore
+Click 'Restore' to return the AirStation's configuration to the state stored in the backup file.
+Open file with password
+If the backup file was encrypted with a password, enter it.
+Initialize/Restart
+Restart
+This reboots your AirStation.
+Note:
+Restarting will reset the clock to its default time.
+Initialize
+This will restore your AirStation to the factory default settings.
+Note:
+All settings will be reset to their defaults.
+Firmware Update
+Update the AirStation's firmware.<br>
+Firmware Version
+Displays the firmware version of the AirStation.<br>
+Firmware File Name
+Use 'Browse' to locate the firmware file on your local PC.<br>
+__BLANK__
+__BLANK__
+Update Firmware
+Click 'Update Firmware' to start the firmware update.
+Note:
+Do not close the firmware update window or cut off the power while the power LED is flashing or lit! The firmware update will take a few minutes. The AirStation will automatically restart after the update is complete.<br>
+__BLANK__
+The firmware update will fail if the firmware file is corrupted or if the firmware file is for a different model AirStation.<br>
+Buffalo
+Click the link below to check online for updated firmware.<br>
+Buffalo
+The downloaded file is compressed. To extract if for use, right-click it and choose 'Extract All'.<br>
+Network Services
+Enable 'Network Services' to display the computers and devices on your network with their supported services.
+An admin password is recommended to prevent others from accessing the AirStation Settings page. If you misplace your password, hold down the initialization button on the main unit for more than 3 seconds to reset all settings, including the admin password, to their initial values.
+The downloaded file is compressed. To extract if for use, right-click it and choose 'Extract All'.<br>
+Current Firmware
+Do not close the firmware update window or cut off the power while the power LED is flashing or lit! The firmware update will take a few minutes. The AirStation will automatically restart after the update is complete.<br>
+Enable to use an NTP server to set your system time automatically.<br>
+The default NTP server is time.nist.gov.<br>
+eco Mode
+Configure power-saving functions on this page.
+Scheduling
+Enable to set a schedule when power-saving functions are activated.<br>
+Weekly Schedule
+Displays the power-saving functions based on schedule.
+Schedule Entry
+Power Saving Mode
+There are no power-saving function when this is set to 'Normal'.<br>Unit power consumption is reduced as much as possible when 'Sleep' is selected.<br>In Custom Mode, power reduction is based on your custom settings.<br>
+Start Time
+Specify a start time for the selected mode. Times from 0:00 to 23:30 in 30 minute intervals may be used.<br>
+End Time
+Specify an end time for the selected mode. Times from 0:30 to 24:00 in 30 minute intervals may be used.<br>
+Day of Week
+Specify a day of the week.
+Custom Mode
+LED
+The LED is lit in normal mode.  <br>
+Wired LAN
+In eco Mode, wired Ethernet data transfers are limited to 10 Mbps. When the operational mode is 'Off', Ethernet is disabled.
+Wireless LAN
+Select 'Off' to disable all wireless functionality.  This will also disconnect any WDS connections.
+Update Method
+Please select firmware update method.
+Select a file on your PC
+Update the firmware with a file from your PC.
+Automatic update
+Automatically download and install updated firmware.
+##1002
+System Information
+Display the AirStation's main settings.<br>
+Model
+Displays the model name and firmware version of the AirStation.<br>
+AirStation Name
+Displays the AirStation's hostname.<br>
+Mode
+Displays the current mode of operation.
+Internet
+AirStation's Internet-side information.<br>
+Method of Acquiring IP Address
+Acquiring an Internet IP address.<br>
+Name of the Connection
+The name of the PPPoE connection specified in the configuration.<br>
+Connection Status
+Displays the current WAN-side status.<br>
+Operation
+Displays if any DHCP or PPPoE configuration is active. If DHCP is in use, the following commands can be executed. <ul> <li>'Release': Releases the IP address assigned by the DHCP server.<br></li> <li>'Renew': Renews the IP address from the DHCP server.<br></li> </ul>
+The following commands can be executed when using PPPoE. <ul> <li>'Start': Start connecting to a PPPoE Server from idle/stop.</li> <li>'Connect': Connect to PPPoE from an idle condition.</li> <li>'Disconnect': Disconnect communication with a PPPoE server.</li> <li>'Stop': Stop idle condition.</li> </ul>
+IP Address
+The IP address assigned to the AirStation.<br>
+Subnet Mask
+Display's the Airstation's subnet mask.
+Default Gateway
+The IP address of the default gateway assigned to the AirStation.
+DNS Server Address
+The IP address of the DNS server assigned to the AirStation. Manual assignment of the DNS server overrides any automatic assignment by a DHCP or PPPoE server.<br>
+Hostname
+Displays the hostname when a WAN-side IP address is assigned by a DHCP server. A name may be specified for the AirStation so it may be identified easily on a network. The AirStation name is displayed when the hostname isn't specified.<br>
+Domain Name
+Displays the domain name when the WAN-side IP address is assigned by the DHCP server.<br>
+MTU Size
+Displays current MTU (maximum transmission unit) size.<br>
+DHCP Server Address
+The IP address of the DHCP server that assigned the current WAN-side IP address.<br>
+Lease Start Time
+The time at which the DHCP server assigned the current WAN-side IP address.<br>
+Lease Period
+The expiration time&#x2C; at which the DHCP server will release the current WAN-side IP address.<br>
+Wired
+Displays the wired connection status.<br>
+MAC Address
+Displays the AirStation's MAC address.<br>
+LAN
+LAN-side information.<br>
+IP Address
+Displays the AirStation's LAN-side IP address.<br>
+Subnet Mask
+Displays the LAN-side subnet mask.<br>
+DHCP Server
+Displays the DHCP server status.<br>
+MAC Address
+Displays the wired LAN-side MAC address.<br>
+Wireless
+Displays the wireless LAN settings.<br>
+Wireless Status
+Displays wireless connection status.<br>
+SSID
+Displays the SSID of the AirStation.<br>
+Authentication
+Displays the current authentication method.<BR> <UL> <LI>Open</LI> <LI>WPA-PSK</LI> <LI>WPA2-PSK</LI> <LI>WPA/WPA2 mixedmode - PSK</LI> </UL>
+Encryption
+Displays the current encryption method.<BR> <UL> <LI>Open</LI> <LI>WEP64</LI> <LI>WEP128</LI> <LI>AES </LI> <LI>TKIP/AES mixedmode </LI> </UL>
+If AOSS is enabled&#x2C; 'AOSS' is displayed.
+Broadcast SSID
+Displays if Broadcast SSID is enabled.
+_BLANK_
+Wireless Client Isolation
+If enabled, wireless clients can communicate with the Internet but not with each other.
+_BLANK_
+_BLANK_
+_BLANK_
+Wireless Channel
+Displays the channel the AirStation is using to communicate.<br>
+High Speed Mode
+Displays the current high speed mode selection.<br>
+MAC Address
+Displays the AirStation's wireless MAC address.<br>
+Logs
+Displays log information recorded in the AirStation.<br> The oldest information is overwritten by new logs.<br>
+Display Logs
+Select the types of information that should be logged by the AirStation. All items are selected by default. The following items can be selected:
+Address Translation
+IP Filter
+Firewall
+Includes discarded IP masquerade packets.
+PPPoE Client
+WAN-side
+Dynamic DNS
+DHCP Client
+DHCP Server
+LAN-side
+AOSS
+Wireless Client
+Client connnection information
+Authentication
+Setting Changes
+System Boot
+NTP Client
+Wired
+WAN/LAN
+Chart of Type Names
+Log Info
+Type
+Address Translation
+NAT
+FILTER
+FIREWALL
+PPPOE
+DDNS
+DHCPC
+DHCPS
+WIRELESS
+AUTH
+CONFIGURE
+BOOT
+NTP
+WIRED
+Note:
+To only see logs in a category, select the logs and click 'Display'.<br>
+Display
+Logs are displayed as date/time&#x2C; type&#x2C; and log detail. The log information is sorted with the latest logs first.
+Select All
+Select all items. The page will refresh.<br>
+Clear All
+Clear selected items. The page will refresh.<br>
+Save Log as File
+The marked information is saved in a text file called logfile.log.
+Delete
+Deletes all the log information.
+Packet Traffic Information
+The total numbers of packets sent and received by the AirStation&#x2C; as well as the errors sending and receiving&#x2C; are displayed.<br>
+Refresh
+Click to refresh this page.<br>
+Client Monitor
+Displays the LAN-side clients (PCs)  that are accessing the AirStation.<br><br> The following information is displayed:<br>
+MAC Address
+Shows client's MAC address.
+Lease IP Address
+Shows the IP address that is assigned to the client by the DHCP server.<br>Wired PC's that have static IP addresses will not appear in the Client Monitor list.
+Hostname
+Displays the hostname of the device. Only devices with leased IP addresses are shown.
+Communication Method
+Displays how the devices are connected to the AirStation. Depending on the device type, "Wireless", "Wired" or "WDS" is displayed.<br>Communication with Ethernet converter is treated as wireless LAN traffic.
+Wireless Authentication
+Shows the type of wireless authentication used.  "Authenticated" is displayed when PSK Authentication is successful with WPA (AES), WPA2 (AES), or WPA/WPA2 mixed mode.  If PSK authentication fails, "Unauthenticated" is displayed.
+802.11n
+Displays &quot;Enabled&quot; or &quot;Disabled&quot;&#x2C; to indicate whether the client can connect via 802.11n high speed technology.
+Refresh
+Click to refresh this page.<br>
+Ping
+A Ping test can be performed from the AirStation. With a ping test&#x2C; you can determine whether the AirStation  can communicate with a specific network device.<br>
+Destination Address
+Enter the network IP address that you want to ping; e.g. 192.168.11.3 or www.buffalotech.com.<br>
+Execute
+Click 'Execute' to ping the selected IP address.<br>
+Result
+The results of the ping tests are displayed here.  If responses return from the ping&#x2C; then the communication with the target IP address was successful. Timeouts or errors indicate a problem.
+DSL Connection
+DSL Status
+If a DSL link has been established, technical information about it is shown here.
+PVC Connection
+This section reflects settings in the Internet Connection Type and VC settings sections of the Internet/LAN setup panel.  See that panel's Help page for detailed descriptions.<br>
+Also shown here is PVC Status. This can be shown as "Down" or "Applied."
+System Information
+Displays the AirStation's settings.
+Model
+Displays the model name and firmware version of the AirStation.
+AirStation Name
+Displays the AirStation's hostname.
+Hardware Mode Switch Status
+Displays the status of the router switch.
+Operational Mode
+Displays the current mode of operation.
+LAN
+Displays the AirStation's LAN-side information.
+Method of Acquiring IP Address
+Displays the method of acquiring IP address.
+Connection Status
+Display the current LAN port status under DHCP configuration.
+Operation
+DHCP configuration
+If DHCP is in use, the following commands can be executed.
+Release: Releases the IP address assigned by the DHCP server.
+Renew: Renews the IP address from the DHCP server.
+IP Address
+The IP address assigned to the AirStation.
+Subnet Mask
+The subnet mask assigned to the AirStation.
+Default Gateway
+The IP address of the default gateway assigned to the AirStation.<br> Both automatic and manual assignments are configured&#x2C; The automatic assignment value is ignored.
+DNS Server Address
+The IP address of the DNS server assigned to the AirStation.<br> Manual assignment of the DNS server has priority over any automatic assignment through DHCP or PPPoE.
+Hostname
+Displays the hostname when the WAN-side IP address is assigned by a DHCP server.<br> A name may be specified for the AirStation so it may be  easily identified on a network.<br> The AirStation name is displayed when the hostname isn't specified.
+Domain Name
+Display the domain name when the WAN-side IP address is assigned by a DHCP server.
+MTU Size
+Shows the value for the AirStation MTU.
+DHCP Server Address
+The DHCP server that assigned the current IP address.
+Lease Time
+The time at which the DHCP server assigned the current IP address.
+Lease Period
+The time at which the current IP address will expire and be released from the issuing DHCP server.
+MAC Address
+Displays the wired LAN MAC address.
+Wireless
+Displays the wireless LAN settings.
+Wireless Status
+Displays the wireless connection status.
+SSID
+The SSID of the AirStation is shown.  By default this is the MAC address of the AirStation.
+Authentication
+Currently selected authentication is displayed.
+No authentication
+WPA-PSK
+WPA2-PSK
+WPA/WPA2 mixed mode - PSK
+Encryption
+Currently selected encryption is displayed.
+No encryption
+WEP64
+WEP128
+TKIP
+AES
+TKIP/AES mixed mode
+If AOSS is enabled&#x2C; 'AOSS' is displayed.
+Broadcast SSID
+Select whether or not to broadcast the SSID.
+Enable
+Broadcasting the AirStation's SSID makes it easier to connect wirelessly.  If the SSID is not broadcast, users will have to enter the SSID manually.
+Disable
+To connect to an AirStation where SSID broadcast is disabled&#x2C;  the SSID of the AirStation will have to be manually entered on each wireless client device.  Even when &quot;Automatic detection of wireless access point&quot; (&quot;Wireless Automatic Detection&quot; on Client Manager) is selected&#x2C;  the client will not detect the AirStation unless it has special software installed.
+Wireless Client Isolation
+Displays the wireless client isolation settings.
+Direct communication between wireless clients  associated with this AirStation will be blocked. Wireless clients will still be able to communicate normally with wired clients and the Internet.
+Wireless communication among wireless clients associated with the AirStation is available.
+Note:
+When wireless client isolation is enabled&#x2C; wireless clients can communicate with the Internet but not with each other.
+Wireless Channel
+Displays the channel the AirStation is using to communicate.
+High Speed Mode
+Current high speed mode setting.
+MAC Address
+The AirStation's wireless MAC address is shown.
+WDS
+Shows the current status of WDS.
+Hardware Mode Switch Status
+Displays the status of the router mode switch.
+WDS
+Shows the current status of WDS. <br>
+eco Mode
+Displays current eco Mode status.
+Guest Accounts
+This displays the current settings for guest accounts.<br>
+Status
+This indicates whether a guest account is configured.<br>
+Guest User Authentication
+This indicates whether user Authentication is configured for the guest account.<br>
+IP Address
+This displays the IP address for guest accounts.<br>
+Subnet Mask
+This displays the subnet mask for guest accounts.<br>
+SSID(802.11n/g/b)
+This displays the 802.11n/g/b SSID for the guest accounts.<br>
+Hardware Mode Switch Status
+Displays the status of the router mode switch.
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+##1003
+Port Forwarding
+Some games and applications require port forwarding. This page lets you set port forwarding rules. Up to 32 rules can be registered.<br>
+Forward a Port
+You can add a new port to forward or edit an existing entry.<br>
+Group
+You can give a name (group name) to a rule group and manage them together.<br>You can turn a group of rules on or off. You can also edit or delete individual rules.<br>When making rules, you can select a group from the drop-down or add a new group by entering a name into the 'Group Name' field.<br>Group name may have up to 16 alphanumeric characters.
+Note:
+If the group name is left blank, a name in the form of 'Group'+'Number' (for example, Group02) is given automatically.
+Internet-side IP Address
+Specify the IP address to forward ports from. Although you can manually enter an IP address, we highly recommend using AirStation's Internet-side IP address.
+Protocol
+Select a protocol to be targeted.<br>Any one of the following options may be selected.<br><ul><li><b>All</b><br>All protocols will be targeted.<br></li><li><b>ICMP</b><br>ICMP (protocol #1) packets will be targeted.<br></li><li><b>Manual</b><br>Select a protocol number (1-255) to be targeted.<br>The default is blank. Enter a number if manual is selected. If manual isn't selected the entered number is ignored.<br></li><li><b>TCP/UDP</b><br>TCP (protocol #6) or UDP (protocol #17) is targeted.<br>With TCP/UDP&#x2C; you may also set a port number to be used. If TCP/UDP isn't selected the port number is ignored.<br></li></ul>
+The default is TCP/UDP.
+TCP/UDP
+When selecting the TCP or UDP protocols &#x2C; the destination port number must also be selected.<br> <ul> <li><b>Set TCP Port manually</b><br> Translate specified TCP port number.<br> Valid port numbers are 1-65535.<br></li> <li><b>Set UDP Port manually</b><br> Translate specified UDP port.<br> Valid port numbers are 1-65535.<br></li> <li><b>HTTP (TCP port: 80)</b><br> Translate communications with HTTP server. This is synonymous with specifying TCP port 80. (It is not necessary to specify the port number.)</li> <li><b>FTP (TCP port:20-21)</b><br> Translate communications with FTP server. This is synonymous with specifying TCP ports 20-21. (It is not necessary to specify the port number.)</li> <li><b>HTTPS (TCP port: 443)</b><br> Translate communications with HTTPS server. This is synonymous with specifying TCP port 443. (It is not necessary to specify the port number.)</li> <li><b>TELNET (TCP port:23)</b><br> Translate communications with TELNET server. This is synonymous with specifying TCP port 23. (It is not necessary to specify the port number.)</li> <li><b>SSH (TCP port:22)</b><br> Translate communications with SSH server. This is synonymous with specifying TCP port 22. (It is not necessary to specify the port number.)</li> <li><b>SMTP (TCP port:25)</b><br> Translate communications with SMTP server. This is synonymous with specifying TCP port 25. (It is not necessary to specify the port number.)</li> <li><b>POP3 (TCP port:110)</b><br> Translate communications with POP3 server. This is synonymous with specifying the TCP port 110. (It is not necessary to specify the port number.)</li> <li><b>NTP (UDP port:123)</b><br> Translate communications with NTP server. This is synonymous with specifying the UDP port 123. (It is not necessary to specify the port number.)</li> <li><b>NTP (TCP port:123)</b><br> Translate communications with NTP server. This is synonymous with specifying the TCP port 123. (It is not necessary to specify the port number.)</li> <li><b>IMAP (TCP port:143)</b><br> Translate communications with IMAP server. This is synonymous with specifying the TCP port 143. (It is not necessary to specify the port number.)</li> </ul>
+LAN-side IP Address
+Enter the IP address of the LAN-side network device the ports will be forwarded to. This will be the IP address of the server to be used for network games, applications, etc. This will be left blank by default.<br>If an IP address is distributed dynamically from a DHCP server, and the IP address of your PC has changed because the DHCP lease expired, port forwarding may have to be reconfigured. In this case, it is recommended that you configure DHCP to give a fixed IP address to the LAN-side network device used with port forwarding.
+Note:
+Packets cannot be transferred to LAN-side devices if the LAN-side IP address is configured on another network segment.
+LAN-side Port
+When TCP/UDP is specified as the forwarding protocol and a single port number is specified, the LAN side port number should be changed. This port will almost always be the same as the one selected under Protocol. You can set port numbers from 1-65535 (multiple port numbers cannot be specified at once).
+Add
+Click this button to add above information to the list below.
+Save
+Click this button to save above information, and refresh the table below.<br>
+Cancel
+Click this button to abort your edits.
+Forwarded Ports
+__BLANK__
+Off
+Click to disable a group of rules.
+__BLANK__
+On
+Click to enable a group of rules.
+Edit
+Click 'Edit' to change an entry. After editing, click 'Apply' to keep your changes or 'Cancel' to discard them.
+Delete
+Click 'Delete' to delete a rule.
+DMZ Settings
+IP Address of DMZ
+Specify the address of a LAN-side network device to which rejected communication packets are to be transferred. When an IP address is entered for the DMZ, it becomes possible to access the device at that address from outside the firewall. Default value is blank (not set).
+Note:
+RIP protocol packets (UDP port number 520) are not transferred to the DMZ.
+UPnP Settings
+UPnP (Universal Plug and Play) allows network applications that support UPnP to configure port forwarding automatically. If disabled, you will have to manually configure port forwarding for applications that require it.
+UPnP
+Check to enable UPnP.
+Note:
+When multiple PPPoE connections are used, the default PPPoE connection is used for UPnP. When using a network application which supports UPnP, confirm that the application can communicate with its destination through the default PPPoE connection.
+QoS Settings
+QoS (quality of service) is a technology to use the bandwidth on the network more effectively.<br>This can be used to give priority to communications that require real time processing, such as VOIP.
+QoS
+When enabled, you will be able to add four levels of increased priority for specific applications.<br> By default, this is disabled.
+Upload Bandwidth
+Specify the bandwidth transferred from this unit to the Internet in kbps.<br>If a bandwidth value larger than the real line speed is entered, the uplink bandwidth will be limited by the line speed.<br> If a smaller bandwidth value is entered, the maximum line speed cannot be used.<br> Use a link speed measuring tool on the Internet to find your uplink bandwidth.<br> Specify the uplink bandwidth from 1 to 1000000 kbps.<br> The default is 1000 kbps.
+Enable
+You may enable or disable priority settings in each line.
+Application Name
+Up to 32 alphanumeric characters may be entered in each line.
+Protocol
+Either TCP or UDP is selected.
+Destination Port
+Ports 1 through 65535 may be specified. If the port is left empty, an arbitrary port will be selected.
+Priority
+There are 3 priority levels "high" , "medium" and "low".
+Initial Value
+<table> <tr> <th>Application<br>Name</th><th>Protocol</th><th>Destination<br>Port</th><th>Priority</th> </tr> <tr><td>VoIP</td><td class=CENTER>UDP</td><td class=DIGIT></td><td class=CENTER>high</td></tr>  <tr><td>ssh</td><td class=CENTER>TCP</td><td class=DIGIT>22</td><td class=CENTER>medium</td></tr>  <tr><td>telnet</td><td class=CENTER>TCP</td><td class=DIGIT>23</td><td class=CENTER>medium</td></tr>  <tr><td>ftp</td><td class=CENTER>TCP</td><td class=DIGIT>21</td><td class=CENTER>low</td></tr>  </table>
+Note:
+Internet traffic that does not belong to any QoS setting will automatically have "medium" and "low"priority.<br><br>
+Click to change an entry. After editing, click 'Save' to keep your changes or 'Cancel' to discard them.
+Click this button to add information to the table below.
+##1004
+Glossary
+Description of words related to the AirStation.
+Hexadecimal
+Base 16; each digit of a hexadecimal number may have 16 values. 0 to 9 and A to F are used to distinguish values from 0 to 15 for each digit of a Hexadecimal number. The AirStation uses hexadecimal numbers for <a href="../help/help_glossary.html#MACADDR">MAC Address</a> and entering encryption keys.<br> The small letters a to f can be used instead of capital letters.
+Back
+AES
+AES (Advanced Encryption Standard) is an encryption technique.  TKIP improved WEP's weaknesses&#x2C; but AES takes encryption further&#x2C; Throughput decreases 10 to 20 percent when TKIP software encoding is used. AES doesn't decrease performance at all because it uses a hardware co-processor.
+Internet
+The Internet is a world wide network of many connected small&#x2C; medium&#x2C; and large networks. To access the internet&#x2C; a user must be connected to it via a modem or broadband connection
+ICMP Protocol
+ICMP stands for Internet Control Message Protocol&#x2C;  an IP protocol to get or notify of network status. For example&#x2C; the ping command uses ICMP echo request/reply to confirm connection with a server.
+IP (Internet Protocol) Address
+A unique 32-binary-digit number that identifies each sender  or receiver of information sent in packets.
+<ul> <li>127.XXX.XXX.XXX(Loop Back Address)<br></li> <li>255.255.255.255(Broadcast Address)<br></li> <li>0.0.0.0(Reserved)<br></li> <li>224.XXX.XXX.XXX-239.XXX.XXX.XXX(Class D Address, Multicast Address)<br></li> <li>240.XXX.XXX.XXX-255.XXX.XXX.XXX(Class E Address, Evaluation Address)<br></li> </ul>
+IP masquerade
+Communications from LAN-side to WAN-side devices are translated to present the WAN side with the IP address of the AirStation's Internet port. Multiple LAN-side PCs share the single IP address of the Internet port to access the Internet.
+Routing
+Routing Information is the same as <a href="../help/help_glossary.html#ROUTINGTABLE">Routing Table</a>.
+Gateway
+Enter the IP address of the gateway to add it to the routing table.
+Port Forwarding
+This feature transfers packets to a specified LAN-side PC when a session starts from the Internet. It's called Static Address Translation&#x2C; Port forwarding&#x2C; or DNAT. Detailed settings should be configured individually. Destination IP addresses and port numbers are converted to LAN-side IP addresses and port numbers. LAN-side packets are converted back for transfer to the Internet.<br>
+Default Gateway
+Enter the IP address of the gateway to add it to the routing table.
+Router
+Device that can connect individual LANs and remote sites to a server.<br>
+Routing Table
+This table displays the current manual additions to the routing table.<br>
+Routing
+Same as <a href="../help/help_glossary.html#ROUTINGTABLE">Routing Table</a>. Each entry contains a destination network or IP address and the <a href="../help/help_glossary.html#GATEWAY">Gateway</a>.
+ISP (Internet Service Provider)
+A company that provides access to the Internet and other related services.
+Encryption Level
+Encryption types in order of security strength: AES<!--/TKIP-->/WEP128/WEP64&#x2C; with AES being the strongest encryption and WEP64 the weakest.<br>
+TKIP
+TKIP (Temporal Key Integrity Protocol) is an expanded variation of the WEP encryption technique. TKIP has greatly improved WEP's weaknesses by rotating secret keys between every packet&#x2C; expanding the Initialization Vector from 24 bits to 48 bits and randomizing it&#x2C; and using a different RC4 key for every packet.
+MAC Address
+MAC (Medium Access Control) Address: A unique number that distinguishes network cards. A MAC Address is 12 digits <a href="../help/help_glossary.html#HEX">HEX</a> separated by a colon (':') every two bytes.<br>Example: '00:0d:0b:99:ff:ff'
+Internet
+A network covering a wide geographical area.
+Internet Port
+An Ethernet port for connecting to a Internet.
+11ac/n/a (High Speed)
+Mixed mode of IEEE 802.11a Standard (54 Mbps) and IEEE 802.11n Standard.<br>Both IEEE 802.11a and IEEE 802.11n Standard compatible wireless clients can connect to this unit.<br>The maximum transfer rate is High Speed.
+11n/g/b (High Speed)
+Mixed mode of IEEE  802.11b (11 Mbps), IEEE 802.11g (54 Mbps) and IEEE 802.11n Standard.<br> IEEE  802.11b, IEEE 802.11g and IEEE 802.11n Standard compatible wireless clients can connect to this unit.<br>The maximum transfer rate is High Speed.
+11ac/n/a (High Speed)
+Mixed mode of IEEE 802.11a Standard (54 Mbps) and IEEE 802.11n Standard.<br>Both IEEE 802.11a and IEEE 802.11n Standard compatible wireless clients can connect to this unit.<br>The maximum transfer rate is High Speed.
+11g (54 Mbps)
+Mixed mode of IEEE 802.11b Standard (11 Mbps, Wi-Fi Compatible) and IEEE 802.11g Standard (54 Mbps).<br>Both IEEE 802.11b and IEEE 802.11g Standard compatible wireless clients can connect to this unit.<br>The maximum transfer rate is 54 Mbps.
+##1005
+Internet Settings
+Configure basic Internet settings for your AirStation here.
+__BLANK__
+Method of Acquiring IP Address
+Select one of the following methods to acquire an IP address. Refer to your ISP for any other information about your line format. If you're not sure which method to choose, select "Perform Easy Setup".
+Perform Easy Setup &#x28;Internet Connection Wizard&#x29;
+Easy Setup determines your Internet connection type. The correct setup wizard for your Internet connection is then activated automatically.
+Note:
+Easy Setup works best with DHCP and PPPoE connections. Contact your ISP if you are using another connection type.<br>
+Acquire an IP address automatically from a DHCP server
+Acquire an IP address from a DHCP server on the Internet automatically. If you have a CATV connection (cable modem)&#x2C; your ISP probably uses a DHCP server. If so&#x2C; your modem will connect to the network automatically&#x2C; with no manual configuration necessary.
+Use PPPoE client
+The PPPoE ISP provides you an IP address. Refer to your PPPoE provider if you are prompted for any other information such as username or password.
+PPPoE communication is not initiated until all PPPoE connection information is entered, even if the PPPoE format is selected.
+Use IP Unnumbered
+Refer to your ISP if you need help configuring the device for IP unnumbered.
+IP Unnumbered requires PPPoE destination information to activate. Contact your ISP if you do not have this information.
+Use this address
+Select "Use this address" and manually enter the IP address and subnet mask.
+Advanced Settings
+Only change these if you know what you're doing!
+Default Gateway
+Specify the IP address of the gateway.
+If you are configuring the IP address manually, set the gateway manually as well.
+The default gateway is set automatically if you are using DHCP or PPPoE. An invalid gateway will make you unable to access the Internet.
+DNS Name Server Address
+Enter the IP address of the DNS server.
+<li>If your ISP requires that you use a specific DNS server address&#x2C; configure it here.</li> <li>If you have manually set a specific fixed IP address as the WAN-side IP address, configure a DNS server address here as well.</li> <li>If DHCP or PPPoE doesn't give you a DNS server automatically (or if you choose not to use the DNS server they provide)&#x2C; you may configure a DNS server here.</li>
+The DNS server address set here manually has a higher priority than that assigned from a DHCP server or PPPoE server. Up to 5 DNS server addresses can be managed by the AirStation.
+Internet MAC Address
+Specify the MAC address of the Internet port. Do not change this unless required to do so by your ISP.
+If an incorrect MAC address is set&#x2C; not only the AirStation but also other devices on the network may lose the ability to communicate.
+Wired Internet Communication Format
+Shift the communication format of the Internet port.
+Normally&#x2C; use the 'Auto' setting. If you change this&#x2C; keep your configuration consistent with that of other communication devices&#x2C; or the transmission rate may decrease and communication may become impossible.<br>
+MTU Size of the Internet Port
+This value sets the maximum transmission unit (MTU) size. Allowable values are from 578-1500 bytes.<br>The default value is 1500.
+When the Internet-side IP address is configured as "Use PPPoE client" and "Use IP Unnumbered", the MTU size value of PPPoE settings is used.
+Add/Edit PPPoE Connection
+This field lets you edit or add a line to the table below.
+Name of Connection
+Enter the connection name.
+Note:
+If using Easy Setup and the PPPoE server is detected, the connection "Auto" is added to the connection list.
+Username
+Enter the username provided by the ISP.
+Password
+Enter the password provided by your ISP.
+<b>The default password field</b><br>The password is displayed as '********' for security reasons.<br> <b>Edit password</b><br>Remove '********' before entering a new password.<br><b>Keep current password</b><br>Don't edit '********' if you want to keep the current password.<br><b>Confirmation</b><br>Password confirmation is required. Enter same password again.<br>
+Service Name
+Enter the PPPoE service name if one was provided by your ISP. Otherwise, leave it blank.
+Advanced Settings
+Only change these if you know what you're doing!
+Connection Type
+Select the connection method to be used by the AirStation. The default is 'Continuous connection'.<BR>
+Continuous connection
+Immediate connection when the AirStation is powered on.
+Connection on demand
+Connect only when a communication session is opened. The connection will drop when the session is closed and the disconnect time expires.
+Manual
+The connection must be initiated manually. The connection will drop when the session is closed and the disconnect time expires.
+Automatic Disconnection
+Select the scenario where automatic disconnection occurs after a set amount of time. This feature only works when 'Connection on demand' or 'Manual' is selected as the connection type.<br>
+Disconnect Condition
+The condition to disconnect a PPPoE session.
+When no packets are sent or received
+The PPPoE connection is disconnected when no packets are sent or received between the AirStation and the PPPoE server for the disconnection period.<br>
+When no packets are sent
+The PPPoE connection is disconnected when no packets are sent to the PPPoE server for the disconnection period. Received packets have no effect on automatic disconnection.<br>
+When no packets are received
+The PPPoE connection is disconnected when no packets are received by the PPPoE server for the disconnection period. Sent packets have no effect on automatic disconnection.<br>
+Disconnection Time
+The amount of time that passes before disconnection occurs based on the disconnect condition. Enter a time in minutes, up to 1440 (24 hours). If you enter 0, the connection will never terminate.
+If automatic disconnection doesn't work when 'Manual' or 'Connection on demand' is selected, set the disconnect condition as 'When no packets are sent'.
+Authentication
+Select the authentication method used by the ISP. If the ISP did not provide you with one, select 'Automatic authentication'.<br>
+If an authentication error occurs&#x2C; please check the username and password.<br>
+MTU Size
+This value sets the maximum transmission unit size. Allowable values are from 578-1492 bytes.<br>Use the default value if your ISP did not provide this information.
+MRU Size
+This value sets the maximum receive unit size. The allowable values are from 578-1492 bytes.<br>The AirStation uses this value for MRU negotiation with the PPPoE server.<br>Use the default value if your ISP did not provide this information.
+Keepalive
+Enabling keepalive sends a LCP echo request to the PPPoE server once per minute.<br>If there is no response for six minutes&#x2C; the AirStation assumes the line is dead and terminates the communication session.<br>Enabled by default.
+Alphanumeric characters&#x2C; '.'&#x2C; and '-' can be used. The maximum length is 255 characters. <!--(If only alphanumeric characters are used, the maximum length is 64 characters.)<br>The string divided by &#x2C; '.'&#x2C;is up to 64 characters.--> The string divided by &#x2C; '.'&#x2C; may not start or end with '-'. <br>
+LAN-Side Ethernet Settings
+Configure the AirStation's LAN-side IP address, subnet mask and local DHCP server settings here. Unless you're a networking expert&#x2C; the default settings are recommended.<br>
+Note:
+If you have an existing LAN&#x2C; the AirStation's configuration must be changed to connect to it.
+LAN-side IP Address
+Configure the AirStation's LAN-side IP address.<br>The default is 192.168.11.1.<br>
+Subnet Mask
+Select the AirStation's LAN-side subnet mask. The default is 255.255.255.0. If you want to connect the AirStation to an existing LAN&#x2C; specify the subnet mask the LAN uses.
+DHCP Server
+Enable the DHCP Server here. If there is another DHCP server on the network, the DHCP server must be disabled or the IP ranges must be changed to avoid conflicts.
+DHCP IP Address Pool
+Dynamic DNS Settings
+Configure dynamic DNS here.<br>Before configuring these settings, you need to sign up for a dynamic DNS service provider.<br>
+Dynamic DNS Service
+Select a dynamic DNS service provider.<br>Only the following services are supported at this time.
+The following values are different depending on your dynamic DNS service provider.
+DynDNS
+Username, password, hostname
+Enter the information that you received from DynDNS.
+Username
+A maximum of 64 characters may be entered.
+Password
+A maximum of 64 characters may be entered.
+Hostname
+Enter the hostname.
+IP Address Update Period
+The interval at which the AirStation notifies the dynamic DNS service provider of an IP address.<br> Usable values range from 0-35 days.
+The default is 7 days. When set to 0, no address update will be performed.
+TZO
+Email Address, TZO Password, Domain Name
+Enter the information that you signed up with TZO.
+Email Address
+A maximum of 64 characters may be entered.
+TZO Key
+A maximum of 64 characters may be entered.
+Domain Name
+Enter the domain name.
+IP Address Update Period
+The interval at which the AirStation notifies the dynamic DNS service provider of an IP address.<br> Usable values range from 0-99 days.
+The default is 7 days. When set to 0, no address update will be performed.
+Note:
+You should notify the dynamic DNS service provider on a regular basis of your IP address. If too much time passes between updates, domain information may be deleted from the dynamic DNS service.
+When the WAN-side IP address is updated (e.g. reconnecting PPPoE),  the AirStation notifies the dynamic DNS service provider of an IP address,  regardless of the IP address update period. At this point, the next update time is calculated.
+Under the following circumstances the dynamic DNS provider is not notified of IP address updates. <ul> <li>WAN-side IP address is a private IP address.</li> <li>WAN-side IP address is obtained by IP unnumbered.</li> <li>Network address translation is disabled.</li> </ul>
+An update failure could occur due to one of the reasons below.<ul> <li>When the dynamic DNS service provider rejects the configuration. (Continuous registration might be denied by dynamic DNS service provider.)</li> <li>When the domain name registered to dynamic DNS service provider cannot be detected. (The notification to the DNS servers takes a few days to process. The domain name cannot be detected right away after signing up to dynamic DNS service.)</li> </ul>
+Current Dynamic DNS Settings
+Internet-side IP Address
+The AirStation's current Internet-side IP address.<br>The AirStation notifies the dynamic DNS service provider of this address.
+Domain Name
+The domain name assigned by the dynamic DNS service provider.<br> You can access the AirStation from the Internet with this domain name.
+Status
+Displays the status of the dynamic DNS service connection.
+Refresh
+Click to refresh this page.
+This determines the IP address range from which IP addresses will be distributed to DHCP clients (both wired and wireless). Enter the starting IP address and the number of connections to be allowed. The default start address is 192.168.11.2 and the default number of addresses is 64. The maximum number of addresses allowed is 256 per AirStation.
+Excluded IP Addresses
+Specify excluded IP addresses from the IP address range. You can enter multiple IP addresses into the field as long as they are separated by a comma.
+DHCP Server Settings
+Default settings are recommended.
+Advanced Settings
+Display advanced settings.
+Lease Period
+The length of time a client can use the assigned IP address before renewal.<br>A short lease time can reduce issues in environments that have a large amount of unique DHCP clients entering and leaving the network in a brief period of time. Lease durations can be set between 1 and 999 hours.
+Default Gateway
+The default gateway information distributed to clients may be configured in three different ways.<br><b>AirStation's IP address</b><br>to allow the AirStation to function as a gateway for its DHCP clients (Recommended&#x2C; default setting).<br><b>Specified IP address</b><br>as determined by your system administrator for environments where another router or computer provides gateway services to clients.<br><b>Do not specify</b><br>The default gateway is left blank.<br>
+DNS Server
+The DNS server information distributed to clients may be configured in three different ways.<br><b>AirStation's IP address</b><br>to allow the AirStation to function as a DNS server for its DHCP clients. (Recommended default setting).<br><b>Specified IP address</b><br>as determined by your system administrator. Specify both primary and secondary addresses.<br><b>Do not specify</b><br>The DNS server IP address is left blank.<br>
+WINS Server
+The WINS server information distributed to clients may be configured in three different ways.<br><b>Assigned IP address</b><br>The information to be automatically acquired from the ISP. Automatic acquisition is available when the Internet-side IP address is assigned by a DHCP server. If the AirStation can't obtain an IP address through DHCP&#x2C; WINS information will not be available either. The current WINS server IP address obtained is automatically displayed.<br><b>Specified IP address</b><br>The WINS server's IP address information to be distributed to clients by the AirStation.<br><b>Do not specify</b><br>The WINS server IP address is left blank.<br>
+Domain Name
+The domain name may be set up in three different ways.<br><b>Assigned domain name</b><br>from your ISP. The Internet-side IP address is assigned by a DHCP server. If the AirStation can't obtain an IP address&#x2C;the domain isn't notified. The currently obtained domain is displayed.<br><b>Specified domain name</b><br>based on information given by a network administrator. Enter alphanumeric, '-', '.'. It's case sensitive. Up to 64 alphanumeric characters (including hyphens) may be used. The domain name can't start or end with '-'.<br><b>Do not specify</b><br>This field is left blank.
+Connect AirStation to an existing LAN
+Use one of the following methods to connect the AirStation to an existing LAN and maintain the existing LAN configuration.
+&#x28;First Method&#x29; Piggyback off of an existing LAN by connecting the AirStation's Internet port to an existing router.
+1. Unplug the Internet-side cable.
+2. Navigate to 'WAN/LAN - LAN' and configure the following settings.
+<li>The IP address should be '192.168.11.1' (Specify a network address from the existing LAN).</li><li>The subnet mask should be '255.255.255.0'.</li><li>The DHCP server should be enabled.</li><li>The IP address pool should be '192.168.11.2' for up to '16' addresses.</li>
+3. Connect the AirStation's Internet port to a port on the router using an Ethernet cable.
+4. Restart your PC.
+&#x28;Second Method&#x29; Connect the AirStation to an existing LAN by setting the AirStation up as a bridge between the wireless and wired networks.
+1. Write down the automatically assigned Internet-side IP address and subnet mask from 'Diagnostics - System Info'.
+2. Unplug the Internet-side cable.
+3. Navigate to 'WAN/LAN - LAN' and configure the following settings.
+<li>The IP address should be '192.168.0.200'. Enter an IP address from the same network as the Internet-side IP address you got in the above step.<br>When the Internet-side IP address is 'AAA.BBB.CCC.DDD' and the subnet mask is '255.255.255.0' use 'AAA.BBB.CCC.200' excluding other network devices.</li><li>The subnet mask should be '255.255.255.0'.</li><li>The DHCP server should be 'Disable'</li><li>The IP address pool should be '192.168.0.201' for up to '16' addresses (This value isn't used).</li>
+4. Connect network to the AirStation's LAN port &#x28;1&#x2C; 2&#x2C; 3 or 4&#x29; by Ethernet cable.
+5.Restart your PC.
+DHCP Lease Settings
+A DHCP Server automatically assigns IP addresses to devices on the network.<br>
+Add/Edit Client
+This area is for adding or editing a line.<br>
+IP Address
+Enter an IP address for manual assignment.<br>The IP address shouldn't overlap the AirStation's LAN-side network address.
+MAC Address
+Enter the MAC address to specify a device.<br>Use only alphanumeric characters. Enter XX:XX:XX:XX:XX:XX format.<br>
+Add
+Click this button to add above information to the list below.
+Save
+Appears when you click 'Edit' button in 'Current DHCP Clients' table. Click this button to save entered information.<br>
+Cancel
+Appears when you click 'Edit' button in 'Current DHCP Clients' table. Click to abort your edits.
+Current DHCP Clients
+The current IP address table is displayed with lease information for IP address issued through DHCP.
+__BLANK__
+__BLANK__
+Edit
+Click 'Edit' to change an entry.
+Delete
+Click 'Delete' to delete a line.
+Note:
+Only manually-assigned leases can be deleted or edited.<br>
+Refresh
+Click to refresh the DHCP client information.
+Network Address Translation Settings
+Configure address translation to connect the WAN side to the Internet.<br>
+Address Translation
+Enabled by default.
+Note:
+Disabling NAT will disconnect you from the Internet.
+Log Output of Deleted Packets
+Specify whether to log packets that were deleted because of address translation errors. Disabled by default.
+Routing Settings
+Configure routing information.
+Routing Information Settings - IPv4
+Add or Edit a Route
+This area is for adding or editing a line.<br>
+Destination Address
+Specify the destination IP address or network address.<br>
+Gateway
+Specify the IP address of the gateway.<br>
+Metric
+You can enter a number from 1 to 15. Default value is 15.
+Note:
+An exact value is not needed for routing to work.<br>
+Addresses on the WAN side of this unit or its LAN network cannot be set as destination addresses or gateway addresses for routing table entries.<br>
+Add
+Click this button to add above information to the list below.
+Save
+Appears when you click 'Edit' button in 'Routing' table. Click to save changes.<br>
+Cancel
+Appears when you click 'Edit' button in 'Routing' table. Click to abort your edits.
+Routing
+Displays manually-set routes.
+Edit
+Click to change an entry.
+Delete
+Click 'Delete' to delete a line.
+Click this button to add information to the table below.
+Click 'Edit' to change an entry.
+LAN-Side Ethernet Settings
+Configure the AirStation's LAN-side IP address and subnet mask.
+LAN-side IP Address
+Specify the AirStation's LAN-side IP address.
+Acquire an IP address automatically
+Acquire the IP address from a DHCP server automatically.
+Manual Setup
+Configure the AirStation's LAN-side IP address and subnet mask manually.
+IP Address
+Configure the AirStation's LAN-side IP Address.<br>The default is 192.168.11.100.<br>
+Subnet Mask
+Select the AirStation's LAN-side subnet mask.<br>The default is 255.255.255.0.<br>If you want to connect the AirStation to an existing LAN specify the subnet mask that LAN uses.
+Advanced Settings
+Advanced Settings can leave your network non-functional if configured incorrectly. Only change these if you understand networking and your network very well.
+Default Gateway
+Enter the default gateway's IP address.<br>This must be entered in the format of XXX.XXX.XXX.XXX.<br>If your ISP did not provide this for you, leave this field blank.
+__BLANK__
+This must be entered in the format of XXX.XXX.XXX.XXX.
+DNS Servers
+Set the primary and secondary DNS server addresses.<br>Leave these blank unless your ISP provides these for you.<br>
+Specify the assigned DNS server. 
+This must be entered in the format of XXX.XXX.XXX.XXX.<br>You must enter the primary server address before adding the secondary server address.
+Note
+Leave this blank to have it automatically assigned. The AirStation handles up to 5 DNS Server addresses.
+Dynamic DNS can be used with IPv4 networks.
+Address Update Period
+PPPoE Static IP
+Select if using a static IP address.<br>Check it and specify the IP address in 'PPPoE IP Address'.
+PPPoE IP Address
+Specify the IP address if you want. Normally, PPPoE automatically obtains the IP address.<br>This setting is enabled when 'PPPoE Static IP' is checked.
+PPPoE DNS
+Specify the DNS address.
+Dynamic DNS
+Registration / Modification
+Click [Register / Modify Settings] and step through the wizard to register with the Dynamic DNS service.
+User ID
+Displays the Dynamic DNS user ID.
+Delete Dynamic DNS ID
+Deletes saved Dynamic DNS information.
+Note:
+After deleting the saved account information, you will need your user ID and password to use the account again.
+PPTP (VPN) Server Settings
+With PPTP, you can access the AirStation from the Internet and the LAN from a Windows PPTP client. <br>
+Note:
+If using GRE protocol (protocol #47) and the 1723 TCP port is filtered, then this function may not work correctly.<br>Also, if these ports are blocked on your router, you cannot use the VPN server.<br>
+Auto Input
+Click 'Generate Recommended IP Address' to generate a random IP address.
+LAN-side IP Address
+The AirStation's default LAN-side IP address is 192.168.11.1. If you want to connect the AirStation to an existing LAN, specify a unique, unused IP address from the range of LAN-side IP addresses.
+Subnet Mask
+The AirStation's default LAN-side subnet mask is 255.255.255.0. To connect the AirStation to an existing LAN, specify a unique, unused IP address from the range of LAN-side IP addresses. 
+DHCP Server Function
+You can enable the DHCP server here. It is enabled by default. If there is an another DHCP server on the network, one DHCP server must be disabled or the IP ranges must be changed to avoid conflicts caused by overlapping DHCP scopes. If DHCP server is enabled, confirm that the DHCP IP address pool doesn't overlap existing LAN-side IP addresses. 
+DHCP IP Address Pool
+This determines the IP address range from which IP addresses will be distributed to DHCP clients (both wired and wireless). Enter the starting IP address and the number of connections to be allowed. The default start address is 192.168.11.2 and the default number of addresses is 64. The starting IP address must be on the same subnet as the AirStation's LAN-side IP address;<br>e.g. if the AirStation is configured with a LAN-side IP address of 137.168.44.1, a DHCP range beginning with 137.168.44.2 would work perfectly. The maximum number of addresses allowed is 256 per AirStation.
+PPTP Server Function
+Enable to use the PPTP server.
+Authentication Type
+Select the authentication method for the PPTP connection.
+Note:
+If using MS-CHAPv2 with a Windows95/98 PPTP client, only 40-bit encryption may be supported.
+Advanced Settings
+Only change these settings if you know what you&rsquo;re doing!
+Server IP Address
+Auto
+Sets up the server IP address automatically.<br>When a PPTP client connects to this AirStation, the PPTP client is notified that this address is the PPTP server.<br>The address is selected from the following address ranges.<br>192.168.XXX.1<br>172.31.XXX.1<br>10.250.XXX.1<br>XXX is a number ranging from 0-255.
+Manual
+You may specify the server IP address manually.<br>The address may be entered from the following private IP address ranges.<br>class A: 10.0.0.1 - 10.255.255.254<br>class B: 172.16.0.1 - 172.31.255.254<br>class C: 192.168.0.1 - 192.168.255.254<br><br>
+Note
+The server IP address is used to create routing information for PPTP.<br>Please make sure not to use an IP address reserved for another computer or device on your network.<br>
+Client IP Address
+Auto
+Sets up the IP address range automatically.<br>When a PPTP client is connected, the server will assign IP addresses to the client from the following IP address ranges.<br><br>From 192.168.XXX.2 for up to 5 devices<br>From 172.31.XXX.2 for up to 5 devices<br>From 10.250.XXX.2 for up to 5 devices<br>XXX is a number ranging from 0-255.<br>
+Manual
+You may specify the IP address range manually.</br>The starting IP address can only be in the form 192.168.XXX.XXX. The fixed maximum number of connections is 5.
+Note:
+The last value in the IP address range must be from 1 to 254. Check that all IP addresses in this range are unique and not being used by a server or other device with a fixed IP address.<br>
+DNS Server IP Address
+LAN-side IP address of the AirStation
+Enter the LAN-side IP address of the AirStation.<br>When a PPTP client connects to the PPTP server, this address will be given as DNS server address to the client.
+Manual
+Enter the DNS server address.<br>
+Do not specify
+When a PPTP client connects to the PPTP server, the server does not give DNS server address to the client.
+WINS Server IP Address
+When a PPTP client connects to the PPTP server, this address will be given as WINS server address to the client.
+MTU/MRU Value
+Set the MTU (Maximum Transmission Unit) and the MRU (Maximum Receive Unit) between 578 and 1500. <br><br>The default value (1396) is used if they are not specified.
+PPTP User List
+Displays PPTP user information.<br>You can confirm the connection status and IP address for each user.<br>
+Disconnect
+Disconnects the user.<br>
+Edit PPTP User List
+Click to edit the PPTP user list.<br>
+Refresh
+Click to refresh the current status.
+PPTP Server Settings - Edit PPTP User
+When connecting to this unit with PPTP client, use the username and password specified here.<br>The maximum number of users is 8.
+Back
+Click to return to the previous page without saving.
+Add/Edit User
+You may manually add or edit any entries.
+Username
+Enter a username for the user account that can connect to this PPTP server.<br>Up to 16 Alphanumeric characters and symbols except for double quotation(&quot;), single quotation(&#39;), slash (/), and space may be used. The username is case sensitive.
+Password
+Enter a password for the user account that can connect to this PPTP server.<br>Up to 16 alphanumeric characters and symbols except for double quotation(&quot;), single quotation(&#39;), slash (/), and space may be used. It is case sensitive.<br>For confirmation purposes, enter the same password again.
+<b>The default password field</b><br>The password is displayed as &rsquo;********&rsquo;for security reasons. If the password is blank&#x2C; it is displayed as blank.<br><b>Display password</b><br>To prevent peeping&#x2C; the password field shows &rsquo;*&rsquo; even before any characters are entered.<br><b>Edit password</b><br>Remove &rsquo;********&rsquo; before entering a new password.<br><b>Keep current password</b><br>Don&rsquo;t edit &rsquo;********&rsquo; if you want to keep the current password.<br><b>Confirmation</b><br>Password confirmation is required. Enter same password again.<br>
+Advanced Settings
+The following setup items are advanced settings. Confirm your changes before committing them.
+Method of Acquiring IP Address
+Select the method of assignment IP address that will be assigned to the PPTP client when the PPTP client is connected.
+Acquire automatically with DHCP
+An IP address is assigned by the DHCP server.<br>
+Obtain from PPTP server setting range
+An IP address from the range of values specified in 'Client IP Address' is assigned.
+Fixed IP address
+Manually enter an IP address.
+Add User
+Click to add an entry to the table below.
+Save
+Appears when you click 'Edit' button in the 'PPTP User List' table. Click to save and refresh the table.</br>
+Cancel
+Appears when you click 'Edit' button in the 'PPTP User List' table. Click to discard changes.<br>
+PPTP User List
+Displays PPTP user information.<br>
+Edit
+Click to change an entry.
+Delete
+Click to remove the entry. 
+##1006
+Firewall
+Limits the type of packets allowed to pass between the Internet and LAN. When packets reach the AirStation, the firewall evaluates the packets, and forwards packets that don't match any filter to their destination. The firewall blocks unnecessary packets from the WAN side and prevents leaking secure information from the LAN side.
+Log Output
+Enable to record firewall information to a log.<br> Disabled by default.<br>
+Prohibit NBT and Microsoft-DS routing
+When enabled, prevents unexpected external access to your Windows machines from the Internet.<br>Disabled by default.
+__no use__
+Reject ident requests
+When enabled, the AirStation will automatically reject ident requests.<br>Enabled by default.
+Block ping from Internet
+When enabled, the AirStation will not respond to pings from the Internet. This is enabled by default.<br>If DMZ is enabled, this setting will be disabled automatically.
+__no use__
+IP Filter Settings
+IP filtering stops incoming traffic from specific IP addresses.<br>You can configure specific packet monitoring rules for the AirStation (up to 32).<br>If the incoming packet meets a rule before it is routed, the set action will be taken.<br>By default, the AirStation does not come with any pre-set IP filters.
+Log Output
+Check to record IP filtering information to a log.
+Add/Edit IP Address Based Filter
+This area is for adding or editing a line.<br>
+Action
+Select the action to be taken on packets.<br> <b>Ignore</b><br> Stop the packet and do not route it.<br> <b>Reject</b><br> Return the rejected packet to the point of origin.<br> <b>Accept</b><br> Pass the packet through.<br>
+Direction
+Specify the direction of the packet stream.<br><b>LAN&rarr;WAN</b><br>Filters outgoing packets.<br><b>WAN&rarr;LAN</b><br>Filters incoming packets.<br>The default is 'WAN&rarr;LAN'.<br>Packets that match all conditions are filtered.<br>
+IP address
+Select an individual source and destination IP address to be designated for filtering.<br>If you leave this field blank, all IP addresses will be filtered.
+Example:
+Specify 192.168.1.0 as the address 255.255.255.0 as subnet mask.<br>
+Protocol
+Select the type of protocols to be targeted for filtering.
+The default is TCP/UDP.
+TCP/UDP
+When selecting the TCP or UDP protocols &#x2C; the destination port number must also be selected.<br> <ul> <li><b>Set TCP Port manually</b><br> Translate specified TCP port number. Valid port numbers are 1-65535.<br></li> <li><b>Set UDP Port manually</b><br> Translate specified UDP port. Valid port numbers are 1-65535.<br></li> <li><b>HTTP (TCP port: 80)</b><br> Translate communications with HTTP server. This is synonymous with specifying TCP port 80. (It is not necessary to specify the port number.)</li> <li><b>FTP (TCP port: 20-21)</b><br> Translate communications with FTP server. This is synonymous with specifying TCP ports 20-21. (It is not necessary to specify the port number.)</li> <li><b>HTTPS (TCP port: 443)</b><br> Translate communications with HTTPS server. This is synonymous with specifying TCP port 443. (It is not necessary to specify the port number.)</li> <li><b>TELNET (TCP port: 23)</b><br> Translate communications with TELNET server. This is synonymous with specifying TCP port 23. (It is not necessary to specify the port number.)</li> <li><b>SSH (TCP port: 22)</b><br> Translate communications with SSH server. This is synonymous with specifying TCP port 22. (It is not necessary to specify the port number.)</li> <li><b>SMTP (TCP port: 25)</b><br> Translate communications with SMTP server. This is synonymous with specifying TCP port 25. (It is not necessary to specify the port number.)</li> <li><b>POP3 (TCP port: 110)</b><br> Translate communications with POP3 server. This is synonymous with specifying the TCP port 110. (It is not necessary to specify the port number.)</li> <li><b>NTP (UDP port: 123)</b><br> Translate communications with NTP server. This is synonymous with specifying the UDP port 123. (It is not necessary to specify the port number.)</li> <li><b>NTP (TCP port: 123)</b><br> Translate communications with NTP server. This is synonymous with specifying the TCP port 123. (It is not necessary to specify the port number.)</li> <li><b>IMAP (TCP port: 143)</b><br> Translate communications with IMAP server. This is synonymous with specifying the TCP port 143. (It is not necessary to specify the port number.)</li> </ul>
+Add (Head)
+Click this button to add the filter to the top of the filter list. 
+Add (Terminus)
+Click this button to add the filter to the bottom of the filter list. 
+Save
+Click to save changes.
+Cancel
+Click to discard changes.
+IP Filter
+Displays registered IP based filter. Each line also shows the number of filtered packets.<br> This number is cleared when settings are changed.
+Edit
+Click to change an entry.
+Delete
+Click to delete an entry.
+Up arrow
+Click to switch this line with the one above.<br>
+Down arrow
+Click to switch this line with the one below.<br>
+VPN Passthrough
+Specify VPN passthrough settings.
+IPv6 Passthrough
+Enable to use IPv6 passthrough for address translation. Disabled by default.
+Note:
+When this function is used on any machine that supports IPv6 passthrough, all IPv6 packets can be passed through the Internet and LAN networks. IPv6 protocol communication may be used with conventional IPv4 communication.
+PPTP Passthrough
+PPTP (Point-to-Point Tunneling Protocol) is the method used to enable VPN (Virtual Private Networking) sessions. Disabled by default.
+PPPoE Passthrough
+Enable to use the PPPoE passthrough function. <br> When the PPPoE passthrough function is used, all PPPoE packets can pass through the Internet and LAN, and a LAN-side PC can use the PPPoE protocol to automatically acquire an IP address from the ISP. <br> Disabled by default.<br>
+PPTP Passthrough
+Sets whether to use Point-to-Point Tunneling Protocol for address conversion. <br> The default setting is "Enable." <br>
+Click 'Edit' to change an entry. The line will be flagged as &quot;Editing&quot;. When editing is complete&#x2C; click 'Save' to keep your changes or 'Cancel' to discard them.
+Guest Account Settings
+Enabling the guest account provides a separate Internet connection for visitors while maintaining the security of your separate wireless network.
+Wireless client devices connected to the guest account can connect to the Internet&#x2C; but they cannot access other wireless devices on the network.
+Guest account
+By default&#x2C; the guest account is disabled.
+Guest User Authentication
+If enabled&#x2C; only registered users will be allowed to use the guest account. Register guests below.
+The maximum connection time for guest users is 24 hours. After 24 hours have passed&#x2C; the guest must be reauthorized.
+If authenticated wireless client devices are disconnected&#x2C; reauthentication is required after 1 hour&#x28;s&#x29; has elapsed.
+Disabled by default.
+Guest Account LAN IP Address
+This sets the LAN IP address for guest account.
+Auto
+The guest account LAN IP address is set automatically.
+Manual Setting
+The guest account LAN IP address may be set manually.
+IP Address
+Enter the guest account LAN IP address here.
+Click [Set recommended value] to automatically enter an appropriate IP address.
+IP addresses should come from the range below.
+Class A private: 10.0.0.1 to 10.255.255.254
+Class B private: 172.16.0.1 to 172.31.255.254
+Class C private: 192.168.0.1 to 192.168.255.254
+Do not use IP addresses that are being used by other functions such as DHCP.
+Subnet Mask
+The guest account LAN IP address subnet mask is selected here.
+The default value is 255.255.255.0.
+Guest Account DHCP Server
+This sets whether or not DHCP is used for the guest account.
+If enabled, the IP address assignment range is displayed.
+The default setting is disabled.
+If [Auto Set] is selected for the [Guest Account LAN IP address], DHCP will be enabled for the guest account.
+Note:
+Users connected to the guest account cannot open the Web Admin interface.
+Wireless
+Configure the guest account SSID here.
+11n/g/b
+This sets 11n/g/b for the guest account. Enabled by default.
+Note:
+Connection is not possible using the key distributed by AOSS.
+Also, the security information that was set by the guest account wireless setting cannot be passed on to AOSS.
+SSID
+This is the wireless SSID of the guest account.
+To change the SSID, click [Enter value] and enter a new SSID. The SSID may contain up to 32 alphanumeric characters and symbols. It is case-sensitive.
+Wireless Authentication
+The following types of wireless authentication are available.
+No Authentication
+When a wireless LAN device is connected, guest account does not request authentication.
+WPA-PSK
+WPA requires a preshared key (password) to access. The same key must be configured for both the AirStation and the wireless clients.
+WPA2-PSK
+WPA2 is an improved version of WPA. Like WPA, It requires a preshared key (password) to access. The same key must be configured for both the AirStation and all wireless clients.
+WPA/WPA2 mixed mode - PSK
+Mixed mode allows wireless clients to connect with both WPA-PSK and WPA2-PSK. If mixed mode is enabled, all wireless accounts, including the guest account, must use the same key (password).
+The initial value is [Do not perform authentication].
+Wireless Encryption
+This specifies whether encryption is used for wireless signals.
+Communication cannot be performed unless the same encryption system is specified at the guest account and wireless LAN device.
+Not encrypted
+The wireless signals are not encrypted. Because unencrypted communication can be intercepted by unauthenticated users, use without encryption is not recommended.
+AES
+<a href="../help/help_glossary.html#AES">AES</a>
+is a system that provides stronger security than TKIP.
+Your wireless clients must also support
+<a href="../help/help_glossary.html#AES">AES</a>
+to use it.
+AES
+requires a preshared key (password) for use.
+TKIP/AES mixed mode
+TKIP and AES authentication can be used simultaneously. Select WPA/WPA2 mixed mode to use both types of authentication on your network.
+Encryption is disabled by default.
+WPA-PSK &#x28;Pre-shared key&#x29;
+The pre-shared key may contain 8 to 63 single-byte alphanumeric characters and symbols or a 64-digit
+hex
+Rekey Interval
+For
+<a href="../help/help_glossary.html#AES">AES</a>
+, the encryption key is periodically updated. You may choose the update interval from 0 to 1440 minutes.
+If set to 0, the key is not updated. The default interval is 0 minutes.
+Note:
+Setting a short update time interval can result in a higher system load and unstable communication due to key updating.
+Show/Use guest user
+This displays the username, MAC address, and connection status for each registered user account.
+Connected is shown if a guest is successfully authenticated.
+Disconnected is shown if authentication was successful, but the connection was disconnected. "Not authenticated" is shown if authentication failed or is still in progress.
+Click [On] to enable the selected user account.
+Click [Off] to disable the selected user account.
+Guest users may be authenticated from the Edit Guest User screen.
+On
+Click [On] to enable the user account.
+Off
+A user account can be disabled by clicking [Off].
+Edit Guest User
+This opens the Edit Guest User screen.
+Status
+Click [Status] to renew the display and refresh the current status.
+Set Guest User - Edit Guest User
+To register a guest account, enter a username and password here. The guest should then use this username and password to log in to the network.
+Up to 5 guests may be registered.
+Return to previous page
+Closes the current page without saving.
+Add/Modify Guest User
+Add
+Click to add an entry to the table below.
+Save
+Click to save and refresh the table.
+This button only appears in edit mode. Click [Edit] to enter edit mode.
+Cancel
+Click this button to abort your edits.
+Username
+The guest account username may contain up to 64 alphanumeric characters and symbols. Do not use quotation marks (&quot;), single quotation marks (&#39;), slashes (/), or spaces in a username. Usernames are case-sensitive. Usernames should not be blank.
+Password
+The guest account password may contain up to 64 alphanumeric characters and symbols. Do not use quotation marks (&quot;), single quotation marks (&#39;), slashes (/), or spaces in a password. Passwords are case-sensitive. Passwords should not be blank. Enter the same password again for confirmation.
+Show/Use guest user
+This displays the guest&rsquo;s username.
+Edit
+Click [Edit] to change an entry. The line will be flagged as &quot;Editing&quot;. When editing is complete&#x2C; click [Save] to keep your changes or [Cancel] to discard them.
+Delete
+Click [Delete] to permanently remove the entry.
+##1007
+Wizards & Overview
+Wizards for "Easy Setup" are on the left.<br>An overview of your AirStation's system information is displayed on the right.
+Basic Settings
+Run Internet Connection Wizard
+If you are not connected to the Internet, click 'Run Internet Connection Wizard'.<br>Once Internet Connection Wizard starts, follow the on-screen directions to set up a connection.<br>Internet Connection Wizard works best with a DHCP or PPPoE connection. For other types of connections, you may need to manually configure specific settings. If your network requires a login or other special settings, or if Internet Connection Wizard does not create a connection, contact your ISP.
+Basic Wireless Setup
+This wizard lets you set an SSID (network name) and choose a wireless channel for your network.
+Wireless Encryption
+The wizard lets you choose the type of encryption to use on your wireless network.
+Internet
+Internet Games (Port Forwarding)
+Set up port forwarding for games that require it.
+UPnP
+Enable UPnP, which will automatically set up port forwarding for most applications.
+Wireless Multicast Rate
+Wireless multicast rate and IPv6 passthrough settings.
+Other
+Update AirStation Firmware
+The wizard helps update the AirStation's latest firmware.
+Initialize AirStation
+Restores the AirStation to factory default settings.
+Internet Information
+Displays the method of acquiring IP address.
+Connection Status
+Displays the connection status when using DHCP or PPPoE.
+Release
+This button is displayed when DHCP is in use. Clicking it will release the IP address obtained from the DHCP server and disconnect your Internet.
+Renew
+This button is displayed when DHCP is selected. It renews your IP address by acquiring an IP address from the DHCP server again. 
+Start
+This button is displayed when PPPoE is selected. This button starts a continuous connection.
+Connect
+This button is displayed when PPPoE is selected. It initiates an on-demand or manual connection. 
+Disconnect
+This button is displayed when PPPoE is selected. It disconnects an on-demand connection or manual connection.
+Stop
+This button is displayed when PPPoE is selected. It stops continuous or on-demand connections.
+Check Connection
+If connected, a connection page is displayed.
+Refresh
+Click to refresh this page.
+Wireless
+Displays status of your wireless LAN access point.
+SSID
+Displays the AirStation's SSID.
+Authentication
+Displays the current wireless authentication method.<BR> <UL> <LI>Open</LI> <LI>WPA-PSK</LI> <LI>WPA2-PSK</LI> <LI>WPA/WPA2 mixedmode - PSK</LI> </UL>
+Encryption
+Displays the current wireless encryption method.<BR> <UL> <LI>Open</LI> <LI>WEP64</LI> <LI>WEP128</LI> <LI>AES </LI> <LI>TKIP/AES mixedmode </LI> </UL>
+If AOSS is enabled&#x2C; 'AOSS' is displayed.
+AOSS Setup
+The button shows the current AOSS Status:<br> <img src='/images/aoss32-on.png'>AOSS is in use<br> <img src='/images/aoss32-off.png'>AOSS is not in use<br> Clicking the AOSS button will take you to the AOSS settings page.
+WPS Setup
+The button shows the current WPS Status:<br> <img src='/images/wps-enable.png'>WPS is in use<br> <img src='/images/wps-disable.png'>WPS is not in use<br> Clicking the WPS button will take you to the WPS settings page.
+How to activate UPnP on Windows XP
+To activate the UPnP function on Windows XP&#x2C; perform the following procedure on your PC.<br><br><ol><li>Select 'Start'-'Control Panel'.</li><li>Click 'Network and Internet Connection'.(not necessary if you're in Classic View). </li><li>Click 'Network Connection'.</li><li>Select 'Details'-'Optional Network Component'.</li><li>Select 'Network Service' and click 'Detail'.</li><li>Select 'Universal Plug and Play' if using Windows XP SP1 or less&#x2C; and select 'UPnP User Interface' if using SP2 or more&#x2C; and click 'OK'.</li><li>Click 'Next' after returning to '5'.</li><li>In case of Windows XP SP1 or less&#x2C; 'Universal Plug and Play'&#x2C; and in case of SP2 or more 'UPnP User Interface' is installed.</li><li>Select 'Start'-'My Computer'.</li><li>Click 'My Network'.</li><li>Confirm that 'BUFFALO WHR-1166D' is displayed on 'Local Area Network'.</li></ol>
+How to activate UPnP on Windows ME
+To activate UPnP function on Windows ME&#x2C; perform the following procedure on your PC.<br><br><ol><li>Select 'Start'-'Settings'-'Control Panel'.</li><li>Double-click 'Add delete programs'.</li><li>Click 'Windows file' tab and select 'Communicate' and click 'Detail'.</li><li>Click the square next to 'Universal Plug and Play' to add check mark and click 'OK'.</li><li>Click 'OK' after returning to the screen of '3'. 'Universal Plug and Play' is installed.</li><li>If 'Restart your computer now?' is displayed&#x2C; click 'Yes'.</li><li>After starting your computer&#x2C; double-click 'My Network' on desktop.</li><li>Confirm that 'BUFFALO WHR-1166D' is displayed.</li></ol>
+Note:
+*To use Messenger on Windows ME&#x2C; your DirectX must be version 8.1 or later.
+If no 'connection successful' message appears …
+If an error message appears opening the web page&#x2C;
+<UL>  <LI>Configure DNS settings and browser's proxy settings as directed by your ISP.   <LI>BUFFALO's server might be temporary down. Wait for 10 to 30 minutes then try again.   <LI>Check your Internet settings. Nothing is displayed when your WAN-side connection is incorrectly configured. </LI></UL>
+If an error says that Buffalo's server name resolution didn't succeed:
+<UL>  <LI>Buffalo's server may be unavailable temporarily. Try again in half an hour.<LI>If your ISP requires your network device's MAC address, use the MAC Address that you can confirm in 'Diagnostic - System Info'.<LI>Nothing will be displayed when your WAN-side connection has problems.   </LI></UL>
+If the connection to the PPPoE server doesn't succeed:
+<UL>  <LI>The username and password may be wrong.<BR>Click 'back' and confirm that the ISP information is correct and try again.<LI>If the previous connection wasn't disconnected properly, wait for 10 to 30 minutes and try again.   <LI>Nothing will be displayed if your WAN-side connection has any problems. Check your WAN-side IP address.</LI></UL>
+If an IP address can't be assigned by a DHCP sever:
+<UL> <LI>Nothing is displayed when your WAN-side connection has problems.</LI> </UL>
+If 'no DHCP server can be found' is displayed:
+<UL> <LI>Nothing is displayed if the DHCP server has problems or a line problem has occurred.</LI> </UL>
+If the WAN-side cable isn't connected:
+<UL>   <LI>Confirm wiring of the AirStation, ADSL modem, Cable modem or optical media converter. That is to say, check your cables!</LI></UL>
+Close help
+Utilities
+Network Service List
+The computers and devices on your LAN are shown with their supported services.
+Language
+Select the language for the Settings page. 
+Mode
+The AirStation can be set to either router mode or bridge mode. In bridge mode, the AirStation's LAN-side IP address is 192.168.11.100.
+eco Mode
+Displays current eco Mode status.
+not use
+not use
+##1008
+WPS (Wi-Fi Protected Setup)
+WPS
+WPS is a standard that allows home users to easily configure a secure wireless network. It is similar to Buffalo's AOSS but was created by the Wi-Fi Alliance.<br>
+Enabled by default.
+Note:
+WPS will not work if wireless is disabled.
+External Registrar
+If disabled, the AirStation will not respond to WPS connections with other wireless devices.<br>Wired connections can still use WPS. Automatically disabled when AOSS is enabled.
+Enabled by default.
+Note:
+External registrar is automatically disabled when AOSS is enabled.
+AirStation PIN
+Displays the AirStation's PIN code. Click 'Generate PIN' to create a new AirStation PIN.
+Enrollee PIN
+The AirStation accepts the enrollee within two minutes after entering the enrollee PIN code.<br> If the WPS status is un-configured, it will be configured automatically.<br> Start the WPS setup from the enrollee side.<br>In case of the PIN method, the enrollee will search for a WPS supported access point.<br> The wireless band, SSID and security type of the detected access point are displayed. Select the target access point and enter the corresponding PIN code.<br>After two minutes or when the WPS process has succeeded, the PIN code of the enrollee is erased.<br>
+Note:
+There are two methods to start the WPS request from the enrollee side. One is by PIN, and the other one is by PBC. PBC stands for "pushbutton configuration". Entering a PIN isn't necessary for this method.<br>Hold the AirStation's AOSS button for 3 seconds to start the PBC method. If the AOSS button is enabled in the AOSS settings, the key sharing process starts.<br>The AirStation waits for a connection from the PBC type enrollee for two minutes.<br>Push the button assigned for WPS on the enrollee side. If the enrollee detects two or more access points in PBC mode, an error may occur. The error condition depends on the enrollee type.<br>
+WPS Security Settings
+This section displays connected WPS devices and their security settings.
+WPS Status
+Displays 'configured' or 'unconfigured'. If all wireless bands are configured, 'configured' is displayed. If one of the wireless bands is unconfigured, 'unconfigured' is displayed. The SSID, security and encryption key don't appear when 'unconfigured' is displayed.<br>If manual configuration, AOSS connection or internal or external registrar are configured, the status will change to 'configured'. In this case, the SSID, security and encryption keys are displayed.<br>If the wireless is disabled, this status is also disabled.
+Release
+Click to switch the WPS status to 'unconfigured'. This setting is displayed only when WPS is configured. Wireless security setting is not changed by this button.
+SSID
+Displays the WPS SSID.
+Security
+Displays the WPS encryption method.
+Encryption key
+Displays the WPS encryption key.
+AOSS (AirStation One-Touch Secure System)
+AOSS is Buffalo's unique technology for quickly forming a secure wireless connection. You can see AOSS's configuration and status from this screen.<br>
+Start AOSS
+Click this button to start AOSS.
+Disable AOSS
+This button appears when AOSS is enabled. Click to disable AOSS and terminate connections to wireless clients.
+How to use AOSS
+(1) Power on or reboot the AirStation and a wireless client that supports AOSS.<br>(2) After rebooting, press both product's AOSS buttons; the router's first, then the client's. The AirStation and the wireless client will automatically exchange security information and set up the most secure encryption type.
+Notes:
+<ul><li>Once the AOSS button is pressed&#x2C; other operations can't be executed until AOSS is finished. If the AirStation can't find a wireless client after three minutes&#x2C; the AirStation returns to its normal state.</li><br><li>Up to 24 wireless clients may be connected through AOSS.</li><li>Confirm 'Diagnostic - System Info' to manually configure a wireless client that doesn't support AOSS.</li><li>When wireless security is configured, its security information is taken over.</li></ul><br>
+In the following cases, wireless security settings are not taken over and an error will occur.<ul><li>The SSID contains a blank.</li><li>The WPA-PSK is entered with hexadecimal 64 characters.</li><li>The WPA-PSK contains a blank.</li></ul></p><br>
+__no use__
+If wireless authentication is &quot;WPA/WPA2 mixed mode - PSK&quot; AOSS passes encryption key to WPA/WPA2-PSK-mixed (AES) and configures initial level to WPA/WPA2-PSK-mixed (AES). </p><br>
+AOSS Settings
+Configure AOSS.<br>
+Exclusive SSID for WEP
+Displays WEP exclude SSID's security.<br>
+Advanced Encryption Level feature
+TKIP encryption for AOSS is expanded to WPA/WPA2-PSK-mixed.  The default is 'Enable'.<br> If client adapters does not support WPA/WPA2-PSK-mixed, disable this settings.<br>
+Dedicated WEP SSID Isolation
+If enabled, portable game consoles that only support WEP can connect using AOSS. As a security, wireless WEP devices will not be able to communicate with wireless WPA/WPA2-PSK or wired devices.<br>Disabled by default.<br>
+AOSS Button on the AirStation Unit
+When checked, enables the physical AOSS button on your AirStation.
+Current Security Information
+Displays the encryption type currently used by AOSS and security information itemized by wireless standard. If a wireless client that doesn't support AOSS is connected to AirStation&#x2C; configure this information manually. There are two standards for wireless LANs&#x2C; 802.11ac/n/a and 802.11n/g/b.
+Encryption Type
+Displays available types of wireless encryption.
+SSID
+Displays available SSIDs.<br>You can enter up to 32 8-bit alphanumeric characters or symbols. It's case sensitive.
+Encryption Key / Pre-shared Key
+Displays current available encryption key or pre-shared key. <br>AES can designate 8 to 63 8-bit alphanumeric characters and symbols. <br><!--<br>TKIP can designate 8 to 63 8-bit alphanumeric characters and symbols. <br>--><br>WEP 128 can use the two following designation methods. <br>
+<li>ASCII 13 characters:<br> Enter 13 alphanumeric characters or symbols suitable for use in encryption keys. It is case sensitive.</li> <li>Hex 26 digits:<br> Enter the hexadecimal characters that are suitable for use in encryption keys. These must be 26 digits.</li>
+WEP64 can use the two following designation methods. <br><ul><li>ASCII 5 characters:<br> Enter 5 alphanumeric characters or symbols suitable for use in encryption keys. It is case sensitive.</li><li>Hex 10 digits:<br>Enter the hexadecimal characters that are suitable for use in encryption keys. These must be 10 digits.</li> </ul>
+Note:
+The WEP key configured in wireless security is used for your send key.
+Random
+A random hex value will be generated for all SSID and encryption key fields. <br>
+AOSS Client Information
+Displays AOSS information of wireless clients. Wireless clients that are connected without AOSS and prohibited connections to the AirStation are also displayed.<br>
+Name
+Shows the client's name. If the client is connected to the AirStation with an Ethernet converter or non-AOSS device&#x2C; 'The Ethernet Converter/Non AOSS support' is displayed for each client name.
+Clients that are manually connected or removed from the connection list are displayed as 'Ethernet Converter/Non-AOSS devices'.
+MAC Address
+Shows the client's MAC address.<br>
+Encryption Type
+Displays available encryption method of the client. If the client is connecting through a non-AOSS Ethernet converter, this field displays '---'.
+Wireless
+Displays the wireless band used by the client.
+Connection Setting
+Displays the current status of wireless client connections with AirStation ('Allow' or 'Deny').<br>
+Note:
+AOSS information can display up to 64 AOSS-supported devices except those connected via Ethernet converters.<br>
+Edit AOSS Client Information
+Click to edit AOSS connection information.<br>
+AOSS Ethernet Converter Information
+Displays Ethernet converter information.<br>
+Client Information
+Displays the name of the wireless client.<br>
+MAC Address
+AOSS Settings - Edit AOSS Connection Information
+Edit AOSS connection.<br>
+Back
+Click to return to the previous page without saving any settings.
+AOSS Client Information
+Displays AOSS client information.<br>
+Name
+Displays the client's name. If the client is connected to the AirStation with an Ethernet converter or non-AOSS device&#x2C; 'The Ethernet Converter/Non-AOSS support' is displayed for each client name.
+Note:
+Clients that are manually connected or removed from the connection list  are displayed as 'Ethernet Converter/Non-AOSS devices'.
+MAC Address
+Shows the client's MAC address.<br>
+Encryption Type
+Displays available encryption method of the client. If the client is connecting through a non-AOSS Ethernet converter, this field displays '---'.
+Wireless
+Displays the wireless band used by the client.
+Connection Setting
+Displays the current status of wireless client connected to the AirStation ('Allow' or 'Deny').<br>
+Note:
+AOSS information can display up to 64 AOSS-supported devices except those connected via Ethernet converters.<br>
+Operation
+Allow Connection
+Allows the target to connect via AOSS.<br>
+Deny Connection
+Denies a target to connect via AOSS.<br> The AOSS connection is disconnected from the AirStation.
+Up to 64 wireless and wired devices (including Ethernet converters) can be defined to be denied access.
+Delete
+Remove an AOSS client from the list.<br>When an AOSS  connection is removed from the list the AOSS client can connect to the AirStation again.
+Running AOSS.
+Estimated time to restart is
+s. Please Wait...
+s. later&#x2C; if the page does not automatically refresh&#x2C; click
+here.
+Basic Wireless Setting (11n/g/b)
+Configure settings for your standard 2.4 GHz wireless LAN on this page.<br>
+Wireless
+Enabled by default. If disabled, all wireless functionality is disabled.<br>
+Wireless Channel
+Select a channel (frequency band) for your wireless communication. If there are other wireless clients near the AirStation, select a different (and preferably non-overlapping) channel to avoid interference. When 'Auto Channel' is selected, a vacant channel is selected automatically.<br>
+High Speed Mode
+Wireless communication commonly uses 20 MHz per channel. <br>High speed mode is a method to increase wireless transmission throughput to 40/80 MHz per channel.<br>
+When high speed mode is used, the channel display on the wireless client is likely going to differ from the channel display on the AP.<br>The wireless client channel display may not display the control channel but the center frequency. <br>In this case, the channel between the wireless channel and the extension channel is displayed. <br><br>Example: When channel 3 is selected as wireless channel, and channel 7 is selected as the extension channel, channel 5 is displayed. <br>
+Bandwidth
+You can select whether 20 MHz or 40 MHz (high speed mode) or 80 MHz (high speed mode) are used for wireless communication.
+Default value is 20 MHz.<br>
+Extension Channel
+When 40 MHz has been selected under "Bandwidth", two channels are used. A control channel and an extension channel. <br> The control channel is specified by the "Wireless Channel" setting , and the extension channel is specified by the "Extension Channel" setting. <br>
+Broadcast SSID
+Select whether to allow SSID broadcast.<br>Allowed by default.<br>
+Allow
+When connecting to an AirStation broadcasting its SSID&#x2C; wireless client devices do not need the SSID entered manually. <br> Broadcasting your SSID also lets clients detect the best wireless signal level available and connect to it automatically.
+Disallow
+To connect to an AirStation where SSID broadcast is disabled&#x2C;  the SSID of the AirStation will have to be manually entered on each wireless client device. <br> Even when &quot;Automatic detection of wireless access point&quot; (&quot;Wireless Automatic Detection&quot; on Client Manager) is selected&#x2C;  the client will not detect the AirStation unless it has special software installed.
+Note:
+While AOSS is in use&#x2C; Broadcast SSID can be configured but not be used.<br>
+Multi Security
+This AirStation can have up to two security profiles. Check 'Use' to enable. When enabled, set the SSID name, and select the authentication and encryption methods.
+SSID1
+SSID1 can use WEP or other encryption methods.
+SSID2
+SSID2 can only use WEP as the encryption method.
+SSID3
+SSID2 can use only WEP.
+Separate Feature
+Enabling this setting blocks communication by the connected wireless client device to wireless client devices connected to different SSIDs and network devices using a wired connection. Connected wireless client devices can communicate only with wireless client devices connected to the same SSID as the Internet side.
+SSID
+To change SSID from the default value&#x2C; select 'Enter:' and enter a new SSID in the field. Up to 32 alphanumeric characters may be used. SSIDs are case-sensitive.<br>
+Note:
+While AOSS is in use&#x2C; the SSID can be configured but not be used.<br>
+Authentication
+<br> <b>No authentication</b><br>The AirStation does not require wireless LAN clients to authenticate. Anyone can connect to your wireless network. <br> <br> <b>WPA-PSK</b><br> Clients are authenticated in accordance with WPA (Wi-Fi Protected Access). A password ("PSK passphrase") is required to log into the wireless network. <br> <br> <b>WPA2-PSK</b><br>Clients are authenticated in accordance with WPA2 (IEEE802.11i). A password ("PSK passphrase") is required to log into the wireless network. <br> <br> <b>WPA/WPA2 mixed mode - PSK</b><br> This setting allows the authentication of WPA-PSK and WPA2-PSK clients at the same time.  A password ("PSK passphrase") is required to log into the wireless network.<br> <br>
+Encryption
+Specify whether to encrypt wireless signals or not.  If the different encryption types are used on the AirStation and the wireless client&#x2C; they will not be able to communicate.<br> <b>No encryption</b><br> The wireless signal is not encrypted. Because the contents of your communication may be intercepted&#x2C;  this choice is not recommended. <br>
+<b>WEP</b><br> Encrypt wireless signal with WEP. WEP is a basic encryption standard for wireless LANs.<br> A WEP encryption key must be entered.<br>
+<b>AES</b><br> <a href="../help/help_glossary.html#AES">AES</a> is even more secure and faster than WEP. Highly recommended if your client devices support it.<br> A WPA-PSK (pre-shared key) must be entered.<br><br> <!--<b>TKIP/AES mixed mode</b><br> The mode supporting both <a href="../help/help_glossary.html#TKIP">TKIP</a> and <a href="../help/help_glossary.html#AES">AES</a>, can be selected only if 'WPA/WPA2 mixed mode' is selected as Authentication. <br> &quot;WPA-PSK (pre-shared key)&quot; must be inputted.<br> <br>-->
+Setup WEP Encryption Key
+Enter WEP encryption key. The same encryption key must be entered into both the AirStation and the client device or there will be no communication between them.<br>
+Specifying the Encryption Method
+There are two encryption key lengths (WEP64 and WEP128) for WEP. Keys may be entered as either hex or ASCII&#x2C; for a total of 4 different ways of entering WEP keys. Default value of input method is &quot;ASCII 13 characters (WEP128)&quot;. When the input method is changed&#x2C; encryption key values are cleared.<br> <ul> <li><b>ASCII 5 characters (WEP64)</b><br> Enter 5 (case sensitive) alphanumeric characters. Because a 5 character password is easy to crack&#x2C; this type of key is not recommended.<br></li> <li><b>ASCII 13 characters (WEP128)</b><br> Enter 13 (case sensitive) alphanumeric characters.<br></li> <li><b>Hex 10 digits (WEP64)</b><br> Enter a 10 digit hexadecimal characters. You may use characters 0-9 and a-f. Because a 10 digit password is easy to crack&#x2C; this type of key is not recommended.<br></li> <li><b>Hex 26 digits (WEP128)</b><br> Enter a 26 digit hexadecimal characters. You may use characters 0-9 and a-f.<br></li> </ul>
+Specifying Common Keys for Sending and Receiving
+Up to 4 encryption keys can be specified and one of them can be used for both encryption and decryption. (The others are only for decryption). You can select which is the common key for sending and receiving.<br>
+Note:
+If a wireless LAN device doesn't support multiple encryption keys&#x2C; it must be set to the common key for sending and receiving (the first key in the AirStation's list).<br>
+Encryption Key
+The default value of the encryption key is blank.<br>Specify one or more encryption key(s).<br>
+WPA-PSK (Pre-shared Key)
+When <!--<a href="../help/help_glossary.html#TKIP">TKIP</a> or --><a href="../help/help_glossary.html#AES">AES</a> is used as encryption method&#x2C; a WPA-PSK pre-shared key must be entered. If the same key is not entered into the AirStation and the wireless client&#x2C; communication will not be established. Specify 8-63 alphanumeric characters or a 64 digit hexadecimal characters.<br>
+Key Renewal Interval
+The period of time after which the encryption key is automatically changed. This period can be configured from 0 to 1440 minutes. If 0 is set, the encryption key is not renewed. Default value is 60 minutes.<br>
+Note:
+If the specified key renewal interval is too short, network performance may decrease.<br>
+Advanced Wireless Settings
+Specify Advanced Wireless Settings.
+BSS BasicRateSet
+BSS (Basic Service Set) configures the transmission rate of control communication frames for a wireless client.  Setup choices may vary with different wireless clients.
+Multicast Rate
+You can select 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54 Mbps.<br>Default Value is &quot;1 Mbps&quot;.
+Reverse Direction Grant
+Choose whether Reverse Direction Grant(RDG) function is enabled or disabled.<br>RDG function allow to receive reply packed during transfer packets are sent to increase throughput.<br>Wireless LAN devices that connects to AirStation also enables RDG function.<br>Disabled by default.
+DTIM Period
+This setting only affects network clients on power-saving or sleep mode. The DTIM period indicates how often sleeping clients should check for data packets to be routed. Setting larger values will allow sleep mode to continue longer (thus saving power), but may slow network traffic. Enter a number from 1-255. Default value is "1".
+Wireless Client Isolation
+If checked, wireless client devices will not be able to communicate with each other. They can access the Internet and wired client devices.<br>Disabled by default.<br>
+Output Power
+Output power and the range of the associated electromagnetic waves are almost proportional. If the Output power is cut to 50%&#x2C; the AirStation's range will be shortened by about half. You may limit your AirStation's range by modifying this value. Default value is &quot;100 %&quot;.
+WMM Settings (11ac/n/a/11n/g/b)
+Prioritized AirStation communication for specific transactions. This settings provides some real time communication, which can help improve the quality of VOIP or other streaming protocols.
+WMM
+__no use__
+WMM-EDCA Parameters
+It is usually not necessary to change this value.
+Priority
+The priority is ranked (Highest)8 : (High)4 : (Normal)2 : (Low)1 for each packet.
+Parameter
+CWmin, CWmax
+The maximum and minimum value for the contention window. The contention window is used to control the frame collision avoidance system in IEEE802.11.
+AIFSN
+Interval of the sending frame. The unit defines a time-slot (similar to the window value of CWmin, CWmax). Lower values define a higher priority as the back-off algorithm starts earlier.
+TXOP Limit
+The time for the queue to obtain send priority. The minimum value is 32ms. Large values can send more frames at a time. However, latency may increase.<br> Only one frame is transferred at the time when the TXOP Limit is 0.
+Admission Control
+This limits the assignment of send frames per queue. If the queue exceeds the threshold new send frames are assigned to a lower queue.
+The default setting of the WMM-EDCA parameters are listed below.
+<b>Priority AC_BK(Low)</b><table><tr><th>Parameter</th><th>AP default</th><th>STA default</th></tr><tr><td>CWmin</td><td class=DIGIT>15</td><td class=DIGIT>15</td></tr><tr><td>CWmax</td><td class=DIGIT>1023</td><td class=DIGIT>1023</td></tr><tr><td>AIFSN</td><td class=DIGIT>7</td><td class=DIGIT>7</td></tr><tr><td>TXOP Limit</td><td class=DIGIT>0</td><td class=DIGIT>0</td></tr></table><BR>
+<b>Priority AC_BE(Normal)</b><table><tr><th>Parameter</th><th>AP default</th><th>STA default</th></tr><tr><td>CWmin</td><td class=DIGIT>15</td><td class=DIGIT>15</td></tr><tr><td>CWmax</td><td class=DIGIT>63</td><td class=DIGIT>1023</td></tr><tr><td>AIFSN</td><td class=DIGIT>3</td><td class=DIGIT>3</td></tr><tr><td>TXOP Limit</td><td class=DIGIT>0</td><td class=DIGIT>0</td></tr></table><BR>
+<b>Priority AC_VI(High)</b><table><tr><th>Parameter</th><th>AP default</th><th>STA default</th></tr><tr><td>CWmin</td><td class=DIGIT>7</td><td class=DIGIT>7</td></tr><tr><td>CWmax</td><td class=DIGIT>15</td><td class=DIGIT>15</td></tr><tr><td>AIFSN</td><td class=DIGIT>1</td><td class=DIGIT>2</td></tr><tr><td>TXOP Limit</td><td class=DIGIT>94</td><td class=DIGIT>94</td></tr></table><BR>
+<b>Priority AC_VO(Highest)</b><table><tr><th>Parameter</th><th>AP default</th><th>STA default</th></tr><tr><td>CWmin</td><td class=DIGIT>3</td><td class=DIGIT>3</td></tr><tr><td>CWmax</td><td class=DIGIT>7</td><td class=DIGIT>7</td></tr><tr><td>AIFSN</td><td class=DIGIT>1</td><td class=DIGIT>2</td></tr><tr><td>TXOP Limit</td><td class=DIGIT>47</td><td class=DIGIT>47</td></tr></table>
+MAC Filtering
+When MAC filtering is enabled, only registered MAC addresses are allowed to connect to the AirStation. This enhances security by preventing unauthorized wireless devices from accessing your network. This is not used while AOSS is in use.
+Enforce MAC Filtering
+Check 'Enable' to use MAC filtering. Only wireless clients with registered MAC addresses can connect to this AirStation. Disabled by default.<br>
+Registration List
+The list of MAC addresses allowed to connect with this AirStation. Current status is also displayed.<br>
+Edit Registration List
+Click this button to edit registered MAC addresses. <br>
+MAC Filtering - Edit Registration List
+Edit the list of MAC addresses of wireless LAN clients that are allowed to connect with the AirStation.<br> Up to 64 clients can be registered.<br> Registered MAC Addresses are applied only after MAC filtering is enabled.<br>
+Return to previous page
+Click to back to the previous page without saving any changes.<br>
+Client's MAC Address
+This area is for adding or editing a line.<br>
+Enter MAC Addresses
+Enter the MAC address to be registered.<br>Multiple MAC addresses can be entered and separated by a space or tab.<br>Click 'Register' to register MAC addresses in the field.
+MAC Address to Edit
+Click 'Edit' in 'Registration List' to edit registered MAC address.<br>
+Note:
+Both of the Ethernet converter's MAC address and the network device's MAC address connected to the Ethernet converter should be registered to allow connections with the AirStation.<br>Confirm the network device's MAC address from 'Diagnostics' - 'System Info'.<br>
+Register
+Click this button to add above information to the list below.
+Save
+Appears when you click 'Edit' in 'Registration List'. Click this button to save changes and refresh the table.<br>
+Cancel
+Click this button to abort your edits.
+Registration List
+Displays registered MAC addresses.<br>Click 'Edit' to change registered MAC address. Target MAC address is displayed above entering field to change it.<br> Click 'Delete' to remove registered MAC address.<br>
+Edit
+Click to change an entry.
+Delete
+Click to delete an entry.
+List of Connected Clients
+Displays all wireless clients associated with this AirStation.
+Register
+Registers the MAC address to the registration list.<br>
+Refresh
+Renew wireless client list.<br>
+Multicast Control
+This setting controls multicast packet transfer to wireless LAN port.
+Snooping
+When enabled, multicast traffic is pruned from links that do not contain a multicast listener, reducing traffic from streaming media and other IP multicast applications. Multicast tunnel transfer mode is used if your clients support it.
+Multicast Aging Time
+The length of time that multicast snooping information is held. Enter a time from 1 to 3600 seconds.
+WDS
+This AirStation can be added to an existing wireless network and use WDS to extend the wireless range. The AirStation would be configured as a client to connect to a master. Install the new AirStation between the existing (master) AirStation and wireless devices by using WDS feature. In this case, the new AirStation (client) that is not connected directly to the Internet operates as a bridge. When configuring, set WDS settings to match the master AirStation's wireless configuration either manually or by AOSS method.
+How to Setup WDS by Using AOSS
+<ol><li>Switch to bridge mode.</li><li>Select AOSS for connection type and click apply.</li><li>Hold AOSS button of the master AirStation until LED starts blinking. Then press AOSS button in this page. This must be done when the master AirStation's LED is blinking.</li><li>The LED turns on without blinking when AOSS is succeeded and WDS is available. Wireless connection between this AirStation and the master AirStation is configured automatically.</li></ol>
+How to Set Up WDS Manually
+Configure as followings when connecting manually.<ol><li>Change Connection Type on this screen to "Manual".</li><li>Click 'Search' to search for the wireless master, and select SSID from the list. You can also specify SSID rather than selecting one.</li><li>Configure wireless authentication and wireless encryption to connect to wireless master.</li></ol><p class="HELP_BODY2">You can also connect this AirStation by using WDS to another AirStation which has also already connected to other AirStation by WDS.</p><br>
+Note:
+When 2 access points are connected by WDS, the connection may fail due to duplicating LAN-side IP address or DHCP server address. Confirm those settings in advance. WDS can not be used when wireless is disabled.<br>
+Enable or disable WDS. <br> Disabled by default.
+AirStation will act as a client when WDS is enabled.
+<li>You must first identify the master AirStation to connect.</li><li>The SSID and wireless authentication and encryption to connect master AirStation should be known and needs to be configured here.</li><li>The slave AirStation is allowed to connect to another slave AirStation as lower slave AirStation.</li>
+SSID
+Set the SSID for wireless master.
+Search
+Click to display a list of SSID.
+Note:
+Cannot search for SSID if wireless function is disabled.
+Encryption
+Specify the encryption method to connect to the wireless master.
+Authentication
+Specify the authentication method to connect to the wireless master.
+Encryption for wireless
+Specify either wireless signals are encrypted or not. <br> You cannot establish the communication unless you match a key with the key you have set for Master AirStation on the Wireless Basic Configuration. <br><br><b>No Encryption</b><br>&nbsp;Wireless signals are not encrypted. Avoid using this option since the data being transmitted may be intercepted. <br><b>WEP</b><br>&nbsp;You must enter WEP key (Pre-shared key) and key index. <br><b>TKIP</b><br>&nbsp;You must enter WPA-PSK (pre-shared key). <br><b>AES</b><br>&nbsp;<a href='../help/help_glossary.html#AES'>AES</a> is stronger than TKIP. Wireless LAN device is also required to support <a href='../help/help_glossary.html#AES'>AES</a>. You must enter WPA-PSK (pre-shared key). <br> The default value is "No Encryption".
+WPA-PSK &#x28;Pre-shared Key&#x29;
+You need to enter this when using <a href='../help/help_glossary.html#TKIP'>TKIP</a> or <a href='../help/help_glossary.html#AES'>AES</a>. <br> You cannot establish the communication unless you enter the same key as the key you have set for Master AirStation on the Wireless Basic Configuration. <br>Enter 8 - 63 alphanumeric characters or symbols, or 64 <a href='../help/help_glossary.html#HEX'>hex-decimal</a> digits. The default value is empty. <br>
+Apply
+Click this button to save values and reflect changes.
+Displays MAC address of wireless clients.<br>
+Encryption Type
+Select Master AirStation to Connect to
+Displays up to 64 supported access points.
+__BLANK__
+Select
+Select one of the access points to connect to.
+__BLANK__
+SSID
+Displays SSIDs for access points.
+Note:
+The access point whose SSID is not broadcasted is not displayed.
+Wireless Channel
+Set a channel (a range of frequency) used by the access point for wireless connection.
+Signal
+Displays signal strength of the access point.
+Bad: 0-19%
+Weak: 20-49%
+Good: 50-79%
+Excellent: 80-100%
+Encryption
+Displays whether the wireless signal is encrypted or not.
+Yes: Encrypted
+--: Not encrypted
+Wireless Band
+Displays the wireless band of the access point.
+Select
+Apply your choice and go back to the previous page.
+The information you just selected on this screen is reflected in "SSID" field on the screen you return to.
+Search again
+Search for available access points again.
+Cancel
+Return to the previous page without applying your choice. The information in SSID field on the screen you return to will not be changed.
+Basic Wireless Setting (11ac/n/a/g/b)
+Un-checking "Enable" will disable wireless LAN functionality. When disabled, all wireless functionality, including broadcasting, is halted. Enabled by default.
+Connection between AirStation. function is set to &#x22;Enabled&#x22; and &#x22;Specify master/slave&#x22; is set to &#x22;Slave&#x22; or &#x22;Auto&#x22;&#x2C; the channel is forced to set &#x22;Auto&#x22; and you will not be able to change.
+When using multi security, it is necessary to set at least one SSID to "Use". <br>
+WDS function is set to "Enabled" and "Specify master/slave" is set to "Slave" or "Auto", the channel is forced to set "Auto" and you will not be able to change.
+Advanced Wireless Settings (11ac/n/a/11n/g/b)
+You can select 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54 Mbps or Auto.<br> Default value is &quot;Auto&quot;.
+WMM Settings (11n/g/b)
+The maximum and minimum value for the contention window. The contention window is used to control the frame collision avoidance system in IEEE802.11. You may enter a value between 1-32767.
+Sending frame interval. The unit defines a time-slot &#x28;similar to the window value of CWmin&#x2C; CWmax&#x29;. Lower values define a higher priority as the back-off algorithm starts earlier. You may enter the value between 1-15.
+The time for the queue to obtain send priority. The minimum value is 32ms. Large values can send more frames at a time. However, latency may increase.<br> Only one frame is transferred at the time when the TXOP Limit is 0. You may enter the value between 0-256.
+This limits the assignment of send frames per queue. If the queue exceeds the threshold new send frames are assigned to a lower queue.
+Admission
+<b>Priority AC_BK(Low)</b> <table> <tr> <th>Parameter</th><th>AP default</th><th>STA default</th> </tr> <tr><td>CWmin</td><td class=DIGIT>15</td><td class=DIGIT>15</td></tr> <tr><td>CWmax</td><td class=DIGIT>1023</td><td class=DIGIT>1023</td></tr> <tr><td>AIFSN</td><td class=DIGIT>7</td><td class=DIGIT>7</td></tr> <tr><td>TXOP Limit</td><td class=DIGIT>0</td><td class=DIGIT>0</td></tr> <tr><td>Admission<br>Control</td><td class=CENTER>Disable</td><td class=CENTER>Disable</td></tr> </table> <BR>
+Click this button to add information to the table below.
+<b>Priority AC_BE(Normal)</b> <table> <tr> <th>Parameter</th><th>AP default</th><th>STA default</th> </tr> <tr><td>CWmin</td><td class=DIGIT>15</td><td class=DIGIT>15</td></tr> <tr><td>CWmax</td><td class=DIGIT>63</td><td class=DIGIT>1023</td></tr> <tr><td>AIFSN</td><td class=DIGIT>3</td><td class=DIGIT>3</td></tr> <tr><td>TXOP Limit</td><td class=DIGIT>0</td><td class=DIGIT>0</td></tr> <tr><td>Admission<br>Control</td><td class=CENTER>Disable</td><td class=CENTER>Disable</td></tr> </table> <BR>
+Click 'Edit' to change an entry. The line will be flagged as "Editing". When editing is complete, click 'Save' to keep your changes or 'Cancel' to discard them.
+<b>Priority AC_VI(Priority)</b> <table> <tr> <th>Parameter</th><th>AP default</th><th>STA default</th> </tr> <tr><td>CWmin</td><td class=DIGIT>7</td><td class=DIGIT>7</td></tr> <tr><td>CWmax</td><td class=DIGIT>15</td><td class=DIGIT>15</td></tr> <tr><td>AIFSN</td><td class=DIGIT>1</td><td class=DIGIT>2</td></tr> <tr><td>TXOP Limit</td><td class=DIGIT>94</td><td class=DIGIT>94</td></tr> <tr><td>Admission<br>Control</td><td class=CENTER>Disable</td><td class=CENTER>Disable</td></tr> </table> <BR>
+<b>Priority AC_VO(High Priority)</b> <table> <tr> <th>Parameter</th><th>AP default</th><th>STA default</th> </tr> <tr><td>CWmin</td><td class=DIGIT>3</td><td class=DIGIT>3</td></tr> <tr><td>CWmax</td><td class=DIGIT>7</td><td class=DIGIT>7</td></tr> <tr><td>AIFSN</td><td class=DIGIT>1</td><td class=DIGIT>2</td></tr> <tr><td>TXOP Limit</td><td class=DIGIT>47</td><td class=DIGIT>47</td></tr> <tr><td>Admission<br>Control</td><td class=CENTER>Disable</td><td class=CENTER>Disable</td></tr> </table>
+Displays encryption methods supported by wireless client.<br>
+Configure to establish wireless connection with another AirStation (master) or wireless Access Point. <br>If the communication between another AirStation(master) and its wireless client cannot be established or constant because the distance between those two are too far away,<br>install this AirStation between the master AirStation and wireless devices by using WDS feature to solve these problems.. <br><br>This AirStation then acts as a "slave" device or wireless relay device.<br>When configuring, set WDS settings to match the master AirStation's wireless configuration either manually or by AOSS method.<br><br>In this case, the AirStation that is not connected to the Internet is supposed to be used as a slave AirStation. The router switch should be turned off.<br><br>
+SSID4
+For Multi Security SSID1, wireless encryption must be set as no encryption, WPA-PSK-AES, WPA2-PSK-AES, WPA/WPA2-Mixed or WEP.
+Connection Status
+Shows the current status of WDS. <br>
+Cannot use when wireless communications for WPS are down.
+Click the button to change the WPS status to 'unconfigured'. This setting is displayed only when WPS is configured. This setting is not displayed when AOSS is running or if multiple SSIDs are enabled. Wireless security setting is not changed by this button.
+WDS
+This AirStation can be added to an existing wireless network and use WDS to extend the wireless range. The AirStation would be configured as a client to connect to a master. Install the new AirStation between the existing (master) AirStation and wireless devices by using WDS feature. In this case, the new AirStation (client) that is not connected directly to the Internet operates as a bridge. When configuring, set WDS settings to match the master AirStation's wireless configuration either manually or by AOSS method.
+Check to use WDS.<br>Disabled by default.
+Connection Type
+Specifies to connect the AirStation to wireless master either <a href="#MANUAL">manually</a> or by <a href="#AOSS">AOSS</a> / <a href="#WPS">WPS</a>.<br>
+Connection Status
+Shows the connection status with wireless master.<br>If it is connected with wireless master, it shows "-".<br>If it is not connected, it displays description of the error.
+Note:
+If network configuration is changed, the setting of wireless master and client is changed and wireless connection will be disabled for about one minute.<br>Also, if the AirStation cannot communicate with the DHCP server of an upper router due to an error, the wireless master cannot be detected and thus the WB connection terminates.<br><br>When connecting by WB, communication may not be able to be established if same LAN-side IP address is used or the DHCP server is duplicated.<br>Check these settings before you configure the devices.<br>If wireless is disabled, WB cannot be used.
+How to Setup WB Manually
+Configure as followings when connecting manually.<ol><li>Change Connection Type on this screen to "Manual".</li><li>Click 'Search' to search for the wireless master, and select SSID from the list. You can also specify SSID rather than selecting one.</li><li>Configure wireless authentication and wireless encryption to connect to wireless master.</li></ol><p class="HELP_BODY2">You can also connect this AirStation by using WB to another AirStation which has also already connected to other AirStation by WB.</p><br>
+SSID
+Set the SSID for wireless master.
+Search
+Click to go to SSID search screen.
+If wireless is disabled, you cannot search for SSIDs.
+Authentication
+This authentication will be used to connect to the wireless master.         
+Encryption
+Specify whether wireless signals are encrypted or not.<br>You cannot establish the connection if security information between the master and the client do not match.<br><br><p  class="HELP_TTL3">No encryption</p><p  class="HELP_BODY3">Wireless signals are not encrypted. Avoid using this option since the data being transmitted may be intercepted.</p><br><p  class="HELP_TTL3">WEP</p><p  class="HELP_BODY3">You must enter WEP key.</p><br><p  class="HELP_TTL3">AES</p><p  class="HELP_BODY3">You must enter WPA-PSK (pre-shared key).</p><br><p  class="HELP_BODY2">The default value is "No encryption".</p>
+WEP Encryption Key Setting
+Enter the method to specify the encryption key for WEP and a key. You must enter the same WEP encryption key as that of wireless master in order to communicate with it.<br>
+WPA-PSK (Pre-shared Key)
+The password required when using AES or TKIP.<br>Enter 8 - 63 alphanumeric characters or symbols, or 64 hexadecimal digits.<br>
+How to Set Up WB with AOSS
+<ol><li>Switch to bridge mode.</li><li>Select AOSS for connection type and click apply.</li><li>Hold AOSS button of the master AirStation until LED starts blinking. Then press AOSS button on this page. This must be done when the master AirStation's LED is blinking.</li><li>The LED turns on without blinking when AOSS is succeeded and WB is available. Wireless connection between this AirStation and the master AirStation is configured automatically.</li></ol>
+<img src="../images/aoss32-on.png">Start AOSS
+Click to start AOSS connection. Use this button to start AOSS if connecting to wireless master by AOSS.
+Pressing the physical AOSS button and clicking this button have different effects. If connecting to a master WB device using AOSS, use this AOSS button.
+Apply
+Click to save your settings.
+KEY Base
+A value based on the AirStation wireless setting defaults will be generated for the all SSID and encryption key fields. <br>
+Check <b>Enable</b> to use MAC filtering. Only wireless clients with registered MAC addresses can connect to this AirStation. However&#x2C; even if 'Enable' is checked&#x2C; MAC filtering remains disabled if no MAC addresses are configured. Disabled by default.<br>
+How to Set Up WB by Using WPS
+<ol><li>Switch to bridge mode.</li><li>Select WPS for connection type and click apply.</li><li>Hold AOSS button of the master AirStation until LED starts blinking. Then press WPS button on this page. This must be done when the master AirStation's LED is blinking.</li><li>The LED turns on without blinking when WPS is succeeded and WB is available. Wireless connection between this AirStation and the master AirStation is configured automatically.</li></ol>
+<img src="../images/wps-enable.png">Start WPS
+Click this button to start WPS connection. Use this button to start WPS if connecting to wireless master by WPS.
+Behaviors of pressing the AOSS button on the main unit and clicking this button are different. If connecting by WB with wireless master using WPS, press this WPS button.
+__BLANK__
+You may specify a channel (frequency band) for your wireless communication. If there are other wireless clients near the AirStation&#x2C;you may get interference. Change to a different (and preferably non-overlapping) channel in this case. Available channels vary with which wireless standard you're using. When auto channel is selected, a vacant channel is selected automatically.<br>11ac/n/a: Auto, 36, 40, 44, 48, 149, 153, 157, 161, 165 channel (Default value: Auto Channel)<br>11n/g/b: Auto, 1-11 channel (Default value: Auto Channel)
+You may specify a channel (frequency band) for your wireless communication. If there are other wireless clients near the AirStation&#x2C;you may get interference. Change to a different (and preferably non-overlapping) channel in this case. Available channels vary with which wireless standard you're using. When 'Auto Channel' is selected, a vacant channel is selected automatically.<br>11ac/n/a: Auto, 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140 channel (Default value: Auto channel)<br>11n/g/b: Auto, 1-13 Channel (Default value: Auto Channel)
+802.11ac/n/a
+High speed mode cannot be used when channel 165 is selected under 11ac/n/a mode.
+11ac/n/a: You can select 6, 9, 12, 18, 24, 36, 48, 54 Mbps.<br>11n/g/b: You can select 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54 Mbps.<br>The default value is &quot;1 Mbps&quot;.
+not use
+not use
+not use
+Default value is as follows.<br>11ac/n/a : 80MHz<br>11n/g/b : 20MHz<br>
+##1009
+PPPoE Settings
+If PPPoE is used, 
+you’ll have more detailed setup options on this page.</p><br>
+Note:
+If [Acquire IP address automatically from DHCP server] or [Manual Setup] is set as the <a href="../help/help_glossary.html#WAN">Internet</a> side communication method, or if something besides PPPoE was detected when [Easy Setup] ran, it is not necessary to enter information on this page. (Even if it is set, it is not used.) Additionally, when [Easy Setup] is executed, information set on this page may be rewritten.</p><br>
+Default PPPoE Connection
+If multiple destinations are registered to the <a href="../help/help_pppoe_main.html#pppoe_peer_list">PPPoE destination list</a>, the destination used for the Internet connection should be selected.<br></p><br>
+Note:
+This cannot be selected unless two or more PPPoE destinations are enabled.<br><br>
+
+
+
+
+
+
+
+
+IP Unnumbered PPPoE Connection
+Select the destination to be used from the destinations registered to the PPPoE destination list when [Use IP Unnumbered] is specified. A disabled destination cannot be selected. When IP unnumbered is configured, only a destination specified here may be used.<br></p><br>
+Note:
+This option can be chosen when two or more PPPoE connection destinations are enabled. PPPoE connections not specified here can be used through default PPPoE connections.</p><br><hr><br>
+PPPoE Connection List
+This AirStation supports up to 5 destinations. To edit PPPoE destinations, click [Edit Connection List].</p><br>
+Preferred Connections List
+When multiple PPPoE destinations are enabled, you can specify the destination to be used according to the communication packet type. Here, you can set up a policy to determine which destination should be used depending on the origin of packets (LAN side or <a href="../help/help_glossary.html#WAN">Internet</a> side). Click [Edit Preferred Connections] to change settings. Up to 16 routing policies can be registered.</p><br>
+PPPoE Settings - Preferred PPPoE Connection
+When multiple PPPoE connections are being used, the PPPoE connection targets can be automatically assigned based on the type of communication packets. In this AirStation, the communication packets transferred to each connection target can be defined based on the LAN sender address and Internet receiver address. This setting is not necessary if only one PPPoE connection is being used, or if a PPPoE connection is not being used.<br>
+<a href="../help/help_pppoe_route.html#table_area">The connection target path</a> is defined by the conditions (sender and receiver addresses) and connection target, and the AirStation checks all the communication packets based on this table starting from the top and moving down to see whether they are applicable.<br>The default connection target is selected for any packet that does not meet any of the conditions.<br><br>The maximum number of registered route rules is 16.</p><br>
+Return to previous page
+Closes the current page without saving.<br>
+Add/Edit Preferred PPPoE Connection
+This field lets you edit or add a line to the table below.<br>
+Note:
+You cannot specify both destination address and sender address. You can specify either of them; the other must be left blank.
+Name
+Select a destination to be transferred from the list. You can select a destination that is currently registered in the PPPoE connection list.<br>
+Destination Address
+Conditions for packet transfer.Specify the packet destination by <a href="../help/help_glossary.html#IPADDR">IP address</a>, network address, or domain name.<br>
+<ul><li><b>IP Address</b><br>Specify the destination <a href="../help/help_glossary.html#IPADDR">IP address</a> of the packet.Example : 192.168.11.20<br></li>
+<li><b>Network Address</b><br>Specify the network address to which the destination <a href="../help/help_glossary.html#IPADDR">IP address</a> of the packet belongs.<br>To specify the network address here, specify the <a href="../help/help_glossary.html#IPADDR">IP address</a> and insert a [/](slash) behind it. Then input the number which indicates the network address length.<br>Example : 11.22.123.0/24<br>Example : 33.22.0.0/16<br></li>
+<li><b>Domain Name</b><br>Specify the hostname for the packet destination  <a href="../help/help_glossary.html#IPADDR">IP address</a> or a wildcard (*) to choose multiple hostnames.<br>Example : www.buffalotech.com</li></ul>
+Source Address
+Conditions for packet transfer.<br>Specify the sender <a href="../help/help_glossary.html#IPADDR">IP address</a> of the packet here. <br>
+<ul><li><b>IP Address</b><br>Specify the sender <a href="../help/help_glossary.html#IPADDR">IP address</a> of the packet.<br>Example : 192.168.11.20<br></li></ul>
+Note:
+The LAN <a href="../help/help_glossary.html#IPADDR">IP address</a> of this AirStation and the network address to which the LAN <a href="../help/help_glossary.html#IPADDR">IP address</a> of this AirStation belong cannot be specified as sender address.
+Add
+Click to add an entry to the table below.
+Save
+Click to save and refresh the table.<br><br>This button only appears in edit mode. Click [Edit] to enter edit mode.<br>
+Cancel
+Click this button to abort your edits.
+Preferred PPPoE Connections
+Table of destination routes.<br>
+Edit
+Click [Edit] to change an entry. The line will be flagged as "Editing". When editing is complete, click [Save] to keep your changes or [Cancel] to discard them.
+Delete
+Click [Delete] to permanently remove the entry.<br>
+Up arrow
+Clicking this button switches this line with the one above.<br>
+Down arrow
+Clicking this button switches this line with the one below.<br>
+Note:
+After editing your connection list, please close and restart your browser.
+PPPoE Settings - Edit Connection List
+Many <a href="../help/help_glossary.html#Provider">provider</a>s require authorization information such as a username and password for a PPPoE connection. You may have to configure some of the fields below. Contact your <a href="../help/help_glossary.html#Provider">provider</a> for more information on what settings to enter.
+Return to previous page
+Closes the current page without saving.<br>
+Note:
+If neither "default connection destination", nor "IP unnumbered connection destination" are configured, the original PPPoE connection that was first registered will be used.
+If the PPPoE destination list is edited and the default destination is changed or deleted, the default destination will be shifted to another active destination.<br>If there is no other active destination available, no destination (blank) will be registered.
+If the PPPoE destination list is edited and the IP unnumbered destination is changed or deleted, the IP unnumbered destination will be shifted to another active destination.<br>If no other active destination is available, no destination (blank) will be registered.
+If an invalid entry is entered in the PPPoE connection list, registered information is unchanged but "disabled" is displayed as the status.<br>If a PPPoE connection is disabled or removed, that connection will be disabled or removed in the preferred connection list as well.
+If an invalid entry is entered in the PPPoE connection list, registered information is unchanged but "disabled" is displayed as the status.<br>If a PPPoE connection is disabled or removed, that connection will be disabled or removed in the preferred connection list as well.
+Add/Edit PPPoE Connection
+This field lets you edit or add a line to the table below.<br>
+Name of Connection
+Enter a unique name such as the name of your <a href="../help/help_glossary.html#Provider">provider</a> as the destination name.<br>The destination name may contain up to 32 single-byte alphanumeric characters. Do not use two-byte characters.
+Note:
+Easy Setup will configure the <a href="../help/help_glossary.html#WAN">Internet</a>-side IP address if a PPPoE conection is available. The PPPoE connection is added to the connection list.
+Username
+Enter the username exactly as provided by your <a href="../help/help_glossary.html#Provider">provider</a>. A maximum of 64 characters may be entered.<br>Use the full name including the characters after the @ symbol.
+Password
+Enter the password provided by your <a href="../help/help_glossary.html#Provider">provider</a> (twice).The password is case sensitive and may use up to 64 characters.If your <a href="../help/help_glossary.html#Provider">provider</a> didn’t give you a password, leave this field blank.
+Note:
+<b>The default password field</b><br>The password is displayed as ’********’ for security reasons. If the password is blank, it is displayed as blank.<br>
+<b>Display password</b><br>To prevent peeping, the password field shows ’*’ even before any characters are entered.<br>
+<b>Edit password</b><br>Remove ’********’ before entering a new password.<br>
+<b>Keep current password</b><br>Don’t edit ’********’ if you want to keep the current password.<br>
+<b>Confirmation</b><br>Password confirmation is required. Enter same password again.<br>
+Service Name
+If your <a href="../help/help_glossary.html#Provider">provider</a> provided a service name, enter it here. The service name may include up to 64 characters.<br>If no service name was provided, leave this field blank.
+Advanced Settings
+Only change these if you know what you’re doing!
+Connection Type
+Select the connection method to be used by the AirStation. The default is [Continuous Connection].<br><br>
+Continuous Connection
+Connects Immediately when the AirStation is powered on.<br>
+Connection on Demand
+Connects only when a communication session is opened. The connection will drop when the session is closed or the idle time expires.<br>
+Manual
+The connection must be initiated manually. The connection will drop when the session is closed or the idle time expires.<br>
+Note:
+If "Internet@start" is selected as the method of obtaining the IP address, the default PPPoE connection is connected (once) under any of the following conditions, even if "On-demand connection" or "Manual connection" is selected.<br>
+(1) When the AirStation is started<br>
+(2) After updating the firmware<br>
+(3) After restoring settings<br>
+(4) After changing the Internet port settings<br>
+(5) After changing the Syslog settings<br>
+(6) After changing the time settings<br>
+(7) After execution of AOSS<br>
+Automatic Disconnection
+Select the conditions and time for automatic disconnection. Automatic disconnection is disabled if continuous connection is selected.<br>
+Disconnect Condition
+Choose the conditions for which the AirStation wil disconnect the PPPoE connection.
+When no packets are sent or received
+The PPPoE connection is disconnected when no packets are sent or received between the AirStation and the PPPoE server for the disconnection period.
+When no packets are sent
+The PPPoE connection is disconnected when no packets are sent to the PPPoE server for the disconnection period. Received packets have no effect on automatic disconnection.<br>
+When no packets are received
+The PPPoE connection is disconnected when no packets are received by the PPPoE server for the disconnection period. Sent packets have no effect on automatic disconnection.<br>
+Disconnection Time
+The disconnection time is the period in minutes before the connection to the Internet is disconnected. Enter a time from 0-1440 minutes. If 0 is entered, the connection will never be disconnected. The default is 5 minutes.
+Note:
+If automatic disconnection doesn’t work, check the following.<br><br>[Manual] or [On demand] should be selected.<br><br>Check traffic to and from the AirStation.<br><br>
+Choose "when no packets are sent" for the disconnection condition.<br><br>
+Authorization
+CHAP authorization is more secure than PAP authorization because the password is encrypted. 
+If your <a href="../help/help_glossary.html#Provider">provider</a> did not tell you which type of authorization to use, use automatic authorization.<br>
+Note:
+If an authorization error occurs, check the username and password.<br>
+MTU Size
+This value sets the maximum transmission unit (MTU) size. Allowable values are from 578 - 1492 bytes.<br>
+If this value is not specified by the <a href="../help/help_glossary.html#Provider">provider</a>, use the default value of 1454.<br>
+MRU Size
+This value sets the maximum receive unit (MRU). Allowable values are from 578 - 1492 bytes.<br>The AirStation uses this value for MRU negotiation with the PPPoE server.<br>
+If this value is not specified by the <a href="../help/help_glossary.html#Provider">provider</a>, use the default value of 1454.<br>
+Keep Alive
+nabling keep alive sends a LCP echo request to the PPPoE server once per minute.<br>If there is no response for six minutes, the AirStation assumes the line is dead and terminates the communication session.<br>
+The PPPoE server may not respond to the echo request even though the line is actually open, so frequent disconnects may occur. If this occurs, disable this function.<br>The default is enabled.<br>
+Add
+Click to add an entry to the table below.
+Save
+Click to save and refresh the table.<br><br>This button only appears in edit mode. Click [Edit] to enter edit mode.<br>
+Cancel
+Click this button to abort your edits.
+Display Preferred Connections
+Display the packet route when using a PPPoE connection.<br>
+Off
+Click this button to disable the PPPoE connection. This button is available when the PPPoE connection is enabled.<br>
+This connection can’t be selected for the default or IP unnumbered connection.<br>When the current PPPoE connection is disabled the connection is disconnected and stopped, then disabled.<br>
+When an idle PPPoE connection is disabled, the connection is stopped then disabled.<br>
+On
+Click this button to enable the PPPoE connection.<br>This button appears when the PPPoE connection is disabled.<br>Initial status is enabled.<br>
+The enabled connection can be used and selected for the default or IP unnumbered connection.
+Status
+The PPPoE connection may be [Enabled] or [Disabled].<br>The default is [Enabled].<br>Click [Off] to change status.<br>
+The enabled connection can be used and for the default or IP unnumbered connection. Disabled connections can’t be used for the default or IP unnumbered connections.<br>
+Edit
+Click [Edit] to change an entry. The line will be flagged as "Editing". 
+When editing is complete, click [Save] to keep your changes or [Cancel] to discard them.
+Delete
+Click [Delete] to permanently remove the entry.<br>
+LAN Side IP Address&#x28;For IP Unnumbered&#x29;
+Configure the AirStation’s LAN IP address when <a href="../help/help_glossary.html#IPADDR">IP Unnumbered</a> is used. 
+The default is blank.<br>
+PPPoE Settings
+PPPoE is used by some ISPs to connect to the Internet.
+If you need help configuring PPPoE for IP unnumbered, contact your ISP for more information.
+Note:
+You don't need to change or enter anything on this page if the communication method is set to <i>Acquire IP address automatically from DHCP server</i>.
+PPPoE Connection List
+You can edit PPPoE connections by clicking <i>Edit Connection List</i>. This AirStation supports up to 5 connection destinations.
+Preferred Connections
+You can set up which connection should automatically be used depending on origin of packets (LAN-side or WAN-side). Up to 16 routing policies can be registered. Click <i>Edit Preferred Connections</i> to change settings.
+##1010
+Web Filtering
+Configure website content filters for computers on your network. You must agree to the Symantec terms of service to use this feature.
+Content Filter
+The content filter blocks objectionable websites. Select a filter level to be applied.
+Websites Excluded from Filter
+Specify a list of websites that will be unaffected by the content filter. Click Add and enter any website (up to 20 are allowed).
+Computers Excluded from Filter
+Set a list of computers on the network that will be unaffected by the content filter. Click Add and enter a network computer's MAC address (up to 20 are allowed). For a more detailed guide on how to set up the web filter, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=security-parentalcontrols_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+##1011
+Internet Settings
+Configure basic Internet settings for your AirStation here. If you are already connected, these settings can be left alone.
+If you are not connected to the Internet, check <i>Run Internet Connection Wizard</i> and click <i>Apply</i>. Once Internet Connection Wizard starts, follow the on-screen directions to set up a connection.
+Note:
+Internet Connection Wizard works best with a DHCP or PPPoE connection. For other types of connections, you may need to manually configure specific settings. If your network requires a login or other special settings, or if Internet Connection Wizard does not create a connection, contact your ISP.
+Advanced Settings
+Unless you are familiar with WAN configurations, these settings should be left alone.
+Default Gateway
+Enter the IP address that will be used as the gateway address for connecting clients.
+DNS Name Server Address
+Enter the IP addresses of the DNS servers.
+Internet MAC Address
+Specify the Internet port’s MAC address. Do not change this unless your ISP specifically tells you to.
+MTU Size of Internet Port
+The MTU (maximum transmission unit) value should be set between 578 and 1500.
+PPPoE Connections
+Create additional PPPoE connections or edit existing ones on this page. Contact your ISP if you need help configuring any of the following.
+Name of Connection
+Enter the name of the new PPPoE connection.
+Username and Password
+If your ISP provided a username and password for you, enter them here, otherwise, leave it blank.
+Service Name
+If your ISP provided a service name for you, enter it here, otherwise leave it blank.
+Advanced Settings
+Select the <i>Connection Type</i>. If your ISP didn’t provide you with this, leave it as default.
+Continuous Connection
+Connect immediately when the AirStation is powered on, and maintains the connection unless the router is powered off. If disconnection timeout occurs, contact your ISP.
+Connection on Demand
+Connect only when you try to access the Internet.
+Manual
+Connection must be initiated manually.
+Automatic Disconnection
+Select the <i>Disconnect Condition</i>, the scenario where automatic disconnection occurs after a set amount of time.
+Disconnection Time
+The amount of time that passes before disconnection occurs based on the <i>Disconnect Condition</i>. Enter a time in minutes, up to 1440 (24 hours). If you enter 0, the connection will never terminate.
+Authentication
+Select the authentication method to confirm your connection. We <b>highly recommend</b> using CHAP authentication for security. If your ISP has set up authentication with you, select <i>Automatic Authentication</i> instead.
+MTU/MRU Size
+The MTU (maximum transmission unit) and the MRU (maximum receive unit) values should be set between 578 and 1492.
+Keepalive
+If enabled, the AirStation will send a constant signal to the PPPoE server to prevent timeout, keeping you connected to the Internet indefinitely. If disconnections occur while keepalive is enabled, contact your ISP.
+Connections List
+Displays the list of PPPoE connections. You can click <i>Off</i> to turn off any connections or <i>Edit</i> to make any changes. Click <i>Delete</i> to remove the entry.
+Preferred PPPoE Connections
+PPPoE connections are usually automated and do not require manual settings. If you need additional help configuring the options below, contact your ISP for more information.
+Select the name of the connection and then enter the destination address and the source address. They cannot be entered at the same time.
+Preferred PPPoE Connections: Add
+Add a specific preferred PPPoE connection.
+The <i>Destination Address</i> can be specified by the IP address, the network address, or the domain name. This is the location where packets are sent.
+The <i>Source Address</i> is the location packets are originating from. Enter the sender's IP address into this field. The LAN-side IP address of the AirStation and the network address to which the LAN-side IP address of the AirStation belong cannot be specified as the sender address.
+Preferred PPPoE Connections List
+Once the list has been set, click <i>Edit</i> to make any changes or <i>Delete</i> to remove the entry.
+Dynamic DNS Settings
+Dynamic DNS allows you to easily access your network over the Internet using a fixed hostname (e.g. yourwebsite.ddns.com) instead of an IP address. A fixed hostname is much more practical for access since an IP address will change constantly.
+To use these settings, you must have an account with a dynamic DNS provider. At this time, only <b>DynDNS</b> and <b>TZO</b> are supported.
+
+
+DynDNS
+Enter the information from DynDNS for the username, password, and hostname. You will also need to set the <i>IP Address Update Period</i>, which is how often DynDNS is updated with the AirStation's IP address. This may be set from 0-35 days (the default is 7). If 0 is entered, no updates will be sent.
+TZO
+Enter the information from TZO for the email address, TZO key, and domain name. You will also need to set the <i>IP Address Update Period</i>, which is how often TZO is updated with the AirStation's IP address. This may be set from 0-99 days (the default is 7). If 0 is entered, no updates will be sent.
+NAT Settings
+NAT (network address translation) allows all the devices on your network to share the same public IP address. Since this conceals the private IP addresses of your devices, your network is protected from outside access.
+NAT is enabled by default. If address translation is disabled, the AirStation will function as a router only.
+##1012
+LAN Connection Settings
+Configure the AirStation's LAN-side IP address, subnet mask, and local DHCP server settings here. The default settings are recommended.
+LAN-side IP Address
+Enter an unused IP address from the LAN's range of IP addresses. The default IP address and subnet mask is 192.168.11.1 and 255.255.255.0, respectively.
+DHCP
+The DHCP server is enabled by default, and assigns IP addresses from the DHCP pool. The maximum number of addresses allowed is 256 per AirStation. Make sure the assigned IP addresses do not duplicate ones already in use.
+IP addresses can be excluded from the IP address range. Separate specific ones with a comma (e.g. 192.168.11.7, 192.168.11.9), or enter a range of IP addresses with a hyphen (e.g. 192.168.11.15–192.168.11.21).
+Advanced Settings
+Unless you are familiar with specific configuration options, the default settings are recommended.
+Lease Period
+The length of time the DHCP address can be used before it must be renewed. You can set from 1 to 999 hours.
+Default Gateway
+The IP address to be used as the gateway address for connecting clients.
+DNS Server Address
+The IP address to be used as the primary DNS server address to clients.
+WINS Server Address
+Specify the IP address of a local Windows NetBios server if there is one on your network.
+Domain Name
+The domain name for the local network.
+DHCP Server
+A DHCP Server automatically assigns IP addresses to devices on the network.
+To assign a fixed IP address to a client, click <i>Add Client</i>.
+Current DHCP Clients
+Displays the list of current DHCP client devices and lease periods. The maximum number of devices that can be assigned is 256. If <i>Manual Assignment</i> is displayed for an entry, you can click it to make changes or delete the entry.
+Add DHCP Clients
+On the Add Client page, enter an IP address within range of the DHCP pool and the client's MAC address, then click <i>Add</i>. If device is rebooted, it will keep the same IP address.
+Do not assign IP addresses that conflict with existing addresses from the DHCP pool. The fixed IP address will not change and the IP address will be removed from the DHCP pool until the conflict is resolved.
+Routing
+A route is a rule that determines the best "route" to direct data packets.
+Click <i>Add</i> to add a route.
+Once a route has been added as an entry, you can click <i>Edit</i> to make any changes or <i>Delete</i> to remove it.
+Add Route
+Enter the route's destination IP address and subnet mask. If traffic is only going to one host as the destination, enter the IP address and use (Host 255.255.255.255) for the subnet mask. You will also need to enter the gateway IP address.
+The <i>Metric</i> field denotes the maximum number of routers to traverse. You can enter a number from 1 to 15 (default is 15).
+Once you click <i>Add</i>, the route will automatically appear on the main Route page. Once a route has been added as an entry, you can click <i>Edit</i> to make any changes or <i>Delete</i> to remove it.
+##1013
+WPS (Wi-Fi Protected Setup)
+WPS is a standard that allows home users to easily configure a secure wireless network. It is similar to Buffalo's AOSS but was created by the Wi-Fi Alliance.
+If the wireless network was configured without using WPS, connecting a new device via WPS will change the network settings.
+External Registrar
+If disabled, the AirStation will not respond to WPS connections with other wireless devices. Wired connections can still use WPS. Automatically disabled when AOSS is enabled.
+Connecting Devices with WPS
+Press and hold the AOSS button for two seconds and then release it. Within the next two minutes, push the WPS button on the client device. It should automatically connect. Repeat this process for each wireless device that supports WPS.
+Some WPS client devices will require the AirStation's PIN to connect. To get a new PIN, click <i>Generate PIN</i>.
+If you have the WPS PIN of another wireless device, enter it into the <i>WPS PIN</i> field and click <i>OK</i>. The AirStation will connect to the WPS device within two minutes.
+Note:
+For the location of your device's WPS button, refer to its documentation. For a PC running Windows Vista or later, the Client Manager V application (available for download from the Buffalo website) can give it AOSS/WPS functionality.
+WPS Security Settings
+This section displays the current connected devices and their security settings.
+AOSS (AirStation One-Touch Secure System)
+AOSS is a proprietary system by Buffalo that lets you set up a secure wireless connection with the push of a button. You can connect up to 24 devices using AOSS.
+If you already have a wireless network that was configured without using AOSS/WPS, connecting a new device via AOSS will change its settings. AOSS cannot be used if the SSID contains any spaces.
+For a more detailed guide on how to use AOSS to connect devices, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=wireless-aoss_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+Allow WEP for Game Console Only
+If enabled, portable game consoles that only support WEP can connect using AOSS.
+AOSS Button on the AirStation Unit
+When checked, enables the physical AOSS button on your AirStation.
+To connect another AOSS wireless device, press and hold the AirStation's AOSS button for two seconds, and then push the AOSS button on the client device. It should automatically connect.
+Note:
+For the location of a device's AOSS button, refer to its documentation. For a PC running Windows Vista or later, the Client Manager V application (available for download from the Buffalo website) can give it AOSS/WPS functionality.
+2.4 GHz Wireless Settings
+Configure settings for your standard 2.4 GHz wireless LAN on this page.
+Wireless
+Enabled by default. If disabled, all wireless functionality stops.
+Wireless Channel
+Specify a frequency band for your wireless connections. You may get interference if other wireless devices are near the AirStation. If this is the case, change to a different (and non-overlapping) channel.
+High-Speed Mode
+Select the AirStation wireless bandwidth. To achieve 40 MHz, the AirStation will use channel bonding, which combines two adjacent wireless channels. The second channel used will be displayed under <i>Extension Channel</i>. However, performance with non-Buffalo devices may not improve. Use 20 MHz if you experience any difficulties.
+Broadcast SSID
+If disabled, the SSID will not appear when a connecting client searches for a list of networks. The AirStation's SSID will have to be manually entered for the client.
+SSID1/SSID2
+This AirStation can have up to two security profiles. Check <i>Use</i> to enable. When enabled, set the SSID name, and select the authentication and encryption methods.
+SSID Isolation
+If enabled, connected wireless devices can communicate only with other wireless devices on the same SSID. They cannot communicate with other wired devices on the same SSID. They also cannot communicate with wireless devices on another SSID.
+Wireless Authentication
+Select the type of authentication required to access your network. SSID1 supports WPA/WPA2 and SSID2 is used exclusively for WEP.
+Wireless Encryption
+Select the encryption that protects data transmitted over your network. The encryption method will be dependent on the wireless authentication selected.
+If SSID1 is using AES encryption, set a pre-shared key as the encryption password for the AirStation and all clients.
+For SSID2 WEP, enter a WEP encryption key. You can enter it as either ASCII or hex. ASCII keys will be case-sensitive. Hex keys can use characters 0-9 and a-f.
+Key Renewal Interval
+The period that passes before the encryption key is automatically updated. Set the time from 0 to 1440 minutes (24 hours). If this is set to 0, the key is not updated.
+Advanced Settings
+These settings allow more control over router settings. Unless you are extremely familiar with wireless networking, use the default settings.
+BSS Basic Rate Set
+The basic rate set is the list of data rates supported by the AirStation. Once the rates are set, all other devices on the network will use these rates.
+Multicast Rate
+Sets the transmission rate used for multicast broadcasts, such as streaming media. The default is 1 Mbps.
+802.11n Protection
+If the network contains both 802.11n and 802.11ac devices, enabling 80.211n Protection will prevent signal interference between devices and improve performance. Disabled by default.
+DTIM Period
+This setting only affects network clients on power-saving or sleep mode. The DTIM period indicates how often sleeping clients should check for data packets to be routed. Setting larger values will allow sleep mode to continue longer (thus saving power), but may slow network traffic. Enter a number from 1-255. Default value is "1".
+Wireless Client Isolation
+If checked, wireless client devices will not be able to communicate with each other. They can access the Internet and wired client devices.
+Output Power
+Controls your AirStation's wireless broadcast range. For example, if this is set to 50%, the AirStation's wireless broadcast range will be reduced by about half.
+WMM (Wi-Fi Multimedia) Settings
+Using the default values is highly recommended.
+5 GHz Wireless Settings
+Configure settings for your standard 5 GHz wireless LAN on this page.
+Wireless
+Enabled by default. If disabled, all wireless functionality stops.
+Wireless Channel
+Specify a frequency band for your wireless connections. You may get interference if other wireless devices are near the AirStation. If this is the case, change to a different (and non-overlapping) channel.
+High-Speed Mode
+Select the AirStation wireless bandwidth. To achieve 80 MHz, the AirStation will use channel bonding, which combines two adjacent wireless channels. However, performance with non-Buffalo devices may not improve. Use 20 MHz if you experience any difficulties.
+Broadcast SSID
+If disabled, the SSID will not appear when a connecting client searches for a list of networks. The AirStation’s SSID will have to be manually entered for the client.
+SSID1/SSID2
+This AirStation can have up to two security profiles. Check <i>Use</i> to enable. When enabled, set the SSID name, and select the authentication and encryption methods.
+SSID Isolation
+If enabled, connected wireless client devices can only communicate with other wireless devices on the same SSID. They cannot communicate with wired devices on the same SSID. They also cannot communicate with wireless devices on another SSID.
+Wireless Authentication
+Select the type of authentication required to access your network. SSID1 supports WPA/WPA2 and SSID2 is used exclusively for WEP.
+Wireless Encryption
+Select the encryption that protects data transmitted over your network. The encryption method will be dependent on the wireless authentication selected.
+If SSID1 is using AES encryption, set a pre-shared key as the encryption password for the AirStation and all clients.
+For SSID2 WEP, enter a WEP encryption key. You can enter it as either ASCII or hex. ASCII keys will be case-sensitive. Hex keys can use characters 0-9 and a-f.
+Key Renewal Interval
+The period that passes before the encryption key is automatically updated. Set the time from 0 to 1440 minutes (24 hours). If this is set to 0, the key is not updated.
+Advanced Settings
+These settings allow more control over router settings. Unless you are extremely familiar with wireless networking, use the default settings.
+BSS Basic Rate Set
+The basic rate set is the list of data rates supported by the AirStation. Once the rates are set, all other devices on the network will use these rates.
+Multicast Rate
+Sets the transmission rate used for multicast broadcasts, such as streaming media. The default is 6 Mbps.
+802.11n Protection
+If the network contains both 802.11n and 802.11ac devices, enabling 80.211n Protection will prevent signal interference between devices and improve performance. Disabled by default.
+DTIM Period
+This setting only affects network clients on power-saving or sleep mode. The DTIM period indicates how often sleeping clients should check for data packets to be routed. Setting larger values will allow sleep mode to continue longer (thus saving power), but may slow network traffic. Enter a number from 1-255. Default value is "1".
+Wireless Client Isolation
+If checked, wireless client devices will not be able to communicate with each other. They can access the Internet and wired client devices.
+Output Power
+Controls your AirStation's wireless broadcast range. For example, if this is set to 50%, the AirStation's wireless broadcast range will be reduced by half.
+WMM (Wi-Fi Multimedia) Settings
+Using the default values is highly recommended.
+MAC Filtering
+When MAC filtering is enabled, only registered MAC addresses are allowed to connect to the AirStation. This enhances security by preventing unauthorized wireless devices from accessing your network.
+MAC filtering cannot be used while AOSS is in use. Wireless devices connected via the guest port are not affected by MAC address restrictions.
+The <i>Registration List</i> displays the list of MAC addresses allowed to connect to the AirStation, along with the connection status. Click <i>Edit Registration List</i> to add or edit registered MAC addresses.
+Note:
+The wireless MAC address of an AirStation may be different from its main MAC address. Confirm the client AirStation's wireless MAC address on its Settings.
+Editing Registration List
+To add a client device, enter the client's MAC address and click <i>Add</i>. It will be displayed in the list along with its connection status. You can click <i>Edit</i> to make any changes or <i>Delete</i> to remove the entry.
+This page will also display all clients associated with the AirStation. Click <i>Refresh</i> to update the list.
+Multicast Control
+When enabled, multicast traffic is pruned from links that do not contain a multicast listener, reducing traffic from streaming media and other IP multicast applications. Multicast tunnel transfer mode is used if your clients support it.
+Multicast Aging Time
+The length of time that multicast snooping information is held. Enter a time from 1 to 3600 seconds.
+Guest Account Settings
+A guest account creates a connection for guests to join and use without affecting your main wireless network. Wireless devices connected to the guest account can connect to the Internet, but cannot access other wireless devices on the network.
+By default, the guest account option is disabled. If enabled, you are strongly encouraged to also enable <i>Guest User Authentication</i> so only registered guest users can use the guest account. If authenticated wireless devices are disconnected, they must re-authenticate within an hour.
+Guest Account LAN-side IP Address
+Set the LAN-side IP address and subnet mask to be used for guest access. You can leave it on <i>Auto</i>, or select <i>Manual</i> to open additional options. If you set it to Auto, DHCP is automatically enabled.
+IP Address
+Clicking Set recommended value will automatically populate an IP address. <b>Do not</b> use IP addresses that are being used by other functions such as DHCP.
+Subnet Mask
+Select a subnet mask from the dropdown box.
+Guest Account DHCP Server
+Enable DHCP for the guest account.
+Permitted Access Time
+The length of time a guest user can remain logged in before re-authenticating.
+Wireless Settings
+Guests cannot connect using the AOSS key. Security information (authentication, encryption, etc.) configured for the guest account setting cannot be used for AOSS configuration.
+SSID
+You can use the default guest SSID, or check the <i>Enter value</i> box to enter a new one. The SSID may contain up to 32 alphanumeric characters (case-sensitive) and symbols.
+Wireless Authentication
+Select the type of authentication for guest users. Depending on the type selected, you will need to enter a pre-shared key (password).
+Wireless Encryption
+Select the type of encryption to use for the guest account.
+Registered Guest Users
+The list of current guest users registered to this AirStation is displayed here.
+Guest Users
+Enter the username and password for a new guest user, then click <i>Add</i>. The new user should appear on the current guest user list. If it does not appear, click <i>Refresh</i>.
+Once a new user is added, click <i>Edit</i> to change the username or password, or <i>Delete</i> to remove the guest user.
+AOSS Client Information
+Displays information for wireless clients connected using AOSS. Up to 64 AOSS-connected client devices can be displayed. Each client will display its name, MAC address, wireless encryption used, and its wireless status.
+You can click <i>Deny Connection</i> to disconnect a client device from the AirStation or <i>Delete</i> to remove the client from the list of devices. A client that has been removed from the list can re-connect to the AirStation.
+##1014
+Firewall
+The AirStation firewall blocks unnecessary or unauthorized packets received from the Internet and information leaks from the LAN side.
+Prohibit NBT and Microsoft-DS routing
+When enabled, prevents unexpected external access to your Windows machines from the Internet.
+If Internet Connection Wizard was used to set up a PPPoE connection, check <i>Prohibit</i> to prevent that connection from being used.
+Reject Ident Requests
+When enabled, the AirStation will automatically reject ident requests. This is enabled by default.
+Block Ping from Internet
+When enabled, the AirStation will not respond to pings from the Internet. This is enabled by default. If DMZ is enabled, this setting will be disabled automatically.
+If Internet Connection Wizard was used to set up a PPPoE connection, check <i>Ignore</i> to prevent the connection from being used.
+IP Filter
+IP filtering stops incoming traffic from specific IP addresses. You can configure specific packet monitoring rules for the AirStation (up to 32). If the incoming packet meets a rule before it is routed, the set action will be taken. By default, the AirStation does not come with any pre-set IP filters.
+Once you have configured the rule, click <i>Add Rule</i> to enter it into the list of rules below.
+Action
+Determines which action to take for incoming packets.
+Direction
+Determines the direction (i.e. incoming or outgoing) of packet flow to be filtered.
+LAN>Internet
+Filters outbound packets.
+Internet>LAN
+Filters inbound packets.
+IP Address
+Select an individual source and destination IP address to be designated for filtering. If you leave this field blank, all IP addresses will be filtered.
+Protocol
+Select the type of protocols to be targeted for filtering.
+Once a rule is set, you can click <i>Edit</i> to change it or <i>Delete</i> to erase it.
+VPN Passthrough
+VPN passthrough allows VPN traffic to "pass through" to your network, ensuring a smooth remote VPN connection.
+IPv6 Passthrough
+When enabled, IPv6 traffic is permitted through the network, allowing devices to access both IPv4 and IPv6 websites.
+PPPoE Passthrough
+When enabled, all PPPoE packets can pass through the Internet and LAN, and a PC connected to the LAN can use the PPPoE protocol to automatically acquire an IP address from the service provider.
+PPTP Passthrough
+When enabled, VPN connections are allowed through network address translation.
+Port Forwarding
+Some games and software require port forwarding for proper operation. If UPnP is enabled, most programs will configure this for you automatically. Otherwise, you can manually set rules for port forwarding (up to 32 rules can be registered).
+Consult your game's documentation for specific information.
+For a more detailed guide on how to configure port forwarding rules, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=security-portforwarding_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+Group
+Creates a group of port forwarding rules. Once a group has been created, you can edit port forwarding rules within that group only, or select a group of port forwarding rules to be disabled.
+Internet-side IP Address
+Specify an IP address the AirStation will forward ports from. Although you can manually enter an IP address, we <b>highly recommend</b> using <i>AirStation's Internet-side IP Address</i>.
+Protocol
+Select a protocol (and its corresponding port) from the dropdown menu. The default is TCP/UDP, and for the most part only TCP/UDP and the specific port will be used. If you are unsure of which specific protocol/port to use, select <i>All</i>.
+TCP/UDP
+When selecting the TCP or UDP protocols, the destination port number must also be selected. Valid port numbers are 1-65535.
+Preset protocols will have ports automatically associated (e.g. selecting HTTP will automatically select TCP port 80).
+LAN-side IP Address
+Enter the IP address of the LAN-side network device the ports will be forwarded to. This will be the IP address of the server to be used for network games, applications, etc. By default, this will be your computer.
+If an IP address is distributed dynamically from a DHCP server, and the IP address of your PC has changed because the DHCP lease expired, port forwarding may have to be reconfigured. In this case, it is recommended that you configure DHCP to give a fixed IP address to the LAN-side network device used with port forwarding.
+Note:
+Packets cannot be transferred to LAN-side devices if the LAN-side IP address is configured on another network segment.
+LAN-side Port
+When TCP/UDP is specified as the forwarding protocol and a single port number is specified, the LAN side port number should be changed. This port will almost always be the same as the one selected under <i>Protocol</i>. You can set port numbers from 1-65535 (multiple port numbers cannot be specified at once).
+Forwarded Ports
+Displays the list of all ports currently forwarded. You may enable or disable each entry by clicking <i>On</i> or <i>Off</i>.
+DMZ Settings
+A DMZ is an isolated network segment that will be placed outside the firewall, allowing for easy access to the Internet. Should this computer ever become compromised, the rest of the network can be kept safe.
+Enter the IP address of a LAN-side network computer to be used as the DMZ and click <i>Apply</i>. Anyone can access this address from outside the firewall.
+UPnP (Universal Plug and Play)
+UPnP allows network applications that support UPnP to configure port forwarding automatically. If disabled, you will have to manually configure port forwarding for applications that require it.
+Note:
+If using PPPoE and multiple connections are available, the default PPPoE connection is used for UPnP. When using an application which supports UPnP, confirm that the application can communicate with its destination through the default PPPoE connection.
+Access Control
+You can set up a schedule to control when network computers can or cannot access the Internet.
+Under Target Computer, enter a computer's MAC address and set its Permitted Access Time, which is the time frame that Internet access is allowed for the target computer.
+For each computer, select Internet Access or No Internet Access and then specify the start time, end time, and date(s) of restriction.
+For example, if you set Computer A to have No Internet Access from 9:00-11:00 on Monday-Wednesday, then Computer A will not be able to access the Internet at all during those time periods.
+For a more detailed guide on how to set up access control, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=security-parentalcontrols_accesscontrol_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+##1015
+eco Mode
+To save power, the AirStation can be set on a schedule where it automatically slows or powers down during set times.
+Power Saving
+Enable <i>Power Saving</i> to use the schedule feature.
+Schedule Entry
+Select the power saving mode the AirStation will operate under, as well as the duration and the days it is active. Click <i>Add</i> to save the changes.
+Power Saving Modes
+Normal
+Normal activity and normal power consumption.
+Sleep
+In this mode, the WAN port, wired and wireless LAN, and all LEDs are disabled. If the AirStation has powered down due to Sleep Mode, AOSS will not work until the AirStation powers back on. To temporarily resume normal activity, hold down the physical AOSS button for a few seconds.
+Custom Mode
+Features will be automatically disabled depending on selections made under <i>Custom Mode</i> Settings. Custom Mode also provides an <i>eco</i> option for the wired LAN, which lowers performance to save power.
+QoS Settings
+QoS (quality of service) is a feature that allows the AirStation to prioritize traffic by type. QoS ensures consistent performance when using certain high-traffic applications, such as video streaming. QoS is disabled by default.
+For a more detailed guide on how to configure QoS, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=application-qos_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+Upload Bandwidth
+Specify the bandwidth transferred from this unit to the Internet in kbps, from 1 to 1,000,000. This number will be limited by the actual maximum transfer speed of your connection.
+Enable
+Saved applications can be enabled or disabled to save bandwidth.
+Application Name
+Up to 32 alphanumeric characters may be entered in each line.
+Protocol
+Depending on the application, select either UDP or TCP as the transfer protocol. In general, TCP tends to be faster and more reliable, but requires more system resources.
+Destination Port
+Select a port (1 through 65535) to be used. If this is left empty, an unused port will be automatically entered.
+Priority
+Select a priority level for the application. The higher the priority, the more bandwidth will be assigned to it. Any traffic that does not belong to a configured QoS setting will be assigned "medium" or "low" priority automatically.
+##1016
+System Information
+You can manage the AirStation's name, password, and time settings on this page.
+AirStation Name
+The AirStation name is also used as the hostname for the WAN-side DHCP server. The name can contain up to 64 alphanumeric characters and hyphens (-). Don't use a hyphen as the first or last character in the name.
+Administrator Settings
+The AirStation administrator account is "admin". This account cannot be deleted or renamed. By default, the administrator password is "password". It should be changed immediately after you log in for the first time.
+If the AirStation is initialized to factory defaults, the administrator password will revert to "password".
+Access
+You can block access to the AirStation's settings from another device on the LAN. If both wired and wireless access is prohibited, further configuration changes cannot be made until factory defaults are restored.<br><i>Number of Packets</i> indicate any access attempts received.
+You can also allow a wired WAN-side device to make configuration changes. If this is selected, enter an IP address and a port number from which remote access is permitted. Access from the WAN-side is not logged.
+Time and Date
+For best results, all devices on your LAN should be configured with the accurate time. You can use an NTP (Network Time Protocol) server to set the time automatically. Otherwise, manually set the local time and date.
+If <i>NTP Functionality</i> is enabled, the AirStation can automatically update its time settings from an NTP server. You can specify an NTP server by hostname, domain and hostname, or IP address. The default NTP server is time.nist.gov. The <i>Update Interval</i> is how often the NTP server is queried. For example, if this is set at 24 hours, the NTP server is checked once a day.
+Syslog Settings
+This page contains settings for the AirStation to generate system event logs.
+If <i>Transfer Logs</i> is enabled, logs generated by the AirStation will be sent to the designated Syslog server. You can specify the Syslog server by either DNS name or IP address. The name may include up to 255 alphanumeric characters, hyphens (-), and periods (.). It should not begin or end with a period or hyphen.
+Select the information to be logged by the AirStation, and click <i>Apply</i> to save your settings. You can also request additional log details for specific logs by checking the <i>Detailed Logs</i> selections.
+Reset/Reboot
+You can save or restore the current AirStation configuration.
+For a more detailed guide on how to save or restore AirStation settings, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=admin-saverestore_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+Back Up Settings
+You can save your current AirStation configuration to a backup file on your PC. Select <i>Back up settings</i> and click <i>Execute</i>.
+The backup file can be encrypted with a password. If so, restoring settings from the file will require the password. The password may include up to 8 single-byte alphanumeric characters and underscores (_).
+Restore Settings
+To restore your AirStation settings from a backup file, select Restore settings. Search for the backup file on your PC and click <i>Execute</i>.
+When settings are restored, all values (e.g. IP address, encryption key, etc.) are changed to the ones saved in the backup file. The administrator password for logging in to the AirStation will also be restored to its previous value.
+Note:
+The AirStation cannot use a backup file that was created with a later version of the firmware or another product.
+Initialize Settings
+Select <i>Initialize AirStation</i> and click <i>Execute</i>. All settings (including the admin password) will be reset to their factory defaults.
+Restart AirStation
+Click <i>Restart</i> to reboot the AirStation.
+Update Firmware
+Updated firmware will help fix bugs, add new features, and sometimes improve router performance. Your current firmware version is displayed on this page.
+If a new firmware version is available, it will be displayed at the top of the page, under the Info icon. You can also click the 'Buffalo' link to check for the latest firmware online.
+Updating Firmware
+To update the firmware from a file on your PC, choose <i>Specify a local file</i>. Browse to the file and click <i>Update Firmware</i>. If the firmware file is on a NAS, move it to your PC before using this option.
+If you select Automatic update and click <i>Update Firmware</i>, the update will be automatically downloaded and installed.
+Updating will take a few minutes. During this time, <b>do not</b> connect or disconnect any USB devices, power off the AirStation, or close the update browser window! After the update is complete, the AirStation will restart automatically.
+Advanced Settings
+If <i>Automatic Update Check</i> is enabled, the AirStation will automatically check for new firmware once a day.
+You can specify the hour when the AirStation checks for new firmware under the <i>Daily Check Time</i>. Click <i>Apply</i> to save the settings.
+##1017
+System Information
+This page displays the AirStation’s current settings.
+Note:
+If additional clients are connected and DHCP is in use, you can <i>Release</i> or <i>Renew</i> the assigned client IP address.
+Logs
+You can compile and view system logs on this page. New logs will overwrite older logs.
+After selecting which events the AirStation should log, click <i>Display</i> to list them. You can click <i>Save Log as File</i> to save the log as a .log file, or click <i>Delete</i> to erase it.
+Packet Information
+This page displays the total packets sent and received by the AirStation, as well as any errors that might have occurred during transfer.
+A small number of errors are expected to occur during normal operation. This is not a cause for concern.
+Ping
+You can initiate a ping test to check the AirStation's connection with a specific network device.
+Enter a device’s <i>Destination Address</i> that you want to ping and click <i>Execute</i>. You can use the device’s IP address or DNS name. The results of the ping will be displayed.
+If you receive a timeout or an error, check your connection and security settings.
+##1018
+LAN Connection Settings
+Configure the AirStation's LAN-side IP address and other settings here. The default settings are recommended.
+LAN-side IP Address
+You can choose to have an IP address automatically assigned, or select <i>Manual Setup</i> and enter an IP address and subnet mask. The IP address should be an unused one from the LAN's range of IP addresses.
+Advanced Settings
+Unless you are familiar with specific configuration options, the default settings are recommended.
+Default Gateway
+The IP address to be used as the gateway address for connecting clients.
+DNS Server Address
+The IP address to be used as the primary DNS server address to clients.
+Wireless Bridge Settings
+This AirStation can be configured to rebroadcast a wireless signal from a nearby access point. You can use this function to extend the range of your existing wireless access point or router.
+The page will display the SSID and security status of the wireless bridge. You can also select the 5 GHz/2.4 GHz frequency range from the dropdown.
+For a more detailed guide on how to set up the AirStation as a extender device, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=wireless-wirelessbridge_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+Repeater
+When checked, the AirStation will use the SSID and security settings of the access point instead of its own.
+A wireless client device that is within range of both the existing access point and the AirStation will automatically connect to the stronger wireless signal.
+Physical AOSS Button
+Enables the physical AOSS button when checked.
+Manual Connection
+To manually select and connect to an access point, click <i>Open</i> to access the configuration page.
+WPS Connection
+Connect to an access point using WPS.
+PIN Code Method
+Click <i>Start WPS (PIN)</i> to connect to an access point using a PIN code.
+Pushbutton Method
+Click <i>Start WPS (PBC)</i> to connect to an access point using the physical WPS button.
+AOSS Connection
+Click the AOSS button to connect to an access point using AOSS.
+WB Settings
+WB (Wireless Bridge) allows this AirStation to be configured as a client and added to an existing wireless network. This feature is disabled by default.
+For a more detailed guide on how to configure WB, click <a href="javascript:openNew('http://buffalo.jp/support_s/guide2/manual/path/help/index.html?pagetype=mobile&ref=wireless-wirelessbridge_1&MODEL&REGION&VERSION&MODE&lang=en&toc=disable');">here</a>.
+Connection Type
+If the master access point has an AOSS or WPS button, you can select AOSS/WPS to connect to it directly. The wireless settings will be configured automatically. Otherwise, you can connect to the access point and configure the wireless settings.
+Manual
+Manually connect to the access point. Click <i>Search</i> to display a list of available access points, or enter it directly into the field. Also enter the AP's authentication and encryption type, as well as the password. These settings must match those of the access point or the AirStation will not connect. Once these have been entered, click <i>Apply</i>.
+AOSS/WPS
+If using AOSS or WPS to connect to the wireless access point, press and hold the AOSS/WPS button on the access point until it is activated. Press the AOSS/WPS button displayed on the AirStation and wait until the connection is established. Click <i>Apply</i> to save any changes.
+Select Master Access Point
+On this page, you can manually select the master wireless access point from the available list. If the access point is not displayed, click <i>Search again</i> to refresh the list. This page will display up to 64 supported access points.
+Once the access point has been selected, you will be returned to the original WB page to edit the encryption information. Make sure the information you enter matches that of the master access point, or else the AirStation will not connect.

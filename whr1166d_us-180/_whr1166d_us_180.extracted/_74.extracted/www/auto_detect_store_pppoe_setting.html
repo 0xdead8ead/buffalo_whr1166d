@@ -1,0 +1,453 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+
+var first_config=1;
+
+function isEmpty(s)
+{
+	if(s.length==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function EnIPFixed()
+{
+    if (document.getElementById("id_PPPoESIPEnabled").checked==true)
+    {
+		document.getElementById("id_PPPoESIPEnabled").value="1";
+		document.getElementById("id_PPPoEStaticIP").disabled=false;
+	}	
+    else
+	{
+    		document.getElementById("id_PPPoESIPEnabled").value="0";
+		document.getElementById("id_PPPoEStaticIP").disabled=true;
+	}
+}
+
+function clearPasswd(id)
+{
+	if(first_config==1)//need to clear password
+	{
+		var obj;
+		var tmp_str = "";
+		var i;
+
+		//keep user typing string before keyup...
+		if(id==1)
+			obj=document.main.PPPoEPassword;
+		else if(id==2)
+			obj=document.main.nosave_PPPoEPasswordConfirm;
+		else
+			obj=document.main.nosave_PPPoEPasswordConfirm;
+
+		for(i=0; i<obj.value.length; i++)
+		{
+			if(obj.value.charAt(i) != "*")
+			{
+				tmp_str+=obj.value.charAt(i);
+			}
+		}
+	
+		document.main.PPPoEPassword.value="";
+		document.main.nosave_PPPoEPasswordConfirm.value="";
+
+		obj.value=tmp_str;
+	}
+	first_config=0;
+
+	
+}
+
+function initPasswd()
+{
+	passwd_empty_flag="<%GetWizardPPPoEParam("PPPoEPasswordCheckEmpty");%>";
+	if(passwd_empty_flag=="1")
+	{
+		document.main.PPPoEPassword.value="";
+		document.main.nosave_PPPoEPasswordConfirm.value="";
+	}
+
+	//Initial Static IP column disable or not
+	if( "<%NvramGet("tmp_store_PPPoESIPEnabled");%>" == "1"){
+		document.getElementById("id_PPPoEStaticIP").disabled=false;
+	}else{
+		document.getElementById("id_PPPoEStaticIP").disabled=true;
+	}
+}
+
+function validateIPValue(obj, item)
+{
+	var i, illegal_char_flag=0;
+	
+	for(i=0; i<obj.value.length; i++)
+	{
+		if(	(obj.value.charAt(i)!='.') &&
+			( (obj.value.charAt(i)<'0') || (obj.value.charAt(i)>'9') )	)
+		{
+			illegal_char_flag=1;
+			break;
+		}
+	}
+
+	/*
+	if(obj.value.length==0)
+	{
+		Show_WizardError(item, "<%GetString("AutoDetectJudgePPPoEConfig","20");%>");
+		return 0;
+	}
+	*/
+	if((obj.value.length>0)&&(obj.value.length<7))
+	{
+		Show_WizardError(item, "<%GetString("AutoDetectJudgePPPoEConfig","21");%>");
+		return 0;
+	}
+	else if(illegal_char_flag==1)
+	{
+		Show_WizardError(item, "<%GetString("AutoDetectJudgePPPoEConfig","23");%>");
+		return 0;
+	}
+	else if(check_ip(obj.value))
+	{
+		if (obj.value=="0.0.0.0")
+		{
+		    Show_WizardError(item,"<%GetString("Wan","30");%>");
+		    return false;
+		}
+		if (obj.value=="255.255.255.255")
+		{
+		    Show_WizardError(item,"<%GetString("Wan","31");%>");
+		    return false;
+		}
+
+		n = obj.value.split('.');
+
+		if (n[0]==127)
+		{
+			Show_WizardError(item,"<%GetString("Wan","34");%>");
+	        return false;
+	    }
+		else if (n[0]>=224 && n[0]<=239)
+	    {
+	        Show_WizardError(item,"<%GetString("WizardFuncInet","49");%>");
+	        return false;
+	    }	
+	    else if (n[0]>=240 && n[0]<=255)
+	    {
+	        Show_WizardError(item,"<%GetString("Wan","35");%>");
+	        return false;
+	    }	
+		else{
+			Show_WizardError(item, "<%GetString("AutoDetectJudgePPPoEConfig","22");%>");
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+function space_check(item_string){
+	if(item_string.charAt(0) == ' ' || item_string.charAt(item_string.length-1) == ' ')
+		return false;
+	else
+		return true;
+}
+function apply()
+{
+	document.main.PPPoEDNS1.value = ip_normalize_0(document.main.PPPoEDNS1.value);
+	document.main.PPPoEDNS2.value = ip_normalize_0(document.main.PPPoEDNS2.value);
+	document.main.PPPoEstaticIP.value = ip_normalize_0(document.main.PPPoEstaticIP.value);
+
+	var f = document.forms[0];
+
+	if(document.main.PPPoEPassword.value!= document.main.nosave_PPPoEPasswordConfirm.value)
+	{
+		alert("<%GetString("AutoDetectJudgePPPoEConfig","15");%>");
+		return;
+	}
+	else if (document.main.PPPoEUsername.value.length==0)
+	{
+		Show_WizardError("<%GetString("AutoDetectJudgePPPoEConfig","4");%>", "<%GetString("AutoDetectJudgePPPoEConfig","18");%>");
+		return;
+	}
+	else if(!Escape_String(document.main.PPPoEUsername.value))
+	{
+		Show_WizardError("<%GetString("InterPPPoEReg","7");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return false;			
+	}
+	else if(!space_check(document.main.PPPoEUsername.value))
+	{
+		Show_error("<%GetString("InterPPPoEReg","7");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return false;			
+	}
+	else if (document.main.PPPoEPassword.value.length==0)
+	{
+		Show_WizardError("<%GetString("AutoDetectJudgePPPoEConfig","5");%>", "<%GetString("AutoDetectJudgePPPoEConfig","19");%>");
+		return;
+	}
+	else if(isBlank(document.getElementById("id_PPPoEStaticIP").value) && document.getElementById("id_PPPoESIPEnabled").checked==true ){
+		Show_WizardError("<%GetString("InterPPPoEReg","58");%>", "<%GetString("InterPPPoEReg","56");%>");
+		return false;
+	}
+	else if(!validateIPValue(document.main.PPPoEstaticIP, "<%GetString("AutoDetectNocablePPPoEWDS","19");%>")){
+		//hebe mark 2011.10.21//Show_WizardError("<%GetString("InterPPPoEReg","58");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return false;
+	}
+	else if(!validateIPValue(document.main.PPPoEDNS1, "<%GetString("AutoDetectJudgePPPoEConfig","16");%>")){
+		//hebe mark 2011.10.21//Show_WizardError("<%GetString("InterPPPoEReg","59");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return;
+	}
+	else if(!validateIPValue(document.main.PPPoEDNS2, "<%GetString("AutoDetectJudgePPPoEConfig","17");%>")){
+		//hebe mark 2011.10.21//Show_WizardError("<%GetString("InterPPPoEReg","60");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return;
+	}
+	else if(!isBlank(document.main.PPPoEDNS1.value) && (document.main.PPPoEDNS1.value==document.main.PPPoEDNS2.value))
+	{
+		//Show_WizardError("same DNS IP", "No duplicate DNS IP");
+		Show_WizardError("<%GetString("AutoDetectJudgePPPoEConfig","17");%>", "<%GetString("AutoDetectJudgePPPoEConfig","22");%>");
+		return;
+	}
+	else if(!check_ip(document.main.PPPoEDNS2.value) && !isEmpty(document.main.PPPoEDNS2.value) && isEmpty(document.main.PPPoEDNS1.value)){
+
+		Show_WizardError("<%GetString("InterPPPoEReg","59");%>", "<%GetString("Wan","45");%>");
+		return;
+	}
+	else{
+
+		f.tmp_store_PPPoEUsername.value = f.PPPoEUsername.value;
+		f.tmp_store_PPPoEPassword.value = f.PPPoEPassword.value;
+		f.tmp_store_PPPoEPasswordConfirm.value = f.nosave_PPPoEPasswordConfirm.value;
+		if(f.PPPoESIPEnabled.checked==true)
+			f.tmp_store_PPPoESIPEnabled.value = "1";
+		else
+			f.tmp_store_PPPoESIPEnabled.value = "0";
+		f.tmp_store_PPPoEstaticIP.value = f.PPPoEstaticIP.value;
+		f.tmp_store_PPPoEDNS1.value = f.PPPoEDNS1.value; 
+		f.tmp_store_PPPoEDNS2.value = f.PPPoEDNS2.value;
+		f.auto_pppoe.value = 1;
+		f.tmp_store_WanMethod.value=2;
+	
+		document.main.submit();		
+	}
+}
+	
+//-->
+</script>
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<script src="/html/OpenHelp.html"></script>
+
+<title>AirStation Settings</title>
+ <script language="JavaScript">
+  <!--
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+  // -->
+</script>
+</HEAD>
+<BODY class=WIZ_BODY onload="initPasswd();">
+
+<form name="main" method="POST">
+
+  <TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("AutoDetectNocablePPPoEWDS","9");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("AutoDetectNocablePPPoEWDS","10");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+     			  
+     			  &nbsp;<%GetString("AutoDetectNocablePPPoEWDS","11");%>
+
+     			 	<div id="id_errtbl" class="C_ERR" style="display:none;">
+				</div>
+     			  
+     			    </td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			  <TABLE class=WIZ_SET>
+     			    <TBODY>
+
+     			  
+
+     				 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","12");%></th>
+     				   <TD valign="middle" bgcolor="#ffffff">
+     					
+     					<INPUT size="25" type="text" name="PPPoEUsername" maxlength="64" value="<%NvramGet("tmp_store_PPPoEUsername");%>">
+     					
+     				   </TD>
+     				 </TR>
+     				 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","13");%></th>
+     				   <TD>
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     					      <TD>
+     						 <input type="password" name="PPPoEPassword" size="25" maxlength="64" value="<%NvramGet("tmp_store_PPPoEPassword");%>" onkeyup="clearPasswd(1);clearPasswd(2);">
+     					      </TD>
+     					      <TD></TD>
+     					    </TR>
+     					    <TR>
+     					      <TD>
+     						 <input type="password" name="nosave_PPPoEPasswordConfirm" size="25" maxlength="64" value="<%NvramGet("tmp_store_PPPoEPasswordConfirm");%>" onkeyup="clearPasswd(2)">&nbsp;
+     					      </TD>
+                           	  <TD>
+                            	&larr;<%GetString("AutoDetectNocablePPPoEWDS","17");%>
+     						  </TD>
+     					    </TR>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>
+					 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","14");%></th>
+     				   <TD>
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     						 <TD><input type="checkbox" name="PPPoESIPEnabled" id="id_PPPoESIPEnabled" onClick="EnIPFixed();" <%NvramMatch("tmp_store_PPPoESIPEnabled", "1", "checked");%>><!--</TD>
+     						 <TD>--><%GetString("AutoDetectNocablePPPoEWDS","18");%></TD>
+     					    </TR>
+     					    <TR>
+     						 <TD><%GetString("AutoDetectNocablePPPoEWDS","19");%><!--</TD>
+     						 <TD>--><input type="text" name="PPPoEstaticIP" id="id_PPPoEStaticIP" size="16" maxlength="16" value="<%NvramGet("tmp_store_PPPoEstaticIP");%>"></TD>
+     					    </TR>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>
+     				 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","15");%>
+     					<BR>
+     					<small>* <%GetString("AutoDetectNocablePPPoEWDS","16");%></small>
+     				   </th>
+     				   <TD>
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     						 <TD><%GetString("AutoDetectNocablePPPoEWDS","20");%></TD>
+     						 <TD><input type="text" name="PPPoEDNS1" size="20" maxlength="15" value="<%NvramGet("tmp_store_PPPoEDNS1");%>"></TD>
+     					    </TR>
+     					    <TR>
+     						 <TD><%GetString("AutoDetectNocablePPPoEWDS","21");%></TD>
+     						 <TD><input type="text" name="PPPoEDNS2" size="20" maxlength="15" value="<%NvramGet("tmp_store_PPPoEDNS2");%>"></TD>
+     					    </TR>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>				      				 
+     				 
+     			    </TBODY>
+     			  </TABLE>
+     			  
+     			</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+ 	 <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+     		<INPUT type="button" value="<%GetString("AutoDetectJudgePPPoEConfig","13");%>" onClick="self.location.href='auto_detect_store_setting.html'">
+            </td>
+            <td class=NAVI_C>
+     		
+            </td>
+     	  <td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("AutoDetectJudgePPPoEConfig","14");%>" onClick="apply()">
+     	  </td>
+     	</tr>
+        </TBODY>
+      </TABLE>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+
+<input type="hidden" name="tmp_store_PPPoEUsername" value="">
+<input type="hidden" name="tmp_store_PPPoEPassword" value="">
+<input type="hidden" name="tmp_store_PPPoEPasswordConfirm" value="">
+<input type="hidden" name="tmp_store_PPPoESIPEnabled" value="">
+<input type="hidden" name="tmp_store_PPPoEstaticIP" value="">
+<input type="hidden" name="tmp_store_PPPoEDNS1" value="">
+<input type="hidden" name="tmp_store_PPPoEDNS2" value="">
+<input type="hidden" name="tmp_store_WanMethod" value="">
+<input type="hidden" name="auto_pppoe" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</BODY>
+</HTML>
+
+ 

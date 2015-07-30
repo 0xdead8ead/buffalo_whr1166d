@@ -1,0 +1,1709 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript">
+<!--
+
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+//			window.setTimeout("updateInnerHtml()", 6000);
+			//window.setTimeout("top.dispWaiting(false)", 20000);
+			window.setTimeout("window.location.href='wlan_multi_5g.html'", 25000);
+}, 
+failure:function(oResponse) { 
+//alert(oResponse.errorText); 
+} 
+};
+
+var wpapsk1_flag="<%CheckWifiBasicItem_5g("wpapsk1_name");%>";//Candy add 20100108
+
+//For WMM Start
+function setWMMValue(val)
+{
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"1":"0";
+}
+
+function wmm()
+{	
+	if (document.getElementById("id_Wmm").checked)	
+	{	
+		document.getElementById("wmm_setting").style.display = "";	
+		document.getElementById("id_WIFIWMMDISPLAY_5g").value = "1";		      	
+	}	
+	
+	else
+	{
+		document.getElementById("wmm_setting").style.display = "none";
+		document.getElementById("id_WIFIWMMDISPLAY_5g").value = "0";      
+	}	
+	SetCwinHeight();
+}
+
+function mergeValue(main_id,child_id,item_id)
+{
+	var i=0;
+	var wmm_item;
+	document.getElementById(main_id).value="";
+	for (i=1;i<=3;i++)
+	{
+		wmm_item=document.getElementById("id_"+child_id+"_"+item_id+i).value;
+		wmm_item=parseInt(wmm_item,10);
+		document.getElementById(main_id).value+=wmm_item;
+		document.getElementById(main_id).value+=";"
+	}
+	wmm_item=document.getElementById("id_"+child_id+"_"+item_id+"4").value;
+	wmm_item=parseInt(wmm_item,10);
+	document.getElementById(main_id).value+=wmm_item;
+}
+
+function checkWMMValue(val1,val2)
+{
+	var err_title;
+	var wmm_priority=new Array("<%GetString("WlanWmm","33");%>","<%GetString("WlanWmm","24");%>","<%GetString("WlanWmm","17");%>","<%GetString("WlanWmm","18");%>");
+	var i=0;
+	
+	for (i=1;i<=4;i++)
+	{
+		if (val2=="txop")
+			err_title = wmm_priority[i-1] + " <%GetString("WlanWmm","36");%> " + val1.toUpperCase();
+		else
+			err_title=wmm_priority[i-1] + " " + val2 + " <%GetString("WlanWmm","37");%> " + val1.toUpperCase();
+
+		if (document.getElementById("id_"+val1+"_"+val2+i).value.length==0)
+		{
+			Show_error(err_title,"<%GetString("WlanWmm","20");%>");
+			return false;
+		}
+		if (!check_integer(document.getElementById("id_"+val1+"_"+val2+i).value))
+		{
+			Show_error(err_title,"<%GetString("WlanWmm","21");%>");
+			return false;
+		}
+		if (val2=="CWmin" || val2=="CWmax")
+		{
+			if (document.getElementById("id_"+val1+"_"+val2+i).value<1)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","23");%>");
+				return false;
+			}
+			if (document.getElementById("id_"+val1+"_"+val2+i).value>32767)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","22");%>");
+				return false;
+			}
+		}
+		else if (val2=="AIFSN")
+		{
+			if (document.getElementById("id_"+val1+"_"+val2+i).value<1)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","23");%>");
+				return false;
+			}
+			if (document.getElementById("id_"+val1+"_"+val2+i).value>15)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","22");%>");
+				return false;
+			}
+		}
+		else
+		{
+			if (document.getElementById("id_"+val1+"_"+val2+i).value<0)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","23");%>");
+				return false;
+			}
+			if (document.getElementById("id_"+val1+"_"+val2+i).value>256)
+			{
+				Show_error(err_title,"<%GetString("WlanWmm","22");%>");
+				return false;
+			}
+		}
+	}
+	return true;
+}
+//For WMM End
+
+
+
+function rm_DisableSSID()
+{
+	for (i=1;i<4;i++)
+	{
+		if(i!=2){
+			if (document.getElementById("id_usessid"+(i*2)).checked==true)
+				document.getElementById("id_WIFISsid"+i).value="";
+		}
+	}
+}
+
+function GetExtCnlJS_5g()
+{   
+    var region = "<%NvramGet("WIFICountryRegionABand");%>"
+    var obj_extchannel = document.getElementById("id_WIFIHTEXTCHA");
+    var obj_curchannel = document.getElementById("id_WIFIChannel");
+    var cur_channel = parseInt(obj_curchannel.value);
+    var i=0;
+    document.getElementById("id_WIFIHTBW").disabled=false;
+	  for (i=obj_extchannel.length-1;i>=0;i--)
+  	  obj_extchannel.remove(obj_extchannel.options[i]);
+  	i=0;
+  	if(cur_channel == 0)
+  	{
+  		obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+36,1,0,0);
+    	document.getElementById("id_WIFIHTEXTCHA").disabled=true;
+  	}
+    else if(region == "1")//W52(36~48) W53(52~64) W56(100~140)
+    {
+      if(cur_channel == 140)
+      {
+      	obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+36,1,0,0);
+    		document.getElementById("id_WIFIHTEXTCHA").disabled=true;
+    		document.getElementById("id_WIFIHTBW").disabled=true;
+    	}
+    	else if( (cur_channel/4)%2 == 1 )
+    		obj_extchannel.options[i++]=new Option("<%GetString("Aoss","32");%>"+(cur_channel+4),1,0,0);
+      else if( (cur_channel/4)%2 == 0 )
+      	obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+(cur_channel-4),1,0,0);
+    }
+    else if(region == "6")//W52(36~48)
+    {
+      if( (cur_channel/4)%2 == 1 )
+        obj_extchannel.options[i++]=new Option("<%GetString("Aoss","32");%>"+(cur_channel+4),1,0,0);
+      else if( (cur_channel/4)%2 == 0 )
+      	obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+(cur_channel-4),1,0,0);
+    }
+    else//region shoule be 10 W52(36~48) W58(149~165)
+    {
+      if(cur_channel == 165)
+      {
+      	obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+36,1,0,0);
+        document.getElementById("id_WIFIHTEXTCHA").disabled=true;
+        document.getElementById("id_WIFIHTBW").disabled=true;
+      }
+      else if(cur_channel == 149)
+        obj_extchannel.options[i++]=new Option("<%GetString("Aoss","32");%>"+(cur_channel+4),1,0,0);
+      else if(cur_channel == 153)
+        obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+(cur_channel-4),1,0,0);
+      else if(cur_channel == 157)
+        obj_extchannel.options[i++]=new Option("<%GetString("Aoss","32");%>"+(cur_channel+4),1,0,0);
+      else if(cur_channel == 161)
+        obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+(cur_channel-4),1,0,0);
+      else if( (cur_channel/4)%2 == 1 )
+    		obj_extchannel.options[i++]=new Option("<%GetString("Aoss","32");%>"+(cur_channel+4),1,0,0);
+      else if( (cur_channel/4)%2 == 0 )
+      	obj_extchannel.options[i]=new Option("<%GetString("Aoss","32");%>"+(cur_channel-4),1,0,0);
+    }
+  	
+}
+
+var ischangeflag=0;
+
+function etype_change_S1()
+{	
+	if (document.getElementById("id_WIFIAuthType1").selectedIndex==3)
+	{
+		if (document.getElementById("id_WIFIEncrypType1").selectedIndex)
+		{
+			displayTR("wep1",true);
+			disableWEP("1",false);
+		}
+		else
+		{
+			displayTR("wep1",false);
+			disableWEP("1",true);
+		}
+	}
+	SetCwinHeight();
+}
+
+
+
+function change_psk()
+{
+    
+	if (document.getElementById("id_WIFIAuthType1").selectedIndex==3)
+	{
+		displayTR("psk1",false);
+		document.getElementById("id_WIFIWPAPSK1").disabled=true;
+	}
+	else
+	{
+		displayTR("psk1",true);
+		document.getElementById("id_WIFIWPAPSK1").disabled=false;
+	}
+    if(document.getElementById("id_tkip").checked==false) //Caspar add 20091123
+        document.getElementById("id_WIFIWPAPSK1").disabled=true;
+}
+
+function disableWEP(sid,val)
+{
+	disableItem("id_WIFIWEPKey1_S"+sid,val);
+	disableItem("id_WIFIWEPKey2_S"+sid,val);
+	disableItem("id_WIFIWEPKey3_S"+sid,val);
+	disableItem("id_WIFIWEPKey4_S"+sid,val);
+	disableItem("id_WIFIWEPKey1Type_S"+sid,val);
+	disableItem("id_WIFIWEPKeyIndex"+sid+"_1",val);
+	disableItem("id_WIFIWEPKeyIndex"+sid+"_2",val);
+	disableItem("id_WIFIWEPKeyIndex"+sid+"_3",val);
+	disableItem("id_WIFIWEPKeyIndex"+sid+"_4",val);
+}
+
+function isChanged()
+{
+  ischangeflag=1;
+}
+
+function disableItem(val1,val2)
+{
+	document.getElementById(val1).disabled = val2;
+}
+
+function disablePSK(sid,val)
+{
+	disableItem("id_WIFIWPAPSK"+sid,val);
+}
+
+
+function auth_change_S1(val)
+{
+  var etype = "<%NvramGet("WIFIEncrypType1_5g");%>";//Caspar modify 20090610 for AES/TKIP information issue 
+	var obj_etype = document.getElementById("id_WIFIEncrypType1");
+	
+	for (i=obj_etype.length-1;i>=0;i--)
+  	obj_etype.remove(obj_etype.options[i]);
+	switch (document.getElementById("id_WIFIAuthType1").selectedIndex){
+	case 3:
+		obj_etype.options[0] = new Option("<%GetString("WlanMulti","76");%>","NONE",0,(etype=="NONE")? 1:0);
+		obj_etype.options[1] = new Option("<%GetString("WlanMulti","56");%>","WEP",0,(etype=="WEP")? 1:0);
+		if (etype=="WEP")
+		{
+			displayTR("wep1",true);
+			disableWEP("1",false);
+		}
+		else
+		{
+			displayTR("wep1",false);
+			disableWEP("1",true);
+		}
+		displayTR("psk1",false);
+		disablePSK("1",true);
+		break;
+	case 2:
+		obj_etype.options[0] = new Option("<%GetString("WlanMulti","55");%>","AES",0,1);
+		displayTR("wep1",false);
+		displayTR("psk1",true);
+		disableWEP("1",true);
+		disablePSK("1",false);
+		break;
+	case 0:
+	case 1:
+		obj_etype.options[0] = new Option("<%GetString("WlanMulti","55");%>","AES",0,(etype=="AES")?1:0);
+		displayTR("wep1",false);
+		displayTR("psk1",true);
+		disableWEP("1",true);
+		disablePSK("1",false);
+
+		break;
+	}
+	SetCwinHeight();
+}
+
+function displayTR(tbl,val)
+{
+	var tblObj=document.getElementById("id_"+tbl+"_tbl");
+	if (val)
+	{
+		tblObj.style.display="";
+		tblObj.disabled=false;
+	}
+	else
+	{
+		tblObj.style.display="none";
+		tblObj.disabled=true;
+	}
+}
+
+function CheckValueStyle(a)
+{
+	var i;
+	var c = document.getElementById(a);
+	
+	if((c.value.charAt(0)=='0')||(check_integer(c.value)))
+	{
+		c.value = parseInt(c.value,10);
+	}
+}
+
+function setExtValue(val)
+{
+	var rval = (document.getElementById("id_" + val).checked)?"1":"0";
+		
+	if (val == "WIFINoForwarding")
+	{
+		document.getElementById("mm_WIFINoForwardingBTNBSSID").value = rval;
+		document.getElementById("mm_WIFINoForwarding").value = rval + ";" + rval + ";" + rval + ";1;" + rval;//Caspar add 5th val 20091113
+	}
+	else
+		document.getElementById("mm_" + val).value = rval;
+}
+function setValue(val)
+{
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"1":"0";
+}
+
+function setInvValue(val)
+{
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"0":"1";
+}
+
+function clear_wep(index)
+{
+	var i=1;
+	for (i=1;i<=4;i++)
+		document.getElementById("id_WIFIWEPKey" + i+ "_S"+index).value="";
+}
+
+function enableExtChn()
+{
+  var channel;
+  var WIFIApCliStatus="<%NvramGet("WIFIApCliStatus_5g");%>";
+  document.getElementById("id_WIFIHTBW").options[2].disabled=false;
+  document.getElementById("id_WIFIOutdoorIndoor").disabled=false;
+  document.getElementById("id_WIFIHTBW").disabled=false;
+	
+	channel = parseInt(document.wifiForm.WIFIChannel_5g.value, 10);
+	if ( (channel >= 100 && channel <= 140) || channel == 0 )
+		document.getElementById("id_WIFIOutdoorIndoor").disabled=false;
+	else
+	  document.getElementById("id_WIFIOutdoorIndoor").disabled=true;
+	  
+	if ( channel == 140 || channel == 165)
+  {
+	  document.getElementById("id_WIFIHTBW").disabled=true;
+	  //document.getElementById("id_WIFIHTEXTCHA").disabled=true;
+	}
+	
+	if( channel == 132 || channel == 136 )
+  {
+	  document.getElementById("id_WIFIHTBW").options[2].disabled=true;
+	  if( document.getElementById("id_WIFIHTBW").selectedIndex == 2 )
+	    document.getElementById("id_WIFIHTBW").selectedIndex=1;
+	}
+	if(WIFIApCliStatus == "1")
+	{
+		document.getElementById("id_WIFIOutdoorIndoor").disabled=true;
+		document.getElementById("id_WIFIHTBW").disabled=true;
+	}
+}
+
+function initBridge()
+{
+    var notBridge="<%NvramGet("RouterMode");%>";
+    if(notBridge=="0")
+    {
+        document.getElementById("id_WIFIGuestPort1").checked=false;
+        //document.getElementById("id_WIFIGuestPort2").checked=false;
+        document.getElementById("id_WIFIGuestPort3").checked=false;
+        document.getElementById("id_WIFIGuestPort1").disabled=true;
+       // document.getElementById("id_WIFIGuestPort2").disabled=true;
+        document.getElementById("id_WIFIGuestPort3").disabled=true;         
+    }    
+}
+
+function initSsid(val)
+{
+	if (!document.getElementById("id_usessid2").checked)
+	{
+		if (document.getElementById("id_WIFISsid1").value.length==0)
+			document.getElementById("id_usessid2").checked=true;
+		else
+			document.getElementById("id_usessid3").checked=true;
+	}
+	
+	if (!document.getElementById("id_usessid6").checked)
+	{
+		if (document.getElementById("id_WIFISsid3").value.length==0)
+			document.getElementById("id_usessid6").checked=true;
+		else
+			document.getElementById("id_usessid7").checked=true;
+	}
+	if (document.getElementById("id_tkip").checked)
+		hide_ssid(1);
+	
+	if (document.getElementById("id_wep").checked)
+		hide_ssid(3);	
+	
+	// add by Nina for remove disabled ssid 091020
+	rm_DisableSSID();
+	enableExtChn();
+    //aes_enable();
+    wep_enable();
+	//change_ssid2encryp();//Candy add 091123
+	change_psk();
+}
+
+function initOutdoorIndoor()
+{
+
+  top.dispWaiting(false);  
+  //document.getElementById("wmm_setting").style.display = "none";  
+  checkBrowserCss();
+  
+  var region = "<%NvramGet("Region");%>";
+  if(region == "JP")
+  {
+  	document.getElementById("id_DFS_Description").style.display = "";
+    document.getElementById("id_Show_WIFIOutdoorIndoor").style.display = "";
+  }
+  else
+  {
+  	document.getElementById("id_DFS_Description").style.display = "none";
+    document.getElementById("id_Show_WIFIOutdoorIndoor").style.display = "none";
+}
+}
+
+function hide_ssid(val)
+{
+	if (document.getElementById("id_usessid" + (2*val)).checked)
+		document.getElementById("id_WIFISsid" + (val)).disabled=true;
+	else
+		document.getElementById("id_WIFISsid" + (val)).disabled=false;
+}
+
+
+function enable_tkip(val)
+{
+	document.getElementById("id_WIFIGuestPort1").disabled=val;
+	document.getElementById("id_usessid2").disabled=val;
+	document.getElementById("id_usessid3").disabled=val;
+	document.getElementById("id_WIFISsid1").disabled=val;
+	document.getElementById("id_WIFIWPAPSK1").disabled=val;
+	document.getElementById("id_WIFIAuthType1").disabled=val;
+	document.getElementById("id_WIFIEncrypType1").disabled=val;
+	var i=1;
+	for (i=1;i<=4;i++)
+	{
+		document.getElementById("id_WIFIWEPKey" + i+ "_S1").disabled=val;
+		document.getElementById("id_WIFIWEPKeyIndex1_"+i).disabled=val;
+	}
+	document.getElementById("id_WIFIWEPKey1Type_S1").disabled=val;
+    if(val==false)
+        auth_change_S1();
+}
+
+
+function tkip_enable()
+{
+	check_multi_enable("tkip");
+	if (document.getElementById("id_tkip").checked)
+	{
+		enable_tkip(false);
+		if (document.getElementById("id_tkip").checked)
+			hide_ssid(1);
+	}
+	else
+		enable_tkip(true);
+    //initBridge();
+}
+
+
+function enable_wep(val)
+{
+	var i=1;
+	for (i=1;i<=4;i++)
+	{
+		document.getElementById("id_WIFIWEPKey" + i+ "_S3").disabled=val;
+		document.getElementById("id_WIFIWEPKeyIndex3_"+i).disabled=val;
+	}
+	document.getElementById("id_WIFIGuestPort3").disabled=val;
+	document.getElementById("id_usessid6").disabled=val;
+	document.getElementById("id_usessid7").disabled=val;
+	document.getElementById("id_WIFISsid3").disabled=val;
+	document.getElementById("id_WIFIWEPKey1Type_S3").disabled=val;
+}
+
+function wep_enable()
+{
+	check_multi_enable("wep");
+	if (document.getElementById("id_wep").checked)
+	{
+		enable_wep(false);
+		if (document.getElementById("id_wep").checked)
+			hide_ssid(3);	
+	}
+	else
+		enable_wep(true);
+    //initBridge();
+}
+
+function check_multi_enable(val)
+{	
+	if (!document.getElementById("id_tkip").checked &&
+		!document.getElementById("id_wep").checked)
+		document.getElementById("id_"+val).checked=true;
+}
+
+function ChangeSingle()
+{
+	parent.frm.location.href="wlan_single.html";
+}
+
+
+function setWifi()
+{
+  var wpapsk1=document.getElementById("id_WIFIWPAPSK1").value;
+  //var wpapsk2=document.getElementById("id_WIFIWPAPSK2").value;
+  var ssid1=document.getElementById("id_WIFISsid1").value;
+  //var ssid2=document.getElementById("id_WIFISsid2").value;
+  var ssid3=document.getElementById("id_WIFISsid3").value;
+  
+	if (!setMulti())
+	{
+		if (document.getElementById("id_tkip").checked)
+		{
+			if (document.getElementById("id_WIFIWPAPSK1").value=="******")
+				document.getElementById("id_WIFIWPAPSK1").disabled=false;
+		}		  
+	}
+	else//Candy add 20100105
+	{
+    document.getElementById("basic_content").style.display="none";
+    document.getElementById("basic_confirm").style.display="none";
+  	document.getElementById("confirm_space").style.display="none";
+  	document.getElementById("confirm_64").style.display="none";
+  	document.getElementById("confirm_ssid").style.display="none";
+    
+    if (document.getElementById("id_tkip").checked==true)
+    {
+      if(document.getElementById("id_WIFIAuthType1").selectedIndex!=3)
+      {
+      if (wpapsk1.search(" ")>=0 || (wpapsk1_flag=="space" && document.getElementById("id_WIFIWPAPSK1").value=="******"))
+      {
+  		  document.getElementById("basic_confirm").style.display="";
+  		  document.getElementById("confirm_space").style.display="";
+  		  return false;
+      }
+      else if (wpapsk1.length==64 || (wpapsk1_flag=="64" && document.getElementById("id_WIFIWPAPSK1").value=="******"))
+      {
+  		  document.getElementById("basic_confirm").style.display="";
+  		  document.getElementById("confirm_64").style.display="";
+  		  return false;
+      }
+    }
+    }
+     
+    
+    if(document.getElementById("id_tkip").checked==true && document.getElementById("id_usessid3").checked==true)
+    {
+      if((document.getElementById("id_WIFIAuthType1").selectedIndex!=3)||(document.getElementById("id_WIFIEncrypType1").value=="WEP"))
+      {
+      if (ssid1.search(" ")>=0)
+      {
+        document.getElementById("basic_confirm").style.display="";
+        document.getElementById("confirm_ssid").style.display="";
+        return false;
+          }
+      }
+    }
+        
+    if(document.getElementById("id_wep").checked==true && document.getElementById("id_usessid7").checked==true)
+    {
+      if (ssid3.search(" ")>=0)
+      {
+        document.getElementById("basic_confirm").style.display="";
+        document.getElementById("confirm_ssid").style.display="";
+        return false;
+      }
+    }
+		    document.getElementById("basic_content").style.display="";
+		document.getElementById("id_WIFIWPAPSK1").value = document.getElementById("id_WIFIWPAPSK1").value.replace("&quot;", "\"");
+		apply();
+	}
+}
+
+function apply()//Candy add 20100105
+{
+		if (document.getElementById("id_tkip").checked)
+		{
+			if (document.getElementById("id_WIFIWPAPSK1").value=="******")
+				document.getElementById("id_WIFIWPAPSK1").disabled=true;
+            //if(document.getElementById("id_WIFIAuthType1").selectedIndex==0)
+            //{
+                for (i=1;i<=4;i++)
+                {
+                    if (document.getElementById("id_WIFIWEPKey" + i+ "_S1").value=="******")
+                        document.getElementById("id_WIFIWEPKey" + i+ "_S1").disabled=true;
+                }
+            //}                
+		}		
+    	if (document.getElementById("id_wep").checked)
+        {
+            for (i=1;i<=4;i++)
+            {
+                if (document.getElementById("id_WIFIWEPKey" + i+ "_S3").value=="******")
+                        document.getElementById("id_WIFIWEPKey" + i+ "_S3").disabled=true;
+            }
+        }
+		
+
+		setValue('WIFIModuleEnable');	
+		document.wifiForm.WIFISecMode.disabled=false;
+		Hide_error();
+		//Extend Start
+
+		var err_title="<%GetString("WlanExtend","11");%>";
+		if (document.wifiForm.WIFIDtimPeriod_5g.value.length==0)
+		{
+			Show_error(err_title,"<%GetString("WlanExtend","12");%>");
+			return false;
+		}
+		if (!check_integer(document.wifiForm.WIFIDtimPeriod_5g.value))
+		{
+			Show_error(err_title,"<%GetString("WlanExtend","13");%>");
+			return false;
+		}
+		if (document.wifiForm.WIFIDtimPeriod_5g.value<1)
+		{
+			Show_error(err_title,"<%GetString("WlanExtend","14");%>");
+			return false;
+		}
+		if (document.wifiForm.WIFIDtimPeriod_5g.value>255)
+		{
+			Show_error(err_title,"<%GetString("WlanExtend","15");%>");
+			return false;
+		}		
+		document.wifiForm.WIFIDtimPeriod_5g.value=parseInt(document.wifiForm.WIFIDtimPeriod_5g.value, 10);
+		//Extend End
+		//WMM Start
+		if (!checkWMMValue("ap","CWmin"))
+			return;
+		if (!checkWMMValue("ap","CWmax"))
+			return;
+		if (!checkWMMValue("ap","AIFSN"))
+			return;
+		if (!checkWMMValue("ap","txop"))
+			return;
+		if (!checkWMMValue("sta","CWmin"))
+			return;
+		if (!checkWMMValue("sta","CWmax"))
+			return;
+		if (!checkWMMValue("sta","AIFSN"))
+			return;
+		if (!checkWMMValue("sta","txop"))
+			return;
+			//WMM End
+		document.getElementById("id_WIFIRekeyInterval").value=parseInt(document.getElementById("id_WIFIRekeyInterval").value,10);
+		//document.wifiForm.submit();
+		YAHOO.util.Connect.setForm('wifiForm'); 
+		YAHOO.util.Connect.asyncRequest('POST','wlan_multi_5g.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+
+function ConvChar( str ) { 
+  str = str.replace(/[<]/g,"&lt;");
+  str = str.replace(/[>]/g,"&gt;");
+  return str;
+} 
+
+function check_ssid_duplicated()
+{	
+	var ssid1;
+	//var ssid2;
+	var ssid3;
+	var ssid4 = "<%NvramGet_WPAPSK("WIFISsid4");%>";
+	ssid4 = ssid4.replace("&quot;", "\"");
+	
+	if (document.getElementById("id_usessid3").checked)
+		ssid1=document.getElementById("id_WIFISsid1").value;
+	else
+		ssid1="<%GetMultiWMAC_5g("1");%>";
+
+	ssid1=ConvChar(ssid1);
+		
+	if (document.getElementById("id_usessid7").checked)
+		ssid3=document.getElementById("id_WIFISsid3").value;
+	else
+		ssid3="<%GetMultiWMAC_5g("3");%>";
+
+	ssid3=ConvChar(ssid3);
+	ssid4=ConvChar(ssid4);
+	
+	//alert("SSID1:"+ssid1+"\nSSID3:"+ssid3+"\nSSID4:"+ssid4);
+	if(ssid1 == ssid4 || ssid3 == ssid4)
+		return false;
+		
+	if (document.getElementById("id_tkip").checked)
+	{		
+		if (document.getElementById("id_wep").checked)
+		{
+			if (ssid1==ssid3){
+				//alert("SSID1:"+ssid1+"\nSSID3:"+ssid3);
+				return false;
+			}
+			if (ssid4==ssid3){
+				return false;
+			}
+		}		
+	}
+  
+	return true;
+}
+
+function ChkWebKey(num)
+{
+	for (i=1;i<=4;i++)
+	{
+        var err_title="<%GetString("WlanSingle","60");%>"; //patch 20100105
+		if (document.getElementById("id_WIFIWEPKey" + i+ "_S"+num).value.length==0 &&
+			document.getElementById("id_WIFIWEPKeyIndex"+num+"_" + i).checked)
+		{
+			Show_error(err_title,"<%GetString("WlanMulti","66");%>");
+			return false;
+		}
+		if (document.getElementById("id_WIFIWEPKey" + i+ "_S"+num).value!="******")
+		{			
+			var key_type = document.getElementById("id_WIFIWEPKey1Type_S"+num).value;
+			var key_value=document.getElementById("id_WIFIWEPKey" + i+ "_S"+num).value;
+			var key_length = 0;
+			if (key_type=="A5")
+				key_length = 5;
+			else if (key_type=="A13")
+				key_length = 13;
+			else if (key_type=="H10")
+				key_length = 10;
+			else if (key_type=="H26")
+				key_length = 26;
+			if (key_value.length<key_length && key_value.length>0)
+			{
+				Show_error(err_title,"<%GetString("WlanMulti","67");%>");
+				return false;
+			}
+			if (key_value.length>key_length)
+			{
+				Show_error(err_title,"<%GetString("WlanMulti","63");%>");
+				return false;
+			}
+//+++Eric add to block multyple byte
+			if (key_type=="A5" || key_type=="A13"){
+				if (/[^\x00-\xff]/g.test(key_value)) {
+					Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+					return false;
+				}
+			}
+//---Eric add to block multyple byte
+			if (key_type=="H10" || key_type=="H26")
+			{
+				var j=0;
+				for (j=0;j<key_value.length;j++)
+				{
+					if (!((key_value.charAt(j)>='a' && key_value.charAt(j)<='f')||
+							(key_value.charAt(j)>='A' && key_value.charAt(j)<='F')||
+							(key_value.charAt(j)>='0' && key_value.charAt(j)<='9')))
+					{
+						Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+						return false;
+					}
+				}
+			}
+			if (key_type=="H10")
+			{
+				if(key_value=="0000000000")
+				{
+					Show_error(err_title,"<%GetString("WlanMulti","73");%>");
+					return false;
+				}
+			}
+			if (key_type=="H26")
+			{
+				if(key_value=="00000000000000000000000000")
+				{
+					Show_error(err_title,"<%GetString("WlanMulti","73");%>");
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+function goBack()
+{
+  document.getElementById("basic_content").style.display = "";
+  document.getElementById("basic_confirm").style.display = "none";
+  Hide_error();
+  tkip_enable();
+  //aes_enable();
+  wep_enable();
+}
+
+
+function warning_click(val)
+{
+	if(document.getElementById(val+"_warning").style.display=="none")
+	{
+		document.getElementById(val+"_warning").style.display="";
+	}
+	else if(document.getElementById(val+"_warning").style.display=="")
+	{
+		document.getElementById(val+"_warning").style.display="none";
+	}
+}
+
+
+function warning_close(val)
+{
+	document.getElementById(val+"_warning").style.display="none";
+}
+
+
+
+function setMulti()
+{
+	var n=0;
+// check ssid1	
+	var i=1;
+// check ssid2	
+	if (document.getElementById("id_tkip").checked)
+	{
+		var err_title="<%GetString("WlanMulti","58");%>";
+		//var key_value=document.getElementById("id_WIFIWPAPSK1").value;
+		if (document.getElementById("id_usessid3").checked && (document.getElementById("id_WIFISsid1").value==""))//Candy add 090213
+		{
+      			Show_error("<%GetString("WlanMulti","25");%>","<%GetString("WlanMulti","62");%>");
+			return false;
+    	} //patch 20100105
+		if ((document.getElementById("id_WIFISsid1").value.length!=0)&&(document.getElementById("id_usessid3").checked))
+		{		
+		if(!Escape_String(document.getElementById("id_WIFISsid1").value))
+		{
+			Show_error("<%GetString("WlanMulti","25");%>","<%GetString("WlanMulti","61");%>");
+			return false;			
+		}
+		}
+		var etype_S1 = document.getElementById("id_WIFIEncrypType1").value;
+		switch (document.getElementById("id_WIFIAuthType1").selectedIndex)
+		{
+			case 3:
+				if (etype_S1=="WEP")
+			{
+					var err_title="<%GetString("WlanSingle","60");%>";
+					if (!ChkWebKey("1"))
+				return false;
+			}
+				break;
+			case 0:
+				if (document.getElementById("id_WIFIWPAPSK1").value!="******")
+				{
+					var err_title="<%GetString("WlanSingle","68");%>";
+					var err_msg="";
+					var key_value=document.getElementById("id_WIFIWPAPSK1").value;
+
+					if (key_value.length<8)
+						err_msg="<%GetString("WlanSingle","65");%>";
+
+					if (key_value.length==64 && !check_0Tof(key_value))
+						err_msg="<%GetString("WlanSingle","65");%>"+" <%GetString("WlanSingle","81");%>";
+
+					if (!wifipskcheck(key_value))
+						err_msg="<%GetString("WlanSingle","65");%>";
+				
+					var j=0;
+					if (err_msg!="")
+					{
+						Show_error(err_title,err_msg);
+						return false;
+					}
+				}
+				else
+					document.getElementById("id_WIFIWPAPSK1").disabled=true;
+			case 1:
+				if (document.getElementById("id_WIFIWPAPSK1").value!="******")
+				{
+					var err_title="<%GetString("WlanSingle","85");%>";
+					var err_msg="";
+					var key_value=document.getElementById("id_WIFIWPAPSK1").value;
+
+					if (key_value.length<8)
+						err_msg="<%GetString("WlanSingle","86");%>";
+
+					if (key_value.length==64 && !check_0Tof(key_value))
+						err_msg="<%GetString("WlanSingle","86");%>"+" <%GetString("WlanSingle","81");%>";
+					
+					if (!wifipskcheck(key_value))
+						err_msg="<%GetString("WlanSingle","86");%>";
+				
+					var j=0;
+					if (err_msg!="")
+					{
+						Show_error(err_title,err_msg);
+						return false;
+					}
+				}
+				else
+					document.getElementById("id_WIFIWPAPSK1").disabled=true;
+			case 2:
+				if (document.getElementById("id_WIFIWPAPSK1").value!="******")
+				{
+					var err_title="<%GetString("WlanSingle","87");%>";
+					var err_msg="";
+					var key_value=document.getElementById("id_WIFIWPAPSK1").value;
+
+					if (key_value.length<8)
+						err_msg="<%GetString("WlanSingle","88");%>";
+
+					if (key_value.length==64 && !check_0Tof(key_value))
+						err_msg="<%GetString("WlanSingle","88");%>"+" <%GetString("WlanSingle","81");%>";
+
+					if (!wifipskcheck(key_value))
+						err_msg="<%GetString("WlanSingle","88");%>";
+				
+					var j=0;
+					if (err_msg!="")
+					{
+						Show_error(err_title,err_msg);
+						return false;
+					}
+				}
+				else
+					document.getElementById("id_WIFIWPAPSK1").disabled=true;
+					
+//+++Eric add to block multyple byte
+				if (/[^\x00-\xff]/g.test(key_value)) {
+					var wireless_auth_index = document.getElementById("id_WIFIAuthType1").selectedIndex;
+					
+					var err_title;
+					
+					if (wireless_auth_index == 3)					
+						err_title="<%GetString("WlanSingle","60");%>";
+						
+					else if (wireless_auth_index == 0)					
+						err_title="<%GetString("WlanSingle","68");%>";
+						
+					else if (wireless_auth_index ==1)
+						err_title="<%GetString("WlanSingle","85");%>";
+						
+					else if (wireless_auth_index == 2)
+						err_title="<%GetString("WlanSingle","87");%>";
+						
+					Show_error(err_title,"<%GetString("WlanMulti","61");%>");
+					
+					return false;
+				}
+//---Eric add to block multyple byte
+		}
+		if (key_value=="******")
+			document.getElementById("id_WIFIWPAPSK1").disabled=true;
+		document.getElementById("id_WIFIAuthType1").disabled=false;
+		document.getElementById("id_WIFIEncrypType1").disabled=false;		
+		document.getElementById("id_WIFISsid1Enable").value=1;
+		
+	}
+	else
+		document.getElementById("id_WIFISsid1Enable").value=0;
+// check ssid3		
+	
+// check ssid3			
+	if (document.getElementById("id_wep").checked)
+	{
+		var i=1;
+		var err_title="<%GetString("WlanMulti","65");%>";
+		document.getElementById("id_WIFIAuthType3").disabled=false;
+		document.getElementById("id_WIFIEncrypType3").disabled=false;
+		document.getElementById("id_WIFISsid3Enable").value=1;
+
+		if(!Escape_String(document.getElementById("id_WIFISsid3").value))
+		{
+			Show_error("<%GetString("WlanMulti","25");%>","<%GetString("WlanMulti","61");%>");
+			return false;			
+		}
+		if (!ChkWebKey("3"))
+			return false;
+		if (document.getElementById("id_usessid7").checked && (document.getElementById("id_WIFISsid3").value==""))//Candy add 090213
+		{
+      			Show_error("<%GetString("WlanMulti","25");%>","<%GetString("WlanMulti","62");%>");
+			return false;
+    		} //patch 20100105
+        //Check duplicate WEP security (Only one WEP security can be used)
+        if (document.getElementById("id_tkip").checked)
+        {
+            if((document.getElementById("id_WIFIAuthType1").selectedIndex==3)&&
+                (document.getElementById("id_WIFIEncrypType1").value=="WEP"))
+            {
+      			Show_error("<%GetString("WlanMulti","56");%>","<%GetString("WlanMulti","80");%>");
+			return false;
+    		}                
+        }
+        
+	}
+	else
+		document.getElementById("id_WIFISsid3Enable").value=0;
+	
+	if(!check_ssid_duplicated())
+	{
+      		Show_error("<%GetString("WlanMulti","25");%>","<%GetString("WlanMulti","74");%>");
+		return false;
+    }
+	
+	if (isBlank(document.getElementById("id_WIFIRekeyInterval").value) || isNaN(document.getElementById("id_WIFIRekeyInterval").value))
+	{
+		Show_error("<%GetString("WlanMulti","35");%>","<%GetString("WlanSingle","89");%>");
+		return false;
+	}
+
+
+	if (0 > document.getElementById("id_WIFIRekeyInterval").value)
+	{
+		Show_error("<%GetString("WlanMulti","35");%>","<%GetString("WlanMulti","62");%>");
+		return false;
+	}
+
+	if (document.getElementById("id_WIFIRekeyInterval").value > 1440)
+	{
+		Show_error("<%GetString("WlanMulti","35");%>","<%GetString("WlanMulti","63");%>");
+		return false;
+	}
+
+	return true;
+}
+
+function DisplaykeyInterval()
+{
+	if(document.getElementById("id_WIFIAuthType1").selectedIndex=="3")
+		document.getElementById("WIFIRekeyInterval").style.display = "none";
+	else
+		document.getElementById("WIFIRekeyInterval").style.display = "";
+	if ("<%NvramGet("WIFIAuthType1_5g");%>" == "OPEN")
+		document.getElementById("id_WIFIWPAPSK1").value="";
+}
+
+// -->
+</script>
+
+</head>
+<body  class="BFK_BODY" onLoad="DisplaykeyInterval();initOutdoorIndoor();auth_change_S1();initSsid();wmm();" id="id_main" style="display:none;">
+<br>
+<div id="basic_content">
+<%CheckAOSSActing("wlan_multi.html");%>
+<div id= "id_errtbl" class="C_ERR"></div>
+<form  method="POST" name="wifiForm">
+  <input type="hidden" id="id_AOSSSSID1" value="<%NvramGetAdv("WIFIAOSSSSID1_5g");%>">
+  <input type="hidden" id="id_AOSSSSID3" value="<%NvramGetAdv("WIFIAOSSSSID3_5g");%>">
+  <input type="hidden" id="id_AOSSSSID4" value="<%NvramGetAdv("WIFIAOSSSSID4_5g");%>">
+
+<input type="hidden" name="WIFISecMode" value="2" disabled>
+  <table class="AD_SET">
+    <tr>
+  
+      <th><%GetString("WlanMulti","1");%></th>
+      <td>
+      	<input type="checkbox" id="id_WIFIModuleEnable" <%NvramMatch("WIFIModuleEnable_5g","1","checked");%> onClick="setValue('WIFIModuleEnable')"><%GetString("WlanMulti","69");%>
+      	<input type="hidden" value="<%NvramGet("WIFIModuleEnable_5g");%>" name="WIFIModuleEnable_5g" id="mm_WIFIModuleEnable">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanMulti","8");%></th>
+      <td>
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><select name="WIFIChannel_5g" id="id_WIFIChannel" onChange="enableExtChn();" <%NvramMatch("WIFIApCliStatus_5g","1","disabled");%>>
+						<%GetChannelList_5g();%>
+            </select>
+         <%GetChannelString_5g();%>
+            </td>
+         </tr>
+         <tr id="id_DFS_Description" style="display:none;"><td>
+         <%GetString("WlanMulti","85");%>
+		     <span class=C_WARN><br>
+		     </span>
+         </td>
+         </tr>
+         
+         <tr id="id_Show_WIFIOutdoorIndoor" style="display:none;">
+         <td>
+         <select name="WIFIOutdoorIndoor" id="id_WIFIOutdoorIndoor" <%NvramMatch("WIFIApCliStatus_5g","1","disabled");%> >
+         <option value="0" <%NvramMatch("WIFIOutdoorIndoor","0","selected");%>><%GetString("WlanMulti","83");%></option>
+				 <option value="1" <%NvramMatch("WIFIOutdoorIndoor","1","selected");%>><%GetString("WlanMulti","84");%></option>
+         </select>
+         </td>
+          </tr>
+          
+        </table>
+      </td>
+    </tr>
+
+  
+    <tr>
+      <th><%GetString("WlanMulti","17");%></th>
+      <td>
+        <%GetString("WlanMulti","18");%> <select name="WIFIHTBW_5g" id="id_WIFIHTBW" onChange="enableExtChn();"<%NvramMatch("WIFIApCliStatus_5g","1","disabled");%>>
+        <option value="0" <%NvramMatch("WIFIBW_Option_5g","0","selected");%>><%GetString("NewUI","118");%></option>
+		    <option value="1" <%NvramMatch("WIFIBW_Option_5g","1","selected");%>><%GetString("NewUI","119");%></option>
+        <option value="2" <%NvramMatch("WIFIBW_Option_5g","2","selected");%> <%NvramMatch("WIFIChannel_5g","132","disabled");%> <%NvramMatch("WIFIChannel_5g","136","disabled");%>><%GetString("NewUI","120");%></option>
+        </select>
+		<%GetBandwidthString_5g();%>
+         <br>
+        <!--<%GetString("WlanMulti","21");%> 
+        <select size="1" name="WIFIHTEXTCHA_5g" id="id_WIFIHTEXTCHA" <%NvramMatch("WIFIChannel_5g","140","disabled");%> <%NvramMatch("WIFIChannel_5g","165","disabled");%> <%NvramMatch("WIFIHTBW_5g","0","disabled");%> <%NvramMatch("WIFIApCliEnable","1","disabled");%> <%NvramMatch("WIFIApCliEnable","2","disabled");%>>
+        <%GetExtChannel_5g();%>
+        </select>-->
+		
+      </td>
+    </tr>
+
+    <tr>
+      <th><%GetString("WlanMulti","22");%></th>
+      <td>
+        <input type="hidden" name="WIFIHideSSID1_5g" id="mm_WIFIHideSSID1" value="<%NvramGet("WIFIHideSSID1_5g");%>">
+        <input type="checkbox" id="id_WIFIHideSSID1" value="0" 
+        	<%NvramMatch("WIFIHideSSID1_5g","0","checked");%> onClick="setInvValue('WIFIHideSSID1')"><%GetString("WlanMulti","23");%>
+      </td>
+    </tr>
+
+  </table>
+<!-- ssid1 start
+  <p><%GetString("WlanMulti","25");%>2</p>-->
+  
+<table class="AD_TTL2">
+    <tr>
+      <td><%GetString("WlanMulti","25");%>1</td>
+    </tr>
+  </table>  
+  
+  <table class="AD_SET">
+    <tr>
+      <th width="180"><%GetString("WlanMulti","25");%>1</th>
+      <td width="400">
+      	<input type="hidden" name="WIFISsid1Enable_5g" id="id_WIFISsid1Enable" value="<%NvramGet("WIFISsid1Enable_5g");%>">
+      	<!--<input type="hidden" name="WIFIAuthType1" id="id_WIFIAuthType1" value="WPAPSK" disabled>-->
+      	<input type="checkbox" id="id_tkip" value="1" <%NvramMatch("WIFISsid1Enable_5g","1","checked");%> onClick="tkip_enable();"><%GetString("WlanMulti","28");%>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanMulti","27");%></th>
+      <td><input type="hidden" name="WIFIGuestPort1_5g" id="mm_WIFIGuestPort1" value="<%NvramGet("WIFIGuestPort1_5g");%>">
+      <input type="checkbox" value="1" id="id_WIFIGuestPort1" <%NvramMatch("WIFIGuestPort1_5g","1","checked");%> 
+      		onclick="setValue('WIFIGuestPort1')"  <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>><%GetString("WlanMulti","28");%></td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanMulti","25");%></th>
+      <td>
+        <input type="radio" name="nosave_usessid1" id="id_usessid2" value="0" onClick="hide_ssid(1);" 
+        <%GetMultiWMAC_5g("ssid1","checked");%> <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>>
+	<%GetString("WlanMulti","29");%> (<%GetMultiWMAC_5g("1");%>)<br>
+        <input type="radio" name="nosave_usessid1" id="id_usessid3" value="1" onClick="hide_ssid(1);" 
+        <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>>
+	<%GetString("WlanMulti","39");%>:<input type="text" size="40" maxlength="32" name="WIFISsid1_5g" id="id_WIFISsid1" value="<%NvramGetAdv("WIFISsid1_5g");%>" 
+	<%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>>
+      </td>
+    </tr>
+	 <!--ADD FOR 128 AP version-->	
+    <tr>
+      <th><%GetString("WlanMulti","45");%></th>
+      <td>
+     	<select name="WIFIAuthType1_5g" id="id_WIFIAuthType1" onChange="DisplaykeyInterval();auth_change_S1();isChanged();" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>>     	  
+     	  <option value="WPAPSK" <%NvramMatch("WIFIAuthType1_5g","WPAPSK","selected");%>><%GetString("WlanMulti","47");%></option>
+     	  <option value="WPA2PSK" <%NvramMatch("WIFIAuthType1_5g","WPA2PSK","selected");%>><%GetString("WlanMulti","48");%></option>
+     	  <option value="WPAPSKWPA2PSK" <%NvramMatch("WIFIAuthType1_5g","WPAPSKWPA2PSK","selected");%>><%GetString("WlanMulti","49");%></option>
+		  <option value="OPEN" <%NvramMatch("WIFIAuthType1_5g","OPEN","selected");%>><%GetString("WlanMulti","46");%></option>
+     	</select>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanMulti","89");%></th>
+      <td>
+
+	  <select name="WIFIEncrypType1_5g" id="id_WIFIEncrypType1" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> onChange="etype_change_S1();isChanged();"> <!--patch 20100105-->
+	    <%GetEncrypTypeS1_5g();%>
+	  </select>
+
+      </td>
+    </tr>
+    <tr id="id_wep1_tbl">
+      <th><%GetString("WlanMulti","40");%></th>
+      <td>
+        <table>
+     	  <tr>
+     	    <td colspan="2">
+     		 <select onChange="clear_wep('1')" name="nosave_WIFIWEPKey1Type_S1" id="id_WIFIWEPKey1Type_S1" onchange="isChanged();" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>>
+                <option value="A5" <%GetWEPKeyType_5g("A5","selected","1");%>><%GetString("WlanMulti","41");%></option>
+                <option value="A13" <%GetWEPKeyType_5g("A13","selected","1");%>><%GetString("WlanMulti","42");%></option>
+                <option value="H10" <%GetWEPKeyType_5g("H10","selected","1");%>><%GetString("WlanMulti","43");%></option>
+                <option value="H26" <%GetWEPKeyType_5g("H26","selected","1");%>><%GetString("WlanMulti","44");%></option>
+     		 </select>
+     	    </td>
+     	  </tr>
+    <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex1_5g" id="id_WIFIWEPKeyIndex1_1" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="1" onChange="isChanged();" <%NvramMatch("WIFIWEPKeyIndex1_5g","1","checked");%>>1:
+         </td>
+            <td><input type="password" name="WIFIWEPKey1_S1_5g" id="id_WIFIWEPKey1_S1" size="40" maxlength="26" 
+            	<%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey1_S1_5g");%>"  onchange="isChanged();"></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex1_5g" id="id_WIFIWEPKeyIndex1_2" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="2" onChange="isChanged();" <%NvramMatch("WIFIWEPKeyIndex1_5g","2","checked");%>>2:
+         </td>
+            <td><input type="password" name="WIFIWEPKey2_S1_5g" id="id_WIFIWEPKey2_S1" size="40" maxlength="26" 
+            	<%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey2_S1_5g");%>"  onchange="isChanged();"></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex1_5g" id="id_WIFIWEPKeyIndex1_3" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="3" onChange="isChanged();" <%NvramMatch("WIFIWEPKeyIndex1_5g","3","checked");%>>3:
+         </td>
+            <td><input type="password" name="WIFIWEPKey3_S1_5g" id="id_WIFIWEPKey3_S1" size="40" maxlength="26" 
+            	<%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey3_S1_5g");%>"  onchange="isChanged();"></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex1_5g" id="id_WIFIWEPKeyIndex1_4" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="4" onChange="isChanged();" <%NvramMatch("WIFIWEPKeyIndex1_5g","4","checked");%>>4:
+         </td>
+            <td><input type="password" name="WIFIWEPKey4_S1_5g" id="id_WIFIWEPKey4_S1" size="40" maxlength="26" 
+            	<%NvramMatch("WIFISsid1Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey4_S1_5g");%>"  onchange="isChanged();"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr id="id_psk1_tbl">
+      <th><%GetString("WlanMulti","34");%></th>
+      <td>
+	  <input type="password" name="WIFIWPAPSK1_5g" id="id_WIFIWPAPSK1" size="64" maxlength="64" 
+		value="<%NvramGet_WPAPSK("WIFIWPAPSK1_5g");%>"  onchange="isChanged();" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>>
+	<!--<input type="password" name="WIFIWPAPSK1_5g" id="id_WIFIWPAPSK1" size="64" maxlength="64" 
+		value="<%ChangeKeyToStar("WIFIWPAPSK1_5g");%>"  onchange="isChanged();" <%NvramMatch("WIFISsid1Enable_5g","0","disabled");%>>-->
+      </td>
+    </tr>
+	
+      <tr class="AD_SET" id="WIFIRekeyInterval">
+      <th width="180"><%GetString("WlanMulti","35");%></th>
+      <td width="400">
+      <input type="text" name="WIFIRekeyInterval_5g" id="id_WIFIRekeyInterval" size="10" maxlength="4" value="<%NvramGet("WIFIRekeyInterval_5g");%>">
+      <%GetString("WlanMulti","36");%>
+      </td>
+    	</tr>
+	
+ <!--ADD END-->	
+    <!--<tr>
+      <th><%GetString("WlanMulti","31");%></th>
+      <td>
+    	<select name="WIFIEncrypType1" id="id_WIFIEncrypType1" <%NvramMatch("WIFISsid1Enable","0","disabled");%> onchange="change_ssid2encryp();">
+    	  <option value="NONE" <%NvramMatch("WIFIEncrypType1","NONE","selected");%>><%GetString("WlanMulti","51");%></option>
+    	  <option value="TKIP" <%NvramMatch("WIFIEncrypType1","TKIP","selected");%>><%GetString("WlanMulti","32");%></option>
+	  <option value="TKIPAES" <%NvramMatch("WIFIEncrypType1","TKIPAES","selected");%>><%GetString("WlanMulti","33");%></option>
+	  </select>
+      </td>
+    </tr>
+    <tr id="id_psk2_tbl">
+      <th><%GetString("WlanMulti","34");%></th>
+      <td>
+	<input type="password" name="WIFIWPAPSK1" id="id_WIFIWPAPSK1" size="64" maxlength="64" value="<%ChangeKeyToStar("WIFIWPAPSK1");%>"
+		onclick="CleanSingleKey('id_WIFIWPAPSK1');" <%NvramMatch("WIFISsid1Enable","0","disabled");%>>
+      </td>
+    </tr>-->
+  </table>
+<!-- ssid2 end -->
+<!-- ssid3 start 
+  <p><%GetString("WlanMulti","25");%>3</p>-->  
+<!-- ssid3 end -->
+<!-- ssid4 start 
+  <p><%GetString("WlanMulti","25");%>4</p>-->
+
+  <table class="AD_TTL2">
+    <tr>
+      <td><%GetString("WlanMulti","25");%>2</td>
+    </tr>
+  </table>  
+  
+  <table class="AD_SET">
+    <tr>
+      <th width="180"><%GetString("WlanMulti","90");%></th>
+      <td width="400">
+      	<input type="hidden" name="WIFISsid3Enable_5g" id="id_WIFISsid3Enable" value="<%NvramGet("WIFISsid3Enable_5g");%>">
+      	<input type="hidden" name="WIFIAuthType3_5g" id="id_WIFIAuthType3" value="OPEN" disabled>
+      	<input type="hidden" name="WIFIEncrypType3_5g" id="id_WIFIEncrypType3" value="WEP" disabled>
+      	<input type="checkbox" id="id_wep" value="1" <%NvramMatch("WIFISsid3Enable_5g","1","checked");%> onClick="wep_enable()"><%GetString("WlanMulti","28");%>
+		<br><br>
+		<img id="warning_icon" src="/images/py20_warning.png" style="font-size: 15px; font-weight: bold; width: 32px; height: 32px; margin-bottom: 1em; cursor: pointer;" onClick="warning_click('ssid');"></img>
+		<div id="ssid_warning" class="popup_warn" style="font-size: 15px; white-space: normal; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255); width: 300px; opacity: 0.9; padding: 4px; border: 3px solid rgb(0, 0, 0); position: absolute; top: 400px; left: 250px; display: none;">
+		<div style="color: rgb(119, 119, 119); font-size: 15px; font-weight: bold; border: 1px solid rgb(204, 0, 0); height: 2em; line-height: 2em; cursor: move;">
+		<input type="button" value="<%GetString("NewUI","233");%>" style="margin: 0px; padding: 0px 5px; height: 2em; line-height: 1.5em; font-size: 15px; font-weight: bold; cursor: pointer; float: right;" onClick="warning_close('ssid')">
+		<%GetString("NewUI","234");%>
+		</div>
+		<p class="warnning_info" style="font-weight:bolder">
+			<%GetString("NewUI","235");%>
+		</p>
+		</div>
+		
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanMulti","27");%></th>
+      <td><input type="hidden" name="WIFIGuestPort3_5g" id="mm_WIFIGuestPort3" value="<%NvramGet("WIFIGuestPort3_5g");%>">
+      <input type="checkbox" value="1" id="id_WIFIGuestPort3" <%NvramMatch("WIFIGuestPort3_5g","1","checked");%> 
+      		onclick="setValue('WIFIGuestPort3')" <%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>><%GetString("WlanMulti","28");%></td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanMulti","25");%></th>
+      <td>
+        <input type="radio" name="nosave_usessid3" id="id_usessid6" value="0" onClick="hide_ssid(3);" 
+        <%GetMultiWMAC_5g("ssid3","checked");%> <%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>>
+	<%GetString("WlanMulti","29");%> (<%GetMultiWMAC_5g("3");%>)<br>
+        <input type="radio" name="nosave_usessid3" id="id_usessid7" value="1" onClick="hide_ssid(3);" <%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>>
+	<%GetString("WlanMulti","30");%>:<input type="text" size="40" maxlength="32" name="WIFISsid3_5g" id="id_WIFISsid3" value="<%NvramGetAdv("WIFISsid3_5g");%>" 
+	<%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanMulti","40");%></th>
+      <td>
+        <table>
+     	  <tr>
+     	    <td colspan="2">
+     		 <select onChange="clear_wep('3')" name="nosave_WIFIWEPKey1Type_S3" id="id_WIFIWEPKey1Type_S3" <%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>>
+                <option value="A5" <%GetWEPKeyType_5g("A5","selected","3");%>><%GetString("WlanMulti","41");%></option>
+                <option value="A13" <%GetWEPKeyType_5g("A13","selected","3");%>><%GetString("WlanMulti","42");%></option>
+                <option value="H10" <%GetWEPKeyType_5g("H10","selected","3");%>><%GetString("WlanMulti","43");%></option>
+                <option value="H26" <%GetWEPKeyType_5g("H26","selected","3");%>><%GetString("WlanMulti","44");%></option>
+     		 </select>
+     	    </td>
+     	  </tr>
+          <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex3_5g" id="id_WIFIWEPKeyIndex3_1" value="1" <%NvramMatch("WIFIWEPKeyIndex3_5g","1","checked");%>
+            	<%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>>1:
+         </td>
+            <td><input type="password" name="WIFIWEPKey1_S3_5g" id="id_WIFIWEPKey1_S3" size="40" maxlength="26" 
+            <%NvramMatch("WIFISsid3Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey1_S3_5g");%>" 
+            ></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex3_5g" id="id_WIFIWEPKeyIndex3_2" value="2" <%NvramMatch("WIFIWEPKeyIndex3_5g","2","checked");%>
+            <%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>>2:
+         </td>
+            <td><input type="password" name="WIFIWEPKey2_S3_5g" id="id_WIFIWEPKey2_S3" size="40" maxlength="26" 
+            	<%NvramMatch("WIFISsid3Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey2_S3_5g");%>"
+            	></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex3_5g" id="id_WIFIWEPKeyIndex3_3" value="3" <%NvramMatch("WIFIWEPKeyIndex3_5g","3","checked");%>
+            <%NvramMatch("WIFISsid3Enable_5g","0","disabled");%>>3:
+         </td>
+            <td><input type="password" name="WIFIWEPKey3_S3_5g" id="id_WIFIWEPKey3_S3" size="40" maxlength="26" 
+            	<%NvramMatch("WIFISsid3Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey3_S3_5g");%>"
+            	></td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="WIFIWEPKeyIndex3_5g" id="id_WIFIWEPKeyIndex3_4" value="4" <%NvramMatch("WIFIWEPKeyIndex3_5g","4","checked");%>
+            <%NvramMatch("WIFISsid3Enable","0","disabled");%>>4:
+         </td>
+            <td><input type="password" name="WIFIWEPKey4_S3_5g" id="id_WIFIWEPKey4_S3" size="40" maxlength="26" 
+            	<%NvramMatch("WIFISsid3Enable_5g","0","disabled");%> value="<%ChangeKeyToStar("WIFIWEPKey4_S3_5g");%>"
+            	></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+<!-- ssid4 end -->
+  
+
+
+<!-- Extend Start -->
+  <%GetString("NewUI","186");%>
+ <table class="AD_SET">
+    <tr>
+      <th><%GetString("WlanExtend","3");%></th>
+          <td><select name="nosave_multiRate">
+          <%GetMulticastRate_5g();%>
+          </select></td>
+    </tr>		
+	  <tr>
+      <th><%GetString("WlanExtend","7");%></th>          
+      <td>
+        <input maxLength="3" size="5" name="WIFIDtimPeriod_5g" value='<%NvramGet("WIFIDtimPeriod_5g");%>'>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanExtend","8");%></th>
+      <td>
+      	<input type="hidden" name="WIFINoForwarding_5g" id="mm_WIFINoForwarding" value="<%NvramGet("WIFINoForwarding_5g");%>">
+      	<input type="hidden" name="WIFINoForwardingBTNBSSID_5g" id="mm_WIFINoForwardingBTNBSSID" value="<%NvramGet("WIFINoForwardingBTNBSSID_5g");%>">
+        <input type="checkbox" id="id_WIFINoForwarding" value="1" <%NvramMatch("WIFINoForwardingBTNBSSID_5g","1","checked");%> onClick="setExtValue('WIFINoForwarding')"><%GetString("WlanSingle","28");%>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%GetString("WlanExtend","9");%></th>
+      <td>
+        <select name="WIFITxPower_5g">
+          <option value="25" <%NvramMatch("WIFITxPower_5g","25","selected");%>>25 %</option>
+          <option value="50" <%NvramMatch("WIFITxPower_5g","50","selected");%>>50 %</option>
+          <option value="75" <%NvramMatch("WIFITxPower_5g","75","selected");%>>75 %</option>
+          <option value="100" <%NvramMatch("WIFITxPower_5g","100","selected");%>>100 %</option>
+        </select>
+      </td>
+    </tr>
+ 
+ 
+
+</table>
+<!-- Extend End -->
+
+<!-- WMM Start -->
+
+<!--  -->
+<div id="wmm_ext_edca">
+<table class="AD_TTL2">
+  <tbody>
+    <tr><td><%GetString("WlanWmm","3");%> </td></tr>
+  </tbody>
+</table>
+
+	<img  src="/images/py20_warning.png" style="font-size: 15px; font-weight: bold; width: 32px; height: 32px; margin-bottom: 1em; cursor: pointer;" onClick="warning_click('wmm');"></img>
+	<div id="wmm_warning" class="popup_warn" style="font-size: 15px; white-space: normal; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255); width: 300px; opacity: 0.9; padding: 4px; border: 3px solid rgb(0, 0, 0); position: absolute; top: 800px; left: 50px; display: none;">
+	<div style="color: rgb(119, 119, 119); font-size: 15px; font-weight: bold; border: 1px solid rgb(204, 0, 0); height: 2em; line-height: 2em; cursor: move;">
+	<input type="button" value="<%GetString("NewUI","233");%>" style="margin: 0px; padding: 0px 5px; height: 2em; line-height: 1.5em; font-size: 15px; font-weight: bold; cursor: pointer; float: right;" onClick="warning_close('wmm')">
+	<%GetString("NewUI","236");%>
+	</div>
+	<p class="warnning_info" style="font-weight:bolder">
+		<%GetString("NewUI","237");%>
+	</p>
+	</div>
+
+
+<!--  -->
+<table class="AD_SET">
+  <tbody style="display:none">
+    <tr>
+      <th><%GetString("WlanWmm","1");%></th>
+      <td>
+      	<input type="hidden" name="WIFIWmmCapable" id="mm_WIFIWmmCapable" value="<%NvramGet("WIFIWmmCapable");%>">
+        <input type="checkbox" id="id_WIFIWmmCapable" value="1" <%NvramMatch("WIFIWmmCapable","1","checked");%>
+        	onclick="setWmmValue('WIFIWmmCapable')"><%GetString("WlanWmm","2");%>
+      </td>
+   </tr>
+  </tbody>
+</table>
+
+
+<table class="AD_SET">
+  <tbody>
+    <tr>
+      <th><%GetString("NewUI","273");%></th>
+      <td>      	
+        <input type="checkbox" id="id_Wmm" value="1" <%NvramMatch("WIFIWMMDISPLAY_5g","1","checked");%> onclick="wmm();"><%GetString("NewUI","274");%>
+		<input type="hidden" name="WIFIWMMDISPLAY_5g" id="id_WIFIWMMDISPLAY_5g" value="<%NvramGet("WIFIWMMDISPLAY_5g");%>">
+      </td>
+   </tr>
+  </tbody>
+</table>
+
+<!--  -->
+<div id="wmm_setting">
+<table class="AD_SET">
+  <tr>
+    <th><%GetString("WlanWmm","4");%></th>
+    <th><%GetString("WlanWmm","5");%></th>
+  </tr>
+  <tr> 
+    <td><%GetString("WlanWmm","6");%></td>
+    <td>
+    <table><tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td>
+    </tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin2" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","2");%>" 
+    	onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin2" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","2");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax2" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","2");%>"
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax2" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","2");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN2" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","2");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN2" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","2");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop2" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","2");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop2" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","2");%>"
+   	onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+
+   </table>
+   </td>
+  </tr> 
+  <tr>
+    <td><%GetString("WlanWmm","16");%></td>
+    <td>
+    <table><tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td>
+    </tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin1" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","1");%>"
+    	onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin1" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","1");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax1" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","1");%>"
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax1" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","1");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN1" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","1");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN1" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","1");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop1" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","1");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop1" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","1");%>"
+  	 onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td><%GetString("WlanWmm","17");%></td>
+    <td>
+    <table>
+    <tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td>
+    </tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin3" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","3");%>"
+    	onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin3" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","3");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax3" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","3");%>" 
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax3" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","3");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN3" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","3");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN3" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","3");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop3" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","3");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop3" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","3");%>"
+   	onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+    </table>
+    </td>
+  </tr>
+  <tr> 
+    <td><%GetString("WlanWmm","18");%></td>
+    <td>
+    <table>
+    <tr><td></td>
+    <td><%GetString("WlanWmm","7");%></td>
+    <td><%GetString("WlanWmm","8");%></td></tr>
+    <tr><td><%GetString("WlanWmm","9");%>:</td>
+    <td><input type="text" id="id_ap_CWmin4" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmin_5g","4");%>" 
+    	 onchange='mergeValue("id_GUIAPCwmin","ap","CWmin");'></td>
+    <td><input type="text" id="id_sta_CWmin4" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmin_5g","4");%>"
+    	onchange='mergeValue("id_GUIBSSCwmin","sta","CWmin");'></td>
+    </tr>
+   <tr><td><%GetString("WlanWmm","10");%>:</td>
+   <td><input type="text" id="id_ap_CWmax4" size="6" maxlength="5" value="<%GetWMM("GUIAPCwmax_5g","4");%>"
+   	onchange='mergeValue("id_GUIAPCwmax","ap","CWmax");'></td>
+   <td><input type="text" id="id_sta_CWmax4" size="6" maxlength="5" value="<%GetWMM("GUIBSSCwmax_5g","4");%>"
+   	onchange='mergeValue("id_GUIBSSCwmax","sta","CWmax");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","11");%>:</td>
+   <td><input type="text" id="id_ap_AIFSN4" size="6" maxlength="2" value="<%GetWMM("GUIAPAifsn_5g","4");%>"
+   	onchange='mergeValue("id_GUIAPAifsn","ap","AIFSN");'></td>
+   <td><input type="text" id="id_sta_AIFSN4" size="6" maxlength="2" value="<%GetWMM("GUIBSSAifsn_5g","4");%>"
+   	onchange='mergeValue("id_GUIBSSAifsn","sta","AIFSN");'></td>
+   </tr>
+   <tr><td><%GetString("WlanWmm","12");%>:</td>
+   <td><input type="text" id="id_ap_txop4" size="6" maxlength="3" value="<%GetWMM("GUIAPTxop_5g","4");%>"
+   	onchange='mergeValue("id_GUIAPTxop","ap","txop");'></td>
+   <td><input type="text" id="id_sta_txop4" size="6" maxlength="3" value="<%GetWMM("GUIBSSTxop_5g","4");%>"
+   	onchange='mergeValue("id_GUIBSSTxop","sta","txop");'></td>
+   </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+</div> <!-- id="wmm_ext_edca" -->
+<input type="hidden" name="GUIAPAifsn_5g" id="id_GUIAPAifsn" value="<%NvramGet("GUIAPAifsn_5g");%>">
+<input type="hidden" name="GUIAPTxop_5g" id="id_GUIAPTxop" value="<%NvramGet("GUIAPTxop_5g");%>">
+<input type="hidden" name="GUIAPCwmax_5g" id="id_GUIAPCwmax" value="<%NvramGet("GUIAPCwmax_5g");%>">
+<input type="hidden" name="GUIAPCwmin_5g" id="id_GUIAPCwmin" value="<%NvramGet("GUIAPCwmin_5g");%>">
+<input type="hidden" name="GUIBSSCwmax_5g" id="id_GUIBSSCwmax" value="<%NvramGet("GUIBSSCwmax_5g");%>">
+<input type="hidden" name="GUIBSSCwmin_5g" id="id_GUIBSSCwmin" value="<%NvramGet("GUIBSSCwmin_5g");%>">
+<input type="hidden" name="GUIBSSTxop_5g" id="id_GUIBSSTxop" value="<%NvramGet("GUIBSSTxop_5g");%>">
+<input type="hidden" name="GUIBSSAifsn_5g" id="id_GUIBSSAifsn" value="<%NvramGet("GUIBSSAifsn_5g");%>">
+</div>
+
+
+<!-- WMM End -->
+
+<div class="button2" name="nosave_SETUP_MULTI_SETTINGS" onClick="setWifi();">
+	<div class="button_text"><%GetString("WlanMulti","57");%></div>
+</div>
+<br/>
+<br/>
+<!--<p><input type="button" class="button_text" value="<%GetString("WlanMulti","57");%>" name="nosave_SETUP_MULTI_SETTINGS" onclick="setWifi();"></p>-->
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</div>
+<div id="basic_confirm" style="display:none;">  
+  <p><span id="confirm_64" style="display:none;"><%GetString("WlanMulti","77");%></span></p>
+  <p><span id="confirm_space" style="display:none;"><%GetString("WlanMulti","77");%></span></p>
+  <p><span id="confirm_ssid" style="display:none;"><%GetString("WlanMulti","78");%></span></p>
+  <p>
+    <%GetString("Aoss","58");%>
+  </p>
+  <div class="C_CONFIRM">
+  <p>
+    <%GetString("Aoss","59");%><br>
+    <ol>
+    <%GetString("Aoss","60");%>
+    <%GetString("Aoss","61");%>
+    <%GetString("Aoss","62");%>
+    </ol>
+    <%GetString("Aoss","63");%>
+  </p>
+  <input type="button" name="nosave_apply" value="<%GetString("Aoss","12");%>" onClick="apply();">
+  <input type="button" name="nosave_back" value="<%GetString("Aoss","64");%>" onClick="goBack()">
+  <!--<input type="button" name="nosave_back" value="<%GetString("Aoss","64");%>" onClick=location.href="wlan_multi.html">-->
+  </div>
+</div>
+</body>
+</html>

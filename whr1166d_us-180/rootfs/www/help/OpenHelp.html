@@ -1,0 +1,21 @@
+<!--
+
+function OpenHelp(AURL)
+{
+  var wd1, xleft, xtop, xwidth, xheight;
+  xwidth = 400;
+  xheight = 550;
+  xleft = screen.availWidth - xwidth - 30;
+  xtop = screen.availHeight - xheight - 80;
+  //alert(AURL);
+  wd1 = window.open(AURL,"helpy", 
+  "toolbar=no,location=no,directories=no,status=no,menubar=no," 
+  + "scrollbars=yes,resizable=yes"
+  + ",left=" + xleft 
+  + ",top=" + xtop 
+  + ",width=" + xwidth
+  + ",height=" + xheight);
+  wd1.focus();
+}
+
+// -->

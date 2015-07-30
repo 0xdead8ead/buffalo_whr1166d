@@ -1,0 +1,474 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<script language="JavaScript">
+<!--
+var err_item="<%GetString("Confirm","13");%>";
+var err_description="<%GetString("Confirm","15");%>";
+
+function UpperFrameJump(url) {
+  window.open(url,"upper");
+}
+
+function UpperAndMainFrameJump(upper_url, main_url) {
+  window.open(upper_url,"upper");
+  window.open(main_url,"main");
+}
+function GoTarget(meu, ttlmeu, submeu, tar_meu, tar_ttlmeu, tar_submeu, page, help)
+{
+	//main title
+	for(i=0;i<=6;i++)
+	{
+		top.frames[1].document.getElementById(meu+i).className="";
+		top.frames[1].document.getElementById(ttlmeu+i).style.display="none";
+	}
+	top.frames[1].document.getElementById(tar_meu).className = "SELECTED";
+	top.frames[1].document.getElementById(tar_ttlmeu).style.display="";
+	
+	//subtitle
+	for(i=0;i<=5;i++)
+	{
+		top.frames[1].document.getElementById(submeu+i).className="UNSELECTED";
+	}
+	top.frames[1].document.getElementById(tar_submeu).className = "SELECTED";
+
+	//go target pages
+	top.frames[2].location.href = page;
+	top.frames[3].location.href = help;
+} 
+function Apply(item)
+{
+	document.wan_connect.wan_action.value=item;
+	document.wan_connect.submit();
+}
+function setUSLang()
+{
+	document.US_lang_set.submit();
+}
+function setEULang()
+{
+	document.EU_lang_set.submit();
+}
+function setRULang()
+{
+	document.RU_lang_set.submit();
+}
+
+function init_language_table()
+{
+	var region="<%NvramGet("Region");%>";
+	if(region == "JP")
+	{
+		document.getElementById("US_language_table").style.display = "none";
+	  document.getElementById("EU_language_table").style.display = "none";
+		document.getElementById("RU_language_table").style.display = "none";
+	}
+	else if(region=="US")
+	{
+		document.getElementById("US_language_table").style.display = "";
+	  document.getElementById("EU_language_table").style.display = "none";
+		document.getElementById("RU_language_table").style.display = "none";
+	}
+	else if(region=="EU")
+	{
+		document.getElementById("US_language_table").style.display = "none";
+	  document.getElementById("EU_language_table").style.display = "";
+		document.getElementById("RU_language_table").style.display = "none";
+	}
+	else if(region=="RU")
+	{
+		document.getElementById("US_language_table").style.display = "none";
+	  document.getElementById("EU_language_table").style.display = "none";
+		document.getElementById("RU_language_table").style.display = "";
+	}
+	
+}
+function setMode()
+{
+	var wan_mode=<%NvramGet("RouterMode");%>;
+	if(((wan_mode==0) && (document.getElementById("RouteMode").checked==true))||
+	((wan_mode!=0) && (document.getElementById("BridgeMode").checked==true)))
+		document.getElementById("id_nosave_changeflag").disabled=false;
+	else
+		document.getElementById("id_nosave_changeflag").disabled=true;
+	document.mode_set.submit();
+}
+
+function setMode()
+{
+	var wan_mode=<%NvramGet("RouterMode");%>;
+	if(((wan_mode==0) && (document.getElementById("RouteMode").checked==true))||
+	((wan_mode!=0) && (document.getElementById("BridgeMode").checked==true)))
+		document.getElementById("id_nosave_changeflag").disabled=false;
+	else
+		document.getElementById("id_nosave_changeflag").disabled=true;
+	document.mode_set.submit();
+}
+
+function mainInit()
+{
+	var auto_switch = <%NvramGet("AutoSwitch");%>;
+	var wan_mode = <%NvramGet("RouterMode");%>;
+	
+	var ifilter_activated = <%NvramGet("ifilterActivated");%>;
+	var ifilter_reg = <%NvramGet("ifilterRegStatus");%>;
+	var region="<%NvramGet("Region");%>";
+	
+	if(auto_switch != 3)
+	{
+		document.getElementById("id_mode_set").style.display="none";
+	}
+	else
+	{
+		if(wan_mode==1)
+			document.getElementById("id_mode_name").innerHTML="<%GetString("TopMain","141");%>";
+		else
+			document.getElementById("id_mode_name").innerHTML="<%GetString("TopMain","142");%>";
+	}
+
+	if (wan_mode == 0 || region!="JP")
+	{
+		document.getElementById("id_ifilter_table").style.display="none";
+	}
+	else
+	{
+		document.getElementById("id_ifilter_table").style.display="block";
+
+		if (ifilter_activated == 1)
+		{
+			document.getElementById("ifilter_activated").innerHTML = "<%GetString("IFilter","5");%>";
+		}
+		else
+		{
+			document.getElementById("ifilter_activated").innerHTML = "<%GetString("IFilter","6");%>";	
+		}
+		
+		if(ifilter_reg==3)
+		{
+			document.getElementById("ifilter_reg").innerHTML = "<%NvramGet("ifilterExpDate");%>";
+		}
+		else if(ifilter_reg==5)
+		{
+			document.getElementById("ifilter_reg").innerHTML = "<%GetString("IFilter","7");%>";
+		}
+		else if(ifilter_reg==4)
+		{
+			document.getElementById("ifilter_reg").innerHTML = "<%GetString("IFilter","8");%>";
+		}	
+		else
+		{
+			document.getElementById("ifilter_reg").innerHTML = "<%GetString("IFilter","9");%>";
+		}		
+	}		
+}
+
+//-->
+</SCRIPT>
+</head>
+<BODY class="TOP_BODY" onLoad="mainInit();init_language_table();">
+<table class="TOP_FRAME">
+<tbody>
+<noscript>
+<tr>
+<td colspan="2">
+     <p class="C_WARN"><%GetString("TopMain","1");%></p>
+</td>
+</tr>
+</noscript>
+
+
+<tr>
+
+
+
+<!-- wizard section start -->
+
+<%GetWizardSectionHTML();%>
+
+<!-- wizard section end -->
+
+
+
+<td class="TOP_INFO">
+<div id="id_mode_set">
+<form method="POST" name="mode_set">
+<input type="hidden" name="nosave_changeflag" id="id_nosave_changeflag" value="0" disabled>
+    <table border="0" class=TOP_INFO_GRP>
+	<tbody>
+	    <tr class=HEAD>
+		<td class=TBL_L></td>
+		<td class=TBL_C colSpan=2><%GetString("TopMain","140");%></td>
+		<td class=TBL_R></td>
+	    </tr>
+   	    <tr class=TBL>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2 ><span id="id_mode_name"></span></td>
+     		<td class=TBL_R></td>
+     	    </tr>
+	</tbody>
+    </table>
+    <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</div>
+<%GetInternetInfoMark("begin");%>
+<form method="POST" name="wan_connect">
+    <table border=0 class=TOP_INFO_GRP>
+	<tbody>
+	    <tr class=HEAD>
+		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2><%GetString("TopMain","14");%></td>
+     		<td class=TBL_R></td>
+     	    </tr>
+     	    <tr class=HEAD>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2>
+            	    <%GetInternetInfo("InternetMode");%></td>
+     		<td class=TBL_R></td>
+     	    </tr>
+		<%GetInternetInfo("InternetConnect");%>
+		<%GetInternetInfo("ActionButton");%>
+		<input type="hidden" value="" name="wan_action" id="id_action">
+	</tbody>
+    </table>
+    <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<%GetInternetInfoMark("end");%>
+
+<div id="id_ifilter_table" style="display:none;">
+<form method="POST" action="redirect.html">
+<input type="hidden" name="PageName" value="ifilter_status.html">
+  <TABLE border=0 class=TOP_INFO_GRP>
+    <TBODY>
+      <TR class=HEAD>
+	<TD class=TBL_L></TD>
+	<TD class=TBL_C colSpan=2><%GetString("IFilter","1");%></TD>
+	<TD class=TBL_R></TD>
+     			</TR>
+<TR class=TBL>
+     <TD class=TBL_L></TD>
+     <TD class=TBL_C><%GetString("IFilter","2");%></TD>
+     <TD class=TBL_C>
+		  <span id="ifilter_activated">
+		  
+		 </span>
+     </TD>
+     <TD class=TBL_R></TD>
+</TR>
+<TR class=TBL>
+     <TD class=TBL_L></TD>
+     <TD class=TBL_C><%GetString("IFilter","3");%></TD>
+     <TD class=TBL_C>
+		  <span id="ifilter_reg">
+		  
+		  </span>
+     </TD>
+     <TD class=TBL_R></TD>
+</TR>
+     			<TR class=FOOT>
+     				<TD class=TBL_L></TD>
+     				<TD class=TBL_C colSpan=2>
+     				  <center>
+				    <input type="submit" value="<%GetString("IFilter","4");%>" name="RENEW_IFILTER">
+     				  </center>
+     				</TD>
+     				<TD class=TBL_R></TD>
+     			</TR>
+    </TBODY>
+  </TABLE>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</div>
+
+    <table border="0" class=TOP_INFO_GRP>
+	<tbody>
+	    <tr class=HEAD>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2><%GetString("TopMain","17");%></td>
+     		<td class=TBL_R></td>
+     	    </tr>
+<!-- -->
+<%GetWIFIStatus_5g();%>
+<%GetWIFIStatus();%>
+<!-- -->
+	    <tr class=FOOT>
+	   	<td class=TBL_L></td>
+		<td class=TBL_C colSpan=2>
+		  <table>
+		    <tr>
+			 <td class="L">&nbsp;</td>
+			 <td class="C">
+			 	<%GetWizardAOSSPic();%></td>
+			 <td class="R"><%GetString("TopMain","122");%></td>
+		    </tr>
+	     	    <tr>
+	     		 <td class="L">&nbsp;</td>
+	     		 <td class="C">
+	     		 	<%GetWizardWPSPic();%>
+			 </td>
+	     		 <td class="R"><%GetString("TopMain","123");%></td>
+	     	    </tr>
+		  </table>
+		</td>
+		<td class=TBL_R></td>
+	    </tr>
+	</tbody>
+    </table>
+
+    <table border="0" class="TOP_INFO_GRP">
+	<tbody>
+	    <tr class="HEAD">
+			<td class="TBL_L"></td>
+	     	<td class="TBL_C" colSpan="2"><%GetString("TopMain","145");%></td>
+	     	<td class="TBL_R"></td>
+     	</tr>
+        <%GetECOStatus("ECOMode");%>
+		<%GetECOStatus("ActionButton");%>
+	</tbody>
+    </table>
+
+    <!-- Add for Network Service -->
+    <table border="0" class="TOP_INFO_GRP">
+	<tbody>
+	    <tr class="HEAD">
+			<td class="TBL_L"></td>
+	     	<td class="TBL_C" colSpan="2"><%GetString("NS","1");%></td>
+	     	<td class="TBL_R"></td>
+     	</tr>
+        <tr class="FOOT">
+			<td class="TBL_L"></td>
+	     	<td class="TBL_C" colSpan="2"><input type="button" value="<%GetString("NS","48");%>" onClick="parent.top.location.href='/hosts.html'"></td>
+	     	<td class="TBL_R"></td>
+     	</tr>
+	</tbody>
+    </table>
+    <!-- Add for Network Service -->
+
+<form method="POST" name="US_lang_set" id="US_language_table" style="display:none;">
+    <table border="0" class=TOP_INFO_GRP>
+	<tbody>
+	    <tr class=HEAD>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2><%GetString("TopMain","29");%></td>
+     		<td class=TBL_R></td>
+     	    </tr>
+	    <tr class=TBL>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2>
+     		    <select name="lang">
+     			<option value="0" <%NvramMatch("HTTPLanguageSetting","0","selected");%>><%GetString("TopMain","30");%></option><!--Auto-->
+     			<option value="1" <%NvramMatch("HTTPLanguageSetting","1","selected");%>><%GetString("TopMain","31");%></option><!--English-->
+     			<!--<option value="6" <%NvramMatch("HTTPLanguageSetting","6","selected");%>><%GetString("TopMain","35");%></option>--><!--German-->
+          <!--<option value="7" <%NvramMatch("HTTPLanguageSetting","7","selected");%>><%GetString("TopMain","32");%></option>--><!--French-->
+     			<!--<option value="8" <%NvramMatch("HTTPLanguageSetting","8","selected");%>><%GetString("TopMain","33");%></option>--><!--Italian-->
+          <option value="9" <%NvramMatch("HTTPLanguageSetting","9","selected");%>><%GetString("TopMain","34");%></option><!--Spanish-->
+          <!--<option value="10" <%NvramMatch("HTTPLanguageSetting","10","selected");%>><%GetString("TopMain","160");%></option>--><!--Brazilian Portuguese-->         
+     			<!--<option value="2" <%NvramMatch("HTTPLanguageSetting","2","selected");%>><%GetString("TopMain","43");%></option>--><!--Chinese(traditional)-->
+     			<!--<option value="3" <%NvramMatch("HTTPLanguageSetting","3","selected");%>><%GetString("TopMain","42");%></option>--><!--Chinese(simplised)-->
+     			<!--<option value="4" <%NvramMatch("HTTPLanguageSetting","4","selected");%>><%GetString("TopMain","39");%></option>--><!--Korean-->
+     			<!--<option value="5" <%NvramMatch("HTTPLanguageSetting","5","selected");%>><%GetString("TopMain","37");%></option>--><!--Thai-->
+				  <!--<option value="11" <%NvramMatch("HTTPLanguageSetting","11","selected");%>><%GetString("TopMain","161");%></option><!--Japanese-->
+				  <!--<option value="12" <%NvramMatch("HTTPLanguageSetting","12","selected");%>><%GetString("TopMain","162");%></option>--><!--Portuguese-->
+				  <!--<option value="13" <%NvramMatch("HTTPLanguageSetting","13","selected");%>><%GetString("TopMain","36");%></option>--><!--Arabic-->
+				  <!--<option value="14" <%NvramMatch("HTTPLanguageSetting","14","selected");%>><%GetString("TopMain","163");%></option>--><!--Turkish-->
+				  <!--<option value="15" <%NvramMatch("HTTPLanguageSetting","15","selected");%>><%GetString("TopMain","164");%></option>--><!--Russian-->
+                </select>
+          &nbsp;&nbsp;<input type="button" name="SETUP" value="<%GetString("TopMain","126");%>" onClick="setUSLang();">
+     	 	</td>
+     		<td class=TBL_R></td>
+     	    </tr>
+  	</tbody>
+     </table>
+     <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" name="EU_lang_set" id="EU_language_table" style="display:none;">
+    <table border="0" class=TOP_INFO_GRP>
+	<tbody>
+	    <tr class=HEAD>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2><%GetString("TopMain","29");%></td>
+     		<td class=TBL_R></td>
+     	    </tr>
+	    <tr class=TBL>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2>
+     		    <select name="lang">
+     			<option value="0" <%NvramMatch("HTTPLanguageSetting","0","selected");%>><%GetString("TopMain","30");%></option><!--Auto-->
+     			<option value="1" <%NvramMatch("HTTPLanguageSetting","1","selected");%>><%GetString("TopMain","31");%></option><!--English-->
+     			<option value="6" <%NvramMatch("HTTPLanguageSetting","6","selected");%>><%GetString("TopMain","35");%></option><!--German-->
+          <option value="7" <%NvramMatch("HTTPLanguageSetting","7","selected");%>><%GetString("TopMain","32");%></option><!--French-->
+     			<option value="8" <%NvramMatch("HTTPLanguageSetting","8","selected");%>><%GetString("TopMain","33");%></option><!--Italian-->
+          <option value="9" <%NvramMatch("HTTPLanguageSetting","9","selected");%>><%GetString("TopMain","34");%></option><!--Spanish-->
+          <!--<option value="10" <%NvramMatch("HTTPLanguageSetting","10","selected");%>><%GetString("TopMain","160");%></option>--><!--Brazilian Portuguese-->         
+     			<!--<option value="2" <%NvramMatch("HTTPLanguageSetting","2","selected");%>><%GetString("TopMain","43");%></option>--><!--Chinese(traditional)-->
+     			<!--<option value="3" <%NvramMatch("HTTPLanguageSetting","3","selected");%>><%GetString("TopMain","42");%></option>--><!--Chinese(simplised)-->
+     			<!--<option value="4" <%NvramMatch("HTTPLanguageSetting","4","selected");%>><%GetString("TopMain","39");%></option>--><!--Korean-->
+     			<!--<option value="5" <%NvramMatch("HTTPLanguageSetting","5","selected");%>><%GetString("TopMain","37");%></option>--><!--Thai-->
+				  <!--<option value="11" <%NvramMatch("HTTPLanguageSetting","11","selected");%>><%GetString("TopMain","161");%></option><!--Japanese-->
+				  <!--<option value="12" <%NvramMatch("HTTPLanguageSetting","12","selected");%>><%GetString("TopMain","162");%></option>--><!--Portuguese-->
+				  <!--<option value="13" <%NvramMatch("HTTPLanguageSetting","13","selected");%>><%GetString("TopMain","36");%>--></option><!--Arabic-->
+				  <option value="14" <%NvramMatch("HTTPLanguageSetting","14","selected");%>><%GetString("TopMain","163");%></option><!--Turkish-->
+				  <!--<option value="15" <%NvramMatch("HTTPLanguageSetting","15","selected");%>><%GetString("TopMain","164");%></option>--><!--Russian-->
+                </select>
+          &nbsp;&nbsp;<input type="button" name="SETUP" value="<%GetString("TopMain","126");%>" onClick="setEULang();">
+     	 	</td>
+     		<td class=TBL_R></td>
+     	    </tr>
+  	</tbody>
+     </table>
+     <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" name="RU_lang_set" id="RU_language_table" style="display:none;">
+    <table border="0" class=TOP_INFO_GRP>
+	<tbody>
+	    <tr class=HEAD>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2><%GetString("TopMain","29");%></td>
+     		<td class=TBL_R></td>
+     	    </tr>
+	    <tr class=TBL>
+     		<td class=TBL_L></td>
+     		<td class=TBL_C colSpan=2>
+     		    <select name="lang">
+     			<option value="0" <%NvramMatch("HTTPLanguageSetting","0","selected");%>><%GetString("TopMain","30");%></option><!--Auto-->
+     			<option value="1" <%NvramMatch("HTTPLanguageSetting","1","selected");%>><%GetString("TopMain","31");%></option><!--English-->
+     			<!--<option value="6" <%NvramMatch("HTTPLanguageSetting","6","selected");%>><%GetString("TopMain","35");%></option>--><!--German-->
+          <!--<option value="7" <%NvramMatch("HTTPLanguageSetting","7","selected");%>><%GetString("TopMain","32");%></option>--><!--French-->
+     			<!--<option value="8" <%NvramMatch("HTTPLanguageSetting","8","selected");%>><%GetString("TopMain","33");%></option>--><!--Italian-->
+          <!--<option value="9" <%NvramMatch("HTTPLanguageSetting","9","selected");%>><%GetString("TopMain","34");%></option>--><!--Spanish-->
+          <!--<option value="10" <%NvramMatch("HTTPLanguageSetting","10","selected");%>><%GetString("TopMain","160");%></option>--><!--Brazilian Portuguese-->         
+     			<!--<option value="2" <%NvramMatch("HTTPLanguageSetting","2","selected");%>><%GetString("TopMain","43");%></option>--><!--Chinese(traditional)-->
+     			<!--<option value="3" <%NvramMatch("HTTPLanguageSetting","3","selected");%>><%GetString("TopMain","42");%></option>--><!--Chinese(simplised)-->
+     			<!--<option value="4" <%NvramMatch("HTTPLanguageSetting","4","selected");%>><%GetString("TopMain","39");%></option>--><!--Korean-->
+     			<!--<option value="5" <%NvramMatch("HTTPLanguageSetting","5","selected");%>><%GetString("TopMain","37");%></option>--><!--Thai-->
+				  <!--<option value="11" <%NvramMatch("HTTPLanguageSetting","11","selected");%>><%GetString("TopMain","161");%></option>--><!--Japanese-->
+				  <!--<option value="12" <%NvramMatch("HTTPLanguageSetting","12","selected");%>><%GetString("TopMain","162");%></option>--><!--Portuguese-->
+				  <!--<option value="13" <%NvramMatch("HTTPLanguageSetting","13","selected");%>><%GetString("TopMain","36");%></option>--><!--Arabic-->
+				  <!--<option value="14" <%NvramMatch("HTTPLanguageSetting","14","selected");%>><%GetString("TopMain","163");%></option>--><!--Turkish-->
+				  <option value="15" <%NvramMatch("HTTPLanguageSetting","15","selected");%>><%GetString("TopMain","164");%></option><!--Russian-->
+                </select>
+          &nbsp;&nbsp;<input type="button" name="SETUP" value="<%GetString("TopMain","126");%>" onClick="setRULang();">
+     	 	</td>
+     		<td class=TBL_R></td>
+     	    </tr>
+  	</tbody>
+     </table>
+     <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</html>

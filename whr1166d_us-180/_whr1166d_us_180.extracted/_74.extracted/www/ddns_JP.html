@@ -1,0 +1,671 @@
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+
+function init()
+{
+	top.content_helpframe.document.location.href = "./help/help_ddns_JP.html";
+
+	var ModuleEnable="<%NvramGet("DDNSModuleEnable");%>";
+	var DnsType="<%NvramGet("DDNSSType");%>";
+	var dnsmodeselect=document.getElementById("id_DDNSModuleSelect");
+	var DnsStatus="<%NvramGet("DDNSStatus");%>";
+	var status;
+	var currentWanIP="<%NvramGet("WanCurrentIP");%>";
+
+	document.getElementById("confirm_bufdel").style.display = "none";
+	document.getElementById("confirm_main").style.display = "";
+
+    if(DnsStatus=="0")
+        status="<%GetString("Ddns","23");%>";
+    else if(DnsStatus=="1")
+        status="<%GetString("Ddns","38");%>";
+    else if(DnsStatus=="2")
+        status="<%GetString("Ddns","40");%>";
+        
+	if(ModuleEnable == "0")
+	{
+		dnsmodeselect.selectedIndex = 0;
+		if (currentWanIP.length != 0)
+		{
+			document.getElementById("id_INFOADDR").innerHTML = currentWanIP;
+		}
+		else
+		{
+			document.getElementById("id_INFOADDR").innerHTML ="<%GetString("Ddns","18");%>";
+		}
+		document.getElementById("id_INFOHOST").innerHTML ="<%GetString("Ddns","20");%>";
+		document.getElementById("id_INFOSTATUS").innerHTML ="<%GetString("Ddns","20");%>";
+	}
+	else if(DnsType == "DynDNS")
+	{
+		dnsmodeselect.selectedIndex = 2;
+		document.getElementById("id_INFOADDR").innerHTML ="<%GetWanIPAddress();%>";
+		document.getElementById("id_INFOHOST").innerHTML ="<%NvramGet("DDNSDyndnsHost");%>";
+		if(DnsStatus.length==0)
+			document.getElementById("id_INFOSTATUS").innerHTML ="<%GetString("Ddns","23");%>"
+		else
+		    document.getElementById("id_INFOSTATUS").innerHTML =status;
+	}
+	else if(DnsType == "TZO")
+	{
+		dnsmodeselect.selectedIndex = 3;
+		document.getElementById("id_INFOADDR").innerHTML ="<%GetWanIPAddress();%>";
+		document.getElementById("id_INFOHOST").innerHTML ="<%NvramGet("DDNSTzoDomain");%>";
+		if(DnsStatus.length==0)
+		    document.getElementById("id_INFOSTATUS").innerHTML ="<%GetString("Ddns","23");%>"
+		else
+		    document.getElementById("id_INFOSTATUS").innerHTML =status;
+	}
+	else if (DnsType == "BufDDNS")
+	{
+		dnsmodeselect.selectedIndex = 1;	
+		document.getElementById("id_INFOADDR").innerHTML ="<%GetWanIPAddress();%>";
+		document.getElementById("id_INFOHOST").innerHTML ="<%NvramGet("BufDDNS_HOST");%>.<%NvramGet("BufDDNS_DOM");%>";
+		if(DnsStatus.length==0)
+		    document.getElementById("id_INFOSTATUS").innerHTML ="<%GetString("Ddns","23");%>"
+		else
+		    document.getElementById("id_INFOSTATUS").innerHTML =status;
+	}
+	set_display();
+}
+
+function set_display()
+{
+	var WanIP="<%NvramGet("WanCurrentIP");%>";
+	var RouterStatus="<%NvramGet("RouterMode");%>";
+
+	var dnsmodeselect=document.getElementById("id_DDNSModuleSelect");
+	 if(dnsmodeselect.selectedIndex == 0)
+	 {		
+     	document.getElementById("id_ddns_ext_dyndns").style.display = "none";
+     	document.getElementById("id_ddns_ext_tzo").style.display = "none";
+		document.getElementById("id_ddns_ext_dyndns").disabled = true;
+		document.getElementById("id_ddns_ext_tzo").disabled = true;
+
+	 }
+     if(dnsmodeselect.selectedIndex == 2)
+     {
+     	document.getElementById("id_ddns_ext_dyndns").style.display = "";
+		document.getElementById("id_ddns_ext_dyndns").disabled = false;
+		} else {
+     	document.getElementById("id_ddns_ext_dyndns").style.display = "none";
+		document.getElementById("id_ddns_ext_dyndns").disabled = true;
+     }
+     if(dnsmodeselect.selectedIndex == 3)
+     {
+     	document.getElementById("id_ddns_ext_tzo").style.display = "";
+		document.getElementById("id_ddns_ext_tzo").disabled = false;
+		} else {
+     	document.getElementById("id_ddns_ext_tzo").style.display = "none";
+		document.getElementById("id_ddns_ext_tzo").disabled = true;
+     }
+ 
+	 if(dnsmodeselect.selectedIndex == 1)
+     {
+		var checkIP = WanIP.split(".");
+		var BufDDNSID = "<%NvramGet("BufDDNS_USR");%>";
+ 
+		document.getElementById("id_ddns_ext_bufddns").style.display = "";
+		document.getElementById("id_ddns_ext_bufddns").disabled = false;
+
+		if (BufDDNSID.length == 0)
+			document.getElementById("bufddns_id").innerHTML ="<%GetString("Ddns","48");%>";
+		else
+			document.getElementById("bufddns_id").innerHTML ="<%NvramGet("BufDDNS_USR");%>";
+ 
+		if (WanIP.length == 0)
+		{
+			document.getElementById("id_bufddns_register").disabled = true;
+			document.getElementById("id_setddns").disabled = true;
+			document.getElementById("id_errtbl_buddns").style.display = "block";
+			document.getElementById("id_errtbl_buddns").innerHTML = "<p><b>"+"<%GetString("Ddns","49");%>"+"</b></p>";
+		}
+		else if (RouterStatus == 0)
+		{
+			document.getElementById("id_bufddns_register").disabled = true;
+			document.getElementById("id_setddns").disabled = true;
+			document.getElementById("id_errtbl_buddns").style.display = "block";
+			document.getElementById("id_errtbl_buddns").innerHTML = "<p><b>"+"<%GetString("Ddns","51");%>"+"</b></p>";
+		}
+		else if (checkIP[0] == 10 || checkIP[0] >= 224) 
+		{
+			document.getElementById("id_bufddns_register").disabled = true;
+			document.getElementById("id_setddns").disabled = true;
+			document.getElementById("id_errtbl_buddns").style.display = "block";
+			document.getElementById("id_errtbl_buddns").innerHTML = "<p><b>"+"<%GetString("Ddns","50");%>"+"</b></p>";
+		}
+		else if (checkIP[0] == 172)
+		{
+			if (checkIP[1] >= 16 && checkIP[1] <= 31)
+			{
+				document.getElementById("id_bufddns_register").disabled = true;
+				document.getElementById("id_setddns").disabled = true;
+				document.getElementById("id_errtbl_buddns").style.display = "block";
+				document.getElementById("id_errtbl_buddns").innerHTML = "<p><b>"+"<%GetString("Ddns","50");%>"+"</b></p>";
+			}
+			else{
+			  document.getElementById("id_bufddns_register").disabled = false;
+			  document.getElementById("id_setddns").disabled = true;
+			  document.getElementById("id_errtbl_buddns").style.display = "none";
+		  }
+		}
+		else if (checkIP[0] == 192 && checkIP[1] == 168)
+		{
+			document.getElementById("id_bufddns_register").disabled = true;
+			document.getElementById("id_setddns").disabled = true;
+			document.getElementById("id_errtbl_buddns").style.display = "block";
+			document.getElementById("id_errtbl_buddns").innerHTML = "<p><b>"+"<%GetString("Ddns","50");%>"+"</b></p>";
+		}
+		else{
+			document.getElementById("id_bufddns_register").disabled = false;
+			document.getElementById("id_setddns").disabled = true;
+			document.getElementById("id_errtbl_buddns").style.display = "none";
+		}
+	 } 
+	 else {
+     	document.getElementById("id_ddns_ext_bufddns").style.display = "none";
+		document.getElementById("id_ddns_ext_bufddns").disabled = true;
+		document.getElementById("id_setddns").disabled = false;
+		document.getElementById("id_errtbl_buddns").style.display = "none";
+     }
+}
+
+function sendselect()
+{
+	var dnsmodeselect=document.getElementById("id_DDNSModuleSelect");	
+	 if(dnsmodeselect.selectedIndex == 0)
+	 {
+		document.form_main.DDNSModuleEnable.value = "0";
+		document.form_main.DDNSSType.value =""
+		document.form_main.DDNSEmail.value = "";
+		document.form_main.DDNSKey.value = "";
+		document.getElementById("id_tmp_day").value ="7";
+		document.form_main.DDNSUser.value = "";
+		document.form_main.DDNSPassword.value = "";
+		document.getElementById("id_DHost").disabled=true;
+		document.getElementById("id_THost").disabled=true;
+		
+	 }
+	 else if(dnsmodeselect.selectedIndex == 2)
+	 {
+		document.form_main.DDNSModuleEnable.value = "1";
+		document.form_main.DDNSSType.value = "DynDNS";
+		document.form_main.DDNSEmail.value = "";
+		document.form_main.DDNSKey.value = "";
+		document.getElementById("id_THost").value="";
+		document.getElementById("id_tmp_day").value = parseInt(document.getElementById("id_Dday").value,10);
+	 }
+	else if(dnsmodeselect.selectedIndex == 3)
+	 {
+		document.form_main.DDNSModuleEnable.value = "1";
+		document.form_main.DDNSSType.value = "TZO";
+		document.form_main.DDNSUser.value ="";
+		document.form_main.DDNSPassword.value ="";
+		document.getElementById("id_DHost").value="";
+		document.getElementById("id_tmp_day").value = parseInt(document.getElementById("id_Tday").value,10);
+	 }
+	else if(dnsmodeselect.selectedIndex == 1)
+	 {
+		document.form_main.DDNSModuleEnable.value = "1";
+		document.form_main.DDNSSType.value = "BufDDNS";
+		document.form_main.DDNSSType.value =""
+		document.form_main.DDNSEmail.value = "";
+		document.form_main.DDNSKey.value = "";
+		document.form_main.DDNSUser.value ="";
+		document.form_main.DDNSPassword.value ="";
+		document.getElementById("id_tmp_day").value = 1;
+		document.getElementById("id_DHost").value="";
+		document.getElementById("id_THost").value="";
+		document.getElementById("id_DHost").disabled=true;
+		document.getElementById("id_THost").disabled=true;
+	 }	
+}
+
+
+function check_domain(s)
+{
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+			
+		c=s.charAt(i);
+		
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='.') || (c=='-'))
+		{
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+function check_TZOmail(s)
+{
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+			
+		c=s.charAt(i);
+		
+		//if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='@') || (c=='/') || (c=='*') || (c=='+') || (c=='_') || (c=='-') || (c=='!') || (c=='#') || (c=='$') || (c=='%') || (c=='.'))
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='!') || (c=='@') || (c=='#') || (c=='$') || (c=='%') || (c=='^') || (c=='&') || (c=='*') || (c=='_') || (c=='-') || (c=='=') || (c=='+')|| (c=='{')|| (c=='}')|| (c=='|')|| (c=='.')|| (c==' ')|| (c=='/')|| (c=='?')|| (c=='~')|| (c=='`'))
+		{
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+//+++Eric add parsing E-mail
+	if(s.charAt(0) == '.' || s.charAt(s.length-1) == '.'){
+		return false;
+	}
+	if(s.charAt(s.search("@")+1) == '.' || s.charAt(s.search("@")-1) == '.'){
+		return false;
+	}	
+//---Eric add parsing E-mail
+
+	return true;
+}
+
+function check_mailaddrAT(s)
+{
+	var ATcount=0;
+	
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+			
+		c=s.charAt(i);
+		
+		if (c=='@')
+		{
+			ATcount++;
+		}
+	}
+	if(ATcount>1)
+		return false;
+	else
+		return true;
+}
+
+function DoRefresh()
+{
+	window.location.assign(location);
+	
+}
+
+function BuffaloDDNS_Submit() {
+	document.form_bufddns.submit();
+}
+
+function BuffaloDDNS_Del() {
+	/*if(exec_DoSubmit == true){
+		return(false);
+	}
+	exec_DoSubmit = true;*/
+
+	//document.form_main.BUFDDNS_REG_DEL.disabled = false;
+	document.getElementById("confirm_bufdel").style.display = "";
+	document.getElementById("confirm_main").style.display = "none";
+	//document.form_main.submit();
+}
+
+function BuffaloDDNS_Del_Submit() {
+	document.form_delete.submit();
+}
+
+function DoSubmit()
+{
+	var dnsmodeselect=document.getElementById("id_DDNSModuleSelect");
+	if(dnsmodeselect.selectedIndex == 2)
+	{
+		if(document.form_main.DDNSUser.value.length==0)
+		{
+			Show_error("<%GetString("Ddns","5");%>","<%GetString("Ddns","26");%>");
+			return false;
+		}
+		else if(isBlank(document.form_main.DDNSUser.value))
+		{
+			Show_error("<%GetString("Ddns","5");%>","<%GetString("Ddns","27");%>");
+			return false;
+		}
+		else if(!Escape_String(document.form_main.DDNSUser.value))
+		{
+			Show_error("<%GetString("Ddns","5");%>","<%GetString("Ddns","30");%>");
+			return false;		
+		}		
+		else if(document.form_main.DDNSPassword.value.length==0)
+		{
+			Show_error("<%GetString("Ddns","6");%>","<%GetString("Ddns","26");%>");
+			return false;
+		}
+		else if(isBlank(document.form_main.DDNSPassword.value))
+		{
+			Show_error("<%GetString("Ddns","6");%>","<%GetString("Ddns","27");%>");
+			return false;
+		}
+		else if(!Escape_String(document.form_main.DDNSPassword.value))
+		{
+			Show_error("<%GetString("Ddns","6");%>","<%GetString("Ddns","30");%>");
+			return false;		
+		}
+		else if(document.getElementById("id_DHost").value.length==0)
+		{
+			Show_error("<%GetString("Ddns","7");%>","<%GetString("Ddns","26");%>");
+			return false;
+		}
+		else if(!check_domain(document.getElementById("id_DHost").value))
+		{
+			Show_error("<%GetString("Ddns","7");%>","<%GetString("Ddns","30");%>");
+			return false;
+		}
+		else if ((document.getElementById("id_DHost").value.charAt(0)=='-')||(document.getElementById("id_DHost").value.charAt(0)=='.')||(document.getElementById("id_DHost").value.charAt(document.getElementById("id_DHost").value.length-1)=='-')||(document.getElementById("id_DHost").value.charAt(document.getElementById("id_DHost").value.length-1)=='.'))
+		{
+			Show_error("<%GetString("Ddns","7");%>","<%GetString("Ddns","27");%>");
+			return false;		
+		}
+		else if (document.getElementById("id_Dday").value.length==0)
+		{
+			Show_error("<%GetString("Ddns","8");%>","<%GetString("Ddns","26");%>");
+			return false;		
+		}			
+		else if (!check_integer(document.getElementById("id_Dday").value))
+		{
+			Show_error("<%GetString("Ddns","8");%>","<%GetString("Ddns","30");%>");
+			return false;		
+		}			
+		else if (document.getElementById("id_Dday").value>35)
+		{
+			Show_error("<%GetString("Ddns","8");%>","<%GetString("Ddns","32");%>");
+			return false;		
+		}				
+	}
+	else if(dnsmodeselect.selectedIndex == 3)
+	{
+		if(document.form_main.DDNSEmail.value.length==0)
+		{
+			Show_error("<%GetString("Ddns","10");%>","<%GetString("Ddns","26");%>");
+			return false;
+		}
+		else if(isBlank(document.form_main.DDNSEmail.value))
+		{
+			Show_error("<%GetString("Ddns","10");%>","<%GetString("Ddns","27");%>");
+			return false;
+		}
+		else if(!check_TZOmail(document.form_main.DDNSEmail.value))
+		{
+			Show_error("<%GetString("Ddns","10");%>","<%GetString("Ddns","30");%>");
+			return false;
+		}
+		else if((document.form_main.DDNSEmail.value.charAt(0)=='@')||(document.form_main.DDNSEmail.value.charAt(document.form_main.DDNSEmail.value.length-1)=='@'))
+		{
+			Show_error("<%GetString("Ddns","10");%>","<%GetString("Ddns","27");%>");
+			return false;
+		}
+		else if(!check_mailaddrAT(document.form_main.DDNSEmail.value))
+		{
+			Show_error("<%GetString("Ddns","10");%>","<%GetString("Ddns","30");%>");
+			return false;
+		}
+
+		else if(document.form_main.DDNSKey.value.length==0)
+		{
+			Show_error("<%GetString("Ddns","11");%>","<%GetString("Ddns","26");%>");
+			return false;
+		}
+		else if(isBlank(document.form_main.DDNSKey.value))
+		{
+			Show_error("<%GetString("Ddns","11");%>","<%GetString("Ddns","27");%>");
+			return false;
+		}
+		else if(!Escape_String(document.form_main.DDNSKey.value))
+		{
+			Show_error("<%GetString("Ddns","11");%>","<%GetString("Ddns","30");%>");
+			return false;		
+		}		
+		else if(document.getElementById("id_THost").value.length==0)
+		{
+			Show_error("<%GetString("Ddns","12");%>","<%GetString("Ddns","26");%>");
+			return false;
+		}
+		else if(!check_domain(document.getElementById("id_THost").value))
+		{
+			Show_error("<%GetString("Ddns","12");%>","<%GetString("Ddns","30");%>");
+			return false;
+		}
+		else if ((document.getElementById("id_THost").value.charAt(0)=='-')||(document.getElementById("id_THost").value.charAt(0)=='.')||(document.getElementById("id_THost").value.charAt(document.getElementById("id_THost").value.length-1)=='-')||(document.getElementById("id_THost").value.charAt(document.getElementById("id_THost").value.length-1)=='.'))
+		{
+			Show_error("<%GetString("Ddns","12");%>","<%GetString("Ddns","27");%>");
+			return false;		
+		}
+		else if (document.getElementById("id_Tday").value.length==0)
+		{
+			Show_error("<%GetString("Ddns","8");%>","<%GetString("Ddns","26");%>");
+			return false;		
+		}			
+		else if (!check_integer(document.getElementById("id_Tday").value))
+		{
+			Show_error("<%GetString("Ddns","8");%>","<%GetString("Ddns","30");%>");
+			return false;		
+		}			
+		else if (document.getElementById("id_Tday").value>99)
+		{
+			Show_error("<%GetString("Ddns","8");%>","<%GetString("Ddns","32");%>");
+			return false;		
+		}					
+	}
+	sendselect();
+	
+	Hide_error();
+	document.form_main.submit();
+}
+
+
+//-->
+</script>
+</head>
+<body class="BK_BODY" onload="init();">
+<br>
+
+<form onsubmit="return onceOnly(this);" name="form_bufddns" action="https://online.buffalo.jp/MEL-Line/MEL-Line.dll?ddns" method="POST" target="_top">
+	<input type="hidden" name="routerid" value="">
+	<input type="hidden" name="userid" value="<%NvramGet("BufDDNS_USR");%>">
+	<input type="hidden" name="password" value="<%NvramGet("BufDDNS_PWD");%>">
+	<input type="hidden" name="action" value="<%GetString("Ddns","42");%>">
+</form>
+
+<form name="form_main" method="POST">
+	<input type="hidden" name="DDNSModuleEnable" value="<%NvramGet("DDNSModuleEnable");%>">	
+	<input type="hidden" name="DDNSSType" value="<%NvramGet("DDNSSType");%>">
+	<input type="hidden" name="DDNSUpdateInterval" id="id_tmp_day" value="<%NvramGet("DDNSUpdateInterval");%>">
+
+	<div id="confirm_main" style="display:block;">
+	<div id="id_errtbl" class="C_ERR" style="display:none;">
+	</div>
+	
+     <table class="AD_SET">
+		     <tr>
+		     	<th><%GetString("Ddns","39");%></th>
+		     	<td>
+		     		<select size="1" id="id_DDNSModuleSelect" onChange="set_display();">
+		     			<option value= "0" <%NvramMatch("DDNSModuleEnable","0","selected");%>><%GetString("Ddns","2");%></option>
+						<option value= "3" <%NvramMatch("DDNSSType","BufDDNS","selected");%>><%GetString("Ddns","41");%></option>
+		     			<option value= "1" <%NvramMatch("DDNSSType","DynDNS","selected");%>><%GetString("Ddns","3");%></option>
+		     			<option value= "2" <%NvramMatch("DDNSSType","TZO","selected");%>><%GetString("Ddns","4");%></option>
+		     		</select>
+		     	</td>
+		     </tr>
+	 </table>
+
+	 <div id="id_errtbl_buddns" class="C_ERR" style="display:none;"></div>
+	 
+	<div id="id_ddns_ext_dyndns" style="display:none;">	 
+	<table class="AD_SET">	
+	     <tr>
+	     	<th><%GetString("Ddns","5");%></th>
+	     	<td>
+	     		<input type="text" name="DDNSUser" size="45" maxlength="64"
+	     			value="<%NvramGetAdv("DDNSUser");%>">
+	     	</td>
+	     </tr>
+	     <tr>
+	     	<th><%GetString("Ddns","6");%></th>
+	     	<td>
+	     		<input type="password" name="DDNSPassword" size="45" maxlength="64" 
+				value="<%NvramGetAdv("DDNSPassword");%>">
+	     	</td>
+	     </tr>
+	     <tr>
+	     	<th><%GetString("Ddns","7");%></th>
+	     	<td>
+	     		<input type="text" id="id_DHost" name="DDNSDyndnsHost" size="45" maxlength="255" value="<%NvramGet("DDNSDyndnsHost");%>">
+	     	</td>
+	     </tr>
+		<tr>
+			<th><%GetString("Ddns","8");%></th>
+			<td>
+	     		<input type="text" size="3" maxlength="2" id="id_Dday" value="<%NvramGet("DDNSUpdateInterval");%>"><%GetString("Ddns","9");%>
+			</td>
+		</tr>
+	</table>
+	</div>
+
+
+	<div id="id_ddns_ext_tzo" style="display:none;">
+	<table class="AD_SET">	
+	     <tr>
+	     	<th><%GetString("Ddns","10");%></th>
+	     	<td>
+	     		<input type="text" name="DDNSEmail" size="45" maxlength="64"
+	     			value="<%NvramGetAdv("DDNSEmail");%>">
+	     	</td>
+	     </tr>
+	     <tr>
+	     	<th><%GetString("Ddns","11");%></th>
+	     	<td>
+	     		<input type="password" name="DDNSKey" size="45" maxlength="64"
+				value="<%NvramGetAdv("DDNSKey");%>">
+	     	</td>
+	     </tr>
+	     <tr>
+	     	<th><%GetString("Ddns","12");%></th>
+	     	<td>
+	     		<input type="text" id="id_THost" name="DDNSTzoDomain" size="45" maxlength="255" value="<%NvramGet("DDNSTzoDomain");%>">
+	     	</td>
+	     </tr>
+		<tr>
+			<th><%GetString("Ddns","8");%></th>
+			<td>
+	     		<input type="text" size="3" maxlength="2" id="id_Tday" value="<%NvramGet("DDNSUpdateInterval");%>"><%GetString("Ddns","14");%>
+			</td>
+		</tr>
+	</table>
+	</div>
+
+	<div id="id_ddns_ext_bufddns" style="display:none;">
+	<table class="AD_SET">	
+	     <tr>
+	     	<th><%GetString("Ddns","44");%></th>
+	     	<td>
+	     		<input type="button" value="<%GetString("Ddns","42");%>" id="id_bufddns_register" name="bufddns_register" onClick="BuffaloDDNS_Submit()" disabled>
+	     	</td>
+	     </tr>
+	     <tr>
+	     	<th><%GetString("Ddns","45");%></th>
+	     	<td id="bufddns_id">
+	     		<%NvramGet("BufDDNS_USR");%>
+	     	</td>
+	     </tr>
+	     <tr>
+	     	<th><%GetString("Ddns","46");%></th>
+	     	<td>
+	     		<input type="button" name="bufddns_delete" value="<%GetString("Ddns","47");%>"
+		 onClick="BuffaloDDNS_Del()">
+	     	</td>
+	     </tr>
+	</table>
+	</div>
+	
+	<input type="hidden" name="enable" value="1" disabled="">
+     <input type="hidden" name="server" value="">
+     <input type="hidden" name="domain" value="">
+     <input type="hidden" name="user" value="">
+     <input type="hidden" name="host" value="">
+     <input type="hidden" name="pass" value="">
+     <input type="hidden" name="update" value="">
+     <p><input type="button" value="<%GetString("Ddns","15");%>" id="id_setddns" name="action" onClick="DoSubmit()"></p>
+	<hr>
+
+    <table class="AD_TTL2">
+		<tbody>
+			<tr><td><%GetString("Ddns","16");%></td></tr>
+		</tbody>
+	</table>
+	<table class="AD_INFO">
+		<tr >
+			<th><%GetString("Ddns","17");%></th>
+			<td id="id_INFOADDR"><%GetWanIPAddress();%></td>
+		</tr>
+		<tr>
+			<th><%GetString("Ddns","12");%></th>
+			<td id="id_INFOHOST"><%NvramGet("DDNSDyndnsHost");%></td>
+		</tr>
+		<tr>
+			<th><%GetString("Ddns","21");%></th>
+			<td id="id_INFOSTATUS"><%GetString("Ddns","23");%></td>
+		</tr>
+	</table>	
+		
+     <p><input type="button" value="<%GetString("Ddns","24");%>" name="action" onClick="DoRefresh()"></p>
+	</div>
+	
+	<div id="confirm_bufdel" style="display:none;">
+
+		<table class="AD_TTL2">
+			<tbody>
+				<tr>
+					<td>
+						<%GetString("Ddns","52");%></br>
+						<%GetString("Ddns","53");%></br></br>
+						<%GetString("Ddns","54");%>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<input type="button" id="set"   value="<%GetString("Ddns","55");%>" onclick="BuffaloDDNS_Del_Submit();">
+		<input type="button" id="set_end" value="<%GetString("Ddns","56");%>" onclick="DoRefresh()">
+	</div>
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<form name="form_delete" method="POST">
+	<input type="hidden" name="BufDDNS_Enabled" value="0">
+	<input type="hidden" name="DDNSModuleEnable" value="0">
+	<input type="hidden" name="DDNSSType" value="dyndns">
+	<input type="hidden" name="DDNSStatus" value="0">
+	<input type="hidden" name="BufDDNS_USR" value="">
+	<input type="hidden" name="BufDDNS_PWD" value="">
+	<input type="hidden" name="BufDDNS_HOST" value="">
+	<input type="hidden" name="BufDDNS_DOM" value="">
+	<input type="hidden" name="BufDDNS_DDNSID" value="">
+	<input type="hidden" name="BufDDNS_DDNSPWD" value="">
+	<input type="hidden" name="BufDDNS_ADDR" value="">
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

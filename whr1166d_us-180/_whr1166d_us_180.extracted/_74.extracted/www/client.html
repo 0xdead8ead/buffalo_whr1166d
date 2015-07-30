@@ -1,0 +1,33 @@
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script src="OpenHelp.html"></script>
+<script src="OnceOnly.html"></script>
+</head>
+<body class="BFK_BODY">
+<br>
+  <table class=AD_INFO>
+    <tr>
+      <th><%GetString("Client","1");%></th>
+      <th <% TurnMenu("show"); %>><%GetString("Client","2");%></th>
+      <th <% TurnMenu("show"); %>><%GetString("Client","3");%></th><!--Caspar add for Bridge/Router change 20090821-->
+      <th><%GetString("Client","4");%></th>
+      <th><%GetString("Client","5");%></th>
+      <th><%GetString("Client","6");%></th>
+    </tr>
+
+<!-- DHCPS Client Table begin -->
+<%GetClientTable();%>
+<!-- DHCPS Client Table end -->
+
+  </table>
+<input type="button" value="<%GetString("Client","7");%>" onClick="location.href='client.html'">
+</body>
+</html>

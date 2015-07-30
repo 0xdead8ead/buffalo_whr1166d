@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+
+<script language="JavaScript">
+	function Do_submit(){
+
+		var f = document.forms[0];
+
+		if ('1' == '<%NvramGet("WIFIAOSSClientWDS");%>')
+		{
+			//f.submit();
+			window.location.href = 'auto_detect_wds_setting_success.html';
+		}
+		else{
+			window.location.href = 'auto_detect_wds_setting.html';
+		}
+	}
+</script>
+</HEAD>
+
+<BODY onload="Do_submit();">
+  <form name="main" method="POST">
+	<input type="hidden" name="WIFIApCliStatus" value="<% NvramGet("WIFIApCliStatus"); %>">
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+  </form>
+</BODY>
+</HTML>

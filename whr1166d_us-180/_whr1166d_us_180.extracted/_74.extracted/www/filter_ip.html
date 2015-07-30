@@ -1,0 +1,1263 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='filter_ip.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+var nowEdit=0;
+var oldEdit;
+var err_flag=0;
+var exec=0;
+function init()
+{
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+
+     var rluenum="<%NvramGet("FilterNum");%>";
+     rluenum = parseInt(rluenum);
+     if (rluenum>=1)
+     {
+     	document.getElementById("rule_add_button").style.display="none";
+     	document.getElementById("rule_addorder_button").style.display="";
+     }
+     else
+     {
+     	document.getElementById("rule_add_button").style.display="";
+     	document.getElementById("rule_addorder_button").style.display="none";
+     }
+     if (rluenum>= 32)
+     {
+     	document.getElementById("addrule_area").style.display="none";
+     	document.getElementById("overrule").style.display="";
+     }
+     else
+     {
+     	document.getElementById("addrule_area").style.display="";
+     	document.getElementById("overrule").style.display="none";
+     }
+}
+function enter(value, tmp)
+{
+	var selectvalue=document.getElementById(value);
+	var tmpvalue=document.getElementById(tmp);
+	
+	if (value == "id_sel_direction")
+	{
+		if (selectvalue[0].selected == true)
+			tmpvalue.innerHTML="<%GetString("FilterIp","71");%><br>&rarr;<%GetString("FilterIp","72");%>";
+		else if (selectvalue[1].selected == true)
+    			tmpvalue.innerHTML="<%GetString("FilterIp","72");%><br>&rarr;<%GetString("FilterIp","71");%>";
+	}
+	else if(value =="id_sel_operation")
+	{
+		if (selectvalue[0].selected == true)
+   			tmpvalue.innerHTML="<%GetString("FilterIp","6");%>";
+  		else if (selectvalue[1].selected == true)
+   			tmpvalue.innerHTML="<%GetString("FilterIp","7");%>";
+  		else if (selectvalue[2].selected == true)
+    			tmpvalue.innerHTML="<%GetString("FilterIp","8");%>";
+	}
+    	else if (value == "H_prt")
+	{
+	  	if (document.form_main.H_prt[0].checked == true)
+    			tmpvalue.innerHTML="<%GetString("FilterIp","16");%>";
+  		else if (document.form_main.H_prt[1].checked == true)
+    			tmpvalue.innerHTML="<%GetString("FilterIp","17");%>";
+    		else if (document.form_main.H_prt[2].checked == true)
+    			tmpvalue.innerHTML=document.getElementById("id_prtno").value;
+    	}
+    	else if (value == "id_porttype")
+	{
+		
+	  	if (selectvalue[0].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","73");%>"+document.getElementById("id_portno").value;
+		else if (selectvalue[1].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","84");%>"+document.getElementById("id_portno").value;
+	  	else if (selectvalue[2].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","75");%>";
+	  	else if (selectvalue[3].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","76");%>";
+	  	else if (selectvalue[4].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","78");%>";
+	  	else if (selectvalue[5].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","79");%>";
+	  	else if (selectvalue[6].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","77");%>";
+	  	else if (selectvalue[7].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","81");%>";
+	  	else if (selectvalue[8].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","82");%>";
+	  	else if (selectvalue[9].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","83");%>";
+	  	else if (selectvalue[10].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","85");%>";
+	  	else if (selectvalue[11].selected == true)
+	  		tmpvalue.innerHTML="<%GetString("FilterIp","80");%>";	  		
+    	}
+    	else if (value == "id_sourip")
+	{
+    		if (selectvalue.value=="")
+    			tmpvalue.innerHTML ="<%GetString("FilterIp","16");%>";
+    		else
+    			tmpvalue.innerHTML = selectvalue.value;
+    	}
+    	else if (value == "id_destip")
+	{
+    		if (selectvalue.value=="")
+    			tmpvalue.innerHTML ="<%GetString("FilterIp","16");%>";
+    		else
+    			tmpvalue.innerHTML = selectvalue.value;
+    	}
+}
+function enabling()
+{
+     if(document.form_main.H_prt[2].checked == true){//"one"
+     	document.form_main.H_prt_no.disabled = 0;
+     }else{
+     	document.form_main.H_prt_no.disabled = 1;
+     }
+     if(document.form_main.H_prt[3].checked == true){// "tcp/udp"
+     	document.form_main.H_port_type.disabled = 0;
+     	if(document.form_main.H_port_type.value == "tcp" 
+     	|| document.form_main.H_port_type.value == "udp"){
+     		document.form_main.H_port_no.disabled = 0;
+     	}else{
+     		document.form_main.H_port_no.disabled = 1;
+     	}
+     }else{
+     	document.form_main.H_port_type.disabled = 1;
+     	document.form_main.H_port_no.disabled = 1;
+     }
+}
+
+function isAllowValue(s)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+
+		if (((c>='0')&&(c<='9')) || (c=='-'))
+		{
+		  if ((c=='-') && ((i==0) || (i==s.length-1)))
+		  {
+		    Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","46");%>");
+		    err_flag=1;
+		    show_tmp();
+		    return false;
+		  }
+		}
+		else
+		{
+		  Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","47");%>");
+		  	err_flag=1;
+		  	show_tmp();
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function isAllowValueIP(s,item)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || (c=='.'))
+		{
+      			continue;
+		}
+		else
+		{
+		  Show_error(item, "<%GetString("FilterIp","47");%>");
+		  err_flag=1;
+		  show_tmp();
+			return false;
+		}
+	}
+	
+	return true;
+}
+function show_tmp(tmp)
+{
+      //alert(err_flag+" : "+tmp);
+      var rluenum="<%NvramGet("FilterNum");%>";
+      document.getElementById("id_add_tmp").style.display="none";
+      document.getElementById("id_err_button").style.display="none";
+      document.getElementById("rule_edit_button").style.display="none";
+      document.getElementById("rule_add_button").style.display="none";
+      document.getElementById("rule_addorder_button").style.display="none";
+      document.getElementById("id_TITLE").innerHTML ="<%GetString("FilterIp","4");%>";
+      if (err_flag == 1)
+      {
+      	if(tmp != 'edit' && nowEdit==0)
+      	{
+      		document.getElementById("id_add_tmp").style.display="";
+      		document.getElementById("id_err_button").style.display="";
+            document.getElementById("id_TITLE").innerHTML ="<%GetString("FilterIp","106");%>";
+      	}
+      	else
+      	{
+      		document.getElementById("rule_edit_button").style.display="";
+            document.getElementById("id_TITLE").innerHTML ="<%GetString("FilterIp","106");%>";
+      	}
+      		
+      	if (rluenum==0)
+      		document.getElementById("id_no_tule").style.display="none";
+      }
+      /*
+      if ((err_flag == 1) && (tmp != 'edit'))
+      {
+      	document.getElementById("id_add_tmp").style.display="";
+      	document.getElementById("id_err_button").style.display="";
+      	document.getElementById("rule_add_button").style.display="none";
+      	document.getElementById("rule_addorder_button").style.display="none";
+      	if (rluenum==0)
+      		document.getElementById("id_no_tule").style.display="none";
+      }
+      else if (err_flag == 1)
+      {
+      	
+      	document.getElementById("rule_edit_button").style.display="none";
+      }
+      */
+}
+function SetAddOrder(tmp) //Candy edit 081214
+{
+  var n;
+  var ip;
+  var pro;
+  //var err_flag=0;
+  var rluenum="<%NvramGet("FilterNum");%>";
+  Hide_error();
+  
+  if (document.getElementById("id_prtmanual").checked==true)
+  {
+    if (isEmpty(document.form_main.H_prt_no.value))
+    {
+      Show_error("<%GetString("FilterIp","48");%>", "<%GetString("FilterIp","49");%>");
+      err_flag=1;
+      show_tmp(tmp);
+      return;
+    }
+    
+    var i_port=parseInt(document.form_main.H_prt_no.value, 10);
+    if (!check_integer(document.form_main.H_prt_no.value))
+    {
+      Show_error("<%GetString("FilterIp","48");%>", "<%GetString("FilterIp","47");%>");
+      err_flag=1;
+      show_tmp(tmp);
+      return;
+    }
+    else if (!check_integer_range(document.form_main.H_prt_no.value,1,255))
+    {
+      if (i_port<1)
+      {
+        Show_error("<%GetString("FilterIp","48");%>", "<%GetString("FilterIp","50");%>");
+        err_flag=1;
+        show_tmp(tmp);
+        return;
+      }
+      else //if (document.form_main.H_prt_no.value>255)
+      {
+        Show_error("<%GetString("FilterIp","48");%>", "<%GetString("FilterIp","51");%>");
+        err_flag=1;
+        show_tmp(tmp);
+        return;
+      }
+    }
+    document.form_main.H_prt_no.value=i_port;
+  }
+  
+  if (document.getElementById("id_prttcpudp").checked==true && ((document.getElementById("id_porttype").options[0].selected==true) || (document.getElementById("id_porttype").options[1].selected==true)))
+  {
+    if (isEmpty(document.form_main.H_port_no.value))
+    {		
+      Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","49");%>");
+      err_flag=1;
+      show_tmp(tmp);
+      return;
+    }
+    
+    pro=document.form_main.H_port_no.value;
+    n=pro.split('-');
+    
+    if(n.length==2)
+    {
+      if (n[0]=="" || n[1]=="")
+      {
+        Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","46");%>");
+        err_flag=1;
+        show_tmp(tmp);
+        return;
+      }
+      
+      if (!check_integer_range(n[0],1,65535) || !check_integer_range(n[1],1,65535) || (parseInt(n[0], 10))>(parseInt(n[1], 10)))
+      {
+        n[0]=parseInt(n[0], 10);
+        n[1]=parseInt(n[1], 10);
+        
+        if (n[0]<1 || n[1]<1)
+        {
+          Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","50");%>");
+          err_flag=1;
+          show_tmp(tmp);
+          return;
+        }
+        else if (n[0]>65535 || n[1]>65535)
+        {
+          Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","51");%>");
+          err_flag=1;
+          show_tmp(tmp);
+          return;
+        }
+        else if (n[0]>n[1])
+        {
+          Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","52");%>");
+          err_flag=1;
+          show_tmp(tmp);
+          return;
+        }
+        
+        if ((n[0]>=1 && n[0]<=65535) && (n[1]>=1 && n[1]<=65535))
+        {
+        	document.form_main.H_port_no.value = n[0] + "-" + n[1];
+        }
+        else
+        {
+        	Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","47");%>");
+          	err_flag=1;
+          	show_tmp(tmp);
+          	return;
+        }
+      }        
+    }
+    else if (n.length==1)
+    {
+      if (!isAllowValue(n[0]))
+      {
+      	return;
+      }
+      else{
+        n[0]=parseInt(n[0], 10);
+        
+        if (n[0]<1)
+        {
+          Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","50");%>");
+          err_flag=1;
+          show_tmp(tmp);
+          return;
+        }
+        else if (n[0]>65535)
+        {
+          Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","51");%>");
+          err_flag=1;
+          show_tmp(tmp);
+          return;
+        }
+        if (n[0]<=65535 && n[0]>=1)
+        {
+        	document.form_main.H_port_no.value = n[0];
+        }
+        else
+        {
+        	Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","47");%>");
+          	err_flag=1;
+          	show_tmp(tmp);
+          	return;
+        }
+      }
+        document.form_main.H_port_no.value=parseInt(n[0],10);   
+    }
+    else //if (n.length>2)
+    {
+      Show_error("<%GetString("FilterIp","45");%>", "<%GetString("FilterIp","47");%>");
+      err_flag=1;
+      show_tmp(tmp);
+      return;
+    }
+  }
+
+  if (document.form_main.H_sour_ip.value!="")
+  {
+    ip=document.form_main.H_sour_ip.value;
+    n = ip.split('/');
+    
+    if (n.length==1)
+    {
+      if (!isAllowValueIP(document.form_main.H_sour_ip.value,"<%GetString("FilterIp","53");%>"))
+        return;
+
+      if (!check_ip_format(document.form_main.H_sour_ip.value,"<%GetString("FilterIp","53");%>"))
+       	return;
+		document.form_main.H_sour_ip.value=ip_normalize_0(document.form_main.H_sour_ip.value);
+    }
+    else if (n.length==2)
+    {
+      if (!isAllowValueIP(n[0],"<%GetString("FilterIp","53");%>"))
+        return;
+        
+      if (!check_ip_format(n[0],"<%GetString("FilterIp","53");%>"))
+        return;
+      if (n[1].length!=0)
+      {
+      	if (!check_integer_range(n[1],1,32) || n[1]=="")
+      	{
+      	  Show_error("<%GetString("FilterIp","53");%>", "<%GetString("FilterIp","47");%>");
+      	  err_flag=1;
+      	  show_tmp(tmp);
+      	  return;
+      	}
+		else if (check_net_mask(n[0],n[1]))
+		{
+		  Show_error("<%GetString("FilterIp","53");%>", "<%GetString("FilterIp","47");%>");
+      	  err_flag=1;
+      	  show_tmp(tmp);
+      	  return;
+		}
+      }
+      else
+      {
+      	  Show_error("<%GetString("FilterIp","53");%>", "<%GetString("FilterIp","47");%>");
+      	  err_flag=1;
+      	  show_tmp(tmp);
+      	  return;
+      }
+	  
+	  document.form_main.H_sour_ip.value=ip_normalize_0(n[0]) + '/' + n[1] ;
+	  
+    }
+    else// if (n.length>2)
+    {
+      Show_error("<%GetString("FilterIp","53");%>", "<%GetString("FilterIp","47");%>");
+      err_flag=1;
+      show_tmp(tmp);
+      return;
+    }
+  }
+  
+  if (document.form_main.H_dest_ip.value!="")
+  {
+    ip=document.form_main.H_dest_ip.value;
+    n = ip.split('/');
+    
+    if (n.length==1)
+    {
+      if (!isAllowValueIP(document.form_main.H_dest_ip.value,"<%GetString("FilterIp","54");%>"))
+        return;
+
+      if (!check_ip_format(document.form_main.H_dest_ip.value,"<%GetString("FilterIp","54");%>"))
+        return;
+    
+		document.form_main.H_dest_ip.value = ip_normalize_0(document.form_main.H_dest_ip.value);
+	}
+    else if (n.length==2)
+    {
+      if (!isAllowValueIP(n[0],"<%GetString("FilterIp","54");%>"))
+        return;
+      if (!check_ip_format(n[0],"<%GetString("FilterIp","54");%>"))
+        return;
+      if (!check_integer_range(n[1],1,32) || n[1]=="")
+      {
+        Show_error("<%GetString("FilterIp","54");%>", "<%GetString("FilterIp","47");%>");
+        err_flag=1;
+        show_tmp(tmp);
+        return;
+      }
+	  else if (check_net_mask(n[0],n[1]))
+	  {
+		  Show_error("<%GetString("FilterIp","54");%>", "<%GetString("FilterIp","47");%>");
+      	  err_flag=1;
+      	  show_tmp(tmp);
+      	  return;
+	  }
+	  document.form_main.H_dest_ip.value = ip_normalize_0(n[0])+ '/' + n[1];
+	  
+    }
+    else// if (n.length>2)
+    {
+      Show_error("<%GetString("FilterIp","54");%>", "<%GetString("FilterIp","47");%>");
+      err_flag=1;
+      show_tmp(tmp);
+      return;
+    }
+  }
+  if((document.form_main.H_sour_ip.value!="")&&(document.form_main.H_dest_ip.value!=""))
+  {
+      if(document.form_main.H_sour_ip.value == document.form_main.H_dest_ip.value)
+      {
+      	Show_error("<%GetString("FilterIp","86");%>", "<%GetString("FilterIp","87");%>");
+      	err_flag=1;
+      	show_tmp(tmp);
+      	return;
+      }
+  }
+  	
+  if (check_same_rule())
+  {
+    Show_error("<%GetString("FilterIp","55");%>", "<%GetString("FilterIp","56");%>");
+    err_flag=1;
+    show_tmp(tmp);
+    return;
+  }
+
+  document.getElementById("id_action").value = tmp;
+  //alert(document.getElementById("id_action").value);
+  document.getElementById("id_add_tmp").style.display="none"; 
+  if (exec==0)
+  {
+  	exec=1;
+	YAHOO.util.Connect.setForm('form_main'); 
+    YAHOO.util.Connect.asyncRequest('POST','filter_ip.html'+'?timestampt='+new Date().toString(),oCallback); 
+  }
+}
+
+function check_same_rule()
+{
+  var i;
+  var rule_count_string='<%NvramGet("FilterNum");%>';
+  var rule_count=parseInt(rule_count_string, 10);
+  var operation="";
+  var direction="";
+  var source="";
+  var destination="";
+  var protocol="";
+  var porttype="";
+  var port="";
+  var port2="";
+  
+  if (document.getElementById("id_sel_operation").options[0].selected == true)
+    operation="<%GetString("FilterIp","6");%>";
+  else if (document.getElementById("id_sel_operation").options[1].selected == true)
+    operation="<%GetString("FilterIp","7");%>";
+  else if (document.getElementById("id_sel_operation").options[2].selected == true)
+    operation="<%GetString("FilterIp","8");%>";
+  
+  if (document.getElementById("id_sel_direction").options[0].selected == true)
+    direction="<%GetString("FilterIp","71");%>";
+  else if (document.getElementById("id_sel_direction").options[1].selected == true)
+    direction="<%GetString("FilterIp","72");%>";
+  
+  if (document.form_main.H_sour_ip.value=="")
+    source="<%GetString("FilterIp","16");%>";
+  else
+    source=document.form_main.H_sour_ip.value;
+    
+  if (document.form_main.H_dest_ip.value=="")
+    destination="<%GetString("FilterIp","16");%>";
+  else
+    destination=document.form_main.H_dest_ip.value;
+  
+  if (document.getElementById("id_prtall").checked==true)
+    protocol="<%GetString("FilterIp","16");%>";
+  if (document.getElementById("id_prticpm").checked==true)
+    protocol="<%GetString("FilterIp","17");%>";
+  else if (document.getElementById("id_prtmanual").checked==true)
+    protocol=document.form_main.H_prt_no.value;
+  else if (document.getElementById("id_prttcpudp").checked==true)
+  {
+    
+    port=document.form_main.H_port_no.value;
+    
+    if (document.getElementById("id_porttype").options[0].selected == true)
+      protocol="<%GetString("FilterIp","99");%>";
+    else if (document.getElementById("id_porttype").options[1].selected == true)
+      protocol="<%GetString("FilterIp","97");%>";
+    else
+    {
+      porttype="<%GetString("FilterIp","99");%>";
+      
+      if (document.getElementById("id_porttype").options[2].selected == true)
+      {
+       protocol="<%GetString("FilterIp","88");%>";
+        port="80";
+      }
+      else if (document.getElementById("id_porttype").options[3].selected == true)
+      {
+        protocol="<%GetString("FilterIp","89");%>";
+        port="20-21";
+      }
+      else if (document.getElementById("id_porttype").options[4].selected == true)
+      {
+       	protocol="<%GetString("FilterIp","91");%>";
+        port="23";
+      }
+      else if (document.getElementById("id_porttype").options[5].selected == true)
+      {
+        protocol="<%GetString("FilterIp","92");%>";
+        port="22";
+      }
+      else if (document.getElementById("id_porttype").options[6].selected == true)
+      {
+        protocol="<%GetString("FilterIp","90");%>";
+        port="443";
+      }
+      else if (document.getElementById("id_porttype").options[7].selected == true)
+      {
+         protocol="<%GetString("FilterIp","94");%>";
+        port="25";
+      }
+      else if (document.getElementById("id_porttype").options[8].selected == true)
+      {
+         protocol="<%GetString("FilterIp","95");%>";
+        port="110";
+      }
+      else if (document.getElementById("id_porttype").options[9].selected == true)
+      {
+        protocol="<%GetString("FilterIp","96");%>";
+        porttype="<%GetString("FilterIp","97");%>";
+        port="123";
+      }
+      else if (document.getElementById("id_porttype").options[10].selected == true)
+      {
+        protocol="<%GetString("FilterIp","96");%>";
+        port="123";
+      }
+      else if (document.getElementById("id_porttype").options[11].selected == true)
+      {
+        protocol="<%GetString("FilterIp","93");%>";
+        port="143";
+      }
+    }
+  }
+  
+  for(i=1;i<=rule_count;i++)
+  {
+    var string="<%GetString("FilterIp","74");%>";
+    var stringlen=string.length;
+    var textHtml=document.getElementById("filter_status"+i).innerHTML.substring(8,8+stringlen);
+    if (textHtml != "<%GetString("FilterIp","74");%>")
+    {
+      if (operation==document.getElementById("id_op"+i).innerHTML && direction==document.getElementById("s_dir"+i).innerHTML &&
+        source==document.getElementById("s_srcip"+i).innerHTML && destination==document.getElementById("s_dstip"+i).innerHTML &&
+        protocol==document.getElementById("s_prototype"+i).innerHTML)
+      {
+        if (document.getElementById("s_porttype"+i))
+        {
+          if (porttype!=document.getElementById("s_porttype"+i).innerHTML)
+            continue;
+        }
+        if (document.getElementById("s_portno"+i))
+        {
+          if (port!=document.getElementById("s_portno"+i).innerHTML)
+            continue;
+        }
+            
+        return true;
+      }
+      else if (operation==document.getElementById("id_op"+i).innerHTML && direction==document.getElementById("s_dir"+i).innerHTML &&
+        source==document.getElementById("s_srcip"+i).innerHTML && destination==document.getElementById("s_dstip"+i).innerHTML)
+      {
+        if (protocol=="TCP" && (port=="80" || port=="20-21" || port=="23" || port=="22" || port=="443" || port=="25" || port=="110" || port=="123" || port=="143"))
+        {
+          if (document.getElementById("s_porttype"+i))
+          {
+            if (protocol!=document.getElementById("s_porttype"+i).innerHTML)
+              continue;
+          }
+          if (document.getElementById("s_portno"+i))
+          {
+            if (port!=document.getElementById("s_portno"+i).innerHTML)
+              continue;
+          }
+          return true;
+        }
+        else if (protocol=="<%GetString("FilterIp","97");%>" && port=="123")
+        {
+          if (document.getElementById("s_porttype"+i))
+            if (protocol!=document.getElementById("s_porttype"+i).innerHTML)
+              continue;
+          if (document.getElementById("s_portno"+i))
+            if (port!=document.getElementById("s_portno"+i).innerHTML)
+              continue;
+          return true;
+        }
+      }
+    }
+  }
+  
+  return false;
+}
+function isEmpty(s)
+{
+	if(s.length==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function check_initial_zero(tmp)
+{	
+	if(tmp.length>1&&tmp.charAt(0)=="0")
+	{
+		return true;
+	}
+	return false;
+}
+function check_ip_format(ip, item)
+{
+	var n;
+	var lanip='<%NvramGet("LanIPAddr");%>';
+	var lanmask='<%NvramGet("LanNetmask");%>';
+	var dir_type=document.getElementById("id_sel_direction").value;
+	
+	if (ip=="0.0.0.0")
+	{
+    Show_error(item, "<%GetString("FilterIp","57");%>");
+    err_flag=1;
+    show_tmp();
+    return false;
+  }
+  if (ip=="255.255.255.255")
+  {
+    Show_error(item, "<%GetString("FilterIp","58");%>");
+    err_flag=1;
+    show_tmp();
+    return false;
+  }
+
+/* //Marked for #53566
+  if (ip==lanip)
+  {
+    Show_error(item, "<%GetString("FilterIp","59");%>");
+    err_flag=1;
+    show_tmp();
+    return false;
+  }
+*/
+	if (!isBlank(ip))
+	{
+		n = ip.split('.');
+		
+		if (n.length!=4)
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false;
+    }
+		if(isBlank(n[0]))
+		{
+		  Show_error(item, "<%GetString("FilterIp","60");%>");
+		  err_flag=1;
+		  show_tmp();
+      return false;
+    }	
+		//else if((isNaN(n[0]))||(n[0]<=0)||!check_integer(n[0])||check_initial_zero(n[0])) 
+		else if((isNaN(n[0]))||(n[0]<=0)||!check_integer(n[0])) 
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false; 
+    }
+    else if (n[0]==127)
+    {
+      Show_error(item, "<%GetString("FilterIp","61");%>");
+      err_flag=1;
+      show_tmp();
+      return false;
+    }
+    else if (n[0]>=224 && n[0]<=239)
+    {
+      Show_error(item, "<%GetString("WizardFuncInet","49");%>");
+      err_flag=1;
+      show_tmp();
+      return false;
+    }	
+    else if (n[0]>=240 && n[0]<=255)
+    {
+      Show_error(item, "<%GetString("FilterIp","62");%>");
+      err_flag=1;
+      show_tmp();
+      return false;
+    }	
+			
+		if(isBlank(n[1]))
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false;
+    }
+		//else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])||check_initial_zero(n[1])) 
+		else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])) 
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false; 
+    }		
+		
+		if(isBlank(n[2]))
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false;
+    }
+		//else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])||check_initial_zero(n[2])) 
+		else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])) 
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false; 
+    }
+		
+		if(isBlank(n[3]))
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false;
+    }
+		//else if((isNaN(n[3]))||(n[3]<=0)||(n[3]>=255)||!check_integer(n[3])||check_initial_zero(n[3])) 
+		//else if((isNaN(n[3]))||(n[3]<=0)||(n[3]>=255)||!check_integer(n[3])) 
+		else if((isNaN(n[3]))||(n[3]<0)||(n[3]>=255)||!check_integer(n[3]))
+		{
+      Show_error(item, "<%GetString("FilterIp","60");%>");
+      err_flag=1;
+      show_tmp();
+      return false; 
+    }
+    
+    if (!isBlank(lanip))
+    {
+      if ((dir_type=="0")&&(item == "<%GetString("FilterIp","53");%>"))
+      {
+        if (check_the_same_subnet(ip,lanip,lanmask))
+        {
+          Show_error(item, "<%GetString("FilterIp","63");%>");
+          err_flag=1;
+          show_tmp();
+          return false;
+        }
+      }
+      if ((dir_type=="1")&&(item == "<%GetString("FilterIp","54");%>"))
+      {
+        if (check_the_same_subnet(ip,lanip,lanmask))
+        {
+          Show_error(item, "<%GetString("FilterIp","64");%>");
+          err_flag=1;
+          show_tmp();
+          return false;
+        }
+      }
+    }
+	}
+
+	return true;
+}
+
+function ChangeRuleOrder(action, index)
+{
+	var f_main = document.getElementById("id_form_main");
+     document.getElementById("id_action").value = action;
+     document.getElementById("id_change_order").value = index;
+     if (action == "edit")
+     	EditRule(index);
+	else
+	{
+		YAHOO.util.Connect.setForm('form_main'); 
+		YAHOO.util.Connect.asyncRequest('POST','filter_ip.html'+'?timestampt='+new Date().toString(),oCallback); 
+	}
+}
+function restoreEdit(val)
+{
+	document.getElementById("id_sel_operation").options[0].selected = true;
+	document.getElementById("id_sel_direction").options[0].selected = true;
+	document.getElementById("id_sourip").value = "";
+	document.getElementById("id_destip").value = "";
+	document.getElementById("id_prttcpudp").checked = true;
+	document.getElementById("id_porttype").options[0].selected = true;
+	var filter_statusObj = document.getElementById("filter_status"+val);
+	filter_statusObj.innerHTML = oldEdit;
+}
+
+function EditRule(index)
+{
+     if (nowEdit!=index && nowEdit!=0)
+	restoreEdit(nowEdit);
+     nowEdit=index;
+     
+     Hide_error();
+     document.getElementById("id_err_button").style.display="none";
+     document.getElementById("id_add_tmp").style.display="none";
+     document.getElementById("id_edittype").value = "1";
+     var op_valueObj=document.getElementById("id_op"+index);
+     var dir_valueObj = document.getElementById("s_dir"+index);
+     var srcip_valueObj = document.getElementById("s_srcip"+index);
+     var dstip_valueObj = document.getElementById("s_dstip"+index);
+     var proto_valueObj = document.getElementById("s_prototype"+index);
+ 
+     var t_souripObj = document.getElementById("id_sourip");
+     var t_destipObj = document.getElementById("id_destip");
+     var proto_contentObj = document.getElementById("id_proto_content"+index);
+    
+     var op_value= (document.all)?op_valueObj.innerText:op_valueObj.textContent;
+     var dir_value= (document.all)?dir_valueObj.innerText:dir_valueObj.textContent;
+     var srcip_value= (document.all)?srcip_valueObj.innerText:srcip_valueObj.textContent;
+     var dstip_value= (document.all)?dstip_valueObj.innerText:dstip_valueObj.textContent;
+     var proto_value= (document.all)?proto_valueObj.innerText:proto_valueObj.textContent;
+   
+     //var t_sourip= (document.all)?t_souripObj.innerText:t_souripObj.textContent;
+     //var t_destip= (document.all)?t_destipObj.innerText:t_destipObj.textContent;
+     var proto_content= (document.all)?proto_contentObj.innerText:proto_contentObj.textContent;
+     
+     //alert(proto_value);
+     if (op_value == "<%GetString("FilterIp","6");%>")
+     	document.getElementById("id_sel_operation").options[0].selected = true;
+     else if (op_value == "<%GetString("FilterIp","8");%>")
+     	document.getElementById("id_sel_operation").options[2].selected = true;
+     else if (op_value == "<%GetString("FilterIp","7");%>")
+     	document.getElementById("id_sel_operation").options[1].selected = true;
+
+     
+     if (dir_value == "<%GetString("FilterIp","71");%>")
+     	document.getElementById("id_sel_direction").options[0].selected = true;
+     else 
+     	document.getElementById("id_sel_direction").options[1].selected = true;
+
+     if (srcip_value != "<%GetString("FilterIp","16");%>")
+     	t_souripObj.value = srcip_value;
+     if (dstip_value != "<%GetString("FilterIp","16");%>")
+     	t_destipObj.value = dstip_value;
+     
+     if (proto_content == "<%GetString("FilterIp","16");%>")
+  	document.getElementById("id_prtall").checked = true;	
+     else if (proto_content == "<%GetString("FilterIp","17");%>")
+     	document.getElementById("id_prticpm").checked = true;
+     else
+     {
+     	if (proto_value == "<%GetString("FilterIp","99");%>")
+     	{  	
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[0].selected = true;
+     		document.getElementById("id_portno").value = proto_num;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","97");%>")
+     	{
+     	   var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[1].selected = true;
+     		document.getElementById("id_portno").value = proto_num;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","88");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[2].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","89");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[3].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","91");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[4].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","92");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[5].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","90");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[6].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","94");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[7].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","95");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[8].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","98");%>")
+     	{
+     	   var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     	   var porttypeObj = document.getElementById("s_porttype"+index);
+     	   var porttype= (document.all)?porttypeObj.innerText:porttypeObj.textContent;
+     	   
+     		document.getElementById("id_prttcpudp").checked = true;
+     		if (porttype == "<%GetString("FilterIp","99");%>")
+     			document.getElementById("id_porttype").options[10].selected = true;
+     		else
+     			document.getElementById("id_porttype").options[9].selected = true;
+     	}
+     	else if (proto_value == "<%GetString("FilterIp","93");%>")
+     	{
+     		var proto_numObj = document.getElementById("s_portno"+index);
+     		var proto_num= (document.all)?proto_numObj.innerText:proto_numObj.textContent;
+     		document.getElementById("id_portno").value = proto_num;
+     		document.getElementById("id_prttcpudp").checked = true;
+     		document.getElementById("id_porttype").options[11].selected = true;
+     	}
+     	else
+     	{
+     		document.getElementById("id_prtmanual").checked = true;
+     		document.getElementById("id_prtno").value = proto_value;
+     	}
+     }
+     enabling();
+     document.getElementById("id_action").value = "edit";
+     document.getElementById("id_change_order").value = index;
+     //alert(document.getElementById("id_action").value);
+     //alert(document.getElementById("id_change_order").value);
+     
+     var filter_statusObj = document.getElementById("filter_status"+index);
+     oldEdit=filter_statusObj.innerHTML;
+     filter_statusObj.innerHTML = "<center><%GetString("FilterIp","74");%></center>"
+     filter_statusObj.style.color="#FF0000";
+     
+     document.getElementById("rule_add_button").style.display="none";
+     document.getElementById("rule_addorder_button").style.display="none";
+     document.getElementById("rule_edit_button").style.display="";
+     document.getElementById("id_TITLE").innerHTML ="<%GetString("FilterIp","106");%>";
+}
+function DeleteRule(index)
+{
+	document.getElementById("id_action").value = "delete";
+	document.getElementById("id_change_order").value = index;
+	if (exec==0)
+  {
+  	exec=1;
+	YAHOO.util.Connect.setForm('form_main'); 
+    YAHOO.util.Connect.asyncRequest('POST','filter.html'+'?timestampt='+new Date().toString(),oCallback); 
+  }
+}
+
+function logoutput(item)
+{
+	if(document.getElementById(item).checked == true)
+		document.getElementById(item+"_tmp").value = 1;
+	else
+		document.getElementById(item+"_tmp").value = 0;
+	if (exec==0)
+  {
+  	exec=1;
+  	document.form_log.submit();
+  }
+}
+
+//-->
+</script>
+</head>
+
+<body class="BFK_BODY" onLoad="enabling();init();" id="id_main" style="display:none;">
+<br>
+<br>
+<form name="form_log" method="POST" >
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+<!----
+  <table class="AD_SET" >
+    <tr>
+      <th><%GetString("FilterIp","1");%></th>
+      <td>
+        <input type="checkbox" id="log_filter" <%NvramMatch("LogIPFilterEnable","1","checked");%>><%GetString("FilterIp","2");%>
+        <input type="hidden" name="LogIPFilterEnable" id="log_filter_tmp" value="0">
+      </td>
+    </tr> 
+  </table>
+  <p><input type="button" value="<%GetString("FilterIp","3");%>" name="SETUP" onClick="logoutput('log_filter');"></p>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+  ---->
+</form>
+
+<form  name="form_main" id="id_form_main" method="POST">
+
+  <table class="AD_TTL2">
+  <tbody>
+    <tr><td id="id_TITLE"><%GetString("FilterIp","4");%></td></tr>
+  </tbody>
+  </table>
+  <div id="addrule_area"> 	
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("FilterIp","5");%></th>
+      <td colspan="2">
+     	<select size="1" name="sel_operation" id="id_sel_operation" onchange="enter('id_sel_operation','id_op_tmp');">
+          <option value="0" ><%GetString("FilterIp","6");%></option>
+          <option value="2" ><%GetString("FilterIp","7");%></option>
+          <option value="1" ><%GetString("FilterIp","8");%></option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("FilterIp","9");%></th>
+      <td colspan="2">
+        <select size="1" name="sel_direction" id="id_sel_direction" onclick="enter('id_sel_direction','s_dir_tmp');">
+          <option value="0" ><%GetString("FilterIp","10");%></option>
+          <option value="1" ><%GetString("FilterIp","11");%></option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("FilterIp","12");%></th>
+      <td colspan="2">
+        <%GetString("FilterIp","13");%><input type="text" name="H_sour_ip" id="id_sourip" size="22" maxlength="18" value="" onChange="enter('id_sourip','s_srcip_tmp');">
+        &nbsp;<%GetString("FilterIp","14");%><input type="text" name="H_dest_ip" id="id_destip"size="22" maxlength="18" value="" onChange="enter('id_destip','s_dstip_tmp');">
+      </td>
+    </tr>
+    <tr>
+      <th rowspan="4"><%GetString("FilterIp","15");%></th>
+        <td><input type="radio" value="all" name="H_prt" id="id_prtall" onClick="enabling();enter('H_prt','id_proto_content_tmp');"><%GetString("FilterIp","101");%></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><input type="radio" value="icmp" name="H_prt" id="id_prticpm" onClick="enabling();enter('H_prt','id_proto_content_tmp');"><%GetString("FilterIp","17");%></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><input type="radio" value="manual" name="H_prt" id="id_prtmanual" onClick="enabling();enter('H_prt','id_proto_content_tmp');"><%GetString("FilterIp","18");%></td>
+        <td><%GetString("FilterIp","19");%><input type="text" name="H_prt_no" id="id_prtno" size="10" maxlength="3" value="" onChange="enter('H_prt','id_proto_content_tmp');"></td>
+    </tr>
+    <tr>
+        <td><input type="radio" value="tcpudp" name="H_prt" id="id_prttcpudp" onClick="enabling();enter('H_prt','id_proto_content_tmp');" checked><%GetString("FilterIp","20");%></td>
+        <td>
+          <select size="1" name="H_port_type" id="id_porttype" onChange="enabling();" onClick="enter('id_porttype','id_proto_content_tmp');">
+        	<option value="tcp" selected><%GetString("FilterIp","21");%></option>
+        	<option value="udp" ><%GetString("FilterIp","22");%></option>
+        	<option value="tcp:80" ><%GetString("FilterIp","23");%></option>
+        	<option value="tcp:20-21" ><%GetString("FilterIp","24");%></option>
+        	<option value="tcp:23" ><%GetString("FilterIp","25");%></option>
+        	<option value="tcp:22" ><%GetString("FilterIp","26");%></option>
+        	<option value="tcp:443" ><%GetString("FilterIp","27");%></option>
+        	<option value="tcp:25" ><%GetString("FilterIp","28");%></option>
+        	<option value="tcp:110" ><%GetString("FilterIp","29");%></option>
+        	<option value="udp:123" ><%GetString("FilterIp","30");%></option>
+        	<option value="tcp:123" ><%GetString("FilterIp","31");%></option>
+        	<option value="tcp:143" ><%GetString("FilterIp","32");%></option>
+          </select>
+      		<!--<a href="./help/help_filter_ip.html#port" target="help"><%GetString("FilterIp","33");%></a>-->
+      		<br><%GetString("FilterIp","34");%> <input type="text" name="H_port_no" id="id_portno" size="20" maxlength="11" value="" onChange="enter('id_porttype','id_proto_content_tmp');">
+        </td>
+    </tr>
+  </table>
+  
+  <p>    	
+  	<div id="rule_add_button"><input type="button" value="<%GetString("FilterIp","35");%>" name="Do_ADDtop" onClick="SetAddOrder('up')"></div> 
+  	<div id="rule_addorder_button" style="display: none;">
+  	     <input type="button" value="<%GetString("FilterIp","65");%>" name="Do_ADDtop" id="id_ADDtop" onClick="SetAddOrder('up')">
+     	     <input type="button" value="<%GetString("FilterIp","66");%>" name="Do_ADD" id="id_ADD" onClick="SetAddOrder('down')">
+     	</div>   
+     	<div id="rule_edit_button" style="display: none;">
+     		<input type="button" value="<%GetString("FilterIp","67");%>" name="Do_EDIT" onClick="SetAddOrder('edit')">
+     		<input type="button" value="<%GetString("FilterIp","68");%>" name="Do_EDCANSEL" onClick="location.href='filter_ip.html'">
+     	</div>
+     	<div id="id_err_button" style="display: none;">
+     		<input type="button" value="<%GetString("FilterIp","67");%>" name="Do_EDIT" onClick="SetAddOrder('')">
+     		<input type="button" value="<%GetString("FilterIp","68");%>" name="Do_EDCANSEL" onClick="location.href='filter_ip.html'">
+     	</div>
+  </p>
+  </div>
+  <div id="overrule" style="display: none;">
+  <p class="C_WARN">
+     <%GetString("FilterIp","70");%><br>
+     <!--<%GetString("FilterIp","71");%> -->
+  </p>
+  </div>
+<hr>
+  <table class="AD_TTL2">
+  <tbody>
+
+    <tr><td><%GetString("FilterIp","36");%> </td></tr>
+
+  </tbody>
+  </table>
+  <table class="AD_LIST">
+  <tbody>
+    <tr>
+      <th><%GetString("FilterIp","37");%></th>
+      <th><%GetString("FilterIp","38");%></th>
+      <th><%GetString("FilterIp","39");%><br>
+          <%GetString("FilterIp","40");%></th>
+      <th><%GetString("FilterIp","41");%></th>
+      <th><%GetString("FilterIp","42");%></th>
+      <th><%GetString("FilterIp","43");%></th>
+    </tr>
+     <%ShowFilterInfo();%>
+     <tr id="id_add_tmp" style="display:none;">
+       <td id="id_op_tmp"><%GetString("FilterIp","6");%></td>
+  	<td><span id="s_dir_tmp"><%GetString("FilterIp","71");%><br>&rarr;<%GetString("FilterIp","72");%></td>
+  	<td><span id="s_srcip_tmp"><%GetString("FilterIp","16");%></span><br><span id="s_dstip_tmp"><%GetString("FilterIp","16");%></span></td>
+  	<td id="id_proto_content_tmp"><span id="s_prototype_tmp"><%GetString("FilterIp","73");%> </span>
+	</td>
+  	<td id="id_count_tmp" class="DIGIT">0</td>
+  	<td id="filter_status_tmp" style="color:#FF0000;"><center><%GetString("FilterIp","74");%></center></td>
+      </tr>
+
+  </tbody>
+  </table>
+  <input type="hidden" id="id_action" name="Action" value="down">
+  <input type="hidden" id="id_change_order" name="ChangeNum" value="0">
+  <input type="hidden" id="id_edittype" value="0">
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

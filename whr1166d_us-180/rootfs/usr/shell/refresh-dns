@@ -1,0 +1,124 @@
+#!/bin/sh
+#
+# This sample code shows you one way to modify your setup to allow automatic
+# configuration of your resolv.conf for peer supplied DNS addresses when using
+# the `usepeerdns' option.
+#
+# In my case I just added this to my /etc/ppp/ip-up.local script. You may need to 
+# create an executable script if one does not exist.
+#
+# Nick Walker (nickwalker@email.com)
+#
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+RESOLV_CONF=/etc/resolv.conf
+PPPoE1IP=`nvram get PPPoE1IP`
+PPPoE2IP=`nvram get PPPoE2IP`
+PPPoE3IP=`nvram get PPPoE3IP`
+PPPoE4IP=`nvram get PPPoE4IP`
+PPPoE5IP=`nvram get PPPoE5IP`
+	
+PPPoE1DNS1=`nvram get PPPoE1DNS1`
+PPPoE1DNS2=`nvram get PPPoE1DNS2`
+PPPoE2DNS1=`nvram get PPPoE2DNS1`
+PPPoE2DNS2=`nvram get PPPoE2DNS2`
+PPPoE3DNS1=`nvram get PPPoE3DNS1`
+PPPoE3DNS2=`nvram get PPPoE3DNS2`
+PPPoE4DNS1=`nvram get PPPoE4DNS1`
+PPPoE4DNS2=`nvram get PPPoE4DNS2`
+PPPoE5DNS1=`nvram get PPPoE5DNS1`
+PPPoE5DNS2=`nvram get PPPoE5DNS2`
+
+PPPoE1Mode=`nvram get PPPoE1Mode`
+PPPoE2Mode=`nvram get PPPoE2Mode`
+PPPoE3Mode=`nvram get PPPoE3Mode`
+PPPoE4Mode=`nvram get PPPoE4Mode`
+PPPoE5Mode=`nvram get PPPoE5Mode`
+	
+PPPoE1State=`nvram get PPPoE1State`
+PPPoE2State=`nvram get PPPoE2State`
+PPPoE3State=`nvram get PPPoE3State`
+PPPoE4State=`nvram get PPPoE4State`
+PPPoE5State=`nvram get PPPoE5State`
+	
+rm $RESOLV_CONF
+touch $RESOLV_CONF
+
+#Getmek add for ConnectSafe function
+ConnectSafe_Level=`nvram get ConnectSafe_Filtering_Level`
+if [ "$ConnectSafe_Level" == "1" ]; then
+	echo adding Block Malicious Sites dns 198.153.192.22
+	echo adding Block Malicious Sites dns 198.153.194.22
+	echo nameserver 198.153.192.22 >> $RESOLV_CONF
+	echo nameserver 198.153.194.22 >> $RESOLV_CONF
+elif [ "$ConnectSafe_Level" == "2" ]; then
+	echo adding Block Malicious and Adult Sitese dns 198.153.192.32
+	echo adding Block Malicious and Adult Sites dns 198.153.194.32
+	echo nameserver 198.153.192.32 >> $RESOLV_CONF
+	echo nameserver 198.153.194.32 >> $RESOLV_CONF
+elif [ "$ConnectSafe_Level" == "3" ]; then
+	echo adding Block Malicious, Adult, and Other Non-Family Friendly Sites dns 198.153.192.42
+	echo adding Block Malicious, Adult, and Other Non-Family Friendly Sites dns 198.153.194.42
+	echo nameserver 198.153.192.42 >> $RESOLV_CONF
+	echo nameserver 198.153.194.42 >> $RESOLV_CONF
+fi
+#Gemtek end
+
+InternetDNS1=`nvram get InternetDNS1`
+InternetDNS2=`nvram get InternetDNS2`
+
+if [ ! -z "$PPPoE1IP" ] && [ ! -z "$PPPoE2IP" ] && [ ! -z "$PPPoE3IP" ] && [ ! -z "$PPPoE4IP" ] && [ ! -z "$PPPoE5IP" ]
+then
+[ ! -z "$InternetDNS1" ] && ( echo "$InternetDNS1"; echo "nameserver $InternetDNS1" >> $RESOLV_CONF;)
+[ ! -z "$InternetDNS2" ] && ( echo "$InternetDNS2"; echo "nameserver $InternetDNS2" >> $RESOLV_CONF;)
+fi
+
+if [ ! -z "$PPPoE1IP" ] ; then
+  [ ! -z "$PPPoE1DNS1" ] && ( echo "$PPPoE1DNS1"; echo "nameserver $PPPoE1DNS1" >> $RESOLV_CONF;)
+	[ ! -z "$PPPoE1DNS2" ] && ( echo "$PPPoE1DNS2"; echo "nameserver $PPPoE1DNS2" >> $RESOLV_CONF;)
+fi
+
+if [ ! -z "$PPPoE2IP" ] ; then
+	[ ! -z "$PPPoE2DNS1" ] && ( echo "$PPPoE2DNS1"; echo "nameserver $PPPoE2DNS1" >> $RESOLV_CONF;)
+	[ ! -z "$PPPoE2DNS2" ] && ( echo "$PPPoE2DNS2"; echo "nameserver $PPPoE2DNS2" >> $RESOLV_CONF;)
+fi
+
+if [ ! -z "$PPPoE3IP" ] ; then
+	[ ! -z "$PPPoE3DNS1" ] && ( echo "$PPPoE3DNS1"; echo "nameserver $PPPoE3DNS1" >> $RESOLV_CONF;)
+	[ ! -z "$PPPoE3DNS2" ] && ( echo "$PPPoE3DNS2"; echo "nameserver $PPPoE3DNS2" >> $RESOLV_CONF;)
+fi
+
+if [ ! -z "$PPPoE4IP" ] ; then
+	[ ! -z "$PPPoE4DNS1" ] && ( echo "$PPPoE4DNS1"; echo "nameserver $PPPoE4DNS1" >> $RESOLV_CONF;)
+	[ ! -z "$PPPoE4DNS2" ] && ( echo "$PPPoE4DNS2"; echo "nameserver $PPPoE4DNS2" >> $RESOLV_CONF;)
+fi
+		
+if [ ! -z "$PPPoE5IP" ] ; then
+	[ ! -z "$PPPoE5DNS1" ] && ( echo "$PPPoE5DNS1"; echo "nameserver $PPPoE5DNS1" >> $RESOLV_CONF;)
+	[ ! -z "$PPPoE5DNS2" ] && ( echo "$PPPoE5DNS2"; echo "nameserver $PPPoE5DNS2" >> $RESOLV_CONF;)
+fi
+
+if [ "$PPPoE1Mode" == "demand" ] ; then
+	echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+  echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+fi
+		
+if [ "$PPPoE2Mode" == "demand" ] ; then
+	echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+  echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+fi
+		
+if [ "$PPPoE3Mode" == "demand" ] ; then
+	echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+  echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+fi
+		
+if [ "$PPPoE4Mode" == "demand" ] ; then
+	echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+  echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+fi
+		
+if [ "$PPPoE5Mode" == "demand" ] ; then
+	echo "nameserver 208.67.222.222" >> $RESOLV_CONF
+  echo "nameserver 4.2.2.1" >> $RESOLV_CONF
+fi

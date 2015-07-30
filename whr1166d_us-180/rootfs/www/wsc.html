@@ -1,0 +1,350 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+//			window.setTimeout("updateInnerHtml()", 6000);
+			//window.setTimeout("top.dispWaiting(false)", 10000);
+			window.setTimeout("window.location.href='wsc.html'", 10000);
+}, 
+failure:function(oResponse) { 
+//alert(oResponse.errorText); 
+} 
+};
+
+var AOSSmode="<%NvramGet("WIFIAOSSMode");%>";
+function ClickEnter(evt)  //Caspar add for disabled keyboard"enter" //patch 20100105
+{
+    if(evt == null)    
+    {  
+        evt = window.event;  
+    }
+    var obj=evt.srcElement?evt.srcElement:evt.target;  
+
+        if((window.navigator.userAgent.indexOf("MSIE")>=1)||(window.navigator.userAgent.indexOf("Safari")>=1)||(window.navigator.userAgent.indexOf("Chrome")>=1)||(window.navigator.userAgent.indexOf("Opera")>=1))
+         {
+			if(evt.keyCode==13)  
+			{	
+				if(obj.type!="button")  
+				{			
+					evt.keyCode=9;
+				}
+			}
+         }
+         else if(window.navigator.userAgent.indexOf("Firefox")>=1)
+         {
+			if(evt.keyCode==13)  
+			{	
+				if(obj.type!="button")  
+				{				
+					var Event = document.createEvent("KeyEvents");
+					Event.initKeyEvent("keypress",0,0,null,0,0,0,0,0,9);
+					evt.target.dispatchEvent(Event);
+					evt.preventDefault();             
+				}
+			}
+		}
+    return false;
+}
+
+function disableWPS()
+{
+	var val;
+	if (document.getElementById("id_WPSEnable").checked)
+		val = "";
+	else
+		val = "none";
+	
+	document.getElementById("tr_external_reg").style.display = val;
+	document.getElementById("table_pin").style.display = val;
+	document.getElementById("table_status_title").style.display = val;
+	document.getElementById("table_status").style.display = val;
+
+}
+function setRelease()
+{
+	if ("<%NvramGet("WPSEnable");%>" == 1)
+	{
+		document.wscForm.WPSEnable.disabled=true;
+		if(document.wscForm.WIFIWscExternalRegistrar)
+			document.wscForm.WIFIWscExternalRegistrar.disabled=true;
+		document.wscForm.nosave_ClientPin.disabled=true;
+
+		document.wscForm.nosave_WPSAction.value="4";
+		//document.wscForm.submit();
+		YAHOO.util.Connect.setForm('wscForm'); 
+		YAHOO.util.Connect.asyncRequest('POST','wsc.html'+'?timestampt='+new Date().toString(),oCallback); 
+	}
+}
+
+function GenerateKey()
+{
+	document.wscForm.WPSEnable.disabled=true;
+	if(document.wscForm.WIFIWscExternalRegistrar)
+	  	document.wscForm.WIFIWscExternalRegistrar.disabled=true;
+  	document.wscForm.nosave_ClientPin.disabled=true;
+
+	document.wscForm.nosave_WPSAction.value="2";
+	//document.wscForm.submit();
+	YAHOO.util.Connect.setForm('wscForm'); 
+	YAHOO.util.Connect.asyncRequest('POST','wsc.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+
+function ValidateChecksum(PIN)
+{
+  if(PIN.length != "4"){
+
+	if(PIN.length != "8"){
+		return false;
+	}
+
+	var accum = 0;
+
+	accum += 3 * (parseInt((PIN / 10000000) % 10)); 
+	accum += 1 * (parseInt((PIN / 1000000) % 10)); 
+	accum += 3 * (parseInt((PIN / 100000) % 10)); 
+	accum += 1 * (parseInt((PIN / 10000) % 10)); 
+	accum += 3 * (parseInt((PIN / 1000) % 10)); 
+	accum += 1 * (parseInt((PIN / 100) % 10)); 
+	accum += 3 * (parseInt((PIN / 10) % 10)); 
+	accum += 1 * (parseInt((PIN / 1) % 10)); 
+
+	return (0 == (accum % 10));
+  }
+  else{
+	return true;
+  }
+} // ValidateChecksum
+
+function StartPin()
+{
+  if (document.wscForm.nosave_ClientPin.value=="")
+  {
+    Show_error_new("<%GetString("Wsc","28");%>");
+    return;
+  }
+  /*if(document.getElementById("id_WPSEnable").checked)
+  {
+    var SIDopen=<%NvramGet("WIFISsid1Enable");%>;
+    if ((SIDopen==0)&&(AOSSmode=="0"))
+    {
+        Show_error("<%GetString("Wsc","1");%>", "<%GetString("Wsc","24");%>");
+        return;
+    }
+  }*/
+  if (!check_integer(document.wscForm.nosave_ClientPin.value))  
+  {
+    Show_error_new("<%GetString("Wsc","28");%>");
+    CleanSingleKey('id_ClientPin');
+    return;
+  }
+  if (ValidateChecksum(document.wscForm.nosave_ClientPin.value))
+  {
+  	document.wscForm.WPSEnable.disabled=true;
+  	if(document.wscForm.WIFIWscExternalRegistrar)
+	  	document.wscForm.WIFIWscExternalRegistrar.disabled=true;
+  	document.wscForm.nosave_ClientPin.disabled=false;
+
+  	document.wscForm.nosave_WPSAction.value="3";
+  	document.wscForm.submit();
+  }
+  else
+  {
+    Show_error_new("<%GetString("Wsc","28");%>");
+    CleanSingleKey('id_ClientPin');
+    return;
+  }
+}
+
+function setWPS()
+{
+	document.wscForm.WPSEnable.disabled=false;
+	if(document.wscForm.WIFIWscExternalRegistrar)
+	  	document.wscForm.WIFIWscExternalRegistrar.disabled=false;
+  	document.wscForm.nosave_ClientPin.disabled=true;
+
+	document.wscForm.WPSEnable.value = 
+		(document.getElementById("id_WPSEnable").checked)?"1":"0";
+
+	if(document.wscForm.WIFIWscExternalRegistrar)
+		document.wscForm.WIFIWscExternalRegistrar.value = (document.getElementById("id_WIFIWscExternalRegistrar").checked)?"1":"0";
+
+	document.wscForm.nosave_WPSAction.value="1";
+	//document.wscForm.submit();
+	YAHOO.util.Connect.setForm('wscForm'); 
+    YAHOO.util.Connect.asyncRequest('POST','wsc.html'+'?timestampt='+new Date().toString(),oCallback); 
+
+}
+
+function init()
+{
+
+  top.dispWaiting(false);
+  //document.getElementById("id_main").style.display = "block";
+  checkBrowserCss();
+
+  var ssid2_enable="<%NvramGet("WIFISsid1Enable");%>";  
+  var ssid3_enable="<%NvramGet("WIFISsid2Enable");%>";  
+  var ssid4_enable="<%NvramGet("WIFISsid3Enable");%>";  
+  var WIFImode="<%NvramGet("WIFIModuleEnable");%>";
+  
+  var ssid2_enable_5g="<%NvramGet("WIFISsid1Enable_5g");%>";  
+  var ssid3_enable_5g="<%NvramGet("WIFISsid2Enable_5g");%>";  
+  var ssid4_enable_5g="<%NvramGet("WIFISsid3Enable_5g");%>";  
+  var WIFImode_5g="<%NvramGet("WIFIModuleEnable_5g");%>";
+  
+  //if (((ssid2_enable=="0")&&(ssid3_enable=="0")&&(ssid4_enable=="0")&&(AOSSmode=="0"))||(WIFImode=="0"))//Caspar modified 20100403
+  if (((ssid2_enable=="0")&&(ssid2_enable_5g=="0")&&(AOSSmode=="0")) || ((WIFImode=="0")&&(WIFImode_5g=="0")))//Caspar modified 20100403
+  {
+    document.getElementById("id_client_pin_span1").style.display="none";
+    document.getElementById("id_client_pin_span2").style.display="";
+	document.getElementById("id_Enabled").style.display="none";
+	document.getElementById("id_Disabled").style.display="";
+  }
+  else
+  {
+	var wifi_enable = "<%NvramGet("WIFIModuleEnable");%>";
+	var wifi_enable_5g = "<%NvramGet("WIFIModuleEnable_5g");%>";
+	var confstatus = "<%NvramGet("WIFIWscConfStatus");%>";
+	
+	if ((wifi_enable == "1" || wifi_enable_5g == "1") && confstatus == "2")
+	{
+		if ((WIFImode=="0")&&(WIFImode_5g=="1"))
+		{
+			document.getElementById("statuscontent_5g").style.display="";
+			document.getElementById("statuscontent").style.display="none";
+		}
+		else if ((WIFImode=="1")&&(WIFImode_5g=="0"))
+		{
+			document.getElementById("statuscontent_5g").style.display="none";
+			document.getElementById("statuscontent").style.display="";
+		}
+	}
+    document.getElementById("id_client_pin_span1").style.display="";
+    document.getElementById("id_client_pin_span2").style.display="none";
+	if (AOSSmode=="0")
+	{
+		document.getElementById("id_Enabled").style.display="";	
+		document.getElementById("id_Disabled").style.display="none";
+	}
+  }
+}
+// -->
+</script>
+</head>
+
+<body class="BFK_BODY" onLoad="disableWPS();init();" id="id_main" style="display:none;">
+<p>
+<br>
+
+</p>
+  <form method="POST" name="wscForm">
+  <input type="hidden" name="nosave_WPSAction" value="0">
+  <div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+  <%Check_pin_lock_ioctl();%>
+    <table class="AD_SET">
+      <tr>
+        <th><%GetString("Wsc","1");%></th>
+        <td>
+    	<input type="hidden" name="WPSEnable" value="<%NvramGet("WPSEnable");%>">
+     	<input type="checkbox" id="id_WPSEnable" value="1" <%NvramMatch("WPSEnable","1","checked");%> onClick="disableWPS();"><%GetString("Wsc","2");%>
+        </td>
+      </tr>
+      <tr id="tr_external_reg">
+        <th><%GetString("Wsc","3");%></th>
+        <td id = "id_Enabled">
+        <%GetExternalRegistrar();%>
+        </td>
+      </tr>
+    </table>
+    <!--<p><input type="button" name="nosave_SET" value="<%GetString("Wsc","4");%>" onclick="setWPS();"></p>-->
+    <table class="AD_SET" id="table_pin" <%NvramMatch("WPSEnable","0","style='display:none'");%>>
+      <tr>
+        <th><%GetString("Wsc","5");%></th>
+        <td><b><div name="wifiPincode"><%NvramGet("WIFIWscVendorPinCode");%></div></b></td>
+        <td>
+		<input type="button" name="nosave_GenKeyBtn" value="<%GetString("Wsc","6");%>" onclick="GenerateKey()" <%NvramMatch("WPSEnable","0","disabled");%>>
+	</td>
+      </tr>
+      <tr>
+        <th><%GetString("Wsc","7");%></th>
+        <td colspan="2">
+          <span id="id_client_pin_span1">
+	<input type="text" size="10" maxlength="8" name="nosave_ClientPin" id="id_ClientPin" onkeypress="javascript:ClickEnter(event);">
+     	<input type="button" name="nosave_EnterPinBtn" value="<%GetString("Wsc","8");%>" onclick="StartPin();" <%NvramMatch("WPSEnable","0","disabled");%>>
+          </span>
+          <span id="id_client_pin_span2" style="display:none;">
+            <p><%GetString("Wsc","25");%></p>
+          </span>
+        </td>
+      </tr>
+    </table>
+
+  <table class="AD_TTL2" id="table_status_title" <%NvramMatch("WPSEnable","0","style='display:none'");%>>
+    <tbody>
+      <tr><td><%GetString("Wsc","9");%></td></tr>
+    </tbody>
+  </table>
+
+  <%GetWPSTable();%>
+<!--
+  <table class="WPS_SYSINFO" id="table_status" <%NvramMatch("WPSEnable","0","style='display:none'");%>>
+    <tr>
+      <th>WPS status</th>
+      <td>
+        <table>
+     	<tr id="statustitle">
+               <th>configured</th></td>
+     	</tr>
+     	
+        </table>
+      </td>
+    </tr>
+    -->
+ <!--  
+    <tr id="statuscontent">
+      <th><span class=WLAN11G>11g</span></th>
+      <td>
+        <table>
+     	<tr><th>SSID</th>
+     	  <td></td>
+     	</tr>
+     	<tr><th>Security</th>
+     	  <td></td>
+     	</tr>
+     	<tr><th>Encryption key</th>
+     	  <td></td>
+     	</tr>
+        </table>
+      </td>
+    </tr>
+   --> 
+  </table>  
+  <div class="button5" name="nosave_SET" onclick="setWPS();">
+	<div class="button_text"><%GetString("Wsc","4");%></div>
+  </div>
+  <br/>
+  <br/>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

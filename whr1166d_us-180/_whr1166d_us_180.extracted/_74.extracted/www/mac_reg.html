@@ -1,0 +1,717 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script src="OpenHelp.html"></script>
+<script language="JavaScript">
+<!--
+
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+//			window.setTimeout("updateInnerHtml()", 6000);
+			//window.setTimeout("top.dispWaiting(false)", 20000);
+			window.setTimeout("window.location.href='mac_reg.html'", 25000);
+}, 
+failure:function(oResponse) { 
+//alert(oResponse.errorText); 
+} 
+};
+
+var nowEdit=0;
+var oldEdit;
+var tmp;
+var exec=0;
+
+function change_mac(Computers_value)
+{
+	var mac_add = Computers_value;			
+	if (mac_add.charAt(2)=='-' && mac_add.charAt(5)=='-' && mac_add.charAt(8)=='-' && mac_add.charAt(11)=='-' && mac_add.charAt(14)=='-')
+	{					
+		var str_tmp = "";			
+		var str = str_tmp.concat(mac_add.substr(0,2),":",mac_add.substr(3,2),":",mac_add.substr(6,2),":",mac_add.substr(9,2),":",mac_add.substr(12,2),":",mac_add.substr(15,2),mac_add.substr(17,mac_add.length-17));
+		Computers_value = str;
+	}			
+	return Computers_value;
+}
+
+function check_mac_filter(mac) //Caspar modified for buffalo check error feature 20100324
+{	//0:no error 1:mac length error 2:mac address error 
+	var i;
+	var n;
+	var ff_valid=0;
+	var zero_valid=0;
+	var odd_valid=0;
+	var valid=0;
+	var odd_array="02468AaCcEe";
+	
+	if(mac.length > 0)
+	{	
+		if (mac.charAt(2)==':')
+		{
+			n = mac.split(':');
+
+			if(n.length==6)
+			{
+				for (i=0;i<odd_array.length;i++)
+				{
+					if (n[0].charAt(1) == odd_array.charAt(i))
+						odd_valid=1;
+					else
+						continue;	
+				}
+
+				
+				for(i=0; i<6; i++)
+				{
+					if((isBlank(n[i]))||(!check_0Tof(n[i]))||(n[i].length != 2))
+					{
+						return 2;
+					}
+				}
+
+				for(i=0; i<6; i++)
+				{	
+					if(((n[i].charAt(0)=='f')||(n[i].charAt(0)=='F'))&&((n[i].charAt(1)=='f')||(n[i].charAt(1)=='F')))
+					{
+						continue;
+					}
+					else
+					{	
+						ff_valid=1;	
+						break;
+					}
+				}
+
+				for(i=0; i<6; i++)
+				{
+					if((n[i].charAt(0)=='0')&&(n[i].charAt(1)=='0'))
+					{
+						continue;
+					}
+					else
+					{	
+						zero_valid=1;		
+						break;
+					}
+				}
+
+				if((ff_valid==1)&&(zero_valid==1)&&(odd_valid==1))
+				{	
+					return 0;
+				}
+				else
+				{
+					return 2;
+				}
+			}
+			else
+			{
+				return 1;
+			}
+		}
+		else if (mac.charAt(2)=='-')
+		{
+			n = mac.split('-');
+
+			if(n.length==6)
+			{
+				for (i=0;i<odd_array.length;i++)
+				{
+					if (n[0].charAt(1) == odd_array.charAt(i))
+						odd_valid=1;
+					else
+						continue;	
+				}
+
+				
+				for(i=0; i<6; i++)
+				{
+					if((isBlank(n[i]))||(!check_0Tof(n[i]))||(n[i].length != 2))
+					{
+						return 2;
+					}
+				}
+
+				for(i=0; i<6; i++)
+				{	
+					if(((n[i].charAt(0)=='f')||(n[i].charAt(0)=='F'))&&((n[i].charAt(1)=='f')||(n[i].charAt(1)=='F')))
+					{
+						continue;
+					}
+					else
+					{	
+						ff_valid=1;	
+						break;
+					}
+				}
+
+				for(i=0; i<6; i++)
+				{
+					if((n[i].charAt(0)=='0')&&(n[i].charAt(1)=='0'))
+					{
+						continue;
+					}
+					else
+					{	
+						zero_valid=1;		
+						break;
+					}
+				}
+
+				if((ff_valid==1)&&(zero_valid==1)&&(odd_valid==1))
+				{	
+					return 0;
+				}
+				else
+				{
+					return 2;
+				}
+			}
+			else
+			{
+				return 1;
+			}
+		}
+		else
+			return 2;
+	}
+	
+	return 0;
+}
+
+
+function restoreEdit(val)
+{
+	var mac_statusObj = document.getElementById("mac_status"+val);
+	document.getElementById("id_maclist_edit").value ="";
+	mac_statusObj.innerHTML = oldEdit;
+}
+function CheckMac()
+{
+	var index;
+     	index=nowEdit;
+	document.getElementById("id_saveflag").value = 0;
+	mac=document.getElementById("id_maclist_edit").value;
+	mac = change_mac (mac);
+	var mac_statusObj = document.getElementById("mac_status"+index);
+	mac=mac.toUpperCase();
+	var macnum="<%NvramGet("MACNum");%>";
+	Hide_error();
+    var check_mac_num=check_mac_filter(mac);    
+	if(check_mac_num!="0")
+	{
+        if(check_mac_num=="1")
+        {
+            Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","17");%>");
+            return;
+        }
+        else if(check_mac_num=="2")
+        {
+            Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","18");%>");
+            return;
+        }
+	}
+	if(!Escape_String(mac))	
+	{
+		Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","17");%>");
+		return;
+	}
+	for (n=1;n<=macnum;n++)
+	{
+		var mac_statusObj=document.getElementById("mac_status"+n);
+    		var status=(document.all)?mac_statusObj.innerText:mac_statusObj.textContent;
+    		var mac_textObj = document.getElementById("mac_text"+n).innerHTML;
+    		if (status!="<%GetString("MacReg","22");%>")
+    		{
+			mac_textObj=mac_textObj.toUpperCase();
+			if(mac_textObj == mac)
+			{
+				Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","19");%>");
+				return;
+			}       
+		}
+	}
+	document.getElementById("registertable").style.display="none";
+	document.getElementById("id_errmaxtop").style.display="none";
+	document.getElementById("id_errmaxbottom").style.display="none";
+	document.getElementById("edittable").style.display="";
+	document.getElementById("id_maclist").value = mac;
+	/*
+	mac_statusObj.innerHTML = "<center><%GetString("MacReg","22");%></center>";
+	document.getElementById("mac_status"+index).style.color="#FF0000";
+	*/
+	if (exec==0)
+  {
+  	exec=1;
+  	//document.forms[0].submit();
+	YAHOO.util.Connect.setForm(document.forms[0]); 
+    YAHOO.util.Connect.asyncRequest('POST','mac_reg.html'+'?timestampt='+new Date().toString(),oCallback); 
+
+  }
+}
+function MacEdit(index)
+{
+	if (nowEdit!=index && nowEdit!=0)
+		restoreEdit(nowEdit);
+     	nowEdit=index;
+	var mac_statusObj = document.getElementById("mac_status"+index);
+	var mac_textObj = document.getElementById("mac_text"+index);
+	var mac_text = (document.all)?mac_textObj.innerText:mac_textObj.textContent;
+	document.getElementById("registertable").style.display="none";
+	document.getElementById("id_errmaxtop").style.display="none";
+	document.getElementById("id_errmaxbottom").style.display="none";
+	document.getElementById("edittable").style.display="";
+	document.getElementById("id_maclist_edit").value = mac_text;
+	document.getElementById("id_selectItem").value = "edit";
+	document.getElementById("id_edit_index").value = index;
+	oldEdit=mac_statusObj.innerHTML;
+        mac_statusObj.innerHTML = "<center><%GetString("MacReg","22");%></center>"
+	document.getElementById("mac_status"+index).style.color="#FF0000";
+	if(document.getElementById("id_saveflag").value=="-1")
+	{
+		if (document.getElementById("tmp_err_mac"))
+			document.getElementById("tmp_err_mac").style.display="none";
+		if (document.getElementById("add_err"))	
+			document.getElementById("add_err").style.display="none"; 
+	}
+}
+function MacDelete(index)
+{
+	document.getElementById("id_selectItem").value = "delete";
+	document.getElementById("id_edit_index").value = index;
+	//alert(document.getElementById("id_edit_index").value);
+	//alert(document.getElementById("id_selectItem").value);
+	if (exec==0)
+  {
+  	exec=1;
+  	//document.forms[0].submit();
+	YAHOO.util.Connect.setForm(document.forms[0]); 
+    YAHOO.util.Connect.asyncRequest('POST','mac_reg.html'+'?timestampt='+new Date().toString(),oCallback);
+  }
+}
+function check_borwser(){
+		var isIE = navigator.userAgent.search("MSIE") > -1;      
+		var isIE7 = navigator.userAgent.search("MSIE 7") > -1;      
+		var isFirefox = navigator.userAgent.search("Firefox") > -1;      
+		var isOpera = navigator.userAgent.search("Opera") > -1;      
+		var isSafari = navigator.userAgent.search("Safari") > -1;  
+		
+		if (isIE7)
+			return 1; 
+		if (isFirefox)
+			return 2;      
+		if (isSafari)
+			return 3;      
+		if (isOpera) 	
+			return 4;
+		if (isIE) 
+			return 5;	
+}
+
+var mac_list;
+
+function change_button()
+{
+	document.getElementById("a_mac_add").style.display="none";
+	document.getElementById("b_mac_add").style.display="none";
+	document.getElementById("a_mac_edit").style.display="";
+	document.getElementById("b_mac_edit").style.display="";
+	document.getElementById("id_wificontrollist").value=mac_list;
+}
+
+function MacAdd(tmp)
+{
+	var ObjMac = document.getElementById("id_wificontrollist");	
+	//ObjMac.value = change_mac (ObjMac.value);	
+	var word="";
+	var word1='\r'+'\n';
+	var word2='\n';
+	var word3=' ';
+	var arrMac;
+	var len;
+	document.getElementById("id_line").style.display="none";	
+	if(ObjMac.value.indexOf("\r\n")!=-1)
+    {		
+		var arrMac=ObjMac.value.split(word1);
+		len=ObjMac.value.split(word1).length;
+		word = word1;
+	}
+	else if (ObjMac.value.indexOf(" ")!=-1)
+	{
+		var arrMac=ObjMac.value.split(word3);
+		len=ObjMac.value.split(word3).length;
+		word = word3;
+	}
+	else
+	{		
+		var arrMac=ObjMac.value.split(word2);		
+		len=ObjMac.value.split(word2).length;
+		word = word2;		
+	}	
+	var lenspace;
+	var macnum="<%NvramGet("MACNum");%>";
+	var i,j,k,n;
+	var arrMacspace;
+	var arrMacspace2;
+	var lenspace2;
+	var esstringflag;
+	
+	if(arrMac[arrMac.length-1] == "")
+		len = len-1;
+		
+	if(len >=65 || (len+parseInt(macnum)) >=65 )
+	{
+		Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","29");%>");
+		return ;
+	}
+	
+	ObjMac.value = "";
+	for (i=0;i<len;i++)
+	{
+		arrMac[i] = change_mac (arrMac[i]);
+		ObjMac.value = ObjMac.value.concat(arrMac[i]);
+		if (i<(len-1))
+			ObjMac.value = ObjMac.value.concat(word);
+	}
+	
+	mac_list = ObjMac.value;
+		
+	document.getElementById("id_saveflag").value=0;	
+	if (ObjMac.value.length!=0)
+	{
+		for(i=0;i<len;i++)
+		{
+			//String.fromCharCode(32);						
+			arrMacspace=arrMac[i].split(" ");
+			lenspace=arrMac[i].split(" ").length;
+			
+			for(j=0;j<lenspace;j++)
+			{
+        			arrMacspace[j]=arrMacspace[j].toUpperCase();
+        			
+				if (arrMacspace[j]== "undefined" || arrMacspace[j].length==0)
+					continue;							
+                var check_mac_num=check_mac_filter(arrMacspace[j]); 
+				if(check_mac_num!="0")
+				{
+                    if(check_mac_num=="1")
+					{
+                        document.getElementById("id_saveflag").value = 1;
+						Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","17");%>");
+						change_button();
+						return ;
+					}	
+                    else if(check_mac_num=="2")
+					{
+                        document.getElementById("id_saveflag").value = 2;
+						Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","18");%>");
+						change_button();
+						return ;
+					}	
+				}
+				if(!Escape_String(arrMacspace[j]))	
+				{
+					document.getElementById("id_saveflag").value = 1;
+					esstringflag=1;
+					Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","17");%>");
+					change_button();
+					return ;
+				}
+				else
+					esstringflag=0;
+				if (i>0)
+				{
+				    for (k=i-1; k>=0; k--)
+				    {
+  				  	arrMacspace2=arrMac[k].split(' ');    
+						  lenspace2=arrMac[k].split(' ').length;
+  				  	
+					arrMacspace2[0]=arrMacspace2[0].toUpperCase();
+					
+            				if (arrMacspace[j]==arrMacspace2[0] )
+            				{
+              					document.getElementById("id_saveflag").value = 3;
+								Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","19");%>");
+								change_button();
+								return ;
+            				}
+          			    }   
+        			}       
+				for (n=1;n<=macnum;n++)
+				{       
+					var mac_textObj = document.getElementById("mac_text"+n).innerHTML; 
+					
+					mac_textObj=mac_textObj.toUpperCase();
+					if(mac_textObj == arrMacspace[j])
+					{
+						document.getElementById("id_saveflag").value = 3;
+						Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","19");%>");
+						change_button();
+						return ;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		//alert("mac empty error!!!");
+		document.getElementById("id_saveflag").value = 2;
+		Show_error("<%GetString("MacReg","5");%>", "<%GetString("MacReg","18");%>");
+		change_button();
+		return ;
+	}
+	document.getElementById("id_selectItem").value = "add";
+	if (esstringflag==1)
+	{
+		var tmpstring=escape(ObjMac.value);
+		if (tmpstring.length>1216)
+		{
+			//alert("tmpstring.length>1216");
+			ObjMac.value = escape(ObjMac.value);
+		}
+	}
+	//alert("ObjMac.value.length="+ObjMac.value.length);
+	
+	var total = macnum*19 + ObjMac.value.length;
+	
+	//alert("total count="+total);
+	
+	//if (ObjMac.value.length > 1216)
+	if (total > 1216)
+	{
+		document.getElementById("id_saveflag").value = 9;
+		ObjMac.value = ObjMac.value.substring(0,1235);
+		//document.getElementById("id_maclist").value = ObjMac.value.substring(0,1235);
+		document.getElementById("id_maclist").value = ObjMac.value.substring(0,1235-macnum*19);
+		Show_error("<%GetString("MacReg","5");%>", "<%GetString("FilterIp","69");%>");
+		return ;
+	}
+	else
+		document.getElementById("id_maclist").value = ObjMac.value;
+
+	document.getElementById("id_wificontrollist_tmp").value = ObjMac.value;
+	//alert("1:"+document.getElementById("id_wificontrollist_tmp").value);
+	if (exec==0)
+  {
+  	exec=1;
+  	//document.forms[0].submit();
+	YAHOO.util.Connect.setForm(document.forms[0]); 
+    YAHOO.util.Connect.asyncRequest('POST','mac_reg.html'+'?timestampt='+new Date().toString(),oCallback);
+  }
+}
+function setMACRule(index)
+{
+	var macObj=document.getElementById("mac_r"+index);
+	var macValue = (document.all)?macObj.innerText:macObj.textContent;
+	document.getElementById("id_wificontrollist_tmp").value = macValue;
+	document.getElementById("id_selectItem").value = "add";
+	//alert("2:"+document.getElementById("id_wificontrollist_tmp").value);
+	if (exec==0)
+  {
+  	exec=1;
+  	document.forms[0].submit();
+  }
+}
+function init()
+{
+
+	top.dispWaiting(false);
+	document.getElementById("id_main").style.display = "block";
+
+	var macnum="<%NvramGet("MACNum");%>";
+	macnum = parseInt(macnum);
+	if (macnum>= 64)
+	{		
+		document.getElementById("id_registertablelist").style.display = "none";
+		document.getElementById("b_mac_edit").style.display = "none";
+		document.getElementById("b_mac_add").style.display = "none";
+		document.getElementById("id_errmaxtop").style.display = "";
+		document.getElementById("id_errmaxbottom").style.display = "";
+		SetCwinHeight();
+	}	
+
+}
+//-->
+</script>
+</head>
+<body class="BFK_BODY" onload="init();"  id="id_main" style="display:none;">
+<br>
+<br>
+<input type="button" value="<%GetString("MacReg","1");%>" onClick="Changelink('mac.html', 'help_mac.html');">
+<hr id="id_line">
+<form  method="POST">
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	<div id="id_errtbl" class="C_ERR" style="display:none;">
+	</div>
+<%GetMACErr();%>
+<!--
+<div id="registertable">
+  <table class="AD_TTL2">
+    <tr>
+      <td colspan="2">Registration for the connecting client&rsquo;s MAC Address
+     </td>
+    </tr>
+  </table>
+  <table class="AD_SET">
+    <tr>
+      <th>MAC Addresses to be Registered</th>
+      <td>
+        <textarea rows="3" id="id_wificontrollist" name="WIFIAccessControlList" cols="20"></textarea>
+      </td>
+    </tr>
+  </table>
+    <p>
+    	<div id="b_mac_add">
+     		<input type="button" value="<%GetString("Aoss","33");%>" name="ADD" id="id_add_button" onClick="MacAdd(0)">
+     	</div>
+     	<div id="b_mac_confirm" style="display: none;">
+     		<input type="button" value="Save" name="Do_EDIT" onClick="MacAdd(1);">
+     		<input type="button" value="Cancel" name="Do_EDCANSEL" onClick="location.href='route_reg.html'">
+ 	</div>
+    </p>
+</div>
+</form>
+  <hr>
+
+  <table class="AD_TTL2">
+    <tr>
+      <td colspan="2">Registration List
+     </td>
+    </tr>
+  </table>
+  <table class="AD_LIST">
+    <tr>
+      <th>MAC Address</th>
+      <th>Customize</th>
+    </tr>
+-->
+<div id="edittable" style="display: none;">
+    <table class="AD_TTL2">
+    <tr>
+      <td colspan="2"><%GetString("MacReg","20");%>
+     </td>
+    </tr>
+  </table>
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("MacReg","21");%></th>
+      <td>
+        <input type="text" size="20" id="id_maclist_edit" name="maclist_edit" maxlength="17" value="">
+      </td>
+    </tr>
+  </table>
+    <p>
+  	<input type="button" value="<%GetString("MacReg","10");%>" name="EDIT" onClick="CheckMac();">
+  	<input type="button" value="<%GetString("MacReg","11");%>" onClick="location.href='mac_reg.html'">
+    </p>
+</div>
+
+
+
+   <div id="registertable">
+  		<table class="AD_TTL2">
+  				<tr>
+  					<td colspan="2"><%GetString("MacReg",2);%></td>
+ 				</tr>
+ 		</table>
+ 	    <table class="AD_SET" id="id_registertablelist">
+ 		<th><%GetString("MacReg",3);%></th>
+ 			<td>
+				<textarea rows="3" id="id_wificontrollist" cols="20" ></textarea>
+				<div id="a_mac_edit" style="display: none;">						
+ 					<input type="hidden" id="id_wificontrollist_tmp" name="WIFIAccessControlList" value="">
+ 					<input type="hidden" id="id_saveflag" name="saveflag" value="-1">
+				</div>
+				<div id="a_mac_add" >				
+ 					<input type="hidden" id="id_wificontrollist_tmp" name="WIFIAccessControlList" value="">
+ 					<input type="hidden" id="id_saveflag" name="saveflag" value="0">
+				</div>
+ 			</td> 
+ 		</tr>    
+        </table> 
+    	 
+    	<div id="b_mac_edit" style="display: none;">
+		<input type="button" value="<%GetString("MacReg",10);%>" name="Do_EDIT" onClick="MacAdd();">
+    	<input type="button" value="<%GetString("Mac",19);%>" name="Do_EDCANSEL" onClick="location.href='mac_reg.html'">
+    	</div> 
+    	
+    	<div id="b_mac_add">
+    		<input type="button" value="<%GetString("Aoss",33);%>" name="ADD" id="id_add_button" onClick="MacAdd()">
+    	</div>
+    	
+   </div>
+    	</p>
+		
+		<div id="id_errmaxtop" class="C_ERR" style="display:none;">
+			<tr>
+				<td><%GetString("MacReg","27");%></td><br>
+				<td><%GetString("MacReg","28");%></td><br>
+			</tr>
+		</div>
+		
+    	<hr>  
+    	<table class="AD_TTL2">
+    		<tr>
+    			<td colspan="2"><%GetString("Mac",4);%></td>
+    		</tr>
+    	</table>
+    	<table class="AD_LIST">
+    		<tr>
+    			<th><%GetString("MacReg",5);%></th>
+    			<th><%GetString("MacReg",6);%></th>
+    		</tr>
+
+			
+    <%GetWirelessMACList("list");%>
+  </table>
+<input type="hidden" id="id_edit_index" name="Editindex" value="">
+<input type="hidden" id="id_selectItem" name="SelectItem" value="0">
+<input type="hidden" id="id_maclist" name="MACList" value="0">
+
+
+  <hr>
+  <table class="AD_TTL2">
+    <tr>
+      <td colspan="2"><%GetString("MacReg","12");%>
+     </td>
+    </tr>
+    
+  </table>
+  
+  <div id="id_errmaxbottom" class="C_ERR" style="display:none;">
+			<tr>
+				<td><%GetString("MacReg","27");%></td><br>
+				<td><%GetString("MacReg","28");%></td>
+			</tr>
+			<br/>
+	</div>
+  
+  <table class="AD_LIST">
+    <tr>
+      <th><%GetString("MacReg","13");%></th>
+      <th><%GetString("MacReg","6");%></th>
+    </tr>
+    <%GetwMACTable();%>
+    <!--<tr><td colspan='2' align='center'><%GetString("MacReg","15");%> </td></tr>-->
+  </table>
+  
+  <input type="button" value="<%GetString("MacReg","16");%>" onClick="location.href ='mac_reg.html'">
+</body>
+</html>

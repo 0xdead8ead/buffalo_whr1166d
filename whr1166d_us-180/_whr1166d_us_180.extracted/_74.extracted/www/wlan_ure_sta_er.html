@@ -1,0 +1,35 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function goback()
+{
+    top.location.href="index.html?page=top_main.html";
+}
+// -->
+</script>
+</head>
+
+<body class="BFK_BODY">
+<form method="POST" name="ApCliMain">
+<p>
+<%GetString("WDS","74");%>
+</p>
+<br>
+<!--<a href="" onClick="goback()"><%GetString("WDS","75");%></a>-->
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

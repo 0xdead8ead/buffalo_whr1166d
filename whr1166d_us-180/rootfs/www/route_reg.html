@@ -1,0 +1,636 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="javascript" src="common.js"></script>
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript">
+<!--
+var nowEdit=0;
+var oldEdit;
+var exec=0;
+var rutenum="<%NvramGet("RouteNum");%>";
+rutenum = parseInt(rutenum);
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='route_reg.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+function Init()
+{
+	top.content_helpframe.document.location.href = "./help/help_route_reg.html";
+	top.dispWaiting(false);
+	document.getElementById("id_main").style.display = "block";
+	if (rutenum>= 32)
+	{
+		document.getElementById("addrule_area").style.display="none";
+     		document.getElementById("overrule").style.display="";
+     	}
+     	else
+     	{
+     		document.getElementById("addrule_area").style.display="";
+     		document.getElementById("overrule").style.display="none";
+     	}
+     		
+}
+function enter(value, tmp)
+{
+	var selectvalue=document.getElementById(value);
+	var tmpvalue=document.getElementById(tmp);
+	
+	if (value == "id_rmask")
+	{
+		tmpvalue.innerHTML=selectvalue.value;
+	}
+	else
+		tmpvalue.innerHTML = selectvalue.value;
+}
+function show_tmp()
+{
+      document.getElementById("id_add_tmp").style.display="";
+      document.getElementById("rule_edit_button").style.display="";
+      document.getElementById("rule_add_button").style.display="none";
+      document.getElementById("id_TITLE").innerHTML ="<%GetString("RouteReg","37");%>";
+      if(rutenum == 0)
+      	document.getElementById("r0").style.display="none";
+      	
+      document.getElementById("id_edit_index").value = rutenum+1;
+      document.getElementById("id_route_num").value = rutenum+1;
+      document.getElementById("id_route_num").disabled = false;
+}
+function RouteAdd(item)
+{
+		top.content_helpframe.document.location.href = "./help/help_route_reg_add.html";
+	document.getElementById("id_errtbl").style.display="none";
+	if('<%NvramGet("RouterMode");%>' == "1")
+	{
+	var lanip="<%NvramGet("LanIPAddr");%>";
+	var real_lanmask="<%NvramGet("LanNetmask");%>";
+	}
+	else
+	{
+		if('<%NvramGet("BrMethod");%>' == '0')//DHCP
+		{  
+		  var lanip="<%NvramGet("auto_ipaddr");%>";
+		  var real_lanmask="<%NvramGet("auto_netmask");%>";
+		}
+		else//static
+		{
+			var lanip="<%NvramGet("BrLanIPAddr");%>";
+		  var real_lanmask="<%NvramGet("BrLanNetmask");%>";
+		}
+	}
+	var lanmask=document.getElementById("id_rmask");
+	var wanip="<%NvramGet("WanCurrentIP");%>";
+	var wanmask="<%NvramGet("WanCurrentNetmask");%>";
+	
+	var ip=document.getElementById("id_rip");
+	var gateway=document.getElementById("id_rgateway");
+	var metric=document.getElementById("id_metric");
+	var i;
+	Hide_error();
+	if (ip.value.length == 0)
+	{
+		Show_error("<%GetString("RouteReg","2");%>", "<%GetString("RouteReg","25");%>");
+		if(item=="add")
+			show_tmp();
+		return;
+	}
+	if (gateway.value.length == 0)
+	{	
+		Show_error("<%GetString("RouteReg","26");%>", "<%GetString("RouteReg","25");%>");
+		if(item=="add")
+			show_tmp();
+		return;
+	}
+	if (metric.value.length == 0)
+	{
+		Show_error("<%GetString("RouteReg","7");%>", "<%GetString("RouteReg","25");%>");
+		if(item=="add")
+			show_tmp();
+		return;
+	}
+	
+	if (ip.value.length != 0)
+	{
+		if (ip.value.length <= 6)
+		{
+			Show_error("<%GetString("RouteReg","2");%>", "<%GetString("RouteReg","28");%>");
+			if(item=="add")
+				show_tmp();
+			return;
+		}
+		else
+		{
+			if (check_route_ip(ip.value, lanmask.value) == 1)
+			{
+				if(checkSpecialip(ip.value, "<%GetString("RouteReg","2");%>"))
+					Show_error("<%GetString("RouteReg","2");%>", "<%GetString("RouteReg","29");%>");
+				if(item=="add")
+					show_tmp();
+				return;
+			}
+			else if(check_route_ip(ip.value, lanmask.value) == 2)
+			{
+				Show_error("<%GetString("RouteReg","2");%>", "<%GetString("RouteReg","32");%>");
+				if(item=="add")
+					show_tmp();
+				return;
+			}
+			//if (check_the_same_subnet(ip.value, lanip, lanmask.value))
+			if (check_the_same_subnet_reg_route(ip.value, lanip, lanmask.value, real_lanmask))
+			{
+				Show_error("<%GetString("RouteReg","2");%>", "<%GetString("RouteReg","30");%>");
+				if(item=="add")
+					show_tmp();
+				return;
+			}
+			if ( wanip!="" && check_the_same_subnet(ip.value, wanip, wanmask))
+			{
+				Show_error("<%GetString("RouteReg","2");%>", "<%GetString("RouteReg","39");%>");
+				if(item=="add")
+					show_tmp();
+				return;
+			}
+			
+		}	
+		document.getElementById("id_rip").value = ip_normalize_0(document.getElementById("id_rip").value);
+	}
+	if (gateway.value.length != 0)
+	{
+		if (gateway.value.length <= 6)
+		{
+			Show_error("<%GetString("RouteReg","26");%>", "<%GetString("RouteReg","28");%>");
+			if(item=="add")
+				show_tmp();
+			return;
+		}
+		else
+		{
+			/*if(gateway.value=='0.0.0.0')
+			{
+				Show_error("<%GetString("RouteReg","26");%>", "<%GetString("RouteReg","34");%>");
+				if(item=="add")
+					show_tmp();
+				return;	
+			}*/
+			if (check_ip(gateway.value) == 1)
+			{
+				if(checkSpecialip(gateway.value, "<%GetString("RouteReg","26");%>"))
+					Show_error("<%GetString("RouteReg","26");%>", "<%GetString("RouteReg","35");%>");
+				if(item=="add")
+					show_tmp();
+				return;
+			}
+			else if(check_ip(gateway.value) == 2)
+			{
+				Show_error("<%GetString("RouteReg","26");%>", "<%GetString("RouteReg","36");%>");
+				if(item=="add")
+					show_tmp();
+				return;
+			}
+			if("<%NvramGet("RouterMode");%>"=="1")
+			{
+				if (!check_the_same_subnet(gateway.value, lanip, real_lanmask) && (wanip!="" && !check_the_same_subnet(gateway.value, wanip, wanmask)))
+				{
+					Show_error("<%GetString("RouteReg","26");%>", "<%GetString("Wan","51");%>");
+					if(item=="add")
+						show_tmp();
+					return;
+				}
+		  }
+		  else//bridge mode
+		  {
+		  	if (!check_the_same_subnet(gateway.value, lanip, real_lanmask))
+				{
+					Show_error("<%GetString("RouteReg","26");%>", "<%GetString("Lan","28");%>");
+					if(item=="add")
+						show_tmp();
+					return;
+				}
+		  }
+			if (check_broadcast(lanip,gateway.value,real_lanmask))
+	    {
+	  	  Show_error("<%GetString("RouteReg","26");%>","<%GetString("Wan","53");%>");
+	  	  if(item=="add")
+					show_tmp();
+	      return;
+	    }
+      if("<%NvramGet("RouterMode");%>"=="1")
+      {
+		    if(wanip!="" && (gateway.value == wanip))
+		    {
+		    	Show_error("<%GetString("RouteReg","26");%>", "<%GetString("RouteReg","39");%>");
+					if(item=="add")
+						show_tmp();
+					return;
+		    }
+		    if (wanip!="" && check_broadcast(wanip,gateway.value,wanmask))
+		    {
+		  	  Show_error("<%GetString("RouteReg","26");%>","<%GetString("RouteReg","40");%>");
+		  	  if(item=="add")
+						show_tmp();
+		      return;
+		    }
+      }
+			if(ip_normalize_0(gateway.value)==lanip)
+			{
+				//Show_error("<%GetString("RouteReg","26");%>", "<%GetString("RouteReg","30");%>");
+				Show_error("<%GetString("RouteReg","26");%>", "<%GetString("Wan","37");%>");
+				if(item=="add")
+					show_tmp();
+				return;
+			}
+		}
+		document.getElementById("id_rgateway").value = ip_normalize_0(document.getElementById("id_rgateway").value);
+	}
+	if (metric.value.length != 0)
+	{
+		if (!check_integer_range(metric.value,1,15))
+		{
+			Show_error("<%GetString("RouteReg","27");%>", "<%GetString("RouteReg","33");%>");
+			if(item=="add")
+				show_tmp();
+			return;
+		}
+	}
+	if (rutenum>0)
+	{	
+		for (i=1; i<=rutenum;i++)
+		{
+
+            var textHtml=document.getElementById("r_status"+i).innerHTML.substring(0,8);
+			var ipObj = document.getElementById("s_ip"+i);
+			var ip = (document.all)?ipObj.innerText:ipObj.textContent;
+			var maskObj = document.getElementById("s_mask"+i);
+			var mask = (document.all)?maskObj.innerText:maskObj.textContent;
+			var add_ip = document.getElementById("id_rip").value;
+			
+			//if (textHtml != "<%GetString("FilterIp","74");%>")
+			if ((textHtml != "<CENTER>")&&(textHtml != "<center>"))
+    			{
+				if (check_the_same_subnet(ip, add_ip, mask))
+				{
+					Show_error("<%GetString("RouteReg","2");%>", "<%GetString("RouteReg","31");%>");
+					if(item=="add")
+						show_tmp();
+					return;	
+				}
+			}		
+		}
+	}
+	if (item=="edit")
+		document.getElementById("id_selectItem").value = "edit";
+	else
+		document.getElementById("id_selectItem").value = "add";
+		
+	//alert(document.getElementById("id_selectItem").value);
+	document.getElementById("id_add_tmp").style.display="none";
+	if (exec==0)
+	{
+		exec=1;
+		//document.forms[0].submit();
+		YAHOO.util.Connect.setForm('RouteSetting'); 
+    	YAHOO.util.Connect.asyncRequest('POST','route_reg.html'+'?timestampt='+new Date().toString(),oCallback);	
+	}
+}
+
+//add for BTS#147315
+function checkSpecialip(ip, item)
+{
+  var n;
+  var lanip='<%NvramGet("LanIPAddr");%>';
+  //var lanmask='<%NvramGet("LanNetmask");%>';
+	
+  if (ip=="0.0.0.0")
+  {
+    Show_error(item,"<%GetString("Wan","30");%>");
+    return false;
+  }
+  if (ip=="255.255.255.255")
+  {
+    Show_error(item,"<%GetString("Wan","31");%>");
+    return false;
+  }
+  if (ip==lanip)
+  {
+    Show_error(item,"<%GetString("Wan","32");%>");
+    return false;
+  }
+  
+  if (!isBlank(ip))
+  {
+    n = ip.split('.');
+    
+    if (n.length!=4)
+    {
+      Show_error(item,"<%GetString("Wan","33");%>");
+      return false;
+    }
+    else
+    {
+      if(isBlank(n[0]))
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false;
+      }	
+      else if((isNaN(n[0]))||(n[0]<=0)||(n[0]>255)||!check_integer(n[0])||check_initial_zero(n[0])) 
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if (n[0]==127)
+      {
+        Show_error(item,"<%GetString("Wan","34");%>");
+        return false;
+      }
+	  else if (n[0]>=224 && n[0]<=239)
+      {
+        Show_error(item,"<%GetString("WizardFuncInet","49");%>");
+        return false;
+      }	
+      else if (n[0]>=240 && n[0]<=255)
+      {
+        Show_error(item,"<%GetString("Wan","35");%>");
+        return false;
+      }	
+      
+      if(isBlank(n[1]))
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])||check_initial_zero(n[1])) 
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false;
+      }		
+      
+      if(isBlank(n[2]))
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])||check_initial_zero(n[2])) 
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false; 
+      }
+      
+      if(isBlank(n[3]))
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if((isNaN(n[3]))||(n[3]<0)||(n[3]>255)||!check_integer(n[3])||check_initial_zero(n[3])) 
+      {
+        Show_error(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+    }
+  }
+}
+function check_initial_zero(tmp)
+{	
+	if(tmp.length>1&&tmp.charAt(0)=="0")
+	{
+		return true;
+	}
+	return false;
+}
+
+function restoreEdit(val)
+{
+	var r_statusObj = document.getElementById("r_status"+val);
+	document.getElementById("id_rip").value ="";
+	document.getElementById("id_rmask")[0].selected;
+	document.getElementById("id_rgateway").value ="";
+	document.getElementById("id_metric").value ="";
+	r_statusObj.innerHTML = oldEdit;
+}
+function RouteEdit(index)
+{
+	Hide_error();
+	document.getElementById("id_add_tmp").style.display="none";
+	document.getElementById("overrule").style.display="none";
+	document.getElementById("addrule_area").style.display="";
+	if (nowEdit!=index && nowEdit!=0)
+		restoreEdit(nowEdit);
+     	nowEdit=index;
+     	
+	var routeipObj = document.getElementById("s_ip"+index);
+	var routemaskObj = document.getElementById("s_mask"+index);
+	var routegwObj = document.getElementById("s_gw"+index);
+	var routemetricObj = document.getElementById("s_metric"+index);
+	var r_statusObj = document.getElementById("r_status"+index);
+	
+	var routeip = (document.all)?routeipObj.innerText:routeipObj.textContent;
+	var routemask = (document.all)?routemaskObj.innerText:routemaskObj.textContent;
+	var routegw = (document.all)?routegwObj.innerText:routegwObj.textContent;
+	var routemetric = (document.all)?routemetricObj.innerText:routemetricObj.textContent;
+	document.getElementById("id_rip").value = routeip;
+	
+	for (i=0; i<=31; i++)
+	{
+		var masklist = document.getElementById("id_rmask")[i].value;
+		if (routemask == masklist)
+			document.getElementById("id_rmask")[i].selected = true;
+	}
+	
+	document.getElementById("id_rgateway").value = routegw;
+	document.getElementById("id_metric").value = routemetric;
+	
+	document.getElementById("id_selectItem").value = "edit";
+	document.getElementById("id_edit_index").value = index;
+	document.getElementById("rule_add_button").style.display="none";
+    document.getElementById("rule_edit_button").style.display="";
+    document.getElementById("id_TITLE").innerHTML ="<%GetString("RouteReg","37");%>";
+	oldEdit=r_statusObj.innerHTML;
+     	if(rutenum == 0)
+     		document.getElementById("r0").style.display="";
+	r_statusObj.innerHTML = "<center><%GetString("RouteReg","20");%></center>"
+	r_statusObj.style.color="#FF0000";
+	document.getElementById("id_route_num").disabled = true;
+	routesetting();
+}
+
+function routedisplay()
+{
+	top.content_helpframe.document.location.href = "./help/help_route_reg.html";
+	document.getElementById("RouteSetting").style.display="none";
+	document.getElementById("RouteDisplay").style.display="";
+}
+
+
+function routesetting()
+{
+	top.content_helpframe.document.location.href = "./help/help_route_reg_add.html";
+	document.getElementById("RouteSetting").style.display="";
+	document.getElementById("RouteDisplay").style.display="none";
+	
+}
+function RouteDelete(index)
+{
+	document.getElementById("id_selectItem").value = "delete";
+	document.getElementById("id_edit_index").value = index;
+	document.getElementById("id_route_num").disabled = true;
+	//alert(document.getElementById("id_edit_index").value);
+	//alert(document.getElementById("id_selectItem").value);
+	if (exec==0)
+	{
+		exec=1;
+		//document.forms[0].submit();
+		YAHOO.util.Connect.setForm('RouteSetting'); 
+    	YAHOO.util.Connect.asyncRequest('POST','route_reg.html'+'?timestampt='+new Date().toString(),oCallback);	
+	}
+}
+//-->
+</script>
+</head>
+<body id="id_main" class="BFK_BODY" onLoad="Init();enter('id_rmask','s_mask_tmp');" style="display:none;">
+
+<br>
+
+<form id="RouteSetting"  name="RouteSetting" method="POST" style="display:none">
+<div id="id_errtbl" class=C_ERR style="display:none;"></div>
+  <table class="AD_TTL2">
+    <tbody>
+      <tr><td id="id_TITLE"><%GetString("RouteReg","1");%></td></tr>
+    </tbody>
+  </table>
+<div id="addrule_area">
+  <table class="AD_SET">
+    <tbody>
+    <tr>
+      <th><%GetString("RouteReg","2");%></th>
+      <td>
+        <table>
+          <tr>
+            <td><%GetString("RouteReg","3");%></td>
+            <td>
+              <input type="text" name="IPAddress" id="id_rip" size="20" maxlength="15" value="" onChange="enter('id_rip','s_ip_tmp');">
+            </td>
+          </tr>
+          <tr>
+            <td><%GetString("RouteReg","4");%></td>
+            <td>
+              <select size="1" name="Netmask" id="id_rmask" onClick="enter('id_rmask','s_mask_tmp');">
+		<option value="255.255.255.255" ><%GetString("RouteReg","38");%></option>
+		<option value="255.255.255.254" >255.255.255.254</option>
+		<option value="255.255.255.252" >255.255.255.252</option>
+		<option value="255.255.255.248" >255.255.255.248</option>
+		<option value="255.255.255.240" >255.255.255.240</option>
+		<option value="255.255.255.224" >255.255.255.224</option>
+		<option value="255.255.255.192" >255.255.255.192</option>
+		<option value="255.255.255.128" >255.255.255.128</option>
+		<option value="255.255.255.0" selected>255.255.255.0</option>
+		<option value="255.255.254.0" >255.255.254.0</option>
+		<option value="255.255.252.0" >255.255.252.0</option>
+		<option value="255.255.248.0" >255.255.248.0</option>
+		<option value="255.255.240.0" >255.255.240.0</option>
+		<option value="255.255.224.0" >255.255.224.0</option>
+		<option value="255.255.192.0" >255.255.192.0</option>
+		<option value="255.255.128.0" >255.255.128.0</option>
+		<option value="255.255.0.0" >255.255.0.0</option>
+		<option value="255.254.0.0" >255.254.0.0</option>
+		<option value="255.252.0.0" >255.252.0.0</option>
+		<option value="255.248.0.0" >255.248.0.0</option>
+		<option value="255.240.0.0" >255.240.0.0</option>
+		<option value="255.224.0.0" >255.224.0.0</option>
+		<option value="255.192.0.0" >255.192.0.0</option>
+		<option value="255.128.0.0" >255.128.0.0</option>
+		<option value="255.0.0.0" >255.0.0.0</option>
+		<option value="254.0.0.0" >254.0.0.0</option>
+		<option value="252.0.0.0" >252.0.0.0</option>
+		<option value="248.0.0.0" >248.0.0.0</option>
+		<option value="240.0.0.0" >240.0.0.0</option>
+		<option value="224.0.0.0" >224.0.0.0</option>
+		<option value="192.0.0.0" >192.0.0.0</option>
+		<option value="128.0.0.0" >128.0.0.0</option>
+	      </select>
+ 	   </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("RouteReg","6");%></th>
+      <td>
+        <input type="text" name="Gateway"  id="id_rgateway" size="20" maxlength="15" value="" onChange="enter('id_rgateway','s_gw_tmp');">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("RouteReg","7");%></th>
+      <td>
+        <input type="text" name="Metric" id="id_metric" size="10" maxlength="2" value="15" onChange="enter('id_metric','s_metric_tmp');"> 
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <!--  -->
+  <p>
+  <div id="rule_add_button">
+     <input type="button" value="<%GetString("RouteReg","8");%>" name="Do_ADD" onClick="RouteAdd('add');">
+	 <input type="button" value="<%GetString("NewUI","114");%>" onClick="routedisplay()">
+  </div>
+  <div id="rule_edit_button" style="display: none;">
+     <input type="button" value="<%GetString("RouteReg","11");%>" name="Do_EDIT" onClick="RouteAdd('edit');">
+     <input type="button" value="<%GetString("RouteReg","12");%>" name="Do_EDCANSEL" onClick="location.href='route_reg.html'">
+  </div>
+  </p>
+</div>
+<div id="overrule" style="display: none;">
+	<p class=C_WARN><%GetString("RouteReg","9");%><br><%GetString("RouteReg","10");%></p>
+</div>
+	<input type="hidden" id="id_edit_index" name="Editindex" value="">
+    <input type="hidden" id="id_selectItem" name="SelectItem" value="0">
+    <input type="hidden" id="id_route_num" name="RouteNum" value="<%NvramGet("RouteNum");%>" disabled>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<form id="RouteDisplay" name="RouteDisplay" method="POST">
+  <table class="AD_TTL2">
+    <tbody>
+    <tr><td><%GetString("RouteReg","13");%> </td></tr>
+    </tbody>
+  </table>
+
+  <table class="AD_LIST">
+    <tbody>
+    <tr>
+      <th><%GetString("RouteReg","2");%></th>
+      <th><%GetString("RouteReg","16");%></th>
+      <th><%GetString("RouteReg","17");%></th>
+      <th><%GetString("RouteReg","18");%></th>
+      <th><%GetString("RouteReg","19");%></th>
+    </tr>
+    <%GetRouteTable();%>
+    <tr id="id_add_tmp" style="display:none;">
+	<td><span id="s_ip_tmp"></span></td>
+	<td><span id="s_mask_tmp"></span></td>
+	<td><span id="s_gw_tmp"></span></td>
+	<td><div class="DIGIT"><span id="s_metric_tmp">15</span></div></td>
+	<td style="color:#FF0000;"><center><%GetString("RouteReg","20");%></center></td>
+    </tr>
+    </tbody>
+</table>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+  <div id="rule_add_button">
+     <input type="button" value="<%GetString("RouteReg","8");%>" name="Do_ADD" onClick="routesetting()">
+  </div>
+</form>
+</body>
+</html>

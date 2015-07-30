@@ -1,0 +1,36 @@
+#!/bin/sh
+
+RC_CONF=/tmp/rc.conf
+RESOLV_CONF="/etc/resolv.conf"
+
+# udhcpc script edited by Tim Riker <Tim@Rikers.org>
+
+#echo "-------------------------------------------------------------------"
+#echo "router: $router"
+#echo "interface: $interface"
+#echo "ip: $ip"
+#echo "DHCPState: $DHCPState"
+#echo "Lease: $lease"
+#echo "From: $0"
+#echo "-------------------------------------------------------------------"
+
+
+case "$1" in
+	deconfig|release)
+		#echo "DHCP client status:  $1"
+		#/sbin/ifconfig $interface 0.0.0.0
+		
+		;;
+	renew|bound)
+		#echo "DHCP client status:  $1"
+		[ -f /tmp/br_gateway ] && rm /tmp/br_gateway
+		touch /tmp/br_gateway		
+		chmod 777 /tmp/br_gateway	
+		echo "$router" > /tmp/br_gateway		
+		;;
+	leasefail)
+		
+		;;
+esac
+
+exit 0

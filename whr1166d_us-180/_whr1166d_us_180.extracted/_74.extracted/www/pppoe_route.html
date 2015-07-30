@@ -1,0 +1,848 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<link rel="stylesheet" type="text/css" href="WHR-G300N-160149-style-ENG.css">   
+<link rel="stylesheet" type="text/css" href="WHR-G300N-160149-style-ad-ENG.css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='pppoe_route.html'", 10000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+  // -->
+	var RouteUserModify = 0;
+
+	
+	function isIP(theIP)
+	{
+		var ip = theIP.split(".");
+		var i;
+		if(ip.length == 4 )
+		{
+			for(i=0;i<4;i++)
+			{
+				if( !(parseInt(ip[i])>=0 && parseInt(ip[i])<=255) )
+				{
+					return false;
+				}
+			}
+		
+		}
+		else
+			return false;
+	
+		return true;
+	}
+
+	function dot2num(dot) 
+	{
+		var d = dot.split('.');
+		return ((((((+d[0])*256)+(+d[1]))*256)+(+d[2]))*256)+(+d[3]);
+	}
+
+	function replaceOneChar(s,c,n)
+	{
+		(s = s.split(''))[n] = c;
+		return s.join('');
+	}
+
+	function bit_padding(input)
+	{
+		var i;
+		var j=0;
+		var temp = "00000000000000000000000000000000";
+		var output = temp.split('');
+		for ( i = 32 - input.length; i<32; i++)
+		{
+			output [i] = input.split('')[j++];
+		}
+		return output.join('');
+	}
+	
+	function calRouteSrcType(data)
+	{
+		var slash = data.split("/");
+		var ipNum;
+		var mask;
+		var maskHex="00000000000000000000000000000000";
+		var i;
+		var name;
+		var count, count2;
+		var count3="00000000000000000000000000000000";
+		var count4;
+		var count5="00000000000000000000000000000000";
+		var lanip = '<%NvramGet("LanIPAddr");%>';
+		var lan_netmask = '<%NvramGet("LanNetmask");%>';
+		lanip = dot2num(lanip);
+    lanip = lanip.toString(2);
+		if(lanip.length < 32)
+			lanip = bit_padding(lanip);
+		lan_netmask = dot2num(lan_netmask);
+    lan_netmask = lan_netmask.toString(2);
+		if(lan_netmask.length < 32)
+			lan_netmask = bit_padding(lan_netmask);
+		if (slash.length == 2)
+		{
+			mask = slash[1];
+			if( isIP(slash[0]) == true  && (parseInt(mask)<=32 && parseInt(mask)>=8 ) )
+			{
+				for(i=0 ; i < parseInt(mask); i++)
+				{
+					maskHex = replaceOneChar(maskHex, '1', i);
+				}
+				ipNum = dot2num(slash[0]);
+
+				count = ipNum.toString(2);
+				if(count.length < 32)
+					count = bit_padding(count);
+
+				for(i=0 ; i < 32; i++)
+				{
+					count2 = maskHex.split('')[i] & count.split('')[i];
+					count3 = replaceOneChar(count3, count2, i);
+				}
+				for(i=0 ; i < 32; i++)
+				{
+					count4 = lanip.split('')[i] & lan_netmask.split('')[i];
+					count5 = replaceOneChar(count5, count4, i);
+				}
+				if(count3 == count5)//The input subnet is same as lan.
+				{
+					Show_error("<%GetString("Multipppoe","38");%>", "<%GetString("NatReg","65");%>");
+					return 0;
+				}
+				else if (count == count3)
+				{
+					return 1;
+				}
+				else
+				{
+					Show_error("<%GetString("Multipppoe","38");%>", "<%GetString("Multipppoe","78");%>");
+					return 0;
+				}
+			}
+			else
+			{
+				Show_error("<%GetString("Multipppoe","38");%>", "<%GetString("Multipppoe","79");%>");
+				return 0;
+			}
+		}
+		else
+			return 1;
+	}
+	
+	function calRouteDstType(data, type)
+	{
+		var slash = data.split("/");
+		var ipNum;
+		var mask;
+		var maskHex="00000000000000000000000000000000";
+		var i;
+		var name;
+		var count, count2;
+		var count3="00000000000000000000000000000000";
+		var count4;
+		var count5="00000000000000000000000000000000";
+		var lanip = '<%NvramGet("LanIPAddr");%>';
+		var lan_netmask = '<%NvramGet("LanNetmask");%>';
+		lanip = dot2num(lanip);
+    lanip = lanip.toString(2);
+		if(lanip.length < 32)
+			lanip = bit_padding(lanip);
+		lan_netmask = dot2num(lan_netmask);
+    lan_netmask = lan_netmask.toString(2);
+		if(lan_netmask.length < 32)
+			lan_netmask = bit_padding(lan_netmask);
+
+		if (slash.length == 2)
+		{
+			mask = slash[1];
+			if( isIP(slash[0]) == true  && (parseInt(mask)<=32 && parseInt(mask)>=8 ) )
+			{
+				for(i=0 ; i < parseInt(mask); i++)
+				{
+					maskHex = replaceOneChar(maskHex, '1', i);
+				}
+				ipNum = dot2num(slash[0]);
+
+				count = ipNum.toString(2);
+				if(count.length < 32)
+					count = bit_padding(count);
+
+				for(i=0 ; i < 32; i++)
+				{
+					count2 = maskHex.split('')[i] & count.split('')[i];
+					count3 = replaceOneChar(count3, count2, i);
+				}
+				for(i=0 ; i < 32; i++)
+				{
+					count4 = lanip.split('')[i] & lan_netmask.split('')[i];
+					count5 = replaceOneChar(count5, count4, i);
+				}
+				if(count3 == count5)//The input subnet is same as lan.
+				{
+					Show_error("<%GetString("Multipppoe","37");%>", "<%GetString("NatReg","65");%>");
+					return 0;
+				}
+				else if (count == count3)
+				{
+					type.value = "network";
+					return 1;
+				}
+				else
+				{
+					type.value = "error";
+					Show_error("<%GetString("Multipppoe","37");%>", "<%GetString("Multipppoe","78");%>");
+					return 0;
+				}
+			}
+			else
+			{
+				type.value = "error";
+				Show_error("<%GetString("Multipppoe","37");%>", "<%GetString("Multipppoe","79");%>");
+				return 0;
+			}
+		}
+		else if(slash.length ==1)
+		{
+			if(isIP(data))
+			{
+				type.value = "ip";
+
+				if (!check_ip_format(document.getElementById("id_dst").value, "<%GetString("Multipppoe","37");%>"))
+				{
+					return false;
+				}
+				else
+				{
+					return 2;
+				}
+			}
+			else
+			{
+				name = data.split(".");
+				if(name.length>=2 && name[0] != " " && name[name.length-1] != " ")
+				{
+					type.value = "name";
+					return 3;
+				}
+				else
+				{
+					type.value = "error";
+					Show_error("<%GetString("Multipppoe","37");%>", "<%GetString("Multipppoe","79");%>");
+					return 0;
+				}
+			}
+		}
+		else
+		{
+			type.value = "error";
+			Show_error("<%GetString("Multipppoe","37");%>", "<%GetString("Multipppoe","79");%>");
+			return 0;
+		}	
+	}
+	
+	
+	
+	
+	function Init()
+	{
+		top.dispWaiting(false);
+	  checkBrowserCss();
+		var routenum=0;
+		var f = document.forms[0];
+
+		top.content_helpframe.document.location.href = "./help/help_pppoe_route.html";
+
+		routenum = '<%NvramGet("PPPoERouteNum");%>';
+		
+		document.getElementById("id_edit").style.display = "none";
+		
+		if (routenum == 16)
+		{
+			FullEdit = 1;
+			document.getElementById("id_routemessage").style.display = "";
+			document.getElementById("id_routenormal").style.display = "none";
+		}
+		else{
+			FullEdit = 0;
+			document.getElementById("id_routemessage").style.display = "none";
+			document.getElementById("id_routenormal").style.display = "";
+		}
+	}
+
+	function isAllowValueIP(s,item)
+	{
+		var i;
+		for (i=0; i<s.length; i++)
+		{
+			var c;
+			
+			c=s.charAt(i);
+
+			if ( ((c>='0')&&(c<='9')) || (c=='.') || (c=='/') )
+			{
+				continue;
+			}
+			else
+			{
+				Show_error(item,"<%GetString("Wan","36");%>");
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	function check_initial_zero(tmp)
+	{	
+		if(tmp.length>1&&tmp.charAt(0)=="0")
+		{
+			return true;
+		}
+		return false;
+	}
+
+	function check_ip_format(ip, item)
+	{		
+		var n;
+		var lanip='<%NvramGet("LanIPAddr");%>';
+		var lanmask='<%NvramGet("LanNetmask");%>';
+		var slash = ip.split("/");
+		
+		if (ip=="0.0.0.0")
+		{
+			Show_error(item,"<%GetString("Wan","30");%>");
+			return false;
+		}
+		if (ip=="255.255.255.255")
+		{
+			Show_error(item,"<%GetString("Wan","31");%>");
+			return false;
+		}
+		if (ip==lanip)
+		{
+			Show_error(item,"<%GetString("Wan","32");%>");
+			return false;
+		}
+
+		if (slash.length == 2)
+		{
+			ip = slash[0];
+		}
+
+		if (!isBlank(ip))
+		{
+			n = ip.split('.');
+			if (n.length!=4)
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}
+			if(isBlank(n[0]))
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}	
+			else if((isNaN(n[0]))||(n[0]<=0)||(n[0]>255)||!check_integer(n[0])||check_initial_zero(n[0])) 
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}
+			else if (n[0]==127)
+			{
+				Show_error(item,"<%GetString("Wan","34");%>");
+				return false;
+			}
+			else if (n[0]>=224 && n[0]<=239)
+			{
+				Show_error(item,"<%GetString("WizardFuncInet","49");%>");
+				return false;
+			}	
+			else if (n[0]>=240 && n[0]<=255)
+			{
+				Show_error(item,"<%GetString("Wan","35");%>");
+				return false;
+			}	
+			if(isBlank(n[1]))
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}			
+			else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])||check_initial_zero(n[1])) 
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}
+			if(isBlank(n[2]))
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}
+			else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])||check_initial_zero(n[2])) 
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false; 
+			}
+
+			if(isBlank(n[3]))
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}
+			else if((isNaN(n[3]))||(n[3]<0)||(n[3]>255)||!check_integer(n[3])||check_initial_zero(n[3])) 
+			{
+				Show_error(item,"<%GetString("Wan","33");%>");
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function CheckValue()
+	{
+		var f = document.forms[0];
+		var f1 = document.forms[1];
+		var name_string1="<%GetString("Multipppoe","37");%>";
+		var name_string2="<%GetString("Multipppoe","38");%>";
+		var i=0;
+		var pppoenum = '<%NvramGet("PPPoENumNow");%>';
+		var routenum = '<%NvramGet("PPPoERouteNum");%>';
+
+		if (pppoenum == 0)
+		{
+			Show_error("<%GetString("Multipppoe","35");%>", "<%GetString("Multipppoe","46");%>");
+			return false;
+		}
+
+		if(document.getElementById("id_dst").value.length == 0 && document.getElementById("id_src").value.length == 0)
+		{
+			Show_error("<%GetString("Multipppoe","65");%>", "<%GetString("Multipppoe","66");%>");
+			return false;
+		}
+
+		if(document.getElementById("id_dst").value.length != 0 && document.getElementById("id_src").value.length != 0)
+		{
+			Show_error("<%GetString("Multipppoe","65");%>", "<%GetString("Multipppoe","67");%>");
+			return false;
+		}
+
+		for(i=1; i<=routenum; i++)
+		{
+			if (RouteUserModify == 1)
+			{
+				if (i != f1.nosave_RouteModifyNo.value)
+				{
+					if (document.getElementById("id_dst").value.length != 0)
+					{
+						if (eval("f.PPPoERouteRule" + i + "Type").value == 'dst')
+						{
+							if (eval("f.PPPoERouteRule" + i + "Data").value == f.dst.value)
+							{
+								Show_error("<%GetString("Multipppoe","63");%>","<%GetString("Multipppoe","64");%>");
+								return false;
+							}
+						}
+					}
+					else
+					{
+						if (eval("f.PPPoERouteRule" + i + "Type").value == 'src')
+						{
+							if (eval("f.PPPoERouteRule" + i + "Data").value == f.src.value)
+							{
+								Show_error("<%GetString("Multipppoe","63");%>","<%GetString("Multipppoe","64");%>");
+								return false;
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				if (document.getElementById("id_dst").value.length != 0)
+				{
+					if (eval("f.PPPoERouteRule" + i + "Type").value == 'dst')
+					{
+						if (eval("f.PPPoERouteRule" + i + "Data").value == f.dst.value)
+						{
+							Show_error("<%GetString("Multipppoe","63");%>","<%GetString("Multipppoe","64");%>");
+							return false;
+						}
+					}
+				}
+				else
+				{
+					if (eval("f.PPPoERouteRule" + i + "Type").value == 'src')
+					{
+						if (eval("f.PPPoERouteRule" + i + "Data").value == f.src.value)
+						{
+							Show_error("<%GetString("Multipppoe","63");%>","<%GetString("Multipppoe","64");%>");
+							return false;
+						}
+					}
+				}
+			}
+		}
+		
+		if(!Escape_String(document.getElementById("id_dst").value))
+		{
+			Show_error(name_string1, "<%GetString("InterPPPoEReg","61");%>");
+			return false;			
+		}
+		else if(!Escape_String(document.getElementById("id_src").value))
+		{
+			Show_error(name_string2, "<%GetString("InterPPPoEReg","61");%>");
+			return false;			
+		}
+	
+		return true;    	
+	}
+
+	function apply()
+	{
+		var f = document.forms[0];
+		var f1 = document.forms[1];
+		var num = '<%NvramGet("PPPoERouteNum");%>';
+		var type;
+
+		if (!CheckValue())
+    	return;
+
+		if (RouteUserModify == 1)
+		{
+			f1.route.value = f.route.value;
+
+			if (document.getElementById("id_dst").value.length != 0)
+			{
+				if(! calRouteDstType(document.getElementById("id_dst").value, f1.PPPoERouteDstType))
+					return;
+
+				f1.PPPoERouteType.value="dst";
+				f1.PPPoERouteData.value=f.dst.value;
+			}
+			else if (document.getElementById("id_src").value.length != 0)
+			{
+				if (!isAllowValueIP(document.getElementById("id_src").value, "<%GetString("Multipppoe","38");%>") || !check_ip_format(document.getElementById("id_src").value,"<%GetString("Multipppoe","38");%>") || !calRouteSrcType(document.getElementById("id_src").value)) 
+				{
+					return false;
+				}
+				else
+				{
+					f1.PPPoERouteType.value="src";
+					f1.PPPoERouteData.value=f.src.value;
+				}
+			}
+			//f1.submit();
+			YAHOO.util.Connect.setForm('Modify_from'); 
+	    YAHOO.util.Connect.asyncRequest('POST','pppoe_route.html'+'?timestampt='+new Date().toString(),oCallback);
+		}
+		else
+		{			
+			if (document.getElementById("id_dst").value.length != 0)
+			{				
+				//f.PPPoERouteDstType.value = calRouteDstType(document.getElementById("id_dst").value);
+				if(! calRouteDstType(document.getElementById("id_dst").value, f.PPPoERouteDstType))
+					return;
+
+				f.PPPoERouteType.value="dst";
+				f.PPPoERouteData.value=f.dst.value;
+			}
+			else if (document.getElementById("id_src").value.length != 0)
+			{				
+				if (!isAllowValueIP(document.getElementById("id_src").value, "<%GetString("Multipppoe","38");%>") || !check_ip_format(document.getElementById("id_src").value, "<%GetString("Multipppoe","38");%>") || !calRouteSrcType(document.getElementById("id_src").value))
+				{					
+					return false;
+				}
+				else
+				{					
+					f.PPPoERouteType.value="src";
+					f.PPPoERouteData.value=f.src.value;
+				}
+			}
+			//f.submit();
+			YAHOO.util.Connect.setForm('Main_from'); 
+	    YAHOO.util.Connect.asyncRequest('POST','pppoe_route.html'+'?timestampt='+new Date().toString(),oCallback);
+		}
+	}
+
+	function ModifyRoute(item)
+	{
+		var f = document.forms[0];
+		var f1 = document.forms[1];
+		var routenum=0;
+
+		routenum = '<%NvramGet("PPPoERouteNum");%>';
+
+		if (FullEdit == "1")
+		{
+			document.getElementById("id_routemessage").style.display = "none";
+			document.getElementById("id_routenormal").style.display = "";
+		}
+
+		RouteUserModify = 1;
+		f1.nosave_RouteModifyNo.value = item;
+
+		document.getElementById("id_save_button").style.display = "";
+		document.getElementById("id_modify_button").style.display = "none";
+
+		for(i=1; i<=routenum; i++)
+		{
+				if (i == item)
+				{
+					eval("document.getElementById(\"id_info_button_" + item + "\").style.display = \"none\";");
+					eval("document.getElementById(\"id_info_edit_" + item + "\").style.display = \"\";");
+					document.getElementById("id_save_button").style.display = "none";
+					document.getElementById("id_modify_button").style.display = "";
+					document.getElementById("id_add").style.display = "none";
+					document.getElementById("id_edit").style.display = "";
+				}
+				else
+				{
+					eval("document.getElementById(\"id_info_button_" + i + "\").style.display = \"\";");
+					eval("document.getElementById(\"id_info_edit_" + i + "\").style.display = \"none\";");			
+				}
+		}
+
+		f.route.value = eval("f.PPPoERouteRule" + item + "Name").value;
+
+		if (eval("f.PPPoERouteRule" + item + "Type").value == 'dst')
+		{
+			f.dst.value = eval("f.PPPoERouteRule" + item + "Data").value;
+			f.src.value = "";
+		}
+		else
+		{
+			f.dst.value = "";
+			f.src.value = eval("f.PPPoERouteRule" + item + "Data").value;
+		}
+	}
+
+	function DeleteRoute(item)
+	{
+		var f2 = document.forms[2];
+
+		f2.nosave_RouteModifyNo.value = item;
+		//f2.submit();
+		YAHOO.util.Connect.setForm('Delete_from'); 
+	  YAHOO.util.Connect.asyncRequest('POST','pppoe_route.html'+'?timestampt='+new Date().toString(),oCallback);
+	}
+
+	function UpRoute(item)
+	{
+		var f3 = document.forms[3];
+
+		f3.nosave_RouteModifyNo.value = item;
+		//f3.submit();
+		YAHOO.util.Connect.setForm('Up_from'); 
+	  YAHOO.util.Connect.asyncRequest('POST','pppoe_route.html'+'?timestampt='+new Date().toString(),oCallback);
+	}
+
+	function DownRoute(item){
+		var f4 = document.forms[4];
+
+		f4.nosave_RouteModifyNo.value = item;
+		//f4.submit();
+		YAHOO.util.Connect.setForm('Down_from'); 
+	  YAHOO.util.Connect.asyncRequest('POST','pppoe_route.html'+'?timestampt='+new Date().toString(),oCallback);
+	}
+</script>
+</head>
+
+<body class="BFK_BODY" onLoad="Init();" id="id_main">
+<br>
+<input type="button" value="<%GetString("Multipppoe","33");%>" onClick="location.href='pppoe_main.html'">
+<hr>
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+<form onsubmit="return onceOnly(this);" method="POST" name="Main_from">
+
+  <table class="AD_TTL2" id="id_add">
+    <tr>
+      <td>
+     <%GetString("Multipppoe","34");%>
+     </td>
+    </tr>
+  </table>
+  
+  <table class="AD_TTL2" id="id_edit" style="display:none;">
+    <tr>
+      <td>
+     <%GetString("NewUI","269");%>
+     </td>
+    </tr>
+  </table>
+<div id="id_routemessage">
+  <table class="AD_TTL2">
+	<tbody>
+	  <tr><td><font color="red"><%GetString("Multipppoe","53");%></font></td></tr>
+	</tbody>
+  </table>
+</div>
+<div id="id_routenormal">
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Multipppoe","35");%></th>
+	  <td>
+	  <%PPPoEUserListMain("routeList");%>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Multipppoe","37");%></th>
+      <td>
+        <input type="text" id="id_dst" name="dst" size="50" maxlength="32" value="">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Multipppoe","38");%></th>
+      <td>
+        <input type="text" id="id_src" name="src" size="50" maxlength="18" value="">
+      </td>
+    </tr>
+  </table>
+  <p>
+	 <span id="id_save_button" style="display:block;">
+		<input type="button" name="DO_ADD" value="<%GetString("Multipppoe","39");%>" onClick="apply();">
+	 </span>
+	 <span id="id_modify_button" style="display:none;">
+		<input type="button" value="<%GetString("Multipppoe","60");%>" onclick="apply();">
+		<input type="button" value="<%GetString("Multipppoe","61");%>" onclick="location.href='pppoe_route.html'">
+	 </span>
+  </p>
+</div>
+
+
+<hr>
+  <table class="AD_TTL2">
+    <tr>
+      <td><%GetString("Multipppoe","40");%></td>
+    </tr>
+  </table>
+
+	<%PPPoERouteUserList();%>
+
+<input type="hidden" name="nosave_RouteModifyMode" value="0">
+<input type="hidden" name="PPPoERouteType" value="">
+<input type="hidden" name="PPPoERouteDstType" value="">
+<input type="hidden" name="PPPoERouteData" value="">
+<input type="hidden" name="PPPoERouteRule1Name" value="<%NvramGet("PPPoERouteRule1Name");%>">
+<input type="hidden" name="PPPoERouteRule1Type" value="<%NvramGet("PPPoERouteRule1Type");%>">
+<input type="hidden" name="PPPoERouteRule1DstType" value="<%NvramGet("PPPoERouteRule1DstType");%>">
+<input type="hidden" name="PPPoERouteRule1Data" value="<%NvramGet("PPPoERouteRule1Data");%>">
+<input type="hidden" name="PPPoERouteRule2Name" value="<%NvramGet("PPPoERouteRule2Name");%>">
+<input type="hidden" name="PPPoERouteRule2Type" value="<%NvramGet("PPPoERouteRule2Type");%>">
+<input type="hidden" name="PPPoERouteRule2DstType" value="<%NvramGet("PPPoERouteRule2DstType");%>">
+<input type="hidden" name="PPPoERouteRule2Data" value="<%NvramGet("PPPoERouteRule2Data");%>">
+<input type="hidden" name="PPPoERouteRule3Name" value="<%NvramGet("PPPoERouteRule3Name");%>">
+<input type="hidden" name="PPPoERouteRule3Type" value="<%NvramGet("PPPoERouteRule3Type");%>">
+<input type="hidden" name="PPPoERouteRule3DstType" value="<%NvramGet("PPPoERouteRule3DstType");%>">
+<input type="hidden" name="PPPoERouteRule3Data" value="<%NvramGet("PPPoERouteRule3Data");%>">
+<input type="hidden" name="PPPoERouteRule4Name" value="<%NvramGet("PPPoERouteRule4Name");%>">
+<input type="hidden" name="PPPoERouteRule4Type" value="<%NvramGet("PPPoERouteRule4Type");%>">
+<input type="hidden" name="PPPoERouteRule4DstType" value="<%NvramGet("PPPoERouteRule4DstType");%>">
+<input type="hidden" name="PPPoERouteRule4Data" value="<%NvramGet("PPPoERouteRule4Data");%>">
+<input type="hidden" name="PPPoERouteRule5Name" value="<%NvramGet("PPPoERouteRule5Name");%>">
+<input type="hidden" name="PPPoERouteRule5Type" value="<%NvramGet("PPPoERouteRule5Type");%>">
+<input type="hidden" name="PPPoERouteRule5DstType" value="<%NvramGet("PPPoERouteRule5DstType");%>">
+<input type="hidden" name="PPPoERouteRule5Data" value="<%NvramGet("PPPoERouteRule5Data");%>">
+<input type="hidden" name="PPPoERouteRule6Name" value="<%NvramGet("PPPoERouteRule6Name");%>">
+<input type="hidden" name="PPPoERouteRule6Type" value="<%NvramGet("PPPoERouteRule6Type");%>">
+<input type="hidden" name="PPPoERouteRule6DstType" value="<%NvramGet("PPPoERouteRule6DstType");%>">
+<input type="hidden" name="PPPoERouteRule6Data" value="<%NvramGet("PPPoERouteRule6Data");%>">
+<input type="hidden" name="PPPoERouteRule7Name" value="<%NvramGet("PPPoERouteRule7Name");%>">
+<input type="hidden" name="PPPoERouteRule7Type" value="<%NvramGet("PPPoERouteRule7Type");%>">
+<input type="hidden" name="PPPoERouteRule7DstType" value="<%NvramGet("PPPoERouteRule7DstType");%>">
+<input type="hidden" name="PPPoERouteRule7Data" value="<%NvramGet("PPPoERouteRule7Data");%>">
+<input type="hidden" name="PPPoERouteRule8Name" value="<%NvramGet("PPPoERouteRule8Name");%>">
+<input type="hidden" name="PPPoERouteRule8Type" value="<%NvramGet("PPPoERouteRule8Type");%>">
+<input type="hidden" name="PPPoERouteRule8DstType" value="<%NvramGet("PPPoERouteRule8DstType");%>">
+<input type="hidden" name="PPPoERouteRule8Data" value="<%NvramGet("PPPoERouteRule8Data");%>">
+<input type="hidden" name="PPPoERouteRule9Name" value="<%NvramGet("PPPoERouteRule9Name");%>">
+<input type="hidden" name="PPPoERouteRule9Type" value="<%NvramGet("PPPoERouteRule9Type");%>">
+<input type="hidden" name="PPPoERouteRule9DstType" value="<%NvramGet("PPPoERouteRule9DstType");%>">
+<input type="hidden" name="PPPoERouteRule9Data" value="<%NvramGet("PPPoERouteRule9Data");%>">
+<input type="hidden" name="PPPoERouteRule10Name" value="<%NvramGet("PPPoERouteRule10Name");%>">
+<input type="hidden" name="PPPoERouteRule10Type" value="<%NvramGet("PPPoERouteRule10Type");%>">
+<input type="hidden" name="PPPoERouteRule10DstType" value="<%NvramGet("PPPoERouteRule10DstType");%>">
+<input type="hidden" name="PPPoERouteRule10Data" value="<%NvramGet("PPPoERouteRule10Data");%>">
+<input type="hidden" name="PPPoERouteRule11Name" value="<%NvramGet("PPPoERouteRule11Name");%>">
+<input type="hidden" name="PPPoERouteRule11Type" value="<%NvramGet("PPPoERouteRule11Type");%>">
+<input type="hidden" name="PPPoERouteRule11DstType" value="<%NvramGet("PPPoERouteRule11DstType");%>">
+<input type="hidden" name="PPPoERouteRule11Data" value="<%NvramGet("PPPoERouteRule11Data");%>">
+<input type="hidden" name="PPPoERouteRule12Name" value="<%NvramGet("PPPoERouteRule12Name");%>">
+<input type="hidden" name="PPPoERouteRule12Type" value="<%NvramGet("PPPoERouteRule12Type");%>">
+<input type="hidden" name="PPPoERouteRule12DstType" value="<%NvramGet("PPPoERouteRule12DstType");%>">
+<input type="hidden" name="PPPoERouteRule12Data" value="<%NvramGet("PPPoERouteRule12Data");%>">
+<input type="hidden" name="PPPoERouteRule13Name" value="<%NvramGet("PPPoERouteRule13Name");%>">
+<input type="hidden" name="PPPoERouteRule13Type" value="<%NvramGet("PPPoERouteRule13Type");%>">
+<input type="hidden" name="PPPoERouteRule13DstType" value="<%NvramGet("PPPoERouteRule13DstType");%>">
+<input type="hidden" name="PPPoERouteRule13Data" value="<%NvramGet("PPPoERouteRule13Data");%>">
+<input type="hidden" name="PPPoERouteRule14Name" value="<%NvramGet("PPPoERouteRule14Name");%>">
+<input type="hidden" name="PPPoERouteRule14Type" value="<%NvramGet("PPPoERouteRule14Type");%>">
+<input type="hidden" name="PPPoERouteRule14DstType" value="<%NvramGet("PPPoERouteRule14DstType");%>">
+<input type="hidden" name="PPPoERouteRule14Data" value="<%NvramGet("PPPoERouteRule14Data");%>">
+<input type="hidden" name="PPPoERouteRule15Name" value="<%NvramGet("PPPoERouteRule15Name");%>">
+<input type="hidden" name="PPPoERouteRule15Type" value="<%NvramGet("PPPoERouteRule15Type");%>">
+<input type="hidden" name="PPPoERouteRule15DstType" value="<%NvramGet("PPPoERouteRule15DstType");%>">
+<input type="hidden" name="PPPoERouteRule15Data" value="<%NvramGet("PPPoERouteRule15Data");%>">
+<input type="hidden" name="PPPoERouteRule16Name" value="<%NvramGet("PPPoERouteRule16Name");%>">
+<input type="hidden" name="PPPoERouteRule16Type" value="<%NvramGet("PPPoERouteRule16Type");%>">
+<input type="hidden" name="PPPoERouteRule16DstType" value="<%NvramGet("PPPoERouteRule16DstType");%>">
+<input type="hidden" name="PPPoERouteRule16Data" value="<%NvramGet("PPPoERouteRule16Data");%>">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" name="Modify_from">
+<input type="hidden" name="nosave_RouteModifyMode" value="1">
+<input type="hidden" name="nosave_RouteModifyNo" value="">
+<input type="hidden" name="route" value="">
+<input type="hidden" name="PPPoERouteType" value="">
+<input type="hidden" name="PPPoERouteDstType" value="">
+<input type="hidden" name="PPPoERouteData" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" name="Delete_from">
+<input type="hidden" name="nosave_RouteModifyMode" value="2">
+<input type="hidden" name="nosave_RouteModifyNo" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" name="Up_from">
+<input type="hidden" name="nosave_RouteModifyMode" value="3">
+<input type="hidden" name="nosave_RouteModifyNo" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST" name="Down_from">
+<input type="hidden" name="nosave_RouteModifyMode" value="4">
+<input type="hidden" name="nosave_RouteModifyNo" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<hr>
+</body>
+</html>

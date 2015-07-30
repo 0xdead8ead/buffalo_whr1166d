@@ -1,0 +1,3329 @@
+##0001
+Log Output
+Enable
+Enable
+Management Access
+Number of Packets
+Prohibit configuration from wireless LAN
+Prohibit configuration from wired LAN
+Internet-side Remote Access
+Enable
+Management Access
+Permit configuration from wired Internet
+Permitted IP Address
+Permitted Port
+Apply
+Permitted IP Address
+Permitted Port
+Length is too short
+Invalid IP address format
+Contains invalid character
+Cannot specify the LAN-side IP address of this AirStation
+The permissions for the WAN-side remote access port are not set
+The permission port of the Internet-side remote access setting is illegal
+Prohibit all management access.<BR>After configuration, Settings will be inaccessible until the reset button on the unit is pressed to reset it to its factory default.
+<BR>Prohibit setup from wireless LAN<BR>Prohibits administration from a wireless computer.
+<BR>Prohibit setup from wired LAN<BR>Prohibits administration from a wired computer.
+Click &quot;Apply&quot; to apply settings.
+To continue setup&#x2C; perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Apply
+Cancel
+Limitation Item
+##0002
+AOSS Settings
+Exclusive SSID for WEP
+WEP128
+WEP64
+Stop
+AOSS is not in use.
+Advanced Encryption Level feature
+Enable
+Disable
+Exclusive SSID for WEP
+AOSS Button on the AirStation Unit
+Apply
+AOSS Client Information
+Name
+MAC Address
+Encryption Type
+Wireless
+Connection Setting
+Deny
+Allow
+Edit AOSS Client Information
+AOSS Ethernet Converter Information
+Current Security Information 802.11n/g/b
+Encryption Level
+WPA-PSK-AES
+(in use)
+SSID
+Encryption Key
+WPA/WPA2-PSK-mixed
+WEP128
+WEP64
+Channel
+Add
+connection
+EC Devices&nbsp;/&nbsp;Not AOSS Devices
+Allow&#160;connection
+Current Security Information
+WPS cannot be used when AOSS is enabled.
+Start AOSS
+Disable AOSS
+AOSS cannot be used because the SSID includes a space.
+AOSS cannot be used because WPA-PSK is configured with 64 hexadecimal digits or includes a space.
+WPA2-PSK (Pre-shared Key)
+802.11n/g/b
+AOSS is not active
+Encryption level expansion function
+Enabled
+Disabled
+Allow WEP for Game Consoles Only
+When this is enabled, clients connecting via WEP will be isolated from clients connecting via more secure encryption methods.
+(Now in use)
+(Sending Key)
+Random
+Reset
+AOSS Settings
+The SSID and encryption key were changed and wireless LAN settings were reset.
+reconnect with AOSS
+Click &quot;Apply&quot; to apply changes.
+To continue setup&#x2C; perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Cancel
+SSID
+tag_11g_11b
+Not configured
+Invalid character
+WPA/WPA2-PSK-mixed (AES) encryption key
+WPA/WPA2-PSK-mixed (TKIP) encryption key
+Invalid pre-shared key.
+If AOSS is used, the preshared key should 8 to 63 alphanumeric characters with no spaces.
+WEP128 encryption key setting
+WEP64 encryption key setting
+WEP encryption key not set.
+Entered value is too small
+WEP Key
+Zero is an invalid value.
+WPA-PSK-TKIP
+Entered value is too large
+KEY Base
+AOSS can't be used because the wireless LAN is disabled and and eco Mode is in custom mode.
+802.11ac/n/a
+5 GHz
+2.4 GHz
+##0003
+Back
+AOSS Client Information
+Name
+MAC Address
+Encryption Type
+Wireless
+Connection Setting
+Operation
+Allow
+Deny
+Deny Connection
+Delete
+Allow Connection
+##0004
+AirStation Name
+Apply
+AirStation Name
+Not configured
+This character cannot be used as a leading or trailing character
+Contains invalid character
+##0005
+AirStation Settings
+Detecting Internet connection (Resetting)
+Checking Internet type
+Checking the Internet type. Please wait…
+Checking ADSL Link Status
+Checking the ADSL link status automatically, Please wait…
+If the screen does not change for a while, please click here.
+##0006
+Detecting Internet connection (Resetting)
+DHCP Server Found
+DHCP server found.
+Acquire IP Address automatically &#x28;recommended&#x29;
+Search Again
+Back
+##0007
+Recheck Internet connection settings
+The IP address obtained from DHCP is duplicated on the LAN network.
+LAN-side IP address should be changed.
+LAN-side IP Address
+IP Address
+Subnet Mask
+DHCP Server
+Enable
+DHCP IP Address Pool
+for up to
+address(es)
+Excluded IP Addresses
+Next
+LAN-side IP Address
+Not configured
+DHCP IP Address Pool
+Lease Number
+Invalid character
+Entered value is too small
+Entered value is too large
+0.0.0.0 is a reserved IP address and cannot be used
+255.255.255.255 is a reserved IP address and cannot be used
+Invalid IP address format
+Loopback IP addresses of the type 127.XXX.XXX.XXX cannot be used
+Test IP addresses from the range 240.XXX.XXX.XXX to 255.XXX.XXX.XXX cannot be used
+Out of range for LAN-side network
+Network address cannot be used
+Subnet broadcast address cannot be used
+DHCP IP Address Pool
+The LAN-side IP address of this AirStation cannot be included
+Excluded IP Address
+First value and last value are the same or the order is reversed
+Out of range
+Assigned IP addresses start from
+For
+client devices
+Excluded IP addresses
+Next
+##0008
+Detecting Internet connection (Resetting)
+Ethernet cable is not connected.
+Ethernet cable is not connected
+&nbsp;Check the cabling between the AirStation and the DSL or cable modem.<BR>&nbsp;Choose one of the following:<BR><BR>
+Check the connection to the Internet and try again.
+Back
+Reconnect to the Internet.
+No server was detected.
+DHCP server or PPPoE server not found.
+Ensure that the AirStation is connected to proper services.
+Confirm the following items and select the action below:
+Check if the Ethernet cable is connected to the correct port.
+Check if you are connected to a DHCP server, and that a default gateway and DNS server is available.
+Reset the modem.
+Confirm and retry.
+The router connected to the AirStation is not connected to the Internet.
+The router connected to the AirStation is not connected to the Internet. Verify the items below and try again.
+Confirm the WAN-side settings of the router connected to the AirStation.
+Check if the router connected to the AirStation is powered on.
+##0009
+Detecting Internet connection (Resetting)
+No server was detected
+DHCP server or PPPoE server not found.
+Try Again
+Back
+Select any item from menu after confirmation whether the broadband router connected to the AirStation is configured properly.
+##0010
+Detecting Internet connection (Resetting)
+PPPoE Server is detected
+PPPoE server found.
+Connect to PPPoE Server. &#x28;Recommended&#x29;
+Perform PPPoE setup again.
+Confirm
+Back
+Reconfigure PPPoE Settings
+##0011
+Detecting Internet connection (Resetting)
+Provider Settings
+Enter the PPPoE connection information.
+Username
+Password
+&#x28;Enter same password for confirmation.&#x29;
+DNS Server Address
+Enter if required by your provider.
+Primary:
+Secondary:
+Confirm&#x2C;
+Click here.
+Back
+Next
+Password does not match. Enter identical passwords for confirmation.
+Primary DNS Server
+Secondary DNS Server
+Invalid Username
+Invalid Password
+Not configured
+Length is too short
+Invalid IP address format
+Contains invalid character
+Invalid Username
+Invalid Password
+not use
+Show password
+Click
+here
+to confirm again.
+##0012
+AirStation Settings
+Detecting Internet connection (Resetting)
+Ethernet cable is not connected.
+Check the cabling between the AirStation and the DSL/cable modem.
+Choose one of the following:
+Retry Detection
+check the cable to the Internet port first
+or change the mode switch.
+Back
+Check the cabling between the AirStation and DSL/cable modem, fiber optic media converter, etc.
+Check the following items and select the action below:
+If you have connected the Internet port, but the port indicator light is not lit, check the following:
+Check the connections to the LAN port and Internet port.
+Confirm whether the modem power is on.
+Confirm connection of the modem.
+Retry Detection (check the cable to the Internet port first)
+Make sure the LAN and Ethernet cables are connected to the correct ports.
+Ensure that the modem is powered on.
+Check the connection cable between the AirStation and the modem.
+##0013
+MAC Address
+Lease IP Address
+Hostname
+Communication Method
+Wireless Authentication
+802.11n
+Refresh
+##0014
+Now restarting…
+Estimated time to restart is
+seconds. Please wait…
+seconds. If the page does not automatically refresh, click here.
+Processing... 
+Reading file error.<br>Check the filename and path.<br>Rebooting…
+Estimated time to restart is
+seconds. Please wait…
+To continue setup, perform the following procedure.
+Close all web browsers. Confirm that a connection between the computer and the router is established. Reopen the browser and reconnect using the AirStation Configuration Utility. Refer to the user manual for more information.
+The LAN-side IP address configuration has changed. You may need to reconfigure your PC's network settings.
+Click 'Apply' to save these settings.
+ERROR:
+Status:
+CONTENTS
+Please wait. Another client is updating the firmware.
+Because AOSS is currently in use, configuration values except for the key renewal interval are saved but not used.
+Duplicate MAC address
+If wireless MAC filtering is enabled, requests from unregistered MAC addresses will be denied.
+TRANSLATE
+s. later&#x2C; if the page does not automatically refresh&#x2C; click
+here.
+Initializing and rebooting...
+Reading file error.
+Now rebooting...
+Estimated time to restart is
+seconds. Please wait…
+To continue setup&#x2C; perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Please wait…
+Back
+If the page does not automatically refresh&#x2C; click
+Updating the firmware...
+Don't turn off the power while the diag LED is lit or blinking!
+Estimated time to restart is 180 seconds. Please wait…
+Waiting for enrollee... (about 2 minutes)
+AOSS is running…
+Reading file error. Reboot now.
+ERROR:
+Error: Detected invalid session ID access. This setting request is ignored.
+##0015
+Local Date
+Year
+Month
+Day
+Local Time
+Hour
+Minute
+Seconds
+Time Zone
+(GMT-12:00) Eniwetok, Kwajalein
+(GMT-11:00) Midway island, Samoa
+(GMT-10:00) Hawaii
+(GMT-09:00) Alaska
+(GMT-08:00) Pacific Standard Time: PST
+(GMT-07:00) Mountain Standard Time: MST
+(GMT-06:00) Central Standard Time: CST
+(GMT-05:00) Eastern Standard Time: EST
+(GMT-04:00) Atlantic Standard Time: AST
+(GMT-03:00) Buenos Aires, Georgetown
+(GMT-02:00) Mid-Atlantic
+(GMT-01:00) Azores islands, Cape Verde islands
+(GMT+00:00) Greenwich Mean Time, London
+(GMT+01:00) Copenhargen, Madrid, Paris
+(GMT+02:00) Athens, Istanbul, Jerusalem
+(GMT+03:00) Baghdad, Nairobi, Moscow
+(GMT+04:00) Abu Dhabi, muscat, Baku
+(GMT+05:00) Islamabad, Karachi
+(GMT+06:00) Dhaka, Almaty
+(GMT+07:00) Bangkok, Hanoi, Jakarta
+(GMT+08:00) Singapore, Beijing, Hong Kong,Taipei
+(GMT+09:00) Tokyo, Osaka, Seoul
+(GMT+10:00) Melbourne, Sydney, Guam
+(GMT+11:00) Solomon Islands, New Caledonia
+Apply
+Refresh
+Get Current Time from Your PC
+NTP is enabled. Changes made to time and date settings may be overwritten by the NTP server when it syncs.
+Time
+Entered value is incorrect
+(GMT-09:30) Marquesas Islands
+(GMT-04:30) Caracas
+(GMT-03:30) Newfoundland
+(GMT+03:30) Tehran
+(GMT+04:30) Kabul
+(GMT+05:30) Mumbai, New Delhi, Sri Jayewardenepura
+(GMT+05:45) Kathmandu
+(GMT+06:30) Yangon, Cocos Islands
+(GMT+08:45) Perth
+(GMT+09:30) Adelaide, Darwin
+(GMT+10:30) Lord Howe Island
+(GMT+11:30) Kingston
+(GMT+12:00) Auckland, Fiji, Marshall Islands
+(GMT+12:45) Chatham Islands
+(GMT+13:00) Phoenix Islands, Nuku'alofa
+(GMT+14:00) Line Islands
+##0016
+DDNS Service
+Disable
+DynDNS
+TZO
+Username
+Password
+Hostname
+IP Address Update Period
+day(s)
+Email Address
+TZO Key
+Domain Name
+IP Address Update Period
+day(s)
+Apply
+Current Dynamic DNS Settings
+Internet-side IP Address
+IP address not acquired.
+Domain Name
+Disabled
+Status
+Disabled
+Update Failure
+Refresh
+Username
+Not configured
+This character should not be used as the first or last character.
+Password
+Hostname
+Invalid character
+IP Address Update Period
+Entered value is too large
+Email Address
+TZO Key
+Domain Name
+Success
+Fail
+Update Successful
+Dynamic DNS Service
+Confirming...
+Dynamic DNS
+Register or Modify Settings
+Dynamic DNS
+Register / Edit
+User ID
+Delete registration
+Delete registration
+Unregistered
+No Internet connection. Cannot connect to the webpage for user registration.
+The Internet-side IP address is a local address.<br>This service can also be used in global address environment.
+This function cannot be used in bridge mode.
+Deletes saved dynamic DNS information.
+After deleting the saved account information, you will need your user ID and password to use the account again.
+Click 'Apply' to register your changes.
+Apply
+Cancel
+##0017
+DHCP Reserved IP List
+MAC Address
+IP Address
+Enable
+Apply
+The length is not correct.
+Cannot use the broadcast address.
+The second character of the MAC address must be an even number such as 0, 2, 4, 6, 8, A, C, or E.
+Invalid format
+The WAN-side MAC Address is not correct.
+Invalid hex value.
+found in MAC address
+The MAC address should not same as the broadcast address.
+Invalid.
+Zero cannot be used.
+Invalid characters in IP address.
+The IP value is out of range.
+That address is already in use.
+Invalid hex value in MAC address
+The MAC address should not same as the broadcast address.
+The MAC address should not be zero.
+Invalid entry.
+IP address is out of range.
+The MAC address is too long or too short.
+Invalid MAC address.
+found in MAC address
+The LAN-side IP address duplicates an address reserved by DHCP.
+##0018
+Add Client
+IP Address
+MAC Address
+Add
+Save
+Cancel
+Current DHCP Clients
+Lease Period
+Status
+Customize
+Manual
+Editing
+The IP address of this computer is
+IP Address Leases
+Not configured
+0.0.0.0 is a reserved address and should not be used.
+Invalid IP address format
+Out of LAN-side network address range
+Duplicate IP Address
+MAC Address Leases
+Invalid number of characters
+Duplicate MAC address
+Edit
+Delete
+Auto
+Manual Assignment
+No IP addresses have been assigned.
+Cannot specify the LAN-side IP address of this AirStation
+Out of range
+Edit Client
+##0019
+Add IP Address of DMZ
+The IP address of this computer is
+Apply
+0.0.0.0 is a reserved address and should not be used.
+255.255.255.255 is a reserved address and should not be used
+Cannot specify the LAN-side IP address of this AirStation
+Invalid IP address format
+Loopback addresses of the form 127.XXX.XXX.XXX should not be used.
+Test addresses in the 240.XXX.XXX.XXX to 255.XXX.XXX.XXX range should not be used.
+Out of LAN-side network address range
+DMZ Address
+Invalid character
+DMZ Address
+Not enough characters
+Invalid character
+Invalid IP address format
+DMZ is not available because NAT is disabled.
+##0020
+Log Output
+Enable
+Enable
+Basic Rules
+Number of Packets
+Prohibit NBT and Microsoft-DS routing
+Reject ident requests
+Block ping from Internet
+Apply
+##0021
+Log Output
+Enable
+Apply
+Add IP Address Based Filter
+Action
+Stop incoming packets
+Reject incoming packets
+Route incoming packets
+Direction
+Internet->LAN
+LAN->Internet
+IP Address
+Source Address:
+-> Destination:
+Protocol
+All
+ICMP
+Manual
+Protocol Number:
+TCP/UDP
+TCP Port Manual Setting
+UDP Port Manual Setting
+HTTP (TCP port: 80)
+FTP (TCP port: 20-21)
+TELNET (TCP port: 23)
+SSH (TCP port: 22)
+HTTPS (TCP port: 443)
+SMTP (TCP port: 25)
+POP3 (TCP port: 110)
+NTP (UDP port: 123)
+NTP (TCP port: 123)
+IMAP (TCP port: 143)
+Port Selection Help
+Port Number:
+Add Rule
+IP Filter
+Action
+Direction
+Source Address
+Destination Address
+Protocol
+Count
+Customize
+No IP filters have been configured yet.
+Manual TCP/UDP Port
+Hyphens '-' should not be used as the first or last character.
+Invalid character
+Protocol Number
+Not configured
+Entered value is too small
+Entered value is too large
+Either the first and last values are the same, or their order is reversed.
+Source Address
+Destination Address
+IP Filter Setup
+Already registered
+0.0.0.0 is a reserved address and should not be used.
+255.255.255.255 is a reserved address and should not be used.
+Cannot specify the LAN-side IP address of this AirStation
+Invalid IP address format
+Loopback addresses of the form 127.XXX.XXX.XXX should not be used.
+Test addresses from the 240.XXX.XXX.XXX to 255.XXX.XXX.XXX range should not be used.
+When the direction is WAN->LAN, IP addresses from the LAN-side network address range should not be used.
+When the direction is LAN->WAN, IP addresses from the LAN-side network address range should not be used.
+Add (Top)
+Add (Bottom)
+Save
+Cancel
+You have reached the maximum number of registered items.
+Delete a registered item before adding a new item.
+Internet
+LAN
+TCP Port:
+Editing
+HTTP<br>(TCP port: 80)
+FTP<br>(TCP port: 20-21)
+HTTPS<br>(TCP port: 443)
+TELNET<br>(TCP port: 23)
+SSH<br>(TCP port: 22)
+IMAP<br>(TCP port: 143)
+SMTP<br>(TCP port: 25)
+POP3<br>(TCP port: 110)
+NTP<br>(TCP port: 123)
+UDP Port:
+NTP<br>(UDP port: 123)
+IP Address
+The same address cannot be used for source and destination
+HTTP
+FTP
+HTTPS
+TELNET
+SSH
+IMAP
+SMTP
+POP3
+NTP
+UDP
+NTP
+TCP
+Port
+All
+Port:
+This process has been stopped.
+If the page does not automatically refresh, click
+here.
+Edit IP Filter
+##0022
+Firmware
+Version
+WHR-1166D Ver.1.60
+File Name
+Update Firmware
+Get updated firmware files from the link below:
+Buffalo
+Get updated firmware files from the link below:
+Invalid firmware. Reboot now.
+Estimated time to restart is
+seconds. Please wait…
+To continue setup, perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Update Method
+Specify a file on your PC
+Automatic update
+Searching for latest firmware...
+Unable to connect to the Internet.
+Available Firmware
+Select
+Version
+Update History
+Note
+Update
+Back
+Current version
+link
+Release version
+Beta version
+Click here to start Internet Connection Wizard.
+The latest firmware is already installed.
+Unable to access the download site.
+##0023
+Model
+AirStation Name
+Hardware Mode Switch Status
+Mode
+Internet
+LAN
+Wireless (802.11n/g/b)
+Refresh
+WHR-1166D Ver.1.60 (R1.49/B1.09)
+Router mode
+Method of Acquiring
+IP Address
+Wired
+Subnet Mask
+DHCP Server
+MAC Address
+Wireless Status
+SSID
+Authentication
+Encryption
+Broadcast SSID
+Wireless Client Isolation
+Wireless Channel
+High-Speed Mode
+MAC Address
+Disconnected
+Enabled
+WPA-PSK
+AES
+Enabled
+auto
+MHz
+Wireless
+Release
+Renew
+Bridge mode on
+RFC 1483 Routed
+RFC 1483 Bridged + Obtain IP Automatically
+PPPoE
+PPPoA
+Bridge Mode Only
+RFC 1483 Bridged + Static IP
+DNS1 &#x28;Primary&#x29;
+DNS2 &#x28;Secondary&#x29;
+MTU Value
+Name of Connection
+Easy&nbsp;Setup&#x28;Default Connection&#x29;
+Connection Status
+Online
+Not Connected
+Operation
+Stop
+Start
+PPP Server IP
+Communicating
+Querying
+Manual
+DHCP Server Address
+Lease Start Time
+Lease Period
+Up
+Down
+BG-Mixed
+B-Only
+G-Only
+N-Only
+Mixed
+Disabled
+Enabled
+Disabled
+stopped/not communicating (no lease)
+querying
+communicating (success)
+processing renewing
+processing stopping
+online
+holdoff 'auth failed'
+disconnecting phase
+WAN IP address was not obtained.
+Not configured
+Yes
+Applied
+Down
+Wired
+Authenticated
+Not entered
+Not executed
+high
+medium
+low
+selected
+Via DHCP
+connecting phase
+holdoff
+stopped
+LCP phase
+Disabled
+Domain Name
+MTU Size
+Hostname
+
+DHCP
+Manual Setting
+Auto Detect Mode - The DHCP server or the PPPoE server cannot detect an Internet connection.
+Idle
+Authentication failed
+DNS3
+&#x28;Default Connection&#x29;
+Bridge mode
+Not communicating
+Disconnected
+Refresh
+100Base-TX
+10Base-TX
+Full-duplex
+Half-duplex
+Connection successful
+Not Connected
+WB
+Connection Status
+Connecting SSID
+Connection
+AOSS
+Router Mode Off (Access Point Mode)
+Since an IP address is manually configured for the LAN-side network, acquisition is impossible.
+MAC Access Control
+AOSS MAC Access Control
+DNS
+eco Mode
+Status
+Normal Mode
+Sleep Mode
+Custom Mode
+Cannot obtain the time.
+Disabled
+Return switch to normal mode.
+NTP is disabled.
+Connect
+Disconnect
+DNS4
+DNS5
+Enabled
+Disabled
+Auto
+Router mode
+Bridge mode
+Auto mode
+Unauthorized
+1000Base-T
+##0024
+Restart
+This reboots your AirStation.
+Restart Now
+Initialize
+This will restore your AirStation to the factory default settings.
+Initialize Now
+<BR>Initializes all settings. You may need to reconfigure your PC's network settings to log in Settings again.
+Click &quot;Apply&quot; to save settings.
+To continue setup&#x2C; perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Apply
+Cancel
+##0025
+LAN-side IP Address
+IP Address
+Subnet Mask
+DHCP Server
+Enable
+DHCP IP Address Pool
+for up to
+Address&#x28;es&#x29;
+Excluded IP Addresses
+DHCP Server Settings
+Advanced Settings
+Display
+Lease Period
+Hour&#x28;s&#x29;
+Default Gateway
+AirStation's IP address
+Specified IP address
+Do not specify
+DNS Servers
+Primary
+Secondary
+WINS Server
+none
+Domain Name
+Assigned domain name
+Specified domain name
+Apply
+Out of LAN-side network address range
+Out of range
+0.0.0.0 is a reserved address and should not be used.
+255.255.255.255 is a reserved address and should not be used.
+Cannot specify the LAN-side IP address of this AirStation
+Invalid IP address format
+Loopback addresses of the form 127.XXX.XXX.XXX should not be used.
+Test addresses from the 240.XXX.XXX.XXX to 255.XXX.XXX.XXX range should not be used.
+Invalid character
+IP addresses from the LAN-side network address range should not be used.
+Not configured
+Excluded IP Address
+The first and last values are the same or reversed.
+DHCP IP Address Pool
+The LAN-side IP address of this AirStation cannot be included
+Domain Name
+This character should not be used as the first or last character in the string.
+Network address cannot be used
+Subnet broadcast address should not be used.
+LAN-side IP Address
+Lease Number
+Entered value is too small
+Entered value is too large
+Lease Period
+Default Gateway
+Primary DNS Server
+Secondary DNS Server
+Duplicate IP Address
+When you enter a secondary DNS Server address, it is necessary to enter primary DNS Server address first
+WINS Server
+Assigned IP address
+<BR>The LAN-side IP address settings have changed. You may need to change the network settings of your PC to match.<BR><BR>Click 'Apply' to register your changes.
+To continue setup&#x2C; perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Cancel
+Acquire IP Address automatically
+Manual Setup
+DNS Server Address
+IP addresses from the WAN-side network address range should not be used.
+Do not use the LAN-side network address.
+Do not use the LAN-side broadcast address.
+LAN-side IP address
+Do not use an IP address within the Internet-side or the guest-port side range.
+##0026
+Transfer Logs
+Enable
+Syslog Server
+Logs
+Address Translation
+IP Filter
+Firewall
+PPPoE Client
+Dynamic DNS
+DHCP Client
+DHCP Server
+AOSS
+Wireless
+Authentication
+Setting Changes
+System Boot
+NTP Client
+Wired
+Apply
+Select All
+Clear All
+Syslog Server
+Invalid character
+0.0.0.0 is a reserved address and should not be used.
+255.255.255.255 is a reserved address and should not be used.
+Cannot specify the LAN-side IP address of this AirStation
+Test addresses from the 240.XXX.XXX.XXX to 255.XXX.XXX.XXX range should not be used.
+Loopback addresses of the form 127.XXX.XXX.XXX should not be used.
+That character should not be used as the first or last character in the string.
+Not configured
+##0027
+Display Logs
+Address Translation
+Firewall
+Dynamic DNS
+DHCP Server
+Wireless
+Setting Changes
+NTP Client
+IP Filter
+PPPoE Client
+DHCP Client
+AOSS
+Authentication
+System Boot
+Wired
+Display
+Select All
+Clear All
+Logs
+Save Log as File
+Delete
+Date Time
+Type
+Logs
+NAT
+FILTER
+FIREW
+PPPOE
+DDNS
+DHCPC
+DHCPS
+AOSS
+WLAN
+AUTH
+CNFG
+BOOT
+NTP
+LINK
+##0028
+Enforce MAC Filtering
+Enable
+Apply
+Registration List
+MAC Address
+Connection Status
+No registered MAC addresses.
+Edit Registration List
+Failed
+MAC filtering is not used because AOSS is enabled.
+Configuration will be ignored.
+If wireless MAC filtering is enabled, unregistered MAC addresses are not allowed to connect.
+Click "Apply" to save settings.
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that your wireless LAN device and the AirStation are able to communicate with each other.
+Open a web browser and log in to Settings.
+Refer to your user manual for more information.
+Cancel
+##0029
+Back
+Client's MAC Address
+Enter MAC Addresses
+Registration List
+MAC Address
+Customize
+No wireless clients connected.
+Edit
+Delete
+Save
+Cancel
+Connected Clients's List
+MAC Address
+Customize
+No wireless clients detected.
+Refresh
+Too many characters
+Invalid MAC address
+The same MAC address is already registered
+Edit Registration List
+MAC Address to Edit
+Editing
+No wireless clients detected.
+Connected
+Disconnected
+Register
+Maximum number of registered items has been reached.
+Delete a registered client to add a new one.
+The maximum registration limit has been reached
+##0030
+Setup
+WAN / LAN
+Wireless
+Firewall
+Games / Apps
+Admin
+Diagnostic
+Wizards & Overview
+Internet
+PPPoE
+DDNS
+LAN
+DHCP
+NAT
+Routing
+WPS
+AOSS
+Basic
+Advanced
+WMM
+MAC Filter
+Multicast Control
+Firewall
+IP Filter
+VPN Passthrough
+Port Forwarding
+DMZ
+UPnP
+QoS
+Name
+Password
+Local Time
+NTP
+Access
+Syslog Settings
+Save/Restore
+Initialize/Restart
+Update
+System Info
+Logs
+Packet Info
+Client Monitor
+Ping
+Copyright &copy; 2014 Buffalo Inc.
+Log out
+You have been logged out successfully.
+Home
+DSL Connection
+Another user is already logging in.
+Two or more users cannot log in at the same time.
+UNAUTHENTICATED
+AUTHENTICATION ERROR
+Note
+1. The username is ''admin''.
+2. Password is case-sensitive.
+WB
+PPTP Server
+LAN
+LAN
+eco Mode
+Manual
+PPTP Server
+Multicast Control
+##0031
+Address Translation
+Enable
+Log Output of Deleted Packets
+Apply
+##0032
+Forward a Port
+Group
+New Group
+Group Name:
+Internet-side IP Address
+AirStation's Internet-side IP Address
+Manual IP address
+Manual IP Address:
+Protocol
+All
+ICMP
+Manual
+Protocol Number:
+
+TCP/UDP
+TCP Port Manual Setting
+UDP Port Manual Setting
+HTTP (TCP port: 80)
+FTP (TCP port: 20-21)
+TELNET (TCP port: 23)
+SSH (TCP port: 22)
+HTTPS (TCP port: 443)
+SMTP (TCP port: 25)
+POP3 (TCP port: 110)
+NTP (UDP port: 123)
+NTP (TCP port: 123)
+IMAP (TCP port: 143)
+Port Selection Help
+Port Number:
+LAN-side IP Address
+LAN-side Port
+TCP/UDP Port:
+Add
+Forwarded Ports
+Group
+Internet-side IP Address
+LAN-side IP Address
+Protocol
+LAN-side Port
+Customize
+Port forwarding has not been set up yet.
+Group Name
+Invalid Group Name
+Internet-side IP Address
+Not configured
+Protocol Number
+Invalid Protocol Number
+WAN-side TCP/UDP Port
+Invalid WAN-side TCP/UDP port
+LAN-side TCP/UDP Port
+Invalid LAN-side TCP/UDP port
+LAN-side IP address
+0.0.0.0 is a reserved address.
+255.255.255.255 is a reserved address.
+Cannot specify the LAN-side IP address of this AirStation
+Invalid IP address format
+Loopback addresses of the form 127.XXX.XXX.XXX should not be used.
+Test address from the range of 240.XXX.XXX.XXX to 255.XXX.XXX.XXX should not be used.
+Invalid character
+Protocol TCP/UDP Port
+Don't specify a range of ports when using port exchange.
+Don’t use port 6 (TCP) or port 17 (UDP).
+That port is already in use.
+Internet-side IP Address
+Don't use addresses from the LAN-side network address range.
+Cannot specify the LAN-side IP address of this AirStation
+Protocol
+Protocol is duplicated
+Cancel
+Save
+Editing
+Off
+On
+ALL
+Length is too short
+Internet-side IP address
+<p class=C_WARN>The maximum limit for registered items has been reached.<br>If you want to add a new item&#x2C; delete a registered item.</p>
+This process has been stopped.
+If the page does not automatically refresh&#x2C; click
+here.
+Port forwarding settings aren't applied when NAT is disabled.
+Edit Port Forwarding
+##0033
+NTP Functionality
+Enable
+NTP Server
+Update Interval
+hours
+Apply
+Invalid character
+0.0.0.0 is a reserved address and should not be used.
+255.255.255.255 is a reserved address and should not be used.
+Cannot specify the LAN-side IP address of this AirStation
+Test addresses from the 240.XXX.XXX.XXX to 255.XXX.XXX.XXX range should not be used.
+Loopback addresses of the form 127.xxx.xxx.xxx should not be used.
+Don't use that character as the first or last character.
+Not configured
+Entered value is incorrect
+Invalid format.
+Do not use the LAN-side network address.
+Do not use the LAN-side broadcast address.
+##0034
+Interface
+Wired LAN
+Wired Internet
+Wireless LAN (802.11n/g/b)
+Sent
+Normal
+Errors
+Received
+Refresh
+Wireless LAN (802.11n/g/b)
+Wireless LAN (802.11ac/n/a)
+Wireless LAN (5 GHz)
+Wireless LAN (2.4 GHz)
+##0035
+Administrator
+admin (fixed)
+Administrator Password
+(Confirm)
+Apply
+Password
+Password does not match
+Invalid character
+##0036
+Destination Address
+Execute
+Result
+Destination
+Destination Address
+Not configured
+That character should not be used as the first or last character.
+Invalid character
+Connection failed
+##0037
+Default PPPoE Connection
+IP Unnumbered PPPoE Connection
+Apply
+PPPoE Connection List
+Number
+Name
+Status
+Enable
+Disable
+Edit Connection List
+Preferred Connections
+No.
+Destination address
+Source address
+ALL
+Edit Preferred Connections
+No Active Session
+When traffic is both incoming and outgoing
+When outgoing traffic stops
+When incoming traffic stops
+Connection settings not registered
+Preferred PPPoE connection settings not registered
+Preferred Connection Settings not Registered
+##0038
+Back
+Add Preferred PPPoE Connection
+The maximum number of registered items has been reached.<br>If you want to add a new item&#x2C; delete a registered item.
+PPPoE Connection No.
+Add
+Name of Connection
+Username
+Password
+Confirmation
+Service Name
+Advanced Settings
+Connection Type
+Continuous Connection
+Connection on Demand
+Manual
+Automatic Disconnection
+Disconnect Condition
+When no packets are sent or received
+When no packets are sent
+When no packets are received
+Disconnection Time
+Minutes
+If the disconnection time is set to 0 minutes&#x2C;<br> then the AirStation will maintain the connection indefinitely.
+Authentication
+Automatic Authentication
+CHAP Authentication Only
+PAP Authentication Only
+MTU Size
+Bytes
+MRU Size
+Keepalive
+Enable
+Save
+Cancel
+Edit Preferred Connections
+No.
+Name
+Status
+Customize
+Connection
+The connection name is not configured.
+That connection name is already in use.
+Invalid MTU size.
+Invalid MRU size.
+Passwords do not match.
+Edit
+Editing
+Disable
+On
+Off
+Delete
+PPPoE Connection
+Add
+Disconnection Time
+Invalid Disconnection Time.
+PPPoE IP address is blank.
+PPPoE Static IP
+PPPoE IP Address
+PPPoE DNS1
+PPPoE DNS2
+Invalid format.
+##0039
+QoS
+Enable
+Upload Bandwidth
+Kbps
+No.
+Enable
+Application Name
+Protocol
+Destination Port
+Priority
+Apply
+Entered value is too small
+Entered value is too big
+Invalid character
+Not configured
+Application Name (No.1)
+Application Name (No.2)
+Application Name (No.3)
+Application Name (No.4)
+Application Name (No.5)
+Application Name (No.6)
+Application Name (No.7)
+Application Name (No.8)
+That character should not be used as the first or last character in the string.
+protocol and destination port
+A combination of the same protocol and destination port exists.
+##0040
+Add a Route
+Destination Address
+IP Address
+Subnet Mask
+Host
+Gateway
+Metric
+Add
+The maximum number of entries are already registered.
+Delete a registered item before adding new item.
+Save
+Cancel
+Routing
+Destination
+Address
+Subnet Mask
+Gateway
+Metric
+Operation
+Editing
+Edit
+Delete
+No routes are registered.
+Destination Address
+Not configured
+Gateway
+Metric
+Length is too short
+Invalid character
+Cannot specify the LAN-side IP address of this AirStation
+Already registered
+IP address is not valid as network address
+Entered value is incorrect
+0.0.0.0 is a reserved address and should not be used.
+Invalid IP address format
+Invalid character
+Edit Route
+HOST255.255.255.255
+That network address is already used as the Internet-side network address of this AirStation.
+Do not use the Internet-side broadcast address.
+##0041
+Back up Settings
+Back Up
+Encrypt the configuration file with a password
+Password
+Restore Settings
+Backup File
+Restore
+Open file with password
+Invalid password.
+Reading file error.
+Check the filename and path.
+Rebooting...
+Estimated time to restart is 80 seconds. Please wait...
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that a connection between the computer and the router is established.
+Reopen the browser and reconnect using the AirStation Configuration Utility.
+Refer to the user manual for more information.
+Invalid password.
+To restore from the file, you need the password.
+Invalid parameter(s).
+Invalid file. Reboot now.
+Estimated time to restart is
+seconds. Please wait...
+To continue setup, perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Incorrect password.
+Incorrect password. Reboot now.
+Incorrect password.
+Backup file not selected.
+Incorrect backup file.
+Cannot restore from the settings because they were created with a newer firmware.
+Backup file cannot be used in the AirStation&#39;s current mode.
+##0042
+Snooping
+Enable
+Multicast Aging Time
+Seconds
+Apply
+Aging Time
+Not configured
+Invalid character
+Entered value is too big
+Entered value is too small
+##0043
+You need to have JavaScript enabled in your browser to setup the AirStation
+Easy Setup
+Basic Settings
+Run the Internet Connection Wizard
+Basic Wireless Setup
+Wireless Encryption
+Internet
+Internet Games (Port Forwarding)
+UPnP
+Wireless Multicast Rate
+Other
+Update AirStation Firmware
+Initialize AirStation
+‌Internet
+(not connected)
+Refresh
+Wireless
+IEEE 802.11n/g/b
+Wireless Disabled
+Auto / 10 ch
+Auto / 5 ch
+SSID
+Authentication
+Encryption
+WPA-PSK
+AES
+AOSS Setting Page
+WPS Setting Page
+Language
+Auto
+English
+French
+Italian
+Spanish
+German
+Arabic
+Thai
+Chinese
+Korean
+Setup
+You can't access this page without frame browser.
+Chinese (Simplified)
+Chinese (Traditional)
+Use PPPoE Client
+Get an IP Address from the DHCP Server
+Bridge mode on
+Router mode on
+RFC 2516 PPPoE
+RFC 2364 PPPoA
+RFC 1483 Routed
+RFC 1483 Bridged
+Obtain IP Automatically
+PPPoE
+PPPoA
+Bridge Mode Only
+Static IP Address
+Connection Condition
+Contacting...
+Communicating...
+Release
+Renew
+Check Connection
+Refresh
+Auto
+Confirm Connection
+Check the Internet Connection
+Connection failed
+Connection OK
+Cabling
+OK
+Failed
+DHCP Server
+PPPoE Server
+Name Resolution
+Name Resolution: OK
+Name Resolution: Failed
+here
+Cable is not connected.
+Preparing...
+Confirming...
+Name resolution for the Buffalo server failed.
+No IP Address was acquired.
+DHCP Server not detected.
+Wrong username or password.
+Cannot connect to the PPPoE server.
+Manual Setup
+Confirming...
+Not confirmed
+If &rdquo;Successfully Connected&rdquo; is not shown above&#x2C; click
+Back
+Confirm connection and click 'Close'.
+If &rdquo;successfully connected&rdquo; is shown&#x2C; the connection has been established.
+If you don't click the 'Close'&#x2C; this window will automatically close in 60 seconds.
+Reconnect to the Internet after closing this window.
+Confirming...
+Not confirmed
+Processing. Please wait...
+Maximum number of items already registered.
+Stopped
+Querying...
+Current Status: Auto
+Internet-side IP Address of the AirStation
+not connected
+Disable Wireless
+Connecting phase
+DHCP
+Release/Update
+AirStation Menu
+WHR-1166D
+No Subnet Mask
+No Gateway Address
+No IP Address
+The Ethernet cable is not connected.
+Easy&nbsp;Setup (Default)
+IEEE
+Manual
+communicating (success)
+Connect/Disconnect
+Mode Information
+Router Mode Off (Access Point Mode)
+IEEE 802.11n/g/b
+AOSS Setup
+WPS Setup
+Utilities
+Network Service List
+Apply
+Use IP Unnumbered
+Not determined because DHCP or PPPoE server not detected.
+DHCP Auto Acquisition
+PPPoE Connection
+Stopped
+Holdoff
+Online
+Disconnecting phase
+Idle
+Authentication Failed
+LCP phase
+(Default)
+Current Status
+Mode
+Router Mode
+Bridge Mode
+Since an IP address is manually configured for the LAN-side network, acquisition is impossible.
+Stopping
+eco Mode
+Status
+Normal Mode
+Sleep Mode
+Custom Mode
+LED
+Wired LAN
+Wireless LAN
+Normal
+Off
+eco (Slow operation)
+Cannot obtain the time from NTP server.
+Disabled
+Normal Mode by Return button
+NTP is disabled.
+Brazilian Portuguese
+Japanese
+Portuguese
+Turkish
+Russian
+No encryption
+No authentication
+##0044
+AirStation Menu
+WHR-1166D
+Setup
+Easy Setup
+Auto Detect
+##0045
+AirStation Settings
+You can't access this page without frame browser.
+##0046
+UPnP
+Enable
+Apply
+##0047
+IPv6 Passthrough
+Enable
+PPPoE Passthrough
+PPTP Passthrough
+Apply
+PPPoE Passthrough
+##0048
+Method of Acquiring IP Address
+Run Internet Connection Wizard
+Acquire an IP address automatically from a DHCP server
+Use PPPoE client
+Use IP Unnumbered
+Use this address
+Static IP Address
+Subnet Mask
+Perform Easy Setup (Internet Connection Wizard) is set as the method of acquiring IP address.
+To set up PPPoE, 
+click here
+Advanced Settings
+Default Gateway
+DNS Name Server Address
+Primary
+Secondary
+Internet MAC Address
+Use default MAC address
+Use this address
+Internet Communication Format
+SPEED
+Auto
+10 Mbps Half Duplex
+10 Mbps Full Duplex
+100 Mbps Half Duplex
+100 Mbps Full Duplex
+MTU Size of Internet Port
+Bytes
+Apply
+0.0.0.0 is a reserved address and should not be used.
+255.255.255.255 is a reserved address and should not be used.
+Cannot specify the LAN-side IP address of this AirStation
+Invalid IP address format
+Loopback addresses of the form 127.XXX.XXX.XXX should not be used.
+Test addresses from the 240.XXX.XXX.XXX to 255.XXX.XXX.XXX range should not be used.
+Invalid character
+IP address in the LAN-side network address range cannot be used.
+Not configured
+Manual IP Address
+Default Gateway
+Cannot specify the Internet-side IP Address of this AirStation
+Primary DNS Server
+Secondary DNS Server
+Duplicate IP Address
+Enter a primary DNS server address before entering the secondary DNS server address.
+WAN-side MAC Address
+Invalid MAC address
+MTU Size of Internet Port
+Entered value is too small
+Entered value is too big
+Out of WAN/LAN-side network address range
+Do not use the LAN-side network address.
+Do not use the LAN-side broadcast address.
+
+##0049
+WB
+Use
+Connection Type
+Manual
+AOSS
+Roaming
+Enable
+SSID
+Authentication
+Encryption
+WPA-PSK &#x28;Pre-shared Key&#x29;
+Apply
+SSID
+TKIP
+AES
+Not configured
+Semicolon is an invalid character.
+Invalid character.
+WEP Key
+WEP Key is not configured
+Entered value is too small
+Entered value is too big
+Zero is invalid.
+WPA-PSK Pre-shared Key
+WPA-PSK pre-shared key is incorrect
+(ASCII string of length over 64)
+Start AOSS
+Start AOSS connection in WB mode.
+AOSS Client Information
+Connection Information
+Cannot exchange encryption keys.
+Click for AOSS details.
+here
+It works as master when the router switch is set to 'Auto' or 'On'.
+The slave's SSID, authentication, and encryption settings will be saved but not used.
+Connection has timed out.
+Do not authenticate
+No authentication
+WPA-PSK
+WPA2-PSK
+WEP
+WEP Encryption Key Setting
+ASCII 5 characters (WEP64)
+ASCII 13 characters (WEP128)
+Hex 10 digits (WEP64)
+Hex 26 digits (WEP128)
+Error:
+Could not exchange encryption key.
+On the other AirStation, hold down the AOSS button until the security LED blinks.
+No encryption
+Security
+Vendor
+Connection Status
+Authentication
+Encryption
+No authentication
+No encryption
+Version
+AirStation Name
+Connecting…
+Multiple AOSS APs
+Multiple AOSS AP
+AirStation is exchanging encryption keys with the other client.
+Only 24 nodes can connect to this AirStation at once.
+No rebooted AirStation is found.
+No AOSS-ready AirStation is found.
+Two or more AOSS-ready AirStations were found.
+Search for AirStations
+The AirStation (Access Point) is exchanging encryption keys with the other client.
+Only 24 clients can link to the AirStation at once.
+No rebooted AirStation (Access Point) is found.
+No AOSS-ready wireless access point is found.
+Two or more AOSS-ready AirStations (Access Points) were found.
+WB won't work while this AirStation is in router mode.<br>Switch the AirStation to bridge mode to use WB.
+Home
+Search
+Start WPS connection in WB mode
+WPA2-PSK Pre-shared Key
+WPA2-PSK pre-shared key is incorrect
+Unauthorized
+Connection name is not set
+##0050
+Select Master AirStation to Connect to
+Select AirStation to connect to.
+Select
+BSSID
+SSID
+Wireless Channel
+Signal
+Encryption
+Wireless Band
+No access point found.
+Yes
+Bad
+Weak
+Good
+Excellent
+&nbsp;Search&nbsp;again&nbsp;
+Cancel
+##0051
+Internet Setup
+Connecting…
+Restarting...
+Estimated time to restart is 20 seconds. Please wait…
+20 s. If the page does not automatically refresh, click <a>here</a>
+Back
+##0052
+Wireless Multicast Rate
+Wireless Multicast Rate Setup
+IPv6 Passthrough
+IGMP Snooping
+Multicast Rate
+Enable (Currently disabled)
+Enable (Currently enabled)
+Auto
+Mbps
+Current Status
+If IPv6 passthrough is enabled in a wireless environment, the multicast rate should be set higher than the distributed bit rate. Note: IGMP snooping can decrease network traffic by not broadcasting multicast packets.
+Also, multicast packets are transferred faster to devices that support multicast packet conversion.
+A multicast rate of about twice the distributed bit rate is recommended.
+The higher the multicast rate is, the shorter the available distance for multicast communication becomes.
+Back
+Apply
+SSID
+Not configured
+802.11n/g/b:
+IGMP snooping can decrease network traffic by not broadcasting multicast packets. <br>&nbsp;&nbsp;Also, multicast packets will be transferred faster to devices that support multicast conversion.<br>
+&nbsp;&nbsp;A multicast rate of about twice the distributed bit rate is recommended.<br>The higher the multicast rate is, the shorter the available distance for multicast communication becomes.<br>
+If IPv6 passthrough is enabled in a wireless environment, the multicast rate should be set higher than the distributed bit rate.
+802.11ac/n/a:
+##0053
+Wireless Multicast Rate
+Wireless Multicast Rate
+Complete
+Click 'Finish' to exit the setup wizard.
+Finish
+##0054
+Update Firmware
+Select a firmware update file for the AirStation.
+Firmware File
+Once you start the firmware update, do not unplug the router or close the browser until the update has finished and the power LED on the front of the router has stopped blinking (about 180 seconds). Get updated firmware files from the following link:
+Buffalo
+Back
+Apply
+Once you start the firmware update, do not unplug the router or close the browser window until the update has finished and the power LED on the front of the router has stopped blinking (about 180 seconds). Get updated firmware files from the following link:
+Estimated time to restart is
+seconds. Please wait…
+To continue setup, perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Invalid firmware. Reboot now.
+Update Method
+Select a file on your PC
+Automatic update
+Searching for latest firmware...
+Available firmware list is not obtained.
+Unable to connect to the Internet.
+Available Firmware
+Select
+Version
+Update History
+Note
+Update
+Current version
+##0055
+Internet Gameplay
+Port Forwarding Configuration
+Port Forwarding
+TCP
+UDP
+LAN-side IP Address
+IP address of your PC
+Manual Configuration
+Consult your application's documentation for port forwarding configuration instructions.
+Edit settings and register rules at 'Games/Apps'-'Port Forwarding'.
+Back
+Apply
+Custom Port Forwarding Configuration
+Group
+Internet-side IP Address
+Protocol
+LAN-side IP Address
+LAN Port
+Status
+Port forwarding has not been configured yet.
+Application
+Internet-side IP Address of the AirStation
+SSH (TCP port: 22)
+Enable
+Disable
+Internet-side IP Address of the AirStation
+Port
+WAN-side TCP/UDP Port
+Invalid WAN-side TCP/UDP port
+WAN-side TCP/UDP is not configured
+LAN-side IP Address
+Not configured
+Length is too short
+Invalid character
+0.0.0.0 is a reserved address and should not be used.
+255.255.255.255 is a reserved address and should not be used.
+Cannot specify the LAN-side IP address of this AirStation
+Invalid IP address format
+Loopback addresses of the form 127.XXX.XXX.XXX should not be used.
+Test addresses in the 240.XXX.XXX.XXX to 255.XXX.XXX.XXX range should not be used.
+Port numbers duplicated.
+Edit settings and add rules at 'Game/Apps' - '<a href="index.html?page=nat_reg.html">Port Forwarding</a>'.
+Port Conversion Setup
+Finish
+Configuration is finished.
+To exit the wizard, click 'Finish'.
+Click 'Next' to continue.
+Next
+Test addresses in the 224.XXX.XXX.XXX to 239.XXX.XXX.XXX range should not be used.
+##0056
+Initialize AirStation
+Initialize the AirStation
+Initialize the AirStation's settings and restart it.
+Reconfigure network and wireless settings of your PC as well.
+Click 'Apply' to initialize.
+Afterwards, to continue with configuration, do the following.
+Close all web browsers.
+Confirm that your PC and the AirStation are able to communicate with each other.
+Open a web browser and run the setup wizard for the AirStation.
+Refer to the manual for more information on initialization.
+Back
+Apply
+##0057
+UPnP
+UPnP
+Configure UPnP.
+UPnP
+Enable
+UPnP is required for proper operation of Windows Live (MSN) Messenger.
+Universal Plug and Play should be activated on your PC as well as your AirStation.
+UPnP is enabled by default on Windows Vista.
+How to activate UPnP on Windows XP
+How to activate UPnP on Windows Me
+Back
+Apply
+UPnP Setting
+Finish
+To exit&#x2C; click &quot;Finish&quot;.
+Finish
+##0058
+UPnP
+UPnP
+Finish
+To exit, click 'Finish'.
+Finish
+##0059
+Wireless Settings
+SSID and Channel
+802.11n/g/b
+SSID
+Wireless Channel
+Auto Channel
+Channel
+Current Channel
+High Speed Mode - Bandwidth
+High Speed Mode - Extension Channel
+High-Speed Mode
+Normal communication uses 20 MHz channels. High Speed Mode uses 40 MHz channels for faster connections.
+If other wireless devices are on channels closed to that of your AirStation, it can cause interference. Try using non-overlapping channels.
+For example, channels 1, 6, and 11 are non-overlapping channels because they're far enough apart not to interfere each other.
+11n/b/g: channels 1, 6, 11
+Select "Auto Channel" to have the AirStation pick the best channel for you.
+Current Channel shows the channel currently in use.
+Back
+Apply
+Basic Wireless Settings (11n High Speed Mode)
+SSID and Channel
+Confirm Wireless SSID and Wireless Channel
+Change SSID
+This configuration may require connected wireless LAN clients to be reconfigured in order to communicate with the AirStation.
+Change your wireless LAN devices to these same settings as well.
+Click 'Setup' to save your settings.
+To continue setup, perform the following procedure.
+Close your browser.
+Confirm that your wireless LAN devices and the AirStaion are able to communicate with each other.
+Open your browser and continue with the AirStation setup.
+Refer to the manual for more on using the utility.
+Back
+Apply
+SSID
+Not configured
+Because AOSS is in use, the SSID settings are saved but not used.
+MHz
+cause interference, try using non-overlapping channels. For example, channels 1, 6, and 11 are
+non-overlapping channels because they're far enough apart not to interfere with each other.
+Because AOSS is in use, the SSID settings are saved but not used.
+Because Multi Security is in use, the SSID settings are saved but not used.
+Semicolon is an invalid character.
+Currently SSID1 is not used. <br>Changing this setting will enable SSID1.
+11ac/n/a: channels 36, 40, 44, 48, 149, 153, 157, 161, 165
+11ac/n/a: channels 36, 40, 44, 48
+If using multi security mode on 11ac/n/a or AOSS, you can only use "auto" or channel 36, 40, 44, or 48 .
+not use
+##0060
+Wireless Basic Settings (11n High Speed Mode)
+SSID and Channel
+Finish
+Setup is complete. Click 'Finish'.
+Finish
+##0061
+Encryption Level (WEP/AES)
+Wireless Encryption
+Choose an encryption for 11n/g/b.
+Encryption Format
+No encryption
+WEP
+WPA-PSK (TKIP)
+WPA-PSK (AES)
+WPA2-PSK (TKIP)
+WPA2-PSK (AES)
+WPA/WPA2 mixed mode-PSK
+No encryption. For security, encryption is recommended.
+Most wireless clients support WEP encryption. It is not secure.
+TKIP is an encryption method that is slightly more secure than WEP. Not all devices support it.
+AES is one of the most robust encryption methods available. It is highly recommended as long as your wireless clients support it.
+WPA-PSK and WPA2-PSK authenticate wireless clients's credentials with a pre-shared key. Only wireless clients which have the same PSK as the AirStation will be permitted to access the AirStation. 
+WPA/WPA2 mixed mode-PSK allows the authentication of WPA-PSK and WPA2-PSK clients at the same time.
+NOTE
+AES is highly recommended if all your wireless devices support it.
+Back
+Because AOSS is in use, these settings are saved but not used.
+TKIP
+AES
+WPA-PSK/WPA2-PSK
+WPA/WPA2 mixed mode-PSK
+Because Multi Security is in use, these settings are saved but not used.
+Choose a Wireless Encryption Standard
+Select a wireless encryption standard.
+encryption setup
+and
+will be the same encryption method
+This AirStation supports multiple wireless formats.
+Each encryption setup can be configured separately.
+Choose an encryption for 11ac/n/a.
+Choose an encryption for 11ac/n/a and 11n/g/b.
+Encryption Standard
+##0062
+Encryption Level (WEP/AES)
+Encryption Settings
+Complete
+Configuration is completed. Click 'Complete'.
+Next, reconnect your wireless PC to the AirStation.
+Refer to its manual for help connecting a wireless PC to your network.
+Enter the encryption key to reconnect.
+A wireless PC which has no encryption key or the wrong encryption key entered cannot communicate with the AirStation.
+Complete
+##0063
+Encryption Level (WEP/AES)
+No Encryption
+Confirmation of Encryption Settings
+No encryption is selected.
+Your wireless communication may be easily intercepted.
+Changing wireless encryption settings:
+If you change the AirStation's encryption settings, you'll need to change the encryption settings of all connected wireless LAN clients to match the AirStation's settings.
+You're about to change your encryption settings.
+Click 'Apply' to change the settings.
+Then, perform the following procedure to continue configuring your AirStation.
+Close all web browsers.
+Confirm that your wireless LAN device and the AirStation are able to communicate with each other.
+Open a web browser and log in to Settings.
+Refer to your user manual for more information.
+Back
+Apply
+##0064
+Encryption Level (WEP/AES)
+WEP Setup
+11n/g/b- Set a WEP Encryption Key
+WEP Encryption Key
+Character Input: 5 characters (WEP64)
+Character Input: 13 characters (WEP128)
+Hexadecimal Input: 10 digits (WEP64)
+Hexadecimal Input: 26 digits (WEP128)
+Up to 4 WEP encryption keys can be registered, with one of them set as the send key.
+Enter alphanumeric characters and symbols when the character input mode is selected and,
+WEP128 is recommended for increased security.
+Encryption Level (WEP/AES)
+WEP Apply
+Confirmation of encryption setup
+Change wireless encryption setup.
+This configuration may require connected wireless LAN clients to be reconfigured in order to communicate with the AirStation.
+Change the same settings in your wireless LAN devices as well.
+Click 'Setup' to apply new settings.
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that your wireless LAN devices and the AirStaion are able to communicate with each other.
+Open a web browser from the utility to perform the AirStation setup.
+Refer to the manual for more information on using the utility.
+Back
+Apply
+WEP Key
+WEP Key is not configured
+Entered value is too small
+Entered value is too big
+Contains invalid character
+enter hexadecimal values when you select hex input.
+Semicolon is an invalid character.
+Zero is invalid.
+11ac/n/a- Set a WEP Encryption Key
+Common for 11ac/n/a and 11n/g/b- Set a WEP Encryption Key
+##0065
+Encryption Level (WEP/AES)
+WPA2-PSK (AES) Settings
+Configure WPA2-PSK (pre-shared key) for 11n/g/b.
+WPA2-PSK (Pre-shared Key)
+Enter ASCII 8-63 characters or hexadecimal 64 digits (0-9, A-F or a-f).
+Back
+Apply
+Encryption Level (WEP/AES)
+AES Apply
+Confirmation of encryption setup
+Change the encryption settings.
+This configuration may require connected wireless LAN clients to be reconfigured in order to communicate with the AirStation.
+Change the same settings in your wireless LAN devices as well.
+Click 'Setup' to apply new settings.
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that your wireless LAN devices and the AirStaion are able to communicate with each other.
+Open a web browser from the utility to perform the AirStation setup.
+Refer to the manual for more information on using the utility.
+Back
+Apply
+WPA2-PSK Pre-shared Key
+WPA2-PSK pre-shared key is incorrect
+The AOSS function cannot be used because WPA2-PSK is setup with 64 hexadecimal digits or includes a space.
+Configure WPA2-PSK with 8 to 63 alphanumeric characters except a space to use the AOSS function for the wireless connection.
+(ASCII string of length over 64)
+Semicolon is an invalid character.
+Configure WPA2-PSK (pre-shared key) for 11ac/n/a.
+Common for 11ac/n/a and 11n/g/b*AES * Set a WPA2-PSK (pre-shared key).
+##0066
+Encryption Level (WEP/AES)
+WPA2-PSK (TKIP) Set
+11n/g/b*TKIP * Set a WPA2-PSK (pre-shared key).
+WPA2-PSK (Pre-shared Key)
+Enter ASCII 8-63 characters or hexadecimal 64 digits (0-9, A-F or a-f).
+Back
+Apply
+Encryption Level (WEP/AES)
+TKIP Apply
+Confirmation of encryption setup
+Change the encryption settings.
+This configuration may require connected wireless LAN clients to be reconfigured in order to communicate with the AirStation.
+Change the same settings in your wireless LAN devices as well.
+Click 'Setup' to apply new settings.
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that your wireless LAN devices and the AirStaion are able to communicate with each other.
+Open a web browser from the utility to perform the AirStation setup.
+Refer to the manual for more information on using the utility.
+Back
+Apply
+WPA-PSK Pre-shared Key
+WPA-PSK pre-shared key is incorrect
+The AOSS function cannot be used because WPA-PSK is setup with 64 hexadecimal digits or includes a space.
+Configure WPA-PSK with 8 to 63 alphanumeric characters except a space to use the AOSS function for the wireless connection.
+(ASCII string of length over 64)
+Semicolon is an invalid character.
+##0067
+Encryption Level (WEP/AES)
+WPA-PSK (AES) Settings
+Configure WPA-PSK (pre-shared key) for 11n/g/b.
+WPA-PSK (Pre-shared Key)
+Enter ASCII 8-63 characters or hexadecimal 64 digits (0-9, A-F or a-f).
+Back
+Apply
+Encryption Level (WEP/AES)
+AES Apply
+Confirmation of encryption setup
+Change the encryption settings.
+This configuration may require connected wireless LAN clients to be reconfigured in order to communicate with the AirStation.
+Change the same settings in your wireless LAN devices as well.
+Click 'Setup' to apply new settings.
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that your wireless LAN devices and the AirStaion are able to communicate with each other.
+Open a web browser from the utility to perform the AirStation setup.
+Refer to the manual for more information on using the utility.
+Back
+Apply
+WPA-PSK Pre-shared Key
+WPA-PSK pre-shared key is not correct.
+The AOSS function cannot be used because WPA-PSK is setup with 64 hexadecimal digits or includes a space.
+Configure WPA-PSK with 8 to 63 alphanumeric characters except a space to use the AOSS function for the wireless connection.
+(ASCII string of length over 64)
+Semicolon is an invalid character.
+Configure WPA-PSK (pre-shared key) for 11ac/n/a.
+Common for 11ac/n/a and 11n/g/b*AES * Set a WPA-PSK (pre-shared key)
+##0068
+Encryption Level (WEP/AES)
+Mixed mode-PSK (TKIP/AES) Set
+Configure mixed mode-PSK (pre-shared key) for 11n/g/b.
+Mixed mode-PSK (Pre-shared Key)
+Enter ASCII 8-63 characters or hexadecimal 64 digits (0-9, A-F or a-f).
+Back
+Apply
+Encryption Level (WEP/AES)
+TKIP/AES Apply
+Confirmation of encryption setup
+Change the encryption settings.
+This configuration may require connected wireless LAN clients to be reconfigured in order to communicate with the AirStation.
+Change the same settings in your wireless LAN devices as well.
+Click 'Setup' to apply new settings.
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that your wireless LAN devices and the AirStaion are able to communicate with each other.
+Start a web browser from the utility to perform the AirStation web setup.
+Refer to the manual for more information on using the utility.
+Back
+Apply
+Mixed mode-PSK Pre-shared Key
+Mixed mode-PSK pre-shared key is incorrect
+The AOSS function cannot be used because mixed mode-PSK is setup with 64 hexadecimal digits or includes a space.
+Configure mixed mode-PSK with 8 to 63 alphanumeric characters except a space to use the AOSS function for the wireless connection.
+(ASCII string of length over 64)
+Semicolon is an invalid character.
+Configure mixed mode-PSK (pre-shared key) for 11ac/n/a.
+Common for 11ac/n/a and 11n/g/b*TKIP/AES * Set a mixed mode-PSK (pre-shared key).
+##0069
+Encryption Level (WEP/AES)
+WPA-PSK (TKIP) Set
+11n/g/b*TKIP * Set a WPA-PSK (pre-shared key).
+WPA-PSK (Pre-shared Key)
+Enter ASCII 8-63 characters or hexadecimal 64 digits (0-9, A-F or a-f).
+Back
+Apply
+Encryption Level (WEP/AES)
+TKIP Apply
+Confirmation of encryption setup
+Change the encryption settings.
+This configuration may require connected wireless LAN clients to be reconfigured in order to communicate with the AirStation.
+Change the same settings in your wireless LAN devices as well.
+Click 'Setup' to apply new settings.
+To continue setup, perform the following procedure.
+Close all web browsers.
+Confirm that your wireless LAN devices and the AirStaion are able to communicate with each other.
+Open a web browser from the utility to perform the AirStation setup.
+Refer to the manual for more information on using the utility.
+Back
+Apply
+WPA-PSK Pre-shared Key
+WPA-PSK pre-shared key is incorrect
+The AOSS function cannot be used because WPA-PSK is using 64 hexadecimal digits or includes a space.
+Configure WPA-PSK with 8 to 63 alphanumeric characters except a space to use AOSS for the wireless connection.
+(ASCII string of length over 64)
+Semicolon is an invalid character.
+##0070
+BSS BasicRateSet
+Mbps
+Multicast Rate
+Auto
+Reverse Direction Grant
+Enable
+DTIM Period
+Wireless Client Isolation
+Output Power
+Apply
+DTIM
+Not configured
+Contains invalid character
+Entered value is too small
+Entered value is too big
+all
+TxBurst
+##0071
+Wireless
+Disable
+Mixed
+BG-Mixed
+B-Only
+G-Only
+N-Only
+Wireless Channel
+Channel 1
+Channel 2
+Channel 3
+Channel 4
+Channel 5
+Channel 6
+Auto Channel
+Current Channel:
+High-Speed Mode
+Bandwidth:
+20 MHz
+40 MHz
+Extension Channel:
+Broadcast SSID
+Allow
+Do not use Multi Security function
+SSID
+WPA-mixed/TKIP/no authentication
+SSID Isolation
+Use
+Use AirStation’s MAC address
+Enter value
+Authentication/Encryption
+WPA-PSK-TKIP
+WPA/WPA2-Mixed TKIP+AES
+WPA-PSK (Pre-shared Key)
+Key Renewal Interval
+minutes
+AES
+WEP
+Enter value
+WEP Encryption Key Settings
+ASCII 5 characters (WEP64)
+ASCII 13 characters (WEP128)
+Hex 10 digits (WEP64)
+Hex 26 digits (WEP128)
+Wireless Authentication
+No authentication
+WPA-PSK
+WPA2-PSK
+WPA/WPA2 mixed mode - PSK
+Encryption
+No authentication/No encryption
+TKIP/AES mixed mode
+NONE
+TKIP
+AES
+WEP
+Apply
+WPA-PSK Pre-shared Key
+WPA-PSK pre-shared key is incorrect
+Key Renewal Interval
+Contains invalid character
+Not configured
+Entered value is too big
+WPA-PSK Pre-shared Key
+WEP Key
+WEP Key is not configured
+Entered value is too small
+Because AOSS is in use, the SSID and Broadcast SSID settings are saved but not used.
+Enable
+The semicolon is an invalid character.
+(ASCII string of length over 64)
+The semicolon is an invalid character.
+Zero cannot be used.
+SSID is duplicated
+Use AirStation’s MAC address
+No encryption
+Wireless Security<BR>Change the wireless security (encryption type and key). Configure the client-side wireless LAN settings.<br><br>The AOSS function cannot be used because WPA-PSK is setup with 64 hexadecimal digits or includes a space.<br>Configure WPA-PSK with 8 to 63 alphanumeric characters except a space to use the AOSS function for the wireless connection.
+Wireless Security<BR>Change the wireless security (encryption type and key). Configure the client-side wireless LAN settings.<br><br>The AOSS function cannot be used because the SSID includes a space.<br>Remove the space from the SSID to use the AOSS function for the wireless connection.
+WPA-mixed/WEP/no authentication
+AOSS/WPS can not be configured because WEP is used for SSID2 security. Use another encryption method except WEP.
+AOSS/WPS can not be configured because WPA-PSK-AES is used for SSID2 security. Use another encryption method except WPA-PSK-AES.
+Automatically select 20/40 MHz
+Outdoor
+Indoor
+When DFS is used&#x2C; the channel is automatically changed if meteorological radar is detected. 
+While using AOSS, you can set the wireless channel only to auto, 36, 40, 44, or 48.
+AOSS/WPS can not be configured because WEP is used for SSID2 security. Use another encryption method except WEP.
+80 MHz
+Encrypt Wireless Data
+SSID2
+##0072
+Wireless
+Disable
+Mixed
+BG-Mixed
+B-Only
+G-Only
+N-Only
+Wireless Channel
+Channel 1
+Channel 2
+Channel 3
+Channel 4
+Channel 5
+Channel 6
+Auto Channel
+Current Channel:
+High-Speed Mode
+Bandwidth:
+20 MHz
+40 MHz
+Extension Channel:
+Broadcast SSID
+Allow
+Use Multi Security function
+SSID
+WPA-mixed/PSK
+SSID Isolation
+Use
+Use AirStation’s MAC address
+Enter value
+Authentication/Encryption
+WPA-PSK-TKIP
+WPA/WPA2-Mixed TKIP+AES
+WPA-PSK (Pre-shared Key)
+Key Renewal Interval
+minutes
+AES
+WEP
+Enter value
+WEP Encryption Key Settings
+ASCII 5 characters (WEP64)
+ASCII 13 characters (WEP128)
+Hex 10 digits (WEP64)
+Hex 26 digits (WEP128)
+Authentication
+No Authentication
+WPA-PSK
+WPA2-PSK
+WPA/WPA2 mixed mode - PSK
+Encryption
+No Encryption
+TKIP/AES mixed mode
+NONE
+TKIP
+AES
+WEP
+Apply
+SSID
+Not configured
+WEP Key
+WEP Key is not configured
+Entered value is too small
+Entered value is too big
+Contains invalid character
+WPA-PSK pre-shared key is incorrect
+Key Renewal Interval
+Because AOSS is in use, the SSID and Broadcast SSID settings are saved but not used.
+WPA-PSK Pre-shared Key
+Enable
+Security<BR>Change security settings (encryption type, key). Re-configure the wireless LAN settings of the PC.
+Click &quot;Apply&quot; to confirm settings.
+To continue setup&#x2C; perform the following procedure.
+<li>Close all web browsers.</li>
+<li>Confirm that a connection between the computer and the router is established.</li>
+<li>Reopen the browser and reconnect using the AirStation Configuration Utility.</li>
+&nbsp;&nbsp;&nbsp;Refer to the user manual for more information.
+Apply
+Cancel
+(Current Channel: Manual Selection)
+The semicolon is an invalid character.
+(ASCII string of length over 64)
+The semicolon is an invalid character.
+Zero cannot be used.
+Use AirStation’s MAC address
+WPA2-PSK Pre-shared Key
+WPA2-PSK pre-shared key is incorrect
+WPA/WPA2 mixed mode - PSK Pre-shared Key
+WPA/WPA2 mixed mode - PSK pre-shared key is incorrect
+Invalid format
+##0073
+WMM
+Enable
+WMM-EDCA Parameters
+Priority
+Parameter
+AC_BK(Low)
+For AP
+For STA
+CWmin
+CWmax
+AIFSN
+TXOP Limit
+Admission Control
+Disable
+Enable
+AC_BE(Normal)
+AC_VI(High)
+AC_VO(Highest)
+Apply
+Not configured
+Contains invalid character
+Entered value is too big
+Entered value is too small
+AC_BK(Low)
+CWmin For AP
+CWmin For STA
+CWmax For AP
+CWmax For STA
+AIFSN For AP
+AIFSN For STA
+TXOP Limit For AP
+TXOP Limit For STA
+AC_BE(Normal)
+AC_VI(High)
+AC_VO(Highest)
+TXOP Limit For
+For
+##0074
+WPS
+Enable
+External Registrar
+Apply
+AirStation PIN
+Generate PIN
+WPS PIN
+OK
+WPS Security Settings
+WPS Status
+Configured
+Unconfigured
+Release
+11n/g/b
+SSID
+Security
+WPA-PSK AES
+Encryption Key
+Enrollee PIN code
+Invalid PIN code
+connection
+Unconfigured
+Multi Security
+Can't be configured because SSID2 is disabled.
+Cannot use when wireless communication is not available.
+Request is rejected if multiple SSIDs are enabled.
+OPEN
+Invalid enrollee PIN.
+The PIN capability is locked.
+Please reboot your AirStation.
+##0075
+Auto Detect
+AirStation Settings
+Detecting Internet connection (Resetting)
+DHCP Server detected
+The WAN-side connection is established via DHCP
+You must close the browser to access the specified URL.
+(Close the browser if it does not automatically close.)
+Restart the browser to access the specified URL.
+##0076
+eco
+Apply
+Schedule Entry
+Mode
+Start Time
+End Time
+Day of Week
+Custom Mode
+LED
+Wired LAN
+Wireless LAN
+Power Saving
+Enable
+Weekly Schedule
+Sun
+Mon
+Tue
+Wed
+Thu
+Fri
+Sat
+Day of Week
+Normal
+Sleep
+Custom
+Off
+eco
+Add
+Scheduling is not enabled because time is not obtained from NTP server.
+__BLANK__
+The day of week is not specified.
+Setting is complete. Restarting.
+The connection will be disconnected after the logging out or the timeout because the current time is included in the time of sleep mode.
+To get the AirStation back to the normal operation, press AOSS button for about 3 seconds and wait for about 40 seconds.
+__BLANK__
+End time is same as Start time.
+Power Saving
+Enable NTP to use scheduling.
+##0077
+Connecting this device to another access point can provide the following results.<br><Li>Enabling communication between two locations without connecting them with a LAN cable</Li><Li>Enabling an expanded communication range for the wireless LAN</Li>
+Connection to another access point (WB)
+Advanced settings for vendors
+Advanced settings for vendors
+Select the connection method to the Internet
+Set the PPPoE connection
+Set the IP address
+Reset automatic identification
+Detecting Internet connection (Resetting)
+Provider information settings
+Enter the PPPoE connection settings.
+Connection target username
+Connection target password
+IP Address
+DNS Server Address
+Enter information if required by your provider.
+Confirm your password<br>(Enter the same password for confirmation)
+Use the static IP address specified by provider.
+IP Address
+Primary
+Secondary
+Detecting Internet connection (Resetting)
+IP address settings
+Method of Acquiring IP Address
+IP Address
+Default Gateway
+Obtain IP address from DHCP server
+Specify IP address
+IP Address
+Subnet Mask
+Primary
+Secondary
+Confirm that settings were saved
+Save settings and exit
+Confirm connection
+Confirm the settings
+Exit connection settings
+The connection settings were saved.
+Detecting Internet connection (Resetting)
+WB settings
+Configure the WB settings of connection target
+WB settings
+Confirming access point of connection target
+Confirming connection target...<br>This operation may take some time to complete.<br>Please wait...
+Click here to reset the connection target settings.
+Confirm that the settings were changed
+The WB settings were completed.<br>The AirStation IP address was changed to 192.168.11.100 by these settings.<br>To reset the AirStation, enter 192.168.11.100 in the address box of the browser.
+Complete
+Close
+##0078
+Detecting Internet connection (Resetting)
+Checking Internet type
+No Internet connection.
+This screen is AirStation's settings.
+Confirm the settings for the Internet-side connection.
+Click the button below to authenticate the user account.
+Enter "admin" for username.
+Enter the password that you configured for AirStation. The password is case-sensitive.
+If you do not know the password, ask your network administrator.
+Confirm Internet-side connection.
+Checking Internet type...
+Checking the Internet type. Please wait...   
+If the screen does not change for a while, please click here.  
+Internet cable is not connected.
+Internet cable is not connected.
+Check the cabling between the AirStation and the DSL/cable modem.
+Choose one of the following:
+When the WAN port is connected, its LED should lit. If it does not, check the following. 
+Confirm the LAN port and the Internet port connection.
+Check whether the modem power is on.
+Check the modem cabling.
+Check the cable to the Internet port, then try to detect again. 
+No server detected.
+DHCP server or PPPoE server not found.
+Try Again
+DHCP Server Found
+DHCP server found.
+Acquire IP address automatically &#x28;recommended&#x29;
+Search Again
+Back
+DHCP server detected.
+The Internet-side connection is established via DHCP.
+You must close the browser to access the specified URL.
+&#x28;If the browser doesn’t close automatically, then close the browser yourself.&#x29;
+Restart the browser to access the specified URL.
+PPPoE server detected
+PPPoE server detected.
+Connect to PPPoE server &#x28;recommended&#x29;
+Reconfigure PPPoE Settings
+Confirm
+Provider Settings
+Enter the PPPoE connection information.
+Username
+Password
+Confirm your password
+DNS Server Address
+* Enter information if required by your provider.
+Primary:
+Secondary:
+* Confirm, 
+Click here
+.
+Next
+Confirm connection
+To access the specified URL, restart your browser.
+Restart your browser for access to the specified URL.
+If "Successfully Connected" is not shown above, click 
+here
+. 
+WHR-1166D
+AirStation Settings
+Setting finish
+DHCP and IGD server detected.
+The AirStation is changing to bridge mode.
+&nbsp;WAN settings complete.<br>&nbsp;The AirStation is changing to bridge mode.
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+No Internet Connection
+The deivce connected to the Internet port cannot connect to the Internet.
+The deivce connected to the AirStation&rsquo;s Internet port cannot connect to the Internet.
+Make sure the device on the Internet port is working properly.
+Confirm and retry.
+Language
+Checking Internet Connection
+Manual Setup
+DHCP Server
+PPPoE Server
+Complete
+Close
+Wrong username or password.
+
+English
+French
+Italian
+Spanish
+German
+Arabic
+Brazilian Portuguese
+Japanese
+Portuguese
+Turkish
+Russian
+Cabling
+Cabling OK
+Cabling Failed
+OK
+Failed
+Name Resolution
+Preparing...
+Confirming...
+Name resolution for the Buffalo server failed
+##0079
+LAN-side IP Address
+IP Address
+Subnet Mask
+DHCP Server Function
+Enable
+DHCP IP Address Pool
+for up to
+Address&#x28;es&#x29;
+Excluded IP Addresses
+PPTP Server Function
+Enable
+Authentication Type
+CHAP
+PAP
+MS-CHAP
+MS-CHAPv2 &#x28;40-bit Encryption&#x29;
+MS-CHAPv2 &#x28;40/128-bit Encryption&#x29;
+Advanced Settings
+Server IP Address
+Client IP Address
+DNS Server IP Address
+WINS Server IP Address
+MTU/MRU Value
+Auto
+Manual
+Auto
+for up to 5 address(es)
+LAN-side IP address of the AirStation
+Do not specify
+Apply
+PPTP User List
+Username
+Connection Condition
+IP Address
+Operation
+Edit PPTP User List
+Refresh
+Back
+Add New User
+Username
+Password
+(Confirmation)
+Advanced Settings
+Method of Acquiring IP Address
+Acquire automatically with DHCP
+Obtain form PPTP server setting range
+Fixed IP address
+IP Address
+Add User
+Edit
+Delete
+You have reached the maximum number of registered items.<br/>Delete a registered item before adding a new item.
+No registered users
+IP Address
+Enter an IP address from the private address ranges 10.0.0.1-10.255.255.254 172.16.0.1~172.31.255.254 and 192.168.0.1~192.168.255.254.
+Not connected
+Not obtained (Obtained via DHCP)
+Not obtained (Obtained via PPTP)
+Not obtained (Manual)
+---
+Generate Recommended IP Address
+The LAN-side IP address is set to 192.168.11.1.<br/>Therefore, a PC connected to the Buffalo router may be unable to access to the PC on the LAN.<br/>The LAN-side IP address and DHCP IP address pool should be changed.
+Entered value is too big
+Entered value is too small
+Editing
+Cancel
+Not connected
+Authentication error
+Connecting
+Disconnect (No response)
+Disconnect
+(Obtained via DHCP)
+(Obtained via PPTP)
+(Manual)
+IP Addresses in the LAN-side network address range cannot be used.
+Not configured
+Already registered
+Contains invalid character
+Passwords do not match.
+##0080
+Utilities
+Network Service
+Network Service List
+Click icons under services for more information.
+PC Name
+IP Address
+Services
+Status
+Operation
+Add to Bookmarks
+Search for Network Services
+Cancel
+Erase stored DDNS settings
+Back
+Refresh
+'Save to Bookmark' is only supported by Internet Explorer version 4 and later.
+Add new service to network service list
+MAC Address
+Services
+Select the service to use.
+Enables viewing of the shared folder.
+Enables access to the FTP server.
+Enables access to the HTTP server. (port 80)
+Enables access to the HTTP server. (port 8000)
+Enables access to the HTTP server. (port 8080)
+Edit
+Add
+Search for Network Services
+Searching for network services.
+Please wait...
+Cancel Search
+Searching for network service has been canceled.
+Transfer Wake-on-LAN packets
+Transferred wake-on-LAN packets.
+Unknown Host
+Unregistered
+This shows that the remote access port of the target is opened.
+Click this button to send a wake-on-LAN packet to the target MAC address.
+Click this button to browse the shared folders.
+Click this button to access to target FTP server.
+Click this button to access to the HTTP server.
+Dynamic
+Static
+Change to "Static"
+Editing
+Delete
+New
+Network Services
+Network analysis is disabled. Enable it to use the network service list.
+Use network analysis function
+The search was cancelled because the network services survey is disabled.
+No access lists.
+Arial
+Courier
+Network Services
+##0081
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+not use
+##0082
+Use IP unnumbered
+Default PPPoE Connection
+No Active Session
+IP Unnumbered PPPoE Connection
+Apply
+PPPoE Connection List
+Number
+Name
+Status
+No registered connections.
+Edit Connection List
+Preferred Connections
+#
+Name
+Destination address
+Source address
+No preferred connections are registered.
+Edit Preferred Connections
+Back
+PPPoE Connection #1: Add
+Preferred Connections 
+#
+Name
+Status
+Customize
+No registered connections.
+Enable
+Disable
+Off
+On
+Edit
+Delete
+Back
+Preferred PPPoE Connection: Add
+Name
+No active session.
+Destination Address
+Source Address
+Add
+Preferred Connections 
+Name
+Destination Address
+Source Address
+Customize
+No preferred connections are registered.
+Effective connection is not registered
+ALL
+Edit
+Delete
+LAN-side IP Address<br>(For IP Unnumbered)
+IP Address
+Subnet Mask
+You have reached the maximum number of registered items.<br/>Delete a registered item before adding a new item.
+PPPoE Connection #2: Add
+PPPoE Connection #3: Add
+PPPoE Connection #4: Add
+PPPoE Connection #5: Add
+PPPoE Connection Add
+Connections List
+Save
+Cancel
+Already registered
+Connection
+Effective connection is not registered
+Source/Destination Address
+Both cannot be set up with a blank
+Both cannot be set up at the same time
+You have reached the maximum number of registered items
+
+
+PPPoE1
+
+
+PPPoE2
+PPPoE3
+PPPoE4
+PPPoE5
+IP address is not valid as network address
+Contains invalid character
+IP Unnumbered
+PPPoE Connection #1: Edit
+PPPoE Connection #2: Edit
+PPPoE Connection #3: Edit
+PPPoE Connection #4: Edit
+PPPoE Connection #5: Edit
+##0083
+Guest Accounts
+Guest Account Settings
+Enable
+Guest User Authentication
+Guest Account LAN IP Address
+Auto
+Manual Setting
+IP Address
+Subnet Mask
+Set recommended values
+Guest Account DHCP Server
+for up to
+Address(es)
+Wireless
+11n/g/b
+Show Guests
+Username
+MAC Address
+Connection Status
+Operation
+Not registered guest users
+Edit Guests
+Refresh
+Back
+Add Guest User
+Maximum registration reached
+To add new registrations, delete older items.
+Username
+Password
+Confirmation
+Add
+Edit
+Delete
+Editing
+Guest user login screen
+SSID for guest:
+Security Certification Warning
+Click [Proceed] to move to the guest login screen.
+Depending on your browser, a warning may appear.
+There is a problem with this website’s security certificate.
+This connection is untrusted.
+The site’s security certificate is not trusted!
+This warning occurs because the AirStation is not certified.
+Certification is used for the guest user login and communication with AirStation is encrypted.
+Please ignore the warning. There is no security risk.
+Proceed
+Guest user login screen
+Enter the username and password provided by the network administrator, then click [Login].
+To log in as a guest, the network administrator must register you first.
+Authentication Failed
+Authentication failed.
+Log in again from the guest login screen.
+Return to Guest User Login screen
+Authentication Successful
+Authentication successful.
+You can now enjoy your connection to the Internet.
+If you experience difficulty connecting to the AirStation, please restart your wireless clients.
+Guest Accounts
+Edit Guests User
+This name is already registered
+Username is not configured
+Disabled because wireless is disabled.
+##0084
+Auto
+Japanese
+English
+Korean
+German
+French
+Italian
+Spanish
+Chinese (simplified)
+Chinese (traditional)
+Russian
+Brazilian Portuguese
+Username
+Password
+Mobile version
+Log In
+Wrong password.
+Another user is logging in.
+OK
+Unauthorized login attempt detected.<br>Login is locked.
+Enter the username.
+Enter the password.
+Wireless LAN
+2.4 GHz (11n/g/b)
+5 GHz (11ac/n/a)
+Enable
+SSID 1
+Enter the SSID.
+Encryption
+WPA2-PSK AES
+WPA-PSK AES
+WPA/WPA2-mixed PSK AES
+No Encryption
+Encryption Key
+Enter the encryption key.
+Channel
+Auto Channel
+Bandwidth
+Back
+Apply
+Guest Account Settings
+SSID
+Enter SSID for guest account.
+Permitted Access Time
+Unlimited
+hour
+hours
+Wireless
+AOSS
+WPS
+USB Storage
+No USB storage connected.
+Guest Accounts
+Password Authentication
+On
+Off
+Remaining Permitted Access Time
+Qos
+Optimized for video.
+Network Devices
+Wired
+Wireless
+Advanced Settings
+Internet
+PPPoE
+Dynamic DNS
+PPTP
+NAT
+LAN
+DHCP Lease
+Routing
+Wireless
+2.4 GHz
+5 GHz
+MAC Filtering
+Multicast Control
+WB
+Security
+Firewall
+IP Filter
+VPN Passthrough
+Port Forwarding
+DMZ
+UPnP
+Web Filtering
+Access Control
+Applications
+Disk Management
+Sharing
+WebAccess
+Media Server
+BitTorrent
+eco Mode
+Network USB
+Admin
+System
+Syslog Settings
+Reset / Reboot
+Update Firmware
+Status
+System Information
+Logs
+Packets
+Ping
+Copyright &copy; 2014 Buffalo Inc.
+The SSID may contain up to 32 alphanumeric characters.
+The SSID may contain single-byte characters and symbols.
+The WPA key may contain single-byte characters and symbols.
+The WPA key may contain from 8 to 64 single-byte alphanumeric characters.
+Hex keys may contain up to 64 characters.
+Your settings were not changed.
+Never show this again
+Continue
+Cancel
+144.4 Mbps (20 MHz)
+300 Mbps (40 MHz)
+450 Mbps (40 MHz)
+144.4 Mbps (20 MHz)
+300 Mbps (40 MHz)
+867 Mbps (80 MHz)
+Filter Level
+Web Filtering
+Enable
+Disable
+Current Status
+Mode
+Router Mode
+WAN-side IP Address
+Disconnect
+Bridge Mode
+Block Malicious Sites
+Blocks malware, phishing, and scam sites.
+Block Malicious and Adult Sites
+Blocks malware, phishing, and scam sites that contain sexually explicit content.
+Block Malicious, Adult, and Other Non-Family Friendly Sites
+Blocks malware, phishing, and scam sites, sites that contain sexually explicit material, mature content, abortion, alcohol, crime, cult, drugs, gambling, hate, sexual orientation, suicide, tobacco, or violence.
+No Filters
+This allows unrestricted access to all websites. You can still configure access control separately.
+I agree to Norton's Terms of Service.
+Internet connection not available.<br/>Check your Internet cables and router settings.
+Web Filtering service is powered by Symantec.
+You need to accept the
+terms of service
+for the filters to apply.
+Norton ConnectSafe
+Terms of Service
+
+Click here for FAQ
+Network Devices
+Your settings were not changed.
+Never show this again
+minute
+minutes
+Internet
+
+Enter the device name.
+IP Address
+MAC Address
+Priority Control QoS
+Off
+Ultra Premium - High Bandwidth
+Premium - Low Latency, Medium Bandwidth
+Premium - Low Latency, 320 Kbps Bandwidth
+Above Average, 320 Kbps Bandwidth
+Standard, Best Availability
+Junk, Lowest Priority
+Exclude
+Wake-on-LAN
+Always show this device
+Configuring...
+Connected to the Internet.
+The AirStation is in Wireless Bridge mode.
+A firmware update is available.
+Version
+
+
+
+
+
+Internet Settings
+The device name may contain up to 64 alphanumeric characters.
+The device name may contain single-byte alphanumeric characters and symbols.
+Enter the device name.
+Magic packet sent.
+Add Client
+Advanced Settings
+Detailed Logs
+Firmware
+Update Reminder
+Daily Check Time
+Enable
+System Information
+Show password
+Display TZO key
+Filter Level
+Websites Excluded from Filter
+Computers Excluded from Filter
+Apply
+Exclude Websites
+Edit Excluded Websites
+ Exclude Websites
+Exclude Computers
+Edit Excluded Computers
+Exclude Computers
+Add
+Add
+Add
+Save
+Cancel
+Cancel
+Add
+Save
+Cancel
+Cancel
+Excluded Websites
+Operation
+Edit
+Delete
+MAC Address
+IP Address
+Computer Name
+Operation
+Edit
+Delete
+Unknow
+Unknow
+No excluded websites registered.
+No excluded computers registered.
+Blocks malware, phishing, and scam sites.
+Blocks malware, phishing, and scam sites that contain sexually explicit content.
+Blocks malware, phishing, and scam sites, sites that contain sexually explicit material, mature content, abortion, alcohol, crime, cult, drugs, gambling, hate, sexual orientation, suicide, tobacco, or violence.
+This allows unrestricted access to all websites. You can still configure access control separately.
+close
+Note:
+Not compatible with WPS.
+Warning!
+Please do not change these settings.
+Change Wireless Settings
+Change SSID
+Change Wireless Settings
+Wireless clients, including this computer, will be disconnected. You may need to change your wireless settings to re-connect. 
+Click 'Apply' to proceed.
+Start AOSS/WPS.
+OK
+Cancel
+Delete
+Show the next
+device(s)
+Invalid input.
+No registered guest users.
+Settings Management
+Operation
+Back up settings
+Restore settings
+Initialize AirStation
+Backup File
+Password
+Use password
+Show password
+Execute
+<BR>You are about to change the LAN-side IP address. Please reconfigure your PC's LAN settings.<Br><BR>Click 'Apply' to register your changes.
+No connections registered.
+There is no available connection
+Fixed
+Disabled
+Enabled
+Wireless Encryption
+Show Guests
+Preferred PPPoE Connection: Edit
+Access Filter
+Configured (External registrars disabled)
+*No compatible settings found.
+WMM Settings
+Display
+disabled
+Current
+Access Control
+Note:
+Port forwarding settings cann't be used because address translation is disabled.
+Error:Target computer
+Not configed.
+Error:Target computer
+Too many or too few characters.
+Add Access Control
+Target Computer
+Internet Access
+No Internet Access
+Edit Permitted Access Time
+Edit Access Control
+Error:Start time and end time cannot be the same.
+Already registered.
+Too many registered devices.
+Error:The day of week is not specified.
+Error: LAN-side IP address (for IP unnumbered)
+Do not use an IP address from the same range as the LAN-side IP address.
+DMZ can&rsquo;t be used because address translation is disabled.
+Duplicate SSID
+Enabled
+Disabled

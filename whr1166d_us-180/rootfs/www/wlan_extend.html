@@ -1,0 +1,136 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+</head>
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function setValue(val)
+{
+	var rval = (document.getElementById("id_" + val).checked)?"1":"0";
+		
+	if (val == "WIFINoForwarding")
+	{
+		document.getElementById("mm_WIFINoForwardingBTNBSSID").value = rval;
+		document.getElementById("mm_WIFINoForwarding").value = rval + ";" + rval + ";" + rval + ";1;" + rval;//Caspar add 5th val 20091113
+	}
+	else
+		document.getElementById("mm_" + val).value = rval;
+}
+
+function setWifiAdv()
+{
+	Hide_error();
+	var err_title="<%GetString("WlanExtend","11");%>";
+	if (document.wlanadvForm.WIFIDtimPeriod.value.length==0)
+	{
+		Show_error(err_title,"<%GetString("WlanExtend","12");%>");
+		return false;
+	}
+	if (!check_integer(document.wlanadvForm.WIFIDtimPeriod.value))
+	{
+		Show_error(err_title,"<%GetString("WlanExtend","13");%>");
+		return false;
+	}
+	if (document.wlanadvForm.WIFIDtimPeriod.value<1)
+	{
+		Show_error(err_title,"<%GetString("WlanExtend","14");%>");
+		return false;
+	}
+	if (document.wlanadvForm.WIFIDtimPeriod.value>255)
+	{
+		Show_error(err_title,"<%GetString("WlanExtend","15");%>");
+		return false;
+	}
+	
+	document.wlanadvForm.WIFIDtimPeriod.value=parseInt(document.wlanadvForm.WIFIDtimPeriod.value, 10);
+	document.wlanadvForm.submit();
+}
+// -->
+</script>
+<body  class="BFK_BODY">
+<br>
+<p class=C_WARN>
+</p>
+<div id= "id_errtbl" class="C_ERR"></div>
+<form method="POST" name="wlanadvForm" onsubmit="return setWifiAdv();">
+  <table class="AD_SET">
+<!--    
+   <tr>
+      <th><%GetString("WlanExtend","1");%></th> 
+      <td>
+        <select name="WIFIBasicRate">
+          <option value="3" <%NvramMatch("WIFIBasicRate","3","selected");%>>1,2 <%GetString("WlanExtend","2");%></option>
+          <option value="15" <%NvramMatch("WIFIBasicRate","15","selected");%>>1,2,5.5,11 <%GetString("WlanExtend","2");%></option>
+          <option value="351" <%NvramMatch("WIFIBasicRate","351","selected");%>>1,2,5.5,6,11,12,24 <%GetString("WlanExtend","2");%></option>
+          <option value="4095" <%NvramMatch("WIFIBasicRate","4095","selected");%>><%GetString("WlanExtend","16");%></option>
+        </select>
+      </td>
+    </tr>
+-->
+    <tr>
+      <th><%GetString("WlanExtend","3");%></th>
+          <td><select name="nosave_multiRate">
+          <%GetMulticastRate();%>
+          </select></td>
+    </tr>
+<!--
+    <tr>
+      <th><%GetString("WlanExtend","5");%></th>
+      <td>
+      	<input type="hidden" name="WIFIHTRDG" id="mm_WIFIHTRDG" value="<%NvramGet("WIFIHTRDG");%>">
+        <input type="checkbox" value="1" id="id_WIFIHTRDG" <%NvramMatch("WIFIHTRDG","1","checked");%> onclick="setValue('WIFIHTRDG')"><%GetString("WlanExtend","6");%>
+      </td>
+    </tr>
+-->
+    <tr>
+      <th><%GetString("WlanExtend","7");%></th>          
+      <td>
+        <input maxLength="3" size="5" name="WIFIDtimPeriod" value='<%NvramGet("WIFIDtimPeriod");%>'>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanExtend","8");%></th>
+      <td>
+      	<input type="hidden" name="WIFINoForwarding" id="mm_WIFINoForwarding" value="<%NvramGet("WIFINoForwarding");%>">
+      	<input type="hidden" name="WIFINoForwardingBTNBSSID" id="mm_WIFINoForwardingBTNBSSID" value="<%NvramGet("WIFINoForwardingBTNBSSID");%>">
+        <input type="checkbox" id="id_WIFINoForwarding" value="1" <%NvramMatch("WIFINoForwardingBTNBSSID","1","checked");%> onclick="setValue('WIFINoForwarding')"><%GetString("WlanExtend","6");%>
+      </td>
+    </tr>
+<!--
+    <tr>
+      <th><%GetString("WlanExtend","9");%></th>
+      <td>
+        <select name="WIFITxPower">
+          <option value="25" <%NvramMatch("WIFITxPower","25","selected");%>>25 %</option>
+          <option value="50" <%NvramMatch("WIFITxPower","50","selected");%>>50 %</option>
+          <option value="75" <%NvramMatch("WIFITxPower","75","selected");%>>75 %</option>
+          <option value="100" <%NvramMatch("WIFITxPower","100","selected");%>>100 %</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("WlanExtend","17");%></th>
+      <td>
+      	<input type="hidden" name="WIFITxBurst" id="mm_WIFITxBurst" value="<%NvramGet("WIFITxBurst");%>">
+        <input type="checkbox" id="id_WIFITxBurst" value="1" <%NvramMatch("WIFITxBurst","1","checked");%> onclick="setValue('WIFITxBurst')"><%GetString("WlanExtend","6");%>
+      </td>
+    </tr>
+ -->
+  </table>
+
+
+  <p><input type="button" value="<%GetString("WlanExtend","10");%>" name="nosave_btn" onclick="setWifiAdv();">&nbsp;</p>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+
+</body>
+</html>

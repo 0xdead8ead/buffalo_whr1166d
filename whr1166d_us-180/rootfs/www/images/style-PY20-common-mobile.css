@@ -1,0 +1,699 @@
+body {
+	font-family: "Éq?ÉMÉmäpÉS Pro W3", "Hiragino Kaku Gothic Pro", "?ÉC?ÉI", Meiryo, Osaka, sans-serif !important;
+	font-size: 18px;
+	margin: 0px;
+	background-color: #808080;
+}
+a{
+    text-decoration: none;
+}
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+a:active {
+    text-decoration: none;
+}
+img.vbottom {
+	vertical-align: bottom;
+}
+input[type="password"]{
+	font-family: sans-serif;
+}
+input[type="text"]{
+	font-family: sans-serif;
+}
+.left-float {
+	float: left;
+}
+.right-float {
+	float: right;
+}
+
+/* head
+---------------------------------------*/
+.login_head {
+	width:400px;
+	margin:0px;
+	height:57px;
+	background:url(/images/aoss2_header_tex.gif) repeat-x top left;
+}
+.head {
+	width: 640px;
+	margin: 0px;
+	background-color: #E6E6E6;
+	background-image: url(/images/py20_header_m.png);
+	background-repeat: repeat-x;
+	background-position: center top;
+}
+.headerLogo {
+	width: 160px;
+	height: 30px;
+	padding: 45px 0px 0px 18px;
+	vertical-align: bottom;
+}
+.statusArea {
+	padding: 13px 0px 0px 0px;
+	float: right;
+}
+.statusIcon {
+	float: left;
+	width: 90px;
+	height: 90px;
+	vertical-align: bottom;
+	margin:0px 18px 0px 20px;
+	border-style: hidden;
+	cursor: pointer;
+}
+.statusIcon:hover {
+	border: 0px solid #666666;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	box-shadow: 1px 2px 7px #999999;
+}
+.status_home {
+	background: url(/images/py20_status_home_m.png) no-repeat center center;
+}
+.status_wan_ok {
+	background: url(/images/py20_status_internet_ok_m.png) no-repeat center center;
+}
+.status_wan_ng {
+	background: url(/images/py20_status_internet_ng_m.png) no-repeat center center;
+}
+.status_repeater_ok {
+	background: url(/images/py20_status_repeater_m.png) no-repeat center center;
+}
+.status_repeater_ng {
+	background: url(/images/py20_status_repeater_m_dis.png) no-repeat center center;
+}
+.status_info_none {
+	background: url(/images/py20_status_info_none_m.png) no-repeat center center;
+}
+.status_info {
+	background: url(/images/py20_status_info_m.png) no-repeat center center;
+}
+.status_info_blink_on {
+	background: url(/images/py20_status_info_m.png) no-repeat center center;
+}
+.status_info_blink_off {
+	background: url(/images/py20_status_info_none_m.png) no-repeat center center;
+}
+.status_support_ok {
+	background: url(/images/py20_status_help_active_m.png) no-repeat center center;
+}
+.status_support_ng {
+	background: url(/images/py20_status_help_m.png) no-repeat center center;
+}
+.status_logout {
+	background: url(/images/py20_status_logout_m.png) no-repeat center center;
+}
+
+/* top bar
+---------------------------------------*/
+.title {
+	width: 640px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_devctrl {
+	width: 640px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_guest {
+	width: 640px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_norton {
+	width: 640px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_wireless {
+	width: 640px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_wizard {
+	width: 640px;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid #CCCCCC;
+}
+.title_icon {
+	height: 60px;
+	width: 60px;
+	margin: 15px 10px 15px 20px;
+	float: left;
+}
+.titleimg_wireless {
+	background: url(/images/py20_header_wireless_m.png) no-repeat center center;
+}
+.titleimg_nas {
+	background: url(/images/py20_header_nas_m.png) no-repeat center center;
+}
+.titleimg_guest {
+	background: url(/images/py20_header_guest_port_m.png) no-repeat center center;
+}
+.titleimg_qos {
+	background: url(/images/py20_header_qos_m.png) no-repeat center center;
+}
+.titleimg_parental {
+	background: url(/images/py20_header_parental_control_m.png) no-repeat center center;
+}
+.titleimg_devctrl {
+	background: url(/images/py20_header_devctrl_m.png) no-repeat center center;
+}
+
+.title_text {
+	width: 450px;
+	padding: 30px 0px 0px 0px;
+	font-size: 33px;
+	color: #1E1E1E;
+	float: left;
+	
+	/* for Android4.1.2(#95357) */
+	
+}
+
+/* main
+---------------------------------------*/
+.login_contents {
+	width: 400px;
+	margin:0px;
+	padding: 0px;
+	background:url(/images/aoss2_main_left_tex.gif) repeat-y left top #FFFFFF;
+}
+.contents {
+	width: 640px;
+	margin: 0px;
+	padding: 15px 0px 0px 0px;
+	background-color: #E6E6E6;
+}
+.mainContents {
+	min-height: 86px;
+	margin: 0px;
+	padding: 10px 0px 0px 0px;
+}
+.without_button_area {
+	padding: 0px 0px 0px 22px;
+}
+.without_button_area_ex {
+	padding: 0px 0px 0px 22px;
+}
+.main {
+	padding: 25px 0px 0px 0px;
+}
+.setting_main {
+	text-align: left;
+	padding: 0px;
+}
+
+/* footer
+---------------------------------------*/
+.footer {
+	clear: both;
+	margin: 0px;
+	padding: 50px 0px 20px 25px;
+	position:relative;
+	background-color: #E6E6E6;
+}
+.aistation_logo {
+	float: left;
+	width: 127px;
+	height: 17px;
+	margin: 0px 20px 0px 141px;
+	background: url(/images/py20_logo_airstation_m.png) no-repeat center center;
+}
+.modelname {
+	float: left;
+	font-size:15px;
+	color: #666666;
+}
+.modelname_prefix {
+	margin-right: 10px;
+}
+.copyright {
+	clear: both;
+	font-size:15px;
+	color:#666666;
+	text-align:center;
+}
+
+/* indicator
+---------------------------------------*/
+.waiting_base{
+	height: 2400px;
+	width: 640px;
+	background-color: #000000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+	-moz-opacity: 0.6;
+}
+.waiting_body
+{
+	width: 240px;
+	height: 240px;
+	padding: 20px;
+	color: #FFFFFF;
+	font-size: 30px;
+	font-weight: bold;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top:-120px;
+	margin-left:-120px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	z-index: 4;
+}
+.indicator{
+	text-align: center;
+	margin: 50px 0px 50px 0px;
+}
+
+
+/* button
+---------------------------------------*/
+.button1 {
+	width: 275px;
+	height: 76px;
+	margin: 0px 5px 0px 5px;
+	padding: 0px 8px 0px 8px;
+	color: #FFFFFF;
+	font-size: 30px;
+	font-weight: bold;
+	border: none;
+	background:
+		url(/images/py20_button_normal_middle_m.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left_m.png) no-repeat top left,
+		url(/images/py20_button_normal_right_m.png) no-repeat top right;
+}
+.button1:hover {
+	color: #66AAFF;
+}
+.button2 {
+	height: 76px;
+	width: 271px;
+	margin: 0px 22px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	text-align: center;
+	color: #FFFFFF;
+	background:
+		url(/images/py20_button_normal_middle_m.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left_m.png) no-repeat top left,
+		url(/images/py20_button_normal_right_m.png) no-repeat top right;
+	float: right;
+	cursor: pointer;
+}
+.button2:hover {
+	color: #66AAFF;
+}
+.button2_disable {
+	height: 76px;
+	width: 271px;
+	margin: 0px 22px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	text-align: center;
+	color: #CCCCCC;
+	background:
+		url(/images/py20_button_normal_middle_m.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left_m.png) no-repeat top left,
+		url(/images/py20_button_normal_right_m.png) no-repeat top right;
+	float: right;
+}
+.button3 {
+	height: 60px;
+	width: 270px;
+	margin: 0px 22px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	text-align: center;
+	color: #333333;
+	background:
+		url(/images/py20_button_download_m_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_download_m_normal_left.png) no-repeat top left,
+		url(/images/py20_button_download_m_normal_right.png) no-repeat top right;
+	float: left;
+	cursor: pointer;
+}
+.button3:hover {
+	color: #66AAFF;
+}
+.button3_disable {
+	height: 60px;
+	width: 270px;
+	margin: 0px 22px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	text-align: center;
+	color: #A0A0A0;
+	background:
+		url(/images/py20_button_download_m_normal_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_download_m_normal_left.png) no-repeat top left,
+		url(/images/py20_button_download_m_normal_right.png) no-repeat top right;
+	float: left;
+	cursor: default;
+}
+.button4 {
+	height: 76px;
+	width: 271px;
+	margin: 0px 22px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	text-align: center;
+	color: #FFFFFF;
+	background:
+		url(/images/py20_button_red_normal_middle_m.png) repeat-x top center content-box,
+		url(/images/py20_button_red_normal_left_m.png) no-repeat top left,
+		url(/images/py20_button_red_normal_right_m.png) no-repeat top right;
+	float: right;
+	cursor: pointer;
+}
+.button4:hover {
+	color: #66AAFF;
+}
+.button4_disable {
+	height: 76px;
+	width: 271px;
+	margin: 0px 22px 0px 0px;
+	padding: 0px 8px 0px 8px;
+	text-align: center;
+	color: #CCCCCC;
+	background:
+		url(/images/py20_button_normal_middle_m.png) repeat-x top center content-box,
+		url(/images/py20_button_normal_left_m.png) no-repeat top left,
+		url(/images/py20_button_normal_right_m.png) no-repeat top right;
+	float: right;
+}
+.button_devctrl {
+	height: 78px;
+	width: 575px;
+	padding: 0px 10px 0px 10px;
+	margin: 0px 0px 22px 22px;
+	text-align: center;
+	color: #333333;
+	background:
+		url(/images/py20_button_device_m_middle.png) repeat-x top center content-box,
+		url(/images/py20_button_device_m_left.png) no-repeat top left,
+		url(/images/py20_button_device_m_right.png) no-repeat top right;
+	cursor: pointer;
+}
+.button_devctrl:hover {
+	color: #66AAFF;
+}
+.button_text {
+	padding-top: 19px;
+	font-size: 30px;
+	font-weight: bold;
+}
+.button_text_small {
+	padding-top: 13px;
+	font-size: 26px;
+	font-weight: bold;
+}
+
+.button {
+	font-family: inherit;
+	border: none;
+	width:100px;
+	height:30px;
+	margin-left: 10px;
+	text-align:center;
+	background:url(/images/aoss2_btn_next.gif) no-repeat left center;
+	cursor: pointer;
+}
+.button_middle {
+	padding: 1px 10px 1px 10px;
+	font-size: 24px;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: 1px outset #999999;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	cursor: pointer;
+}
+.button_middle:link {
+	color: #000000;
+}
+.button_middle:visited {
+	color: #000000;
+}
+.button_middle:active {
+	color: #000000;
+}
+.button_middle:hover {
+	color: #66AAFF;
+	border: 1px outset #66AAFF;
+}
+.button_advanced1 {
+	display: none;
+}
+.button_advanced2 {
+	display: none;
+}
+
+
+/* warning
+---------------------------------------*/
+.warning{
+	width: 200px;
+	padding: 7px;
+	font-size: 14px;
+	color: #333333;
+	background-color: #FFDD66;
+	position: absolute;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	filter: alpha(opacity=90);
+	opacity: 0.9;
+	-moz-opacity: 0.9;
+	z-index: 1;
+	margin-top: 103px;
+	margin-left: 400px;
+}
+
+
+/* popup
+---------------------------------------*/
+.popup_bg{
+	height: 16000px; /* devctrl ÇÃ?Å[ÉXÉgÉPÅ[ÉXÇëzíË */
+	width: 640px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+}
+.popup{
+	min-height: 1200px;
+	width: 580px;
+	padding: 30px;
+	color: #333333;
+	font-size: 30px;
+	background-color: #FFFFFF;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 4;
+}
+.popup_item {
+	padding: 10px;
+}
+.popup_info_item {
+	padding: 10px;
+	border-bottom: 1px solid #666666;
+}
+.info_block {
+	padding: 0px 0px 0px 10px;
+}
+
+.popup_left {
+	width: 60px;
+	height: 60px;
+	float: left;
+}
+.popup_right {
+	width: 490px;
+	float: left;
+	padding: 11px 0px 0px 9px;
+}
+.popup_icon1 {
+	background: url(/images/py20_info_m_notice.png) no-repeat center center;
+}
+.popup_icon2 {
+	background: url(/images/py20_info_m_warning.png) no-repeat center center;
+}
+.popup_icon3 {
+	background: url(/images/py20_info_m_error.png) no-repeat center center;
+}
+
+
+/* backalert
+---------------------------------------*/
+.backalert_bg{
+	height: 2000px;
+	width: 640px;
+	background-color: #000000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+	-moz-opacity: 0.6;
+}
+.backalert_body
+{
+	width: 240px;
+	padding: 20px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top:-120px;
+	margin-left:-120px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	z-index: 4;
+}
+
+/* confirm
+---------------------------------------*/
+.confirm_bg{
+	height: 2000px;
+	width: 640px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+}
+.confirm_body
+{
+	width: 640px;
+	padding: 0px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 4;
+}
+.confirm_text
+{
+	margin: 30px ;
+	font-size: 14px;
+}
+
+/* etc
+---------------------------------------*/
+.input_item {
+	margin: 0px;
+	padding: 0px 0px 30px 0px;
+	font-size: 30px;
+}
+
+.editbox_check {
+	width: 25px;
+	height: 25px;
+	margin-right: 15px;
+}
+.editbox_long {
+	font-size: 26px;
+	width: 565px;
+}
+.editbox_select {
+	font-size: 26px;
+	width: 595px;
+}
+.editbox_webaxsuser {
+	font-size: 26px;
+	width: 550px;
+}
+.form_area {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+.button_area{
+	margin: 35px 0px 0px 0px;
+	padding 0px 5px 0px 0px;
+	position:relative;
+	z-index:1;
+	text-align: right;
+}
+.editbox {
+	width: 310px;
+}
+.editbox_grayish {
+	color: #AAAAAA;
+	width: 310px;
+}
+.help_uname {
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #FFFFFF;
+	background-color: #000010;
+	position: absolute;
+	top: 115px;
+	left: 180px;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+.help_pass {
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #FFFFFF;
+	background-color: #000010;
+	position: absolute;
+	top: 140px;
+	left: 180px;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+.errortxt {
+	font-size: 14px;
+	color: #DD3333;
+	padding:12px 0px;
+}
+.disklist{
+	border: 1px solid #000000;
+	margin: 0px 22px 10px 0px;
+}
+
+/* for Android 4.1.2(#95357) */
+.fix_height_30px_ics{
+	height: 30px;
+}
+
+.fix_height_20px_ics{
+	height: 20px;
+}
+
+.fix_panel_height_30px_ics{
+	width: 440px;
+	height: 92px;
+	font-size: 30px;
+}
+
+.fix_panel_height_30px_ics td{
+	vertical-align: middle;
+}
+
+/* for Android 4.1.2(#95357) */
+

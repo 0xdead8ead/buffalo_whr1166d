@@ -1,0 +1,212 @@
+body {
+	font-family: "¥á¥¤¥ê¥ª", Meiryo, Arial, Helvetica, "MS UI Gothic", "£Í£Ó £Ð¥´¥·¥Ã¥¯", Osaka, "¥Ò¥é¥®¥Î³Ñ¥´ Pro W3";
+	font-size: 12px;
+	margin: 0px;
+	background-repeat: repeat-x;
+	background-color: #F2F2F2;
+	background-image: url(/images/aoss2_background.png);
+}
+img.vbottom {
+	vertical-align: bottom;
+}
+.left-float {
+	float: left;
+}
+
+.right-float {
+	float: right;
+}
+
+/* head
+---------------------------------------*/
+.head {
+	width:400px;
+	margin:0px;
+	height:57px;
+	background:url(/images/aoss2_header_tex.gif) repeat-x top left;
+}
+.headerLogo {
+	float: left;
+	padding:21px 0 12px 10px;
+}
+.airStation {
+	float: right;
+	width: 151px;
+	text-align:right;
+	padding:21px 10px 0 0;
+}
+
+/* top bar
+---------------------------------------*/
+.topBar {
+	width:400px;
+	margin:0px;
+	height:42px;
+	background:url(/images/aoss2_title_tex.gif) repeat-x left top #FFFFFF;
+}
+.productName {
+	float: left;
+	line-height:30px;
+	font-weight:bold;
+	font-size:18px;
+	color:#fff;
+	padding:2px 0px 10px 20px;
+}
+
+/* main
+---------------------------------------*/
+.contents {
+	width: 400px;
+	margin:0px;
+	padding: 0px;
+	background:url(/images/aoss2_main_left_tex.gif) repeat-y left top #FFFFFF;
+}
+.leftNavi {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	width: 20px;
+}
+.mainContents {
+	margin: 0px 0px 0px 20px;
+	padding:0px;
+	background:url(/images/aoss2_main_right_tex.gif) repeat-y right top;
+}
+.rightNavi {
+	margin: 0px;
+	padding: 0px;
+	float: right;
+	width: 20px;
+}
+.main {
+	text-align: center;
+	padding:6px 0px 0px 0px;
+	margin: 0px 20px 0px 0px;
+}
+
+/* footer
+---------------------------------------*/
+.footer {
+	margin: 0px;
+	padding: 0px;
+	height:16px;
+	position:relative;
+	background:url(/images/aoss2_footer_tex.jpg) repeat-x top center;
+}
+.footerLeft {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	width: 15px;
+	height: 16px;
+	background:url(/images/aoss2_footer_left.jpg) no-repeat top center #FFFFFF;
+}
+.footerMain {
+	margin: 0px 0px 0px 15px;
+	padding:0px;
+}
+.footerText {
+	font-size:10px;
+	line-height:16px;
+	color:#FFFFFF;
+	text-align:center;
+}
+.footerRight {
+	margin: 0px;
+	padding: 0px;
+	float: right;
+	width: 15px;
+	height: 16px;
+	background:url(/images/aoss2_footer_right.jpg) no-repeat top center #FFFFFF;
+}
+
+/* bottom
+---------------------------------------*/
+.bottom {
+	margin: 0px;
+	padding: 0px;
+	height:20px;
+	position:relative;
+	background:url(/images/aoss2_bottom_tex.gif) repeat-x top center #F2F2F2;
+}
+.bottomLeft {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	width: 20px;
+	height: 20px;
+	background:url(/images/aoss2_bottom_left.gif) no-repeat top center #F2F2F2;
+}
+.bottomRight {
+	margin: 0px;
+	padding: 0px;
+	float: right;
+	width: 20px;
+	height: 20px;
+	background:url(/images/aoss2_bottom_right.gif) no-repeat top center #F2F2F2;
+}
+
+/* etc
+---------------------------------------*/
+.form_area {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+.button_area{
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #BABABA;
+	padding: 10px 0px 10px 30px;
+	margin: 10px 20px 0px 20px;
+	position:relative;
+	z-index:1;
+	text-align: right;
+}
+.button {
+	font-family: inherit;
+	border: none;
+	width:100px;
+	height:30px;
+	margin-left: 10px;
+	text-align:center;
+	background:url(/images/aoss2_btn_next.gif) no-repeat left center;
+}
+.editbox {
+	width: 310px;
+}
+.editbox_grayish {
+	color: #AAAAAA;
+	width: 310px;
+}
+.help_uname {
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #FFFFFF;
+	background-color: #000010;
+	position: absolute;
+	top: 115px;
+	left: 180px;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+.help_pass {
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #FFFFFF;
+	background-color: #000010;
+	position: absolute;
+	top: 140px;
+	left: 180px;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+.errortxt {
+	font-size: 14px;
+	color: #DD3333;
+	padding:12px 0px;
+}

@@ -1,0 +1,349 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;  charset=<%ChangeCharset();%>">
+<title>WHR-1166D - BUFFALO AirStation</title>
+	<link rel="stylesheet" type="text/css" href="/images/style-PY20-common.css">
+	<link rel="stylesheet" type="text/css" href="/images/style-PY20-panel.css">
+	<link rel="stylesheet" type="text/css" href="/images/style-PY20-ipsw_test.css">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	
+	<script type="text/javascript" src="/js/prototype.js"></script>
+	<script type="text/javascript" src="/js/py20_common.js"></script>
+	<script type="text/javascript" src="/js/cookiectrl.js"></script>
+	<script type="text/javascript" src="/js/py20_icon_popup.js"></script>
+	<script type="text/javascript" src="/js/py20_backalert.js"></script>
+	<script type="text/javascript" src="/js/py20_set_wait.js"></script>
+	<script type="text/javascript" src="/js/cookiectrl.js"></script>
+	<script type="text/javascript" src="/js/ipsw/scriptaculous.js"></script>
+	<script type="text/javascript" src="/js/ipsw/iphone-style-checkboxes.js"></script>
+
+<script type="text/javascript">
+
+var cbGUEST;
+var cbQOS;
+var cbPARENTAL;
+var routeMode = '<%NvramGet("RouterMode");%>';
+var remain_time_hour;
+var remain_time_minute;
+var guestport_enable = '<%NvramGet("GuestPortEnabled");%>';
+var iconDisable = false;
+	
+
+function handBodyOnLoad()
+{
+	var WanIP = "<%GetWanIPAddress();%>";
+	var nt_agree = '<%NvramGet("Nortonagree");%>';
+	var timerId;
+
+	getIconState();
+	setInterval(getIconState, 2000);
+
+	if (routeMode == 1)
+	{
+		if (WanIP.length < 16 && nt_agree == 1) //Wan: Connect & Norton: agree
+		{
+			document.getElementById("btnblank_PARENTAL").style.display = "block";
+		}
+		else
+		{
+			document.getElementById("btnblank_PARENTAL").style.display = "none";
+		}
+	}
+
+	cbGUEST = $$('.button_GUEST input[type=checkbox]').first();
+	new iPhoneStyle(cbGUEST);
+	//cbQOS = $$(".button_QOS input[type=checkbox]").first();
+	//new iPhoneStyle(cbQOS);
+	if (routeMode == 1)
+	{
+		cbPARENTAL = $$(".button_PARENTAL input[type=checkbox]").first();
+		new iPhoneStyle(cbPARENTAL);
+
+		initHandle(0);
+	}
+	else
+	{
+		initHandle(1);
+	}
+
+	guestport_time_countdown();
+	
+	
+	//top.maskin(1000);
+//	top.dispWaiting(true);
+//	setTimeout("top.handleErrDialogOnOk()",1000);
+	handleDataget();
+}
+
+function initHandle(num)
+{
+	var ids = ["GUEST","PARENTAL"];
+
+	for(i = 0; i <= num; i++)
+	{
+		el = document.getElementById("btnblank_" + ids[i]);
+		if(el.addEventListener)
+		{// Firefox
+			el.addEventListener("click", handleBlankOnClick, false);
+		}
+		else if(el.attachEvent)
+		{// IE
+			el.attachEvent("onclick", handleBlankOnClick);
+		}
+		else
+		{
+			el.onclick = handleBlankOnClick;
+		}
+	}
+}
+
+function guestport_time_countdown()
+{
+	var remain_time = '<%NvramGet("GuestPortRemainTime");%>';
+	remain_time =  parseInt(remain_time,10);
+	remain_time_hour = Math.floor(remain_time/3600);
+	remain_time_minute = Math.floor((remain_time-(remain_time_hour*3600))/60);
+	if (guestport_enable==0)
+	{
+		document.getElementById("lease_time").style.display = "none";
+	}
+	else if(guestport_enable==1)
+	{
+		document.getElementById("lease_time").style.display = "";
+		if (remain_time_hour>0)
+		{
+			document.getElementById("span_wireless_count_hours").innerHTML = remain_time_hour;
+			if (remain_time_hour==1)
+			document.getElementById("hour_string").innerHTML = '<%GetString("NewUI","46");%>';
+			else
+			document.getElementById("hour_string").innerHTML = '<%GetString("NewUI","47");%>';
+		}
+		if (remain_time_minute>0)
+		{
+			document.getElementById("span_wireless_count_minutes").innerHTML = remain_time_minute;
+			if (remain_time_minute>1)
+			document.getElementById("minute_string").innerHTML = '<%GetString("NewUI","153");%>';
+			else
+			document.getElementById("minute_string").innerHTML = '<%GetString("NewUI","152");%>';
+		}
+	}
+}
+
+// Stop bubbling 
+function handleBlankOnClick(evt)
+{
+	if(evt.target)
+	{// Firefox
+		evt.stopPropagation();
+	}
+	
+
+}
+function handleDataget(){
+var data = <%GetDevctrl("");%>;
+	document.getElementById("span_wire_count").innerHTML = data.WIRECOUNT;
+	document.getElementById("span_wireless_count").innerHTML = data.WIRELESSCOUNT;
+}
+var almid_ipsw;
+function handleChange(elem)
+{
+	if(!isUndefined(almid_ipsw))
+	{
+		window.clearTimeout(almid_ipsw);
+	}
+	almid_ipsw = window.setTimeout("handleChangeComplete('" + elem.id + "')", 1000);
+}
+
+function handleChangeComplete(id)
+{
+	if(id == "button_GUEST"){
+		getJsonParam("GUEST", handleChangeGuestPost);
+	} else if(id == "button_PARENTAL"){
+		getJsonParam("PARENTAL", handleChangeParentalPost);
+	}
+}
+
+function getJsonParam(category, handle)
+{
+	new Ajax.Request("/Ajax_get_value.html&action="+category,
+		{method : 'get', onComplete : handle});
+}
+
+function handleChangeGuestPost(req)
+{
+	top.dispWaiting(true);
+//	alert("Enter handleChangeGuestPost()");
+	var post = false ;
+//	var data = req.responseText.evalJSON();
+	var data = {
+		"SUPPORT":true,
+		"FUNCTION":false
+		}
+	if(data.SUPPORT)
+	{
+		if(data.FUNCTION){
+			if(document.getElementById("button_GUEST").checked == false){
+				post = true ;
+			}
+		} else {
+			if(document.getElementById("button_GUEST").checked == true){
+				post = true ;
+			}
+		}
+	}
+	getJsonParam("GUEST_Change", changesuccess);
+	if(post){
+		var post = "el=" + "button_GUEST" + "&val=" + (document.getElementById("button_GUEST").checked? "ON" : "OFF");
+		ajaxPost(post, handleButtonOnComplete);
+	}
+}
+function changesuccess(){
+top.handleErrDialogOnOk()
+}
+function handleAOSSWPSOnClick()
+{
+		//top.dispWaiting(true);
+		//setTimeout("top.handleErrDialogOnOk()",10000);
+	document.getElementById("AOSSWPS").submit();
+}
+
+function handleDataget()
+{
+	var data = '<%GetDevctrl("");%>';
+
+	document.getElementById("span_wire_count").innerHTML = data.WIRECOUNT;
+	document.getElementById("span_wireless_count").innerHTML = data.WIRELESSCOUNT;
+}
+
+</script>
+<script type="text/javascript" charset="utf-8">
+function goAdvanced()
+{
+	top.location.href = "index_adv.html&item=0";
+}
+</script>
+<!--script type="text/javascript" src="jquery-1.8.0.min.js"></script-->
+</head>
+<body class="test_gray" onload="handBodyOnLoad();">
+	<form     method="POST" class="form_area"  id="AOSSWPS" >
+	<div class="contents"><!-- contents -->
+		<div class="mainContents">
+			<div class="without_button_area_ex">
+				<!-- WIRELESS/PC -->
+				<div class="panel_action" onClick="top.location.href = 'setting_basic_wireless.html';">
+				  <div class="panel" id="panel_WIRELESS">
+					  <img class="panel_icon" src="/images/py20_header_wireless.png" width="36" height="36">
+					  <div class="panel_title"><%GetString("NewUI","48");%></div>
+					  <div class="panel_body">
+						<div id="inner_WIRELESS_band0"><%GetString("NewUI","24");%></div>
+						<div id="inner_WIRELESS_ssid0"><%GetString("NewUI","42");%>: <%NvramGetAdv("WIFISsid1");%><br>
+						</div>
+						<br>
+						<div id="inner_WIRELESS_band1"><%GetString("NewUI","25");%></div>
+						<div id="inner_WIRELESS_ssid1"><%GetString("NewUI","42");%>: <%NvramGetAdv("WIFISsid1_5g");%><br>
+						</div>
+					  </div>
+				  </div>
+				</div>
+				
+				<!-- AOSS/PC -->
+				
+				<div id="AOSS_WPS" class="panel_action" onClick="handleAOSSWPSOnClick();">
+					<div class="panel" id="panel_WPS/AOSS">
+					  <img class="panel_icon" src="/images/py20_header_aoss.png" width="36" height="36">
+						<div class="panel_title"><%GetString("NewUI","49");%>/<%GetString("NewUI","50");%></div>
+					  <div class="panel_body" id="inner_WPS/AOSS" style="padding: 0px 19px; font-size: 11px;display:<%NvramMatch("WPSEnable","0","none");%>"><%GetString("NewUI","50");%>: <%GetString("NewUI","123");%></div>
+					   <div class="panel_body" id="inner_WPS/AOSS" style="padding: 0px 19px; font-size: 11px;display:<%NvramMatch("WPSEnable","1","none");%>"><%GetString("NewUI","50");%>: <%GetString("NewUI","124");%></div>
+				  </div>
+				</div>
+				
+				<!-- NAS/PC -->
+				<div class="panel_action" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_nas.html';">
+					<div class="panel" id="panel_NAS" style="display: none;">
+					  <img class="panel_icon" src="/images/py20_header_devctrl.png" width="36" height="36">
+						<div class="panel_title"><%GetString("NewUI","51");%></div>
+					  <div class="panel_body" id="inner_NAS" style="padding: 0px 19px; font-size: 11px;">
+						<div id="nodisk"><%GetString("NewUI","52");%></div>
+					  </div>
+				  </div>
+				</div>
+				<!-- GUEST/PC -->
+				<div class="panel_action" onClick="top.location.href = 'setting_basic_guest.html';">
+					<div class="panel" id="panel_GUEST">
+					  <img class="panel_icon" src="images/py20_header_guest_port.png" width="36" height="36">
+					  <div class="btnblank" id="btnblank_GUEST">
+						<ol class="ipsw button_GUEST">
+						  <li>
+							<input type="checkbox" id="button_GUEST" name="button_GUEST">
+						  </li>
+						</ol>
+					  </div>
+						<div class="panel_title"><%GetString("NewUI","53");%></div>
+					  <div class="panel_body" id="password_auth" style="padding: 0px 19px; font-size: 11px;"><%GetString("NewUI","54");%>: <%NvramMatch("GuestPortAuthEnabled","0","Off");%> <%NvramMatch("GuestPortAuthEnabled","1","On");%><br><br></div>
+					  <div class="panel_body" id="lease_time" style="padding: 0px 19px; font-size: 11px;display: none;">
+						<%GetString("NewUI","57");%>:<br><span id="span_wireless_count_hours" ></span>   <span id="hour_string"></span>   <span id="span_wireless_count_minutes">  </span>  <span id="minute_string"></span> <br>
+						</div>
+						<div class="panel_body" id="inner_SSID" style="padding: 0px 19px; font-size: 11px;">
+						<%GetString("NewUI","42");%>: <%NvramGetAdv("WIFISsid4");%><br>
+					  </div>
+				  </div>
+				</div>
+				<!-- QOS/PC -->
+				<div class="panel_action" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_qos.html';">
+					<div class="panel" id="panel_QOS" style="display:none;">
+					  <img class="panel_icon" src="images/py20_header_qos.png" width="36" height="36">
+					  <div class="btnblank" id="btnblank_QOS">
+						<ol class="ipsw button_QOS">
+						  <li>
+							<input type="checkbox" id="button_QOS" name="button_QOS">
+						  </li>
+						</ol>
+					  </div>
+					  <img class="panel_icon" src="/images/py20_header_devctrl.png" width="36" height="36">
+						<div class="panel_title"><%GetString("NewUI","58");%></div>
+					  <div class="panel_body" id="inner_QOS" style="padding: 0px 19px; font-size: 11px;"><%GetString("NewUI","59");%><br>
+					  </div>
+				  </div>
+				</div>
+				<!-- PARENTAL/PC -->
+				<div class="panel_action" onClick="top.location.href = 'setting_basic_norton.html';">
+					<div class="panel" id="panel_PARENTAL" style="<%CheckModedis();%>">
+					<div id="parental_banner" class="">
+						<img class="panel_icon" src="images/py20_header_parental_control.png" width="36" height="36">
+						<div class="btnblank" id="btnblank_PARENTAL">
+							<ol class="ipsw button_PARENTAL">
+							<li>
+							  <input type="checkbox" id="button_PARENTAL" name="button_PARENTAL">
+							</li>
+						  </ol>
+						</div>
+						<div class="panel_title"><%GetString("NewUI","85");%></div>
+						<div class="panel_body" id="inner_PARENTAL" style="padding: 0px 19px; font-size: 11px;"><%GetString("NewUI","121");%>: <%GetNortonStr();%><br><br><br>
+						  </div>
+						  <img class="panel_icon" src="images/py20_banner_norton_small.png">
+					</div>
+				  </div>
+				</div>
+				<!-- DEVCTL/PC -->
+				<div class="panel_action" onClick="top.location.href = 'setting_basic_devctrl.html';">
+					<div class="panel" id="panel_DEVCTRL" style="<%CheckModedis();%>">
+					  <img class="panel_icon" src="/images/py20_header_devctrl.png" width="36" height="36">
+						<div class="panel_title"><%GetString("NewUI","60");%></div>
+					  <div class="panel_body" id="inner_DEVCTRL" style="padding: 0px 19px; font-size: 11px;"><%GetString("NewUI","62");%>: <span id="span_wire_count"></span><br>
+						<%GetString("NewUI","61");%>: <span id="span_wireless_count"></span></div>
+				  </div>
+				</div>
+				<div class="panel_advanced" id="panel_ADVANCED" onClick="goAdvanced();">
+				  <div class="icon_advanced"></div>
+				  <div class="text_advanced"><%GetString("NewUI","63");%></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>
+</body>
+</html>

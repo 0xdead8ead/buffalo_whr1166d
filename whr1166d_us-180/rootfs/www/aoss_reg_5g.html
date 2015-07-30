@@ -1,0 +1,86 @@
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="/WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="/WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+
+<style type="text/css">
+table.AD_INFO_2 th {
+	height : 20px;
+	
+	font-size : 12px;
+	font-weight : normal;
+	color : #003939;
+	text-align : left;
+	background-color : #C8C8C8;
+
+	padding : 2px 0px 2px 5px;
+}
+table.AD_INFO_2 td {
+	height : 20px;
+
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	background-color : #E6E6E6;
+
+	padding : 2px 0px 2px 2px;
+}
+</style>
+
+<script type="text/javascript">
+<!--
+function AOSSAction(mode, val)
+{
+	document.main.nosave_AOSSAction.value=mode;
+	document.main.nosave_AOSSTargetMAC.value=val;
+	document.main.submit();
+}
+// -->
+</script>
+</head>
+
+<body class="BFK_BODY">
+<br>
+
+<br>
+<input type="button" value="<%GetString("AossReg","1");%>" onClick="Changelink('aoss.html', 'help_aoss.html');">
+<hr>
+
+<form name="main" onsubmit="return onceOnly(this);" method="POST">
+<input type="hidden" name="nosave_AOSSAction" value="">
+<input type="hidden" name="nosave_AOSSTargetMAC" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<table class="AD_TTL2">
+    <tr><td><%GetString("AossReg","2");%> </td></tr>
+</table>
+
+<table class="AD_INFO_2">
+    <tr>
+	<th><%GetString("AossReg","3");%></th>
+	<th><%GetString("AossReg","4");%></th>
+	<th><%GetString("AossReg","5");%></th>
+	<th><%GetString("AossReg","6");%></th>
+	<th><%GetString("AossReg","7");%></th>
+	<th><%GetString("AossReg","8");%></th>
+    </tr>
+
+    <!--%GetAOSSClientTable();%-->
+    <%GetAOSSClientTable_24g_5g("edit");%>
+
+</table>
+</body>
+</html>

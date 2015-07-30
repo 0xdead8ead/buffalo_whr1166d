@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=ascii">
+<meta name="Author" content="BUFFALO Inc.">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>WHR-1166D How to Update</title></head>
+
+<body>
+<b>WHR-1166D Firmware Version 1.80</b>
+
+<div align="right">July. 2015</div>
+
+<div align="right">Copyright &copy; 2015 Buffalo Inc.</div>
+
+<hr width="100%">
+
+
+<h3>
+<font color="#000000">Summary</font></h3>
+
+This is the firmware version 1.80 for WHR-1166D. 
+For the version history, refer to the bottom of the page.<br>
+<br>
+<hr>
+
+
+<h3>
+Software Information</h3>
+
+This firmware is for WHR-1166D only. Do not use it with other products.<br>
+<br>
+
+
+
+<hr>
+<h3>
+Minimum Requirements</h3>
+
+
+<ul>
+<li>Compatible OS: Windows 8.1/Windows 8, Windows 7, Windows Vista, Windows XP and Mac OS X 10.5 - 10.9</li>
+
+<li>Compatible browsers: Internet Explorer 7.x or later, Firefox 3.5.x or later, Safari 3.x or later</li>
+
+<li>A TCP/IP connection is required to update this firmware.</li>
+
+<li>Wired or wireless network card.</li>
+</ul>
+
+<br>
+
+
+<h3>Firmware Update Instructions</h3>
+
+Connect the AirStation to the same network as your
+ PC. For best results, connect the AirStation directly to your
+ PC with an Ethernet cable.
+<br>
+<br>
+<ol>
+  
+<li>Boot your PC.<br>
+  <br>
+  </li>
+  
+<li>Confirm that the PC's and the AirStation's IP addresses are on the same network subnet. Refer to AirStation's user manual to confirm how to change IP address settings.<br>
+  <br>
+  </li>
+  
+<li>Open a browser and enter "192.168.11.1" in the URL field, then press the enter key.<br>
+  <br>
+  </li>
+  
+  
+<li>Enter "admin" for the username and "password" for the password. <br>
+Note: If you changed the password, enter the password that you configured. <br>
+  <br>
+  </li>
+  
+<li>Click "Update AirStation Firmware" at the left of the screen.<br><br>
+  <center><img src="images/001img.png" border="2"><br>
+  <br>
+  </center>
+  </li>
+  
+<li>Click "Browse" to the right of "Firmware File" and navigate to the firmware file. The file will have the form whr1166d_us_***,
+ where *** is the version number. Click "Update Firmware".<br><br>
+<center><img src="images/002img.png" border="2"></center>
+  <br>
+  <br>
+  </li>
+  <li>When the update starts, the power LED will blink red. It will take about 6 minutes to finish updating. When it finishes, the power LED will blink green or turn off. Do not disconnect power to the unit while the power LED is blinking red or your AirStation may be damaged. <br><br>
+<center><img src="images/003img.png" border="2"></center>
+<br>
+</li>
+  
+<li><a href="#confirm">To confirm that your firmware is successfully updated, check the displayed version number.</a><br>
+  <br>
+</li>
+
+</ol>
+<p><br>
+<br>
+</p>
+<a name="confirm"></a><h3>Firmware Version Confirmation</h3>
+
+<ol>
+<li>Log in to AirStation Settings as described in above  steps 2 to 4.<br>
+  <br>
+  </li>
+  <li>Click the "Diagnostic" tab to see system information.<br>
+  <br>
+  </li>
+  <li>Confirm that the model is "WHR-1166D Ver.1.80".
+  <center><img src="images/1166ver.png" border="2"></center>
+  <br>
+  <br>
+  </li>
+
+
+</ol>
+
+<hr>
+
+<h3>Version History</h3>
+<blockquote>
+Version 1.80<br><br>
+[Bug fix]
+<ul>
+<li>Fixed the issue where PPPoE settings could not be configured from Internet connection wizard using iOS devices.</li>
+<li>Fixed the issue where useless packets were sent to the wireless side when snooping functionality was enabled.</li>
+<li>Fixed the issue where useless multicast packets were translated to unicasts.</li>
+<li>Fixed the issue where on the "Routing" page, certain unusable destination addresses were usable, and certain usable destination addresses were unusable.</li>
+<li>Fixed the issue where settings could be restored even if the AirStation's firmware version was older than the firmware version used to create the config file.</li>
+<li>Fixed the issue where the wireless bridge could not connect to the master router that did not broadcast SSIDs.</li>
+<li>Fixed the issue where in some situations, such as a power outage, settings were initialized or the AirStation and modem were shut down at the same time.</li>
+<li>Fixed the issue where if automatic update was enabled while the AirStation was not connected to the Internet, the firmware version is displayed as the latest.</li>
+<li>Fixed the issue where the DNS name resolution could not be done temporarily.</li>
+<li>Fixed the issue where the forwarded ports sometimes could not be edited correctly.</li>
+<li>Fixed the issue where communication via LAN-side to another gateway sometimes could not be established properly.</li>
+<li>Fixed the issue where connected devices could not be displayed on the "Connected Clients List" page when 2.4 GHz wireless was disabled.</li>
+<li>Fixed the issue where the authentication screen was not displayed and the AirStation could not connect to the Internet when using some ISPs that require web authentication.</li>
+<li>Fixed the issue where the Internet-side multicast packets sometimes flowed into the LAN side.</li>
+<li>Fixed the issue where the AirStation could not connect to the Internet in access point mode when the AirStation connected to an SSID whose SSID isolation was enabled.</li>
+<li>Fixed the issue where the AirStation could not connect to the Internet in wireless bridge mode when the AirStation connected to the SSID whose SSID isolation was enabled.</li>
+<li>Fixed the issue where Settings could not be accessed from the Internet side even if configuration from the Internet side was permitted.</li>
+<li>Fixed the issue where an IP address could not be obtained when using some cable TV providers' Internet services.</li>
+<li>Fixed the issue where the AirStation kept its IP address after obtaining an IP address from the DHCP server even if the IP address was released when the AirStation was in access point mode.</li>
+<li>Fixed the issue where a ping test could not executed properly when the destination address was specified as a domain name.</li>
+<li>Fixed the issue where Settings could be accessed via the SSID whose SSID isolation was enabled.</li>
+<li>Fixed the issue where settings could not restored when the config file's password included underscore(s).</li>
+<li>Fixed the issue where a config file saved while the AirStation was in router mode can restore settings when the AirStation is in access point mode.</li>
+<li>Fixed the issue where a config file saved while the AirStation was in access point mode can restore settings when the AirStation is in router mode. "</li>
+<li>Fixed the issue where the AirStation in wireless bridge mode could not connect to a master router in 2.4 GHz wireless band after establishing a WPS connection, even if the master router supports both 2.4 GHz and 5 GHz bands.</li>
+<li>Fixed the issue where the WEP communication speed became slow in 5 GHz band.</li>
+<li>Fixed the issue where the guest account authentication screen did not appear when the web browser's SSL 3.0 was disabled.</li>
+</ul>
+<br>
+</blockquote>
+
+<blockquote>
+Version 1.70<br><br>
+[Bug fix]
+<ul>
+<li>Fixed the issue where the day after IPv6 passthrough was enabled, the Internet could not be accessed.</li>
+<li>Fixed the issue where iPads and iPhones were displayed as wired devices on the client monitor.</li>
+<li>Fixed the issue where an error sometimes occurred even if the correct information was entered in routing settings.</li>
+<li>Fixed the issue where 5 GHz MAC filtering did not work correctly when 2.4 GHz wireless was disabled.</li>
+<li>Fixed some text in Settings.</li>
+<li>Fixed the issue where the domain name obtained from the Internet was not communicated to LAN-side devices using the DHCP server function.</li>
+<li>Fixed the issue where the top page appeared when the "Click for AOSS details here" link was clicked.</li>
+<li>Fixed the issue where PPPoE could not be re-configured in Internet connection wizard after deleting PPPoE connections.</li>
+<li>Now you can correctly add the maximum number of forwarded ports.</li>
+<li>Fixed the issue where the snooping function did not work correctly.</li>
+<li>Fixed the issue where iOS devices sometimes could not wirelessly connect to the AirStation.</li>
+</ul>
+<br>
+</blockquote>
+<blockquote>
+Version 1.60<br><br>
+[Bug fix]
+<ul>
+<li>Fixed the issue where the AirStation sometimes replies to Address Resolution Protocol (ARP) requests from the Internet.</li>
+<li>Fixed the issue where a subnet mask cannot be configured correctly sometimes in routing settings.</li>
+<li>Fixed the issue where after the WHR-1166DHP reboots while MAC filtering is enabled, devices could not connect to the AirStation wirelessly.</li>
+<li>Fixed the issue where routing cannot be configured correctly sometimes.</li>
+<li>Fixed the issue where the Internet transmission rate sometimes drops.</li>
+<li>Fixed the issue where the PPPoE connection sometimes stops after the AirStation reboots.</li>
+<li>Fixed the issue with UPnP sometimes not working with some STBs.</li>
+<li>Fixed the issue where some router settings cannot be configured sometimes when the AirStation boots without an Internet connection.</li>
+<li>Modified to assign Automatic Private IP Addressing (APIPA) when the AirStation cannot obtain the IP address from the DHCP server while it is in the bridge mode.</li>
+<li>Fixed the contents of DDNS logs.</li>
+<li>Fixed the issue where the WAN-side IP address characters became corrupted in port forwarding settings when using a PPPoE connection.</li>
+<li>Fixed the issue with SSIDs not displaying correctly when opening Settings in iOS 8.</li>
+<li>Deleted an unnecessary sentence in the Internet connection wizard.</li>
+<li>Fixed the issue where the WAN-side port became disabled when the LAN-side port is disabled in custom mode for eco Mode settings.</li>
+</ul>
+<br>
+</blockquote>
+<blockquote>
+Version 1.50<br><br>
+[Bug fix]
+<ul>
+<li>Fixed the problem where unstable communication occurs when PPPoE is configured using Internet Connection Wizard.</li>
+<li>Fixed the problem where PPPoE connections #2-#5 cannot be selected as the default PPPoE connection.</li>
+<li>Fixed the problem where if configuring MAC filtering from a mobile device, multiple MAC addresses cannot be registered at the same time.</li>
+<li>Fixed the problem where Internet Connection Wizard does not work correctly when a HTTPS-protected webpage opens.</li>
+<li>Fixed the problem where if the AC adapter is unplugged while booting AirStation, settings are sometimes initialized.</li>
+<li>Fixed the problem where some products are unable to obtain the IP address from DHCP server.</li>
+<li>Fixed some typos.
+</li>
+</ul>
+<br>
+</blockquote>
+<blockquote>
+Version 1.40<br><br>
+[Bug fix]
+<ul><li>PPPoE connections are now reestablished automatically after the AirStation reboots.
+</li></ul>
+<br>
+</blockquote>
+<blockquote>
+Version 1.30<br><br>
+[Bug fix]
+<ul><li>
+Fixed the problem of bridge mode sometimes being incorrectly detected while in auto mode.</li>
+<li>
+Fixed the problem where the SSID was not broadcast after the AirStation was awakened from eco mode with the AOSS button.</li>
+<li>
+Fixed the problem where some websites could not be accessed when the Internet connection was establised by the Internet connection wizard. If this happens to you, update the firmware and then rerun the wizard.</li>
+<li>
+Corrected some typos in Settings.</li>
+<li>
+PPPoE connections are now disconnected automatically when the firmware is updated online.</li>
+<li>
+Fixed the problem of bandwidth being automatically configured to 20 MHz in 40 MHz networks.</li>
+<li>
+The AirStation now connects to the Internet correctly when SSID isolation is enabled.</li></ul>
+<br>
+</blockquote>
+<blockquote>
+Version 1.00<br><br>
+&nbsp;First release.<br>
+<br>
+</blockquote>
+<hr>
+<br>
+This Software is protected by copyright and other intellectual property laws and international treaty provisions.
+<br>Windows is a registered trademark of Microsoft Corporation in the United States.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Buffalo Inc.
+<hr>
+<br>&nbsp;
+<br>&nbsp;
+ 
+</body></html>

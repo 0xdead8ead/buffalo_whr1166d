@@ -1,0 +1,864 @@
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script src="OpenHelp.html"></script>
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='qos.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+function init()
+{
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+}
+function set_display()
+{
+     if(document.getElementById("id_qostable_enable").checked == true)
+     {
+     	document.getElementById("wan_qos_ext").style.display = "";
+     	document.getElementById("id_qos_enable").value="1";
+     } else 
+     {
+     	document.getElementById("wan_qos_ext").style.display = "none";
+     	document.getElementById("id_qos_enable").value="0";
+     }
+}
+function set_rule_enable(index)
+{
+     if (document.getElementById("enable"+index+"_tmp").checked == true)
+     { 
+     	document.getElementById("id_enable"+index).value = "1";
+     }
+     else
+     	document.getElementById("id_enable"+index).value = "0";
+}
+
+function check_intstyle()
+{
+	var QRate="<%NvramGet("QoSMaxRate");%>";	
+	QRate=parseInt(QRate,10);		
+	document.getElementById("id_QoSMaxRate").value=QRate;
+}
+
+function check_Qosname(s)
+{
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+			
+		c=s.charAt(i);
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='"') || (c==';'))
+		{
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+function dosubmit()
+{
+	var QRate=parseInt(document.getElementById("id_QoSMaxRate").value,10);
+	var i=1;
+	var j=1;
+	var qport_range= new Array(9);
+
+     if(document.getElementById("id_qostable_enable").checked)
+	 {
+		if(document.getElementById("id_QoSMaxRate").value.length!=0)
+		{
+			if (document.getElementById("id_QoSMaxRate").value.charAt(0) == '0')
+			{
+				if(document.getElementById("id_QoSMaxRate").value.length<=1)
+				{
+					Show_error("<%GetString("Qos","3");%>","<%GetString("Qos","12");%>");
+					return false;
+				}
+			}
+			if(!check_integer_range(document.getElementById("id_QoSMaxRate").value,1,1000000))
+			{
+				if(QRate>=1000001)
+				{
+					Show_error("<%GetString("Qos","3");%>","<%GetString("Qos","13");%>");
+					return false;
+				}
+				else
+				{
+					Show_error("<%GetString("Qos","3");%>","<%GetString("Qos","14");%>");
+					return false;
+				}
+			}
+		}else
+		{
+			Show_error("<%GetString("Qos","3");%>","<%GetString("Qos","15");%>");
+			return false;
+		}
+
+		for(i=1;i<=8;i++)
+		{
+			if(document.getElementById("enable"+i+"_tmp").checked == true)
+			{
+				if(document.getElementById("id_Qname"+i).value.length==0)
+				{
+					switch (i)
+					{
+						case 1:
+								Show_error("<%GetString("Qos","16");%>",	"<%GetString("Qos","15");%>");
+								return;
+						case 2:
+								Show_error("<%GetString("Qos","17");%>",	"<%GetString("Qos","15");%>");
+								return;
+						case 3:
+								Show_error("<%GetString("Qos","18");%>",	"<%GetString("Qos","15");%>");
+								return;
+						case 4:
+								Show_error("<%GetString("Qos","19");%>",	"<%GetString("Qos","15");%>");
+								return;
+						case 5:
+								Show_error("<%GetString("Qos","20");%>",	"<%GetString("Qos","15");%>");
+								return;
+						case 6:
+								Show_error("<%GetString("Qos","21");%>",	"<%GetString("Qos","15");%>");
+								return;
+						case 7:
+								Show_error("<%GetString("Qos","22");%>",	"<%GetString("Qos","15");%>");
+								return;					
+						case 8:
+								Show_error("<%GetString("Qos","23");%>",	"<%GetString("Qos","15");%>");
+								return;
+					}
+				}
+			}
+			
+			if((document.getElementById("id_Qname"+i).value.charAt(0)==' ')||(document.getElementById("id_Qname"+i).value.charAt(document.getElementById("id_Qname"+i).value.length-1)==' '))
+			{
+					switch (i)
+					{
+						case 1:
+								Show_error("<%GetString("Qos","16");%>",	"<%GetString("Qos","24");%>");
+								return;
+						case 2:
+								Show_error("<%GetString("Qos","17");%>",	"<%GetString("Qos","24");%>");
+								return;
+						case 3:
+								Show_error("<%GetString("Qos","18");%>",	"<%GetString("Qos","24");%>");
+								return;
+						case 4:
+								Show_error("<%GetString("Qos","19");%>",	"<%GetString("Qos","24");%>");
+								return;
+						case 5:
+								Show_error("<%GetString("Qos","20");%>",	"<%GetString("Qos","24");%>");
+								return;
+						case 6:
+								Show_error("<%GetString("Qos","21");%>",	"<%GetString("Qos","24");%>");
+								return;
+						case 7:
+								Show_error("<%GetString("Qos","22");%>",	"<%GetString("Qos","24");%>");
+								return;					
+						case 8:
+								Show_error("<%GetString("Qos","23");%>",	"<%GetString("Qos","24");%>");
+								return;		
+					}
+			}
+			
+			if(!check_Qosname(document.getElementById("id_Qname"+i).value))
+			{
+					switch (i)
+					{
+						case 1:
+								Show_error("<%GetString("Qos","16");%>",	"<%GetString("Qos","14");%>");
+								return;
+						case 2:
+								Show_error("<%GetString("Qos","17");%>",	"<%GetString("Qos","14");%>");
+								return;
+						case 3:
+								Show_error("<%GetString("Qos","18");%>",	"<%GetString("Qos","14");%>");
+								return;
+						case 4:
+								Show_error("<%GetString("Qos","19");%>",	"<%GetString("Qos","14");%>");
+								return;
+						case 5:
+								Show_error("<%GetString("Qos","20");%>",	"<%GetString("Qos","14");%>");
+								return;
+						case 6:
+								Show_error("<%GetString("Qos","21");%>",	"<%GetString("Qos","14");%>");
+								return;
+						case 7:
+								Show_error("<%GetString("Qos","22");%>",	"<%GetString("Qos","14");%>");
+								return;					
+						case 8:
+								Show_error("<%GetString("Qos","23");%>",	"<%GetString("Qos","14");%>");
+								return;		
+					}
+			}
+			
+			
+			qport_range[i] = document.getElementById("id_Qport"+i).value.split('-');
+			if(qport_range[i].length==1)
+			{
+				if(!check_port(document.getElementById("id_Qport"+i).value))
+				{
+					if((document.getElementById("id_Qport"+i).value.charAt(0)=='0')&&((document.getElementById("id_Qport"+i).value.length<=1)))
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","12");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","12");%>");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","12");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","12");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","12");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","12");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","12");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","12");%>");
+									return;		
+						}
+					}
+					else if(document.getElementById("id_Qport"+i).value>65535)
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","13");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","13");%>");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","13");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","13");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","13");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","13");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","13");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","13");%>");
+									return;		
+						}
+					}
+					else
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","14");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","14");%>g");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","14");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","14");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","14");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","14");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","14");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","14");%>");
+									return;		
+						}
+					}
+				}
+			}
+		else if(qport_range[i].length==2)   // port_low - port_high
+		{
+			if(qport_range[i][0]=="" || qport_range[i][1]=="")  // port_low- or -port_high
+			{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","14");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","14");%>g");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","14");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","14");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","14");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","14");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","14");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","14");%>");
+									return;		
+						}
+			}
+				if(!check_port(qport_range[i][0]))
+				{
+					if((qport_range[i][0].charAt(0)=='0')&&((qport_range[i][0].length<=1)))
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","12");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","12");%>");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","12");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","12");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","12");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","12");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","12");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","12");%>");
+									return;		
+						}
+					}
+					else if(qport_range[i][0]>65535)
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","13");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","13");%>");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","13");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","13");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","13");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","13");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","13");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","13");%>");
+									return;		
+						}
+					}
+					else
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","14");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","14");%>g");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","14");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","14");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","14");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","14");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","14");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","14");%>");
+									return;		
+						}
+					}
+				}
+				if(!check_port(qport_range[i][1]))
+				{
+					if((qport_range[i][1].charAt(0)=='0')&&((qport_range[i][1].length<=1)))
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","12");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","12");%>");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","12");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","12");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","12");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","12");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","12");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","12");%>");
+									return;		
+						}
+					}
+					else if(qport_range[i][1]>65535)
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","13");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","13");%>");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","13");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","13");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","13");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","13");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","13");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","13");%>");
+									return;		
+						}
+					}
+					else
+					{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","14");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","14");%>g");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","14");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","14");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","14");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","14");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","14");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","14");%>");
+									return;		
+						}
+					}
+				}
+		}
+		else // wrong format
+		{
+						switch (i)
+						{
+							case 1:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>1)","<%GetString("Qos","14");%>");
+									return;
+							case 2:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>2)","<%GetString("Qos","14");%>g");
+									return;
+							case 3:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>3)","<%GetString("Qos","14");%>");
+									return;
+							case 4:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>4)","<%GetString("Qos","14");%>");
+									return;
+							case 5:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>5)","<%GetString("Qos","14");%>");
+									return;
+							case 6:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>6)","<%GetString("Qos","14");%>");
+									return;
+							case 7:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>7)","<%GetString("Qos","14");%>");
+									return;					
+							case 8:
+									Show_error("<%GetString("Qos","9");%> (<%GetString("Qos","5");%>8)","<%GetString("Qos","14");%>");
+									return;		
+						}
+		}
+	    }
+			for(i=1;i<=8;i++)
+			{
+				for(j=1;j<=8;j++)
+				{
+					if(i!=j)
+					{
+						if((document.getElementById("enable"+i+"_tmp").checked)&&(document.getElementById("enable"+j+"_tmp").checked))
+						{
+							if((document.getElementById("id_Qport"+i).value==document.getElementById("id_Qport"+j).value)&&(document.getElementById("id_Qprtc"+i).value==document.getElementById("id_Qprtc"+j).value))
+							{
+								Show_error("<%GetString("Qos","25");%>","<%GetString("Qos","26");%>");
+								return false;	
+							}
+
+						}
+						else if((document.getElementById("id_Qport"+i).value.length!=0)&&(document.getElementById("id_Qname"+i).value.length!=0))
+						{
+							if((document.getElementById("id_Qport"+i).value==document.getElementById("id_Qport"+j).value)&&(document.getElementById("id_Qprtc"+i).value==document.getElementById("id_Qprtc"+j).value))
+							{
+								Show_error("<%GetString("Qos","25");%>","<%GetString("Qos","26");%>");
+								return false;	
+							}
+						}
+					}
+					else
+					{
+						continue;
+					}
+				}
+			}
+
+
+		
+		//document.forms[0].submit();
+	YAHOO.util.Connect.setForm('nosave_form'); 
+    YAHOO.util.Connect.asyncRequest('POST','qos.html'+'?timestampt='+new Date().toString(),oCallback); 		
+	}
+	else
+	{
+		//document.forms[0].submit();
+		YAHOO.util.Connect.setForm('nosave_form'); 
+		YAHOO.util.Connect.asyncRequest('POST','qos.html'+'?timestampt='+new Date().toString(),oCallback); 
+	}
+}
+
+//-->
+</script>
+<script src="OnceOnly.html"></script>
+</head>
+<body   id="id_main" style="display:none;" class="BFK_BODY"  onLoad="set_display(); check_intstyle(); init();">
+<br>
+<form  name="nosave_form"   onsubmit="return onceOnly(this);"  method="POST">
+<div id="id_errtbl" class="C_ERR" style="display:none;">
+</div>
+
+<table class="AD_SET">
+  <tbody>
+  <tr>
+    <th><%GetString("Qos","1");%></th>
+    <td>
+      <input  type="checkbox" id="id_qostable_enable" value="1" OnClick="set_display();" <%NvramMatch("QoSEnable","1","checked");%>><%GetString("Qos","2");%>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div id="wan_qos_ext">
+<br>
+
+
+
+<table class="AD_SET">
+  <tr>
+    <th><%GetString("Qos","3");%></th>
+    <td>
+      <input  type="text" name="QoSMaxRate" id="id_QoSMaxRate" size="7" maxlength="7" value="<%NvramGet("QoSMaxRate");%>"><%GetString("Qos","4");%>
+    </td>
+  </tr>
+</table>
+
+<table class="AD_SET">
+
+  <tr>
+    <th><%GetString("Qos","5");%></th>
+    <th><%GetString("Qos","6");%></th>
+    <th><%GetString("Qos","7");%></th>
+    <th><%GetString("Qos","8");%></th>
+    <th><%GetString("Qos","9");%></th>
+    <th><%GetString("Qos","10");%></th>
+  </tr>
+  <tr>
+    <td align="center">1</td>
+    <td align="center">
+     <% GetQosPolicy("enable","1"); %>
+     <input type="hidden" value="<% GetQosPolicy("tmp_enable","1"); %>" name="enable1" id="id_enable1">
+    </td>
+    <td>
+    	<input type="text" name="apname1" id="id_Qname1" size="30" maxlength="32" value="<% GetQosPolicy("app","1"); %>">
+    </td>
+    <td align="center">
+        <select size="1" name="protocol1" id="id_Qprtc1">
+            <% GetQosPolicy("proto","1"); %>
+        </select>
+    </td>
+    <td>
+    	<input type="text" name="dport1" id="id_Qport1" size="10" maxlength="11" value="<% GetQosPolicy("dport","1"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio1">
+            <% GetQosPolicy("prio","1"); %>
+        </select>
+    </td>
+  </tr>
+  
+  <tr>
+    <td align="center" >2</td>
+    <td align="center">
+     <% GetQosPolicy("enable","2"); %>
+     <input type="hidden" value="<% GetQosPolicy("tmp_enable","2"); %>" name="enable2" id="id_enable2">
+    </td>
+    <td>
+    	<input type="text" name="apname2" id="id_Qname2" size="30" maxlength="32" value="<% GetQosPolicy("app","2"); %>">
+    </td>
+    <td align="center">
+        <select size="1" name="protocol2" id="id_Qprtc2">
+            <% GetQosPolicy("proto","2"); %>
+        </select>
+    </td>
+    <td>
+    	<input type="text" name="dport2" id="id_Qport2" size="10" maxlength="11" value="<% GetQosPolicy("dport","2"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio2">
+            <% GetQosPolicy("prio","2"); %>
+        </select>
+    </td>
+  </tr>
+  
+  <tr>
+    <td align="center" >3</td>
+    <td align="center">
+     <% GetQosPolicy("enable","3"); %>
+    </td>
+    <td>
+    	<input type="text" name="apname3" id="id_Qname3" size="30" maxlength="32" value="<% GetQosPolicy("app","3"); %>">
+    	<input type="hidden" value="<% GetQosPolicy("tmp_enable","3"); %>" name="enable3" id="id_enable3">
+    </td>
+    <td align="center">
+        <select size="1" name="protocol3" id="id_Qprtc3">
+            <% GetQosPolicy("proto","3"); %>
+        </select>
+    </td>
+    <td>
+    	<input type="text" name="dport3" id="id_Qport3" size="10" maxlength="11" value="<% GetQosPolicy("dport","3"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio3">
+            <% GetQosPolicy("prio","3"); %>
+        </select>
+    </td>
+  </tr>
+  
+  <tr>
+    <td align="center" >4</td>
+    <td align="center">
+     <% GetQosPolicy("enable","4"); %>
+     <input type="hidden" value="<% GetQosPolicy("tmp_enable","4"); %>" name="enable4" id="id_enable4">
+    </td>
+    <td>
+    	<input type="text" name="apname4" id="id_Qname4" size="30" maxlength="32" value="<% GetQosPolicy("app","4"); %>">
+    </td>
+    <td align="center">
+	    <select size="1" name="protocol4" id="id_Qprtc4">
+	        <% GetQosPolicy("proto","4"); %>
+	    </select>
+    </td>
+    <td>
+    	<input type="text" name="dport4" id="id_Qport4" size="10" maxlength="11" value="<% GetQosPolicy("dport","4"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio4">
+            <% GetQosPolicy("prio","4"); %>
+        </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" >5</td>
+    <td align="center">
+     <% GetQosPolicy("enable","5"); %>
+     <input type="hidden" value="<% GetQosPolicy("tmp_enable","5"); %>" name="enable5" id="id_enable5">
+    </td>
+    <td>
+    	<input type="text" name="apname5" id="id_Qname5" size="30" maxlength="32" value="<% GetQosPolicy("app","5"); %>">
+    </td>
+    <td align="center">
+        <select size="1" name="protocol5" id="id_Qprtc5">
+            <% GetQosPolicy("proto","5"); %>
+        </select>
+    </td>
+    <td>
+    	<input type="text" name="dport5" id="id_Qport5" size="10" maxlength="11" value="<% GetQosPolicy("dport","5"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio5">
+            <% GetQosPolicy("prio","5"); %>
+        </select>
+    </td>
+  </tr>
+  
+  <tr>
+    <td align="center" >6</td>
+    <td align="center">
+     <% GetQosPolicy("enable","6"); %>
+     <input type="hidden" value="<% GetQosPolicy("tmp_enable","6"); %>" name="enable6" id="id_enable6">
+    </td>
+    <td>
+    	<input type="text" name="apname6" id="id_Qname6" size="30" maxlength="32" value="<% GetQosPolicy("app","6"); %>">
+    </td>
+    <td align="center">
+        <select size="1" name="protocol6" id="id_Qprtc6">
+            <% GetQosPolicy("proto","6"); %>
+        </select>
+    </td>
+    <td>
+    	<input type="text" name="dport6" id="id_Qport6" size="10" maxlength="11" value="<% GetQosPolicy("dport","6"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio6">
+            <% GetQosPolicy("prio","6"); %>
+        </select>
+    </td>
+  </tr>
+  
+  <tr>
+    <td align="center" >7</td>
+    <td align="center">
+     <% GetQosPolicy("enable","7"); %>
+     <input type="hidden" value="<% GetQosPolicy("tmp_enable","7"); %>" name="enable7" id="id_enable7">
+    </td>
+    <td>
+    	<input type="text" name="apname7" id="id_Qname7" size="30" maxlength="32" value="<% GetQosPolicy("app","7"); %>">
+    </td>
+    <td align="center">
+        <select size="1" name="protocol7" id="id_Qprtc7">
+            <% GetQosPolicy("proto","7"); %>
+        </select>
+    </td>
+    <td>
+    	<input type="text" name="dport7" id="id_Qport7" size="10" maxlength="11" value="<% GetQosPolicy("dport","7"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio7">
+            <% GetQosPolicy("prio","7"); %>
+        </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" >8</td>
+    <td align="center">
+     <% GetQosPolicy("enable","8"); %>
+     <input type="hidden" value="<% GetQosPolicy("tmp_enable","8"); %>" name="enable8" id="id_enable8">
+    </td>
+    <td>
+    	<input type="text" name="apname8" id="id_Qname8" size="30" maxlength="32" value="<% GetQosPolicy("app","8"); %>">
+    </td>
+    <td align="center">
+        <select size="1" name="protocol8" id="id_Qprtc8">
+            <% GetQosPolicy("proto","8"); %>
+        </select>
+    </td>
+    <td>
+    	<input type="text" name="dport8" id="id_Qport8" size="10" maxlength="11" value="<% GetQosPolicy("dport","8"); %>">
+    </td>
+    <td>
+        <select size="1" name="prio8">
+            <% GetQosPolicy("prio","8"); %>
+        </select>
+    </td>
+  </tr>
+
+</table>
+</div>
+	 <div class="button5" id="id_filter" name="filter_apply" onclick="dosubmit();">
+	<div class="button_text"><%GetString("Qos","11");%></div>
+	</div>
+     <input type="hidden" value="0" name="QoSEnable" id="id_qos_enable">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+
+</body>
+</html>

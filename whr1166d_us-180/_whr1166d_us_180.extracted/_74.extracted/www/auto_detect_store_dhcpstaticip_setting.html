@@ -1,0 +1,568 @@
+
+
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+
+function wan_manual_change(){
+
+	var f = document.forms[0];
+
+	if (f.WanMethod[0].checked)
+	{
+		f.WANStaticIP.disabled=true;
+		f.WANStaticMASK.disabled=true;
+	}
+    else{
+		f.WANStaticIP.disabled=false;
+		f.WANStaticMASK.disabled=false;
+	}
+}
+
+function check_ip_format(ip, item, type, netmask)
+{
+	var n;
+	var lanip='<%NvramGet("LanIPAddr");%>';
+	var lanmask='<%NvramGet("LanNetmask");%>';
+	var canNotSetTo255=0;
+	if (netmask)
+	{
+		if (netmask.length > 0)
+		{
+			o = netmask.split('.');
+			if (o.length==4)
+			{
+				if (o[2]>=254)
+					canNotSetTo255=1;
+			}
+		}
+	}
+	
+  if (ip=="0.0.0.0")
+  {
+    Show_WizardError(item,"<%GetString("Wan","30");%>");
+    return false;
+  }
+  if (ip=="255.255.255.255")
+  {
+    Show_WizardError(item,"<%GetString("Wan","31");%>");
+    return false;
+  }
+  if (ip==lanip)
+  {
+    Show_WizardError(item,"<%GetString("Wan","32");%>");
+    return false;
+  }
+  
+  if (!isBlank(ip))
+  {
+    n = ip.split('.');
+    
+    if (n.length!=4)
+    {
+      Show_WizardError(item,"<%GetString("Wan","33");%>");
+      return false;
+    }
+    else
+    {
+      if(isBlank(n[0]))
+      {
+        Show_WizardError(item,"<%GetString("Wan","33");%>");
+        return false;
+      }	
+      else if((isNaN(n[0]))||(n[0]<=0)||!check_integer(n[0])||check_initial_zero(n[0])) 
+      {
+        Show_WizardError(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if (n[0]==127)
+      {
+        Show_WizardError(item,"<%GetString("Wan","34");%>");
+        return false;
+      }
+	  else if (n[0]>=224 && n[0]<=239)
+      {
+        Show_WizardError(item,"<%GetString("WizardFuncInet","49");%>");
+        return false;
+      }	
+      else if (n[0]>=240 && n[0]<=255)
+      {
+        Show_WizardError(item,"<%GetString("Wan","35");%>");
+        return false;
+      }	
+      
+      if(isBlank(n[1]))
+      {
+        Show_WizardError(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])||check_initial_zero(n[1])) 
+      {
+        Show_WizardError(item,"<%GetString("Wan","33");%>");
+        return false;
+      }		
+      
+      if(isBlank(n[2]))
+      {
+        Show_WizardError(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])||check_initial_zero(n[2])) 
+      {
+        Show_WizardError(item,"<%GetString("Wan","33");%>");
+        return false; 
+      }
+      
+      if(isBlank(n[3]))
+      {
+        Show_WizardError(item,"<%GetString("Wan","33");%>");
+        return false;
+      }
+      else if((isNaN(n[3]))||(n[3]<=0)||(n[3]>=255)||!check_integer(n[3])||check_initial_zero(n[3])) 
+      {
+       	if (!(canNotSetTo255==0 && n[3]==255))
+       	{
+        	Show_WizardError(item,"<%GetString("Wan","33");%>");
+        	return false;
+        }
+      }
+    }
+    
+    if (type=="staticip")//check lanip netmask and wanip netmask
+    {
+      if (check_the_same_subnet(lanip,ip,lanmask) || check_the_same_subnet(lanip,ip,document.forms[0].WANStaticMASK.options[document.forms[0].WANStaticMASK.selectedIndex].value))
+      {
+        Show_WizardError(item,"<%GetString("Wan","37");%>");
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function isEmpty(s)
+{
+	if(s.length==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function check_initial_zero(tmp)
+{	
+	if(tmp.length>1&&tmp.charAt(0)=="0")
+	{
+		return true;
+	}
+	return false;
+}
+
+function isAllowValueIP(s,item)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || (c=='.'))
+		{
+      continue;
+		}
+		else
+		{
+			Show_WizardError(item,"<%GetString("Wan","36");%>");
+      return false;
+		}
+	}
+	
+	return true;
+}
+
+function init()
+{
+  var f = document.forms[0];
+
+  var wanmethod='<%NvramGet("tmp_store_WanMethod");%>';
+  var wannetmask='<%NvramGet("tmp_store_WANStaticMASK");%>';
+  
+  if (wanmethod == "3")
+  {
+	f.WanMethod[1].checked=true;
+	f.WANStaticIP.disabled=false;
+	f.WANStaticMASK.disabled=false;
+  }
+  else{
+	f.WanMethod[0].checked=true;
+	f.WANStaticIP.disabled=true;
+	f.WANStaticMASK.disabled=true;
+  }
+
+  if (wannetmask==''){
+    f.WANStaticMASK.selectedIndex=6;//255.255.255.0
+  }
+}
+
+function apply()
+{
+  var f = document.forms[0];
+
+  var wannetmask=document.forms[0].WANStaticMASK.options[document.forms[0].WANStaticMASK.selectedIndex].value;
+  Hide_error();
+
+  document.main.WANStaticIP.value = ip_normalize_0(document.main.WANStaticIP.value);
+  document.main.InternetDefaultGateway.value = ip_normalize_0(document.main.InternetDefaultGateway.value);
+  document.main.InternetDNS1.value = ip_normalize_0(document.main.InternetDNS1.value);
+  document.main.InternetDNS2.value = ip_normalize_0(document.main.InternetDNS2.value);
+  
+  if (f.WanMethod[1].checked==true)//if select Static IP Address :can't be empty  
+  {
+    if (isEmpty(f.WANStaticIP.value))
+    {
+      Show_WizardError("<%GetString("Wan","39");%>","<%GetString("Wan","38");%>");
+      return false;
+    }
+    else if (!isAllowValueIP(f.WANStaticIP.value,"<%GetString("Wan","39");%>") || 
+    !check_ip_format(f.WANStaticIP.value,"<%GetString("Wan","39");%>","staticip",wannetmask))
+    {
+      return false;
+    }
+	/*else if (check_broadcast_ip_mask(f.WANStaticIP.value, document.forms[0].WANStaticMASK.options[document.forms[0].WANStaticMASK.selectedIndex].value))
+    {
+		Show_WizardError("<%GetString("Wan","39");%>","<%GetString("AutoDetectJudgeLANIPConfig","28");%>");
+		return false;
+    }*/
+  }
+  
+  if (!isEmpty(f.InternetDefaultGateway.value))//Default Gateway
+  {
+    if (!isAllowValueIP(f.InternetDefaultGateway.value,"<%GetString("Wan","40");%>") || !check_ip_format(f.InternetDefaultGateway.value,"<%GetString("Wan","40");%>","defaultgw"))
+    {
+      return false;
+    }
+    else if ((f.WANStaticIP.value==f.InternetDefaultGateway.value) && f.WanMethod[1].checked==true)//Default Gatewaycan't same with Static IP Address
+    {
+      Show_WizardError("<%GetString("Wan","40");%>","<%GetString("Wan","41");%>");
+      return false;
+    }
+    if (f.WanMethod[1].checked==true)//check default getway
+    {
+      if (!check_the_same_subnet(f.WANStaticIP.value,f.InternetDefaultGateway.value,wannetmask))
+      {
+        Show_WizardError("<%GetString("Wan","40");%>","<%GetString("Wan","51");%>");
+        return false;
+      }
+	  else if (check_broadcast_ip_mask(f.InternetDefaultGateway.value, document.forms[0].WANStaticMASK.options[document.forms[0].WANStaticMASK.selectedIndex].value,f.WANStaticIP.value))
+	  {
+		Show_WizardError("<%GetString("Wan","40");%>","<%GetString("Wan","51");%>");
+		return false;
+      }
+    }
+  }
+  
+  if (!isEmpty(f.InternetDNS1.value))//dns1 //checkip(Address of DNS Name Server)
+  {
+    if (!isAllowValueIP(f.InternetDNS1.value,"<%GetString("Wan","42");%>") || !check_ip_format(f.InternetDNS1.value,"<%GetString("Wan","42");%>",""))
+    {
+      return false;
+    }
+    else if ((f.WANStaticIP.value==f.InternetDNS1.value) && f.WanMethod[1].checked==true)
+    {
+      Show_WizardError("<%GetString("Wan","42");%>","<%GetString("Wan","41");%>");
+      return false;
+    }
+  }
+  
+  if (!isEmpty(f.InternetDNS2.value))//dns2
+  {
+    if (!isAllowValueIP(f.InternetDNS2.value,"<%GetString("Wan","43");%>") || !check_ip_format(f.InternetDNS2.value,"<%GetString("Wan","43");%>",""))
+    {
+      return false;
+    }
+    else if ((f.WANStaticIP.value==f.InternetDNS2.value) && f.WanMethod[1].checked==true)
+    {
+      Show_WizardError("<%GetString("Wan","43");%>","<%GetString("Wan","41");%>");
+      return false;
+    }
+    //Primary can't same with Secondary
+    if(!isEmpty(f.InternetDNS1.value) && (f.InternetDNS1.value==f.InternetDNS2.value))
+    {
+      Show_WizardError("<%GetString("Wan","43");%>","<%GetString("Wan","44");%>");
+      return false;
+    }
+    else if (isEmpty(f.InternetDNS1.value))//if not empty 2 and 1 can't be empty
+    {
+      Show_WizardError("<%GetString("Wan","42");%>","<%GetString("Wan","45");%>");
+      return false;
+    }
+  }
+
+  if(f.WanMethod[0].checked)
+  {
+	f.tmp_store_WanMethod.value=1;
+  }
+  else{
+	f.tmp_store_WanMethod.value=3;
+  }
+  f.tmp_store_WANStaticIP.value = f.WANStaticIP.value;
+  f.tmp_store_WANStaticMASK.value = f.WANStaticMASK.options[document.forms[0].WANStaticMASK.selectedIndex].value;
+  f.tmp_store_InternetDefaultGateway.value = f.InternetDefaultGateway.value;
+  f.tmp_store_InternetDNS1.value = f.InternetDNS1.value; 
+  f.tmp_store_InternetDNS2.value = f.InternetDNS2.value;
+  f.auto_pppoe.value = 0;
+  
+  f.submit();
+}
+
+</script>
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<script src="/html/OpenHelp.html"></script>
+
+<title>AirStation Settings</title>
+ <script language="JavaScript">
+  <!--
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+  // -->
+</script>
+</HEAD>
+<BODY class=WIZ_BODY onload="init();">
+
+<form name="main" method="POST">
+
+  <TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("AutoDetectNocablePPPoEWDS","22");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("AutoDetectNocablePPPoEWDS","23");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+     			  
+     			  &nbsp;<%GetString("AutoDetectNocablePPPoEWDS","23");%>
+
+     			 	<div id="id_errtbl" class="C_ERR" style="display:none;">
+				</div>
+     			  
+     			    </td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			  <TABLE class=WIZ_SET>
+     			    <TBODY>
+     				 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","24");%></th>
+     				   <TD valign="middle" bgcolor="#ffffff">
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     					      <TD>
+     							<input type="radio" value="1" name="WanMethod" onClick="wan_manual_change();" <%NvramMatch("tmp_store_WanMethod", "1", "checked");%>>
+							  </TD>
+							  <TD>
+								<%GetString("AutoDetectNocablePPPoEWDS","27");%>
+     					      </TD>
+     					    </TR>
+							<TR>
+							  <TD>
+								<input type="radio" value="3" name="WanMethod" onClick="wan_manual_change();" <%NvramMatch("tmp_store_WanMethod", "3", "checked");%>>
+							  </TD>
+							  <TD>
+								<%GetString("AutoDetectNocablePPPoEWDS","28");%>
+							  </TD>
+							</TR>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>
+     				 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","25");%></th>
+     				   <TD>
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     					      <TD>
+     							<%GetString("AutoDetectNocablePPPoEWDS","29");%>
+     					      </TD>
+     					      <TD>
+								<input type="text" id="id_WANStaticIP" name="WANStaticIP" size="20" maxlength="15" value="<%NvramGet("tmp_store_WANStaticIP");%>">
+							  </TD>
+     					    </TR>
+							<TR>
+     					      <TD>
+     							<%GetString("AutoDetectNocablePPPoEWDS","30");%>
+     					      </TD>
+     					      <TD>
+								<select size="1" id="id_WANStaticMASK" name="WANStaticMASK">
+<option value="255.255.255.252" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.255.252", "selected");%>>255.255.255.252</option>
+<option value="255.255.255.248" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.255.248", "selected");%>>255.255.255.248</option>
+<option value="255.255.255.240" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.255.240", "selected");%>>255.255.255.240</option>
+<option value="255.255.255.224" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.255.224", "selected");%>>255.255.255.224</option>
+<option value="255.255.255.192" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.255.192", "selected");%>>255.255.255.192</option>
+<option value="255.255.255.128" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.255.128", "selected");%>>255.255.255.128</option>
+<option value="255.255.255.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.255.0", "selected");%>>255.255.255.0</option>
+<option value="255.255.254.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.254.0", "selected");%>>255.255.254.0</option>
+<option value="255.255.252.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.252.0", "selected");%>>255.255.252.0</option>
+<option value="255.255.248.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.248.0", "selected");%>>255.255.248.0</option>
+<option value="255.255.240.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.240.0", "selected");%>>255.255.240.0</option>
+<option value="255.255.224.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.224.0", "selected");%>>255.255.224.0</option>
+<option value="255.255.192.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.192.0", "selected");%>>255.255.192.0</option>
+<option value="255.255.128.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.128.0", "selected");%>>255.255.128.0</option>
+<option value="255.255.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.255.0.0", "selected");%>>255.255.0.0</option>
+<option value="255.254.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.254.0.0", "selected");%>>255.254.0.0</option>
+<option value="255.252.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.252.0.0", "selected");%>>255.252.0.0</option>
+<option value="255.248.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.248.0.0", "selected");%>>255.248.0.0</option>
+<option value="255.240.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.240.0.0", "selected");%>>255.240.0.0</option>
+<option value="255.224.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.224.0.0", "selected");%>>255.224.0.0</option>
+<option value="255.192.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.192.0.0", "selected");%>>255.192.0.0</option>
+<option value="255.128.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.128.0.0", "selected");%>>255.128.0.0</option>
+<option value="255.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "255.0.0.0", "selected");%>>255.0.0.0</option>
+<option value="254.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "254.0.0.0", "selected");%>>254.0.0.0</option>
+<option value="252.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "252.0.0.0", "selected");%>>252.0.0.0</option>
+<option value="248.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "248.0.0.0", "selected");%>>248.0.0.0</option>
+<option value="240.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "240.0.0.0", "selected");%>>240.0.0.0</option>
+<option value="224.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "224.0.0.0", "selected");%>>224.0.0.0</option>
+<option value="192.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "192.0.0.0", "selected");%>>192.0.0.0</option>
+<option value="128.0.0.0" <%NvramMatch("tmp_store_WANStaticMASK", "128.0.0.0", "selected");%>>128.0.0.0</option>
+								</select>
+							  </TD>
+     					    </TR>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>
+					 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","26");%></th>
+     				   <TD>
+     						<input type="text" name="InternetDefaultGateway" size="20" maxlength="15" value="<%NvramGet("tmp_store_InternetDefaultGateway");%>">
+     				   </TD>
+     				 </TR>
+     				 <TR>
+     				   <th><%GetString("AutoDetectNocablePPPoEWDS","15");%>
+     					<BR>
+     					<small>* <%GetString("AutoDetectNocablePPPoEWDS","16");%></small>
+     				   </th>
+     				   <TD>
+     					<TABLE>
+     					  <TBODY>
+     					    <TR>
+     						 <TD><%GetString("AutoDetectNocablePPPoEWDS","31");%></TD>
+     						 <TD><input type="text" name="InternetDNS1" size="20" maxlength="15" value="<%NvramGet("tmp_store_InternetDNS1");%>"></TD>
+     					    </TR>
+     					    <TR>
+     						 <TD><%GetString("AutoDetectNocablePPPoEWDS","32");%></TD>
+     						 <TD><input type="text" name="InternetDNS2" size="20" maxlength="15" value="<%NvramGet("tmp_store_InternetDNS2");%>"></TD>
+     					    </TR>
+     					  </TBODY>
+     					</TABLE>
+     				   </TD>
+     				 </TR>				      				 
+     				 
+     			    </TBODY>
+     			  </TABLE>
+     			  
+     			</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+ 	 <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+     		<INPUT type="button" value="<%GetString("AutoDetectJudgePPPoEConfig","13");%>" onClick="self.location.href='auto_detect_store_setting.html'">
+            </td>
+            <td class=NAVI_C>
+     		
+            </td>
+     	  <td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("AutoDetectJudgePPPoEConfig","14");%>" onClick="apply()">
+     	  </td>
+     	</tr>
+        </TBODY>
+      </TABLE>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+
+<input type="hidden" name="tmp_store_WanMethod" value="">
+<input type="hidden" name="tmp_store_WANStaticIP" value="">
+<input type="hidden" name="tmp_store_WANStaticMASK" value="">
+<input type="hidden" name="tmp_store_InternetDefaultGateway" value="">
+<input type="hidden" name="tmp_store_InternetDNS1" value="">
+<input type="hidden" name="tmp_store_InternetDNS2" value="">
+<input type="hidden" name="auto_pppoe" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</BODY>
+</HTML>
+
+ 

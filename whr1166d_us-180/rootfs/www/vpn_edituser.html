@@ -1,0 +1,509 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+
+var UserModify=0;
+var Errorindex=0;
+var FullEdit=0;
+
+function method_select()
+{
+	var f = document.forms[0];
+
+	if (f.PPTPeditmethod[2].checked == true)
+	{
+		f.PPTPeditmethodfix.disabled = 0;
+	}
+	else{
+		f.PPTPeditmethodfix.disabled = 1;
+	}
+}
+
+function init()
+{
+	top.content_helpframe.document.location.href = "./help/help_vpn_edit.html";
+
+	var usernum="<%NvramGet("PPTPUserNum");%>";
+
+	if (usernum == "8")
+	{
+		FullEdit = 1;
+		document.getElementById("id_message").style.display = "";
+		document.getElementById("id_normal_set").style.display = "none";
+	}
+	else{
+		FullEdit = 0;
+		document.getElementById("id_message").style.display = "none";
+		document.getElementById("id_normal_set").style.display = "";
+		method_select();
+	}
+}
+
+function showvalue(item)
+{
+	var f = document.forms[0];
+	var f2 = document.forms[1];
+	var i=0;
+	var allnum = "<%NvramGet("PPTPUserNum");%>";
+
+	if (FullEdit == "1")
+	{
+		document.getElementById("id_message").style.display = "none";
+		document.getElementById("id_normal_set").style.display = "";
+	}
+
+	UserModify = 1;
+	f2.PPTPUserModifyNum.value = item;
+
+	document.getElementById("id_save_button").style.display = "";
+	document.getElementById("id_modify_button").style.display = "none";
+
+	for(i=0; i<allnum; i++)
+	{
+		if (i == item)
+		{
+			eval("document.getElementById(\"id_info_button_" + item + "\").style.display = \"none\";");
+			eval("document.getElementById(\"id_info_edit_" + item + "\").style.display = \"\";");
+			document.getElementById("id_save_button").style.display = "none";
+			document.getElementById("id_modify_button").style.display = "";
+		}
+		else
+		{
+			eval("document.getElementById(\"id_info_button_" + i + "\").style.display = \"\";");
+			eval("document.getElementById(\"id_info_edit_" + i + "\").style.display = \"none\";");			
+		}
+	}
+
+	f.PPTPedituser.value = eval("f.PPTPUserName" + item).value;
+	f.PPTPeditpass.value = eval("f.PPTPUserPassword" + item).value;
+	f.PPTPeditpass2.value = eval("f.PPTPUserPassword" + item).value;	
+
+	if (eval("f.PPTPUserMethod" + item).value == 0)
+	{
+		f.PPTPeditmethod[0].checked = true;
+	}
+	else if (eval("f.PPTPUserMethod" + item).value == 1)
+	{
+		f.PPTPeditmethod[1].checked = true;
+	}
+	else{
+		f.PPTPeditmethod[2].checked = true;
+	}
+	
+	f.PPTPeditmethodfix.value = eval("f.PPTPUserFixIP" + item).value;
+
+	method_select();
+}
+
+function deletevalue(item)
+{
+	var f3 = document.forms[2];
+
+	f3.PPTPUserDeleteNum.value = item;
+	f3.submit();
+}
+
+function isEmpty(s)
+{
+	if(s.length==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function checkerror()
+{
+	var f = document.forms[0];
+	var f2 = document.forms[1];
+	var fixip = f.PPTPeditmethodfix.value.split(".");
+	var i=0;
+
+	if (isEmpty(f.PPTPedituser.value))
+	{
+		Show_error("<%GetString("VPN","40");%>","<%GetString("VPN","76");%>");
+		return false;
+	}
+
+	if (!/[^\"\'\/]/g.test(f.PPTPedituser.value))
+	{
+		Show_error("<%GetString("VPN","40");%>","<%GetString("VPN","78");%>");
+		return false;
+	}
+
+	for(i=0; i<=7; i++)
+	{
+		if (UserModify == 1)
+		{
+			if (i != f2.PPTPUserModifyNum.value)
+			{
+				if (eval("f.PPTPUserName" + i).value == f.PPTPedituser.value)
+				{
+					Show_error("<%GetString("VPN","40");%>","<%GetString("VPN","77");%>");
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if (eval("f.PPTPUserName" + i).value == f.PPTPedituser.value)
+			{
+				Show_error("<%GetString("VPN","40");%>","<%GetString("VPN","77");%>");
+				return false;
+			}
+		}
+	}
+
+	if (f.PPTPeditpass.value != f.PPTPeditpass2.value)
+	{
+		Show_error("<%GetString("VPN","41");%>","<%GetString("VPN","79");%>");
+		return false;
+	}
+
+	if (f.PPTPeditpass.value.length != 0)
+	{
+		if (!/[^\"\'\/]/g.test(f.PPTPeditpass.value))
+		{
+			Show_error("<%GetString("VPN","41");%>","<%GetString("VPN","78");%>");
+			return false;
+		}
+	}
+
+	if (f.PPTPeditmethod[2].checked == true)
+	{
+		if (fixip[0] != 10 && fixip[0] != 172 && fixip[0] != 192)
+		{
+			Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+			return false;
+		}
+		else if (fixip[0] == 10)
+		{
+			if (fixip[1] < 0 || fixip[1] > 255)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+			if (fixip[2] < 0 || fixip[2] > 255)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+			if (fixip[3] < 1 || fixip[3] > 254)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+		}
+		else if (fixip[0] == 172)
+		{
+			if (fixip[1] < 16 || fixip[1] > 31)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+			if (fixip[2] < 0 || fixip[2] > 255)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+			if (fixip[3] < 1 || fixip[3] > 254)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+		}
+		else if (fixip[0] == 192)
+		{
+			if (fixip[1] != 168)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+			if (fixip[2] < 0 || fixip[2] > 255)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+			if (fixip[3] < 1 || fixip[3] > 254)
+			{
+				Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","55");%>");
+				return false;
+			}
+		}
+
+		var lanadd="<%NvramGet("LanIPAddr");%>";
+		var lanaddvar = lanadd.split(".");
+
+		if (fixip[0] == lanaddvar[0] && fixip[1] == lanaddvar[1] && fixip[2] == lanaddvar[2])
+		{
+			Show_error("<%GetString("VPN","54");%>","<%GetString("VPN","75");%>");
+			return false;
+		}
+	}
+	return true;	
+}
+
+function dosubmit()
+{
+	var f = document.forms[0];
+	var f2 = document.forms[1];
+
+	if (checkerror() == true)
+	{
+		if (UserModify == 1)
+		{
+			f2.PPTPUserName.value = f.PPTPedituser.value;
+			f2.PPTPUserPassword.value = f.PPTPeditpass.value;
+
+			if (f.PPTPeditmethod[0].checked == true)
+			{
+				f2.PPTPUserMethod.value = 0;
+			}
+			else if (f.PPTPeditmethod[1].checked == true)
+			{
+				f2.PPTPUserMethod.value = 1;
+			}
+			else{
+				f2.PPTPUserMethod.value = 2;
+			}
+
+			f2.PPTPUserFixIP.value = f.PPTPeditmethodfix.value;
+
+			f2.submit();
+		}
+		else{
+
+			var usernum="<%NvramGet("PPTPUserNum");%>";
+			var nowusernum = parseInt(usernum, 10) + 1;
+
+			f.PPTPUserNum.value = nowusernum;
+
+			nowusernum = nowusernum - 1;
+			eval("f.PPTPUserName" + nowusernum).value = f.PPTPedituser.value;
+			eval("f.PPTPUserPassword" + nowusernum).value = f.PPTPeditpass.value;
+
+			if (f.PPTPeditmethod[0].checked == true)
+			{
+				eval("f.PPTPUserMethod" + nowusernum).value = 0;
+			}
+			else if (f.PPTPeditmethod[1].checked == true)
+			{
+				eval("f.PPTPUserMethod" + nowusernum).value = 1;
+			}
+			else{
+				eval("f.PPTPUserMethod" + nowusernum).value = 2;
+			}
+			
+			eval("f.PPTPUserFixIP" + nowusernum).value = f.PPTPeditmethodfix.value;
+			f.submit();
+		}
+	}
+}
+
+</script>
+<script src="OnceOnly.html"></script>
+</head>
+<body class="BFK_BODY" onLoad="init();">
+<form id="vpnedit_form" method="POST">
+
+  <p><input type="button" value="<%GetString("VPN","38");%>" onclick="location.href='vpn.html'"></p>
+
+  <hr/>
+
+  <div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+
+  <table class="AD_TTL2">
+    <tbody>
+    <tr><td><%GetString("VPN","39");%> </td></tr>
+    </tbody>
+  </table>
+
+  <div id="id_message" style="display:none;">
+	<table class="AD_TTL2">
+	  <tbody>
+		<tr><td><%GetString("VPN","52");%> </td></tr>
+	  </tbody>
+    </table>
+  </div>
+
+  <div id="id_normal_set" style="display:none;">
+  <table class="AD_SET">
+    <tr>
+	  <br/>
+      <th><%GetString("VPN","40");%></th>
+      <td>
+		<input type="text" id="id_PPTPedituser" name="PPTPedituser" size="45" maxlength="16" value="">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("VPN","41");%></th>
+      <td>
+	  <table>
+		<tr>
+			<td>
+				<input type="password" id="id_PPTPeditpass" name="PPTPeditpass" size="45" maxlength="16" value="">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="password" id="id_PPTPeditpass2" name="PPTPeditpass2" size="45" maxlength="16" value="">&nbsp;<%GetString("VPN","42");%>
+			</td>
+		</tr>
+	  </table>
+      </td>
+    </tr>
+  </table>
+
+  <table class="AD_TTL2">
+    <tbody>
+		<tr><td><%GetString("VPN","43");%> </td></tr>
+    </tbody>
+  </table>
+
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("VPN","44");%></th>
+      <td>
+	  <table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>
+							<input type="radio" value="0" id="id_PPTPeditmethod" name="PPTPeditmethod" checked onClick="method_select();">
+						</td>
+						<td>
+							<%GetString("VPN","45");%>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>
+							<input type="radio" value="1" id="id_PPTPeditmethod" name="PPTPeditmethod" onClick="method_select();">
+						</td>
+						<td>
+							<%GetString("VPN","46");%>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>
+							<input type="radio" value="2" id="id_PPTPeditmethod" name="PPTPeditmethod" onClick="method_select();">
+						</td>
+						<td>
+							<%GetString("VPN","47");%>
+						</td>
+					</tr>
+				</table>
+				<table width="100%">
+					<tr>
+						<td width="13%">&nbsp;</td>
+						<td>
+							<%GetString("VPN","48");%><input type="text" id="id_PPTPeditmethodfix" name="PPTPeditmethodfix" size="14" maxlength="15" value="">
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	  </table>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+	<span id="id_save_button" style="display:block;">
+		<input type="button" value="<%GetString("VPN","49");%>" onclick="dosubmit();">
+	</span>
+	<span id="id_modify_button" style="display:none;">
+		<input type="button" value="<%GetString("HelpNet","358");%>" onclick="dosubmit();">
+		<input type="button" value="<%GetString("VPN","66");%>" onclick="location.href='vpn_edituser.html'">
+	</span>
+  </p>
+
+  </div>
+
+  <hr/>
+
+  <table class="AD_TTL2">
+    <tbody>
+		<tr><td><%GetString("VPN","31");%> </td></tr>
+    </tbody>
+  </table>
+
+  <%PPTPUserEditList();%>
+
+<input type="hidden" name="PPTPUserModify" value="0">
+<input type="hidden" name="PPTPUserNum" value="<%NvramGet("PPTPUserNum");%>">
+<input type="hidden" name="PPTPUserName0" value="<%NvramGet("PPTPUserName0");%>">
+<input type="hidden" name="PPTPUserName1" value="<%NvramGet("PPTPUserName1");%>">
+<input type="hidden" name="PPTPUserName2" value="<%NvramGet("PPTPUserName2");%>">
+<input type="hidden" name="PPTPUserName3" value="<%NvramGet("PPTPUserName3");%>">
+<input type="hidden" name="PPTPUserName4" value="<%NvramGet("PPTPUserName4");%>">
+<input type="hidden" name="PPTPUserName5" value="<%NvramGet("PPTPUserName5");%>">
+<input type="hidden" name="PPTPUserName6" value="<%NvramGet("PPTPUserName6");%>">
+<input type="hidden" name="PPTPUserName7" value="<%NvramGet("PPTPUserName7");%>">
+<input type="hidden" name="PPTPUserPassword0" value="<%NvramGet("PPTPUserPassword0");%>">
+<input type="hidden" name="PPTPUserPassword1" value="<%NvramGet("PPTPUserPassword1");%>">
+<input type="hidden" name="PPTPUserPassword2" value="<%NvramGet("PPTPUserPassword2");%>">
+<input type="hidden" name="PPTPUserPassword3" value="<%NvramGet("PPTPUserPassword3");%>">
+<input type="hidden" name="PPTPUserPassword4" value="<%NvramGet("PPTPUserPassword4");%>">
+<input type="hidden" name="PPTPUserPassword5" value="<%NvramGet("PPTPUserPassword5");%>">
+<input type="hidden" name="PPTPUserPassword6" value="<%NvramGet("PPTPUserPassword6");%>">
+<input type="hidden" name="PPTPUserPassword7" value="<%NvramGet("PPTPUserPassword7");%>">
+<input type="hidden" name="PPTPUserMethod0" value="<%NvramGet("PPTPUserMethod0");%>">
+<input type="hidden" name="PPTPUserMethod1" value="<%NvramGet("PPTPUserMethod1");%>">
+<input type="hidden" name="PPTPUserMethod2" value="<%NvramGet("PPTPUserMethod2");%>">
+<input type="hidden" name="PPTPUserMethod3" value="<%NvramGet("PPTPUserMethod3");%>">
+<input type="hidden" name="PPTPUserMethod4" value="<%NvramGet("PPTPUserMethod4");%>">
+<input type="hidden" name="PPTPUserMethod5" value="<%NvramGet("PPTPUserMethod5");%>">
+<input type="hidden" name="PPTPUserMethod6" value="<%NvramGet("PPTPUserMethod6");%>">
+<input type="hidden" name="PPTPUserMethod7" value="<%NvramGet("PPTPUserMethod7");%>">
+<input type="hidden" name="PPTPUserFixIP0" value="<%NvramGet("PPTPUserFixIP0");%>">
+<input type="hidden" name="PPTPUserFixIP1" value="<%NvramGet("PPTPUserFixIP1");%>">
+<input type="hidden" name="PPTPUserFixIP2" value="<%NvramGet("PPTPUserFixIP2");%>">
+<input type="hidden" name="PPTPUserFixIP3" value="<%NvramGet("PPTPUserFixIP3");%>">
+<input type="hidden" name="PPTPUserFixIP4" value="<%NvramGet("PPTPUserFixIP4");%>">
+<input type="hidden" name="PPTPUserFixIP5" value="<%NvramGet("PPTPUserFixIP5");%>">
+<input type="hidden" name="PPTPUserFixIP6" value="<%NvramGet("PPTPUserFixIP6");%>">
+<input type="hidden" name="PPTPUserFixIP7" value="<%NvramGet("PPTPUserFixIP7");%>">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST">
+<input type="hidden" name="PPTPUserModify" value="1">
+<input type="hidden" name="PPTPUserModifyNum" value="">
+<input type="hidden" name="PPTPUserName" value="">
+<input type="hidden" name="PPTPUserPassword" value="">
+<input type="hidden" name="PPTPUserMethod" value="">
+<input type="hidden" name="PPTPUserFixIP" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+<form method="POST">
+<input type="hidden" name="PPTPUserModify" value="2">
+<input type="hidden" name="PPTPUserDeleteNum" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

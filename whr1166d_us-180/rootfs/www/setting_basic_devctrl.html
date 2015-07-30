@@ -1,0 +1,1091 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>BUFFALO AirStation</title>
+	<meta http-equiv="content-type" content="text/html; charset=<%ChangeCharset();%>">
+	<meta name="viewport" content="width=<%NvramMatch("MobileDevice","1","640");%><%NvramMatch("MobileDevice","0","940");%>">
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+	<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+	<link rel="alternate stylesheet" id="mobilecss_common" type="text/css" href="/images/style-PY20-common-mobile.css">
+	<link rel="alternate stylesheet" id="anothercss_devctrl"  type="text/css" href="/images/style-PY20-devctrl.css">
+	<link rel="alternate stylesheet" id="iecss_devctrl"  type="text/css" href="/images/style-PY20-devctrl-compatible.css">
+	<link rel="alternate stylesheet" id="mobilecss_devctrl"  type="text/css" href="/images/style-PY20-devctrl-mobile.css">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+	<script type="text/javascript" src="/js/prototype.js"></script>
+	<script type="text/javascript" src="/js/py20_icon_popup.js"></script>
+	<script type="text/javascript" src="/js/py20_common.js"></script>
+	<script type="text/javascript" src="/js/py20_backalert.js"></script>
+	<script type="text/javascript" src="/js/py20_set_wait.js"></script>
+	<script type="text/javascript" src="/js/py20_warning.js"></script>
+	<script type="text/javascript" src="/js/cookiectrl.js"></script>
+	<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+	<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+
+<style type="text/css">
+	body {  margin: 0 auto; }
+</style>
+
+<script language="JavaScript">
+<!--
+var waiting = false;
+var popupDisable = false;
+var iconDisable = false;
+var parental_ori = true;
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("indicator").style.display = "";
+			document.getElementById("waiting_err_text").style.display = "none";
+			document.getElementById("waiting_err_btn").style.display = "none";
+			dispWaiting(true);
+			window.setTimeout("updateInnerHtml()", 6000);
+			window.setTimeout("dispWaiting(false)", 6000);
+}, 
+failure:function(oResponse) { 
+alert(oResponse.errorText); 
+} 
+}
+
+function getJsonParam(category, handle)
+{
+	new Ajax.Request("/Ajax_get_value.html&action="+category+"?timestampt="+new Date().toString(),
+		{method : 'get', onComplete : handle});
+}
+
+// format check
+///////////////////////////////////////////////////////////////////////
+var err_devctrlname = false;
+function handleFormOnKeyup(el, warnid)
+{
+	switch(warnid)
+	{
+		default:
+			break
+		case "warning_devctrlname":
+			err_devctrlname = chkfmtDevctrlName(el, warnid);
+			break;
+	}
+	if(err_devctrlname)
+	{
+		elId("button_accept").className = "button2_disable";
+	}
+	else
+	{
+		elId("button_accept").className = "button2";
+	}
+}
+
+// get
+///////////////////////////////////////////////////////////////////////
+function handleDeviceParamOnComplete(req)
+{
+	var data = req.responseText.evalJSON();
+//	var data = {
+//		"VERDOR":"BUFFALO INC",
+//		"MODEL":"WHR-1166D",
+//		"COPYRIGHT":"(C)2013 BUFFALO INC. All rights reserved.",
+//		"VERSION":"1.00",
+//		"SUB_VERSION":"1.00",
+//		"BOOT_VERSION":"6.30.163-1.00",
+//		"REGION":"JP"	
+//		}
+	insertTitle(data.MODEL.escapeHTML());
+	document.getElementById("MODEL2").innerHTML    = data.MODEL.escapeHTML();
+	document.getElementById("MODEL3").innerHTML    = data.MODEL.escapeHTML();
+	document.getElementById("COPYRIGHT").innerHTML = data.COPYRIGHT;
+	document.getElementById("VERSION").innerHTML   = data.VERSION.escapeHTML();
+	document.getElementById("popup_current_ver").innerHTML   = data.VERSION.escapeHTML();
+}
+
+function handleFunctionParamOnComplete(req)
+{
+//	var data = req.responseText.evalJSON();
+	var data = {
+ "BASIC_PANEL":["WIRELESS","WPS/AOSS","NAS","GUEST","QOS","PARENTAL","DEVCTRL","ADVANCED","NULL"],
+ "BASIC_ICON":["WAN","INFO","SUPPORT","LOGOUT","NULL"],
+ "MENU":["WAN","LAN","WIRELESS","SECURITY","APPS","ADMIN","DIAG","NULL"],
+ "MENU_WAN":["CONNECT","PPPOE","DDNS","VPN","NAT","NULL"],
+ "MENU_LAN":["LAN","DHCP","NAT","ROUTING","NULL"],
+ "MENU_WIRELESS":["WPS","AOSS","BAND5G","BAND2G","FILTER","GUEST","SNOOPING","NULL"],
+ "MENU_SECURITY":["FORWARD","DMZ","UPNP","FIREWALL","FILTER","PARENTAL","PASSTHROUGH","NULL"],
+ "MENU_APPS":["NAS","SHARE","WEB_AXS","DLNA","TORRENT","QOS","NETUSB","ECO","SCHEDULE","NULL"],
+ "MENU_ADMIN":["SYSTEM","LOG","ACCESS","INIT","FIRMWARE","NULL"],
+ "MENU_DIAG":["SYSTEM","LOG","PACKET","CLIENT","PING","NULL"]
+}
+	// icon
+	if(data.BASIC_ICON != undefined)
+	{
+		var label = ["WAN","REPEATER","INFO","SUPPORT","ECO"];
+		for(i = 0; i < label.length; i++)
+		{
+			if(data.BASIC_ICON.indexOf(label[i]) != -1)
+			{
+				document.getElementById("icon_" + label[i]).style.display = "";
+			}
+		}
+	}
+}
+var active_tab = 0;
+var devlist;
+function handleDevctrlParamOnComplete(req)
+{
+	devlist=req.responseText.evalJSON();
+	dispList(active_tab);
+}
+
+// device item
+///////////////////////////////////////////////////////////////////////
+function setWanItem(type)
+{	
+	switch(type)
+	{
+		default:
+			break;
+		case 0: // ip
+			elId("wantxt").innerHTML = devlist.WANIP;
+			elId("aptxt").innerHTML = devlist.LANIP;
+			break;
+		case 1: // qos
+			elId("wantxt").innerHTML = "<div class=\"qos_icon_up\"></div>" + devlist.UP + "<br /><div class=\"qos_icon_down\"></div>" + devlist.DOWN;
+			elId("aptxt").innerHTML = "";
+			break;
+		case 2: // parental
+		case 3: // www
+		case 4: // wol
+			elId("wantxt").innerHTML = "";
+			elId("aptxt").innerHTML = "";
+			break;
+	}
+}
+
+function setDevItem(type, dispidx, listidx)
+{
+	elId("dev" + dispidx).className = "landevice landevice_enable";
+	elId("devimg" + dispidx).className = "devimg devimg_" + devlist.DEVICE[listidx].IMAGE;
+//	elId("devperson" + dispidx).style.visibility = (devlist.DEVICE[listidx].CONFIG) ? "visible" : "hidden";
+	elId("devperson" + dispidx).style.visibility = (devlist.DEVICE[listidx].IP==devlist.CONFIGIP) ? "visible" : "hidden";
+//	elId("devban" + dispidx).style.visibility = (devlist.DEVICE[listidx].DISCONNECT) ? "visible" : "hidden";
+	elId("devban" + dispidx).style.visibility = (devlist.DEVICE[listidx].WOL) ? "visible" : "hidden";
+	elId("devwireless" + dispidx).style.visibility = (devlist.DEVICE[listidx].WIRELESS) ? "visible" : "hidden";
+	elId("list" + dispidx).value = listidx;
+	elId("devtxt" + dispidx).innerHTML = strHead(((devlist.DEVICE[listidx].NAME=="unknow")?"<%GetString("NewUI","225");%>":decodeURIComponent(devlist.DEVICE[listidx].NAME)), 12).escapeHTML();
+	switch(type)
+	{
+		default:
+			break;
+		case 0: // ip
+			elId("devip" + dispidx).innerHTML = devlist.DEVICE[listidx].IP;
+			break;
+		case 1: // qos
+			elId("devip" + dispidx).innerHTML = "<div class=\"qos_icon_up\"></div>" + devlist.DEVICE[listidx].UP + "<br /><div class=\"qos_icon_down\"></div>" + devlist.DEVICE[listidx].DOWN;
+			break;
+		case 2: // parental
+			if(devlist.DEVICE[listidx].PARENTAL)
+			{
+
+				elId("devip" + dispidx).innerHTML = "<%GetString("NewUI","167");%>";
+
+			}
+			else
+			{
+				elId("devip" + dispidx).innerHTML = "";
+			}
+			break;
+		case 3: // www
+			elId("devip" + dispidx).innerHTML = devlist.DEVICE[listidx].IP;
+			break;
+		case 4: // wol
+			elId("devip" + dispidx).innerHTML = devlist.DEVICE[listidx].MAC.toUpperCase();
+			break;
+	}
+	elId("dev" + dispidx).style.display = "";
+}
+
+function setDevItemDisable(type, dispidx, listidx)
+{
+	elId("dev" + dispidx).className = "landevice landevice_disable";
+	elId("devimg" + dispidx).className = "devimg devimg_" + devlist.DEVICE[listidx].IMAGE;
+//	elId("devperson" + dispidx).style.visibility = (devlist.DEVICE[listidx].CONFIG) ? "visible" : "hidden";
+	elId("devperson" + dispidx).style.visibility = (devlist.DEVICE[listidx].IP==devlist.CONFIGIP) ? "visible" : "hidden";
+//	elId("devban" + dispidx).style.visibility = (devlist.DEVICE[listidx].DISCONNECT) ? "visible" : "hidden";
+	elId("devban" + dispidx).style.visibility = (devlist.DEVICE[listidx].WOL) ? "visible" : "hidden";
+	elId("devwireless" + dispidx).style.visibility = (devlist.DEVICE[listidx].WIRELESS) ? "visible" : "hidden";
+	elId("list" + dispidx).value = listidx;
+	switch(type)
+	{
+		default:
+		case 0: // ip
+		case 1: // qos
+		case 2: // parental
+			break;
+		case 3: // www
+			elId("devtxt" + dispidx).innerHTML = strHead(((devlist.DEVICE[listidx].NAME=="unknow")?"<%GetString("NewUI","225");%>":decodeURIComponent(devlist.DEVICE[listidx].NAME)), 12).escapeHTML();
+			elId("devip" + dispidx).innerHTML = "";
+			break;
+		case 4: // wol
+			elId("devtxt" + dispidx).innerHTML = strHead(((devlist.DEVICE[listidx].NAME=="unknow")?"<%GetString("NewUI","225");%>":decodeURIComponent(devlist.DEVICE[listidx].NAME)), 12).escapeHTML();
+			elId("devip" + dispidx).innerHTML = devlist.DEVICE[listidx].MAC;
+			break;
+	}
+	elId("dev" + dispidx).style.display = "";
+}
+
+function unsetDevItemAll()
+{
+	for(i = 0; i < 64; i++ )
+	{
+		elId("dev" + i).style.display = "none";
+		elId("list" + i).value = -1;
+	}
+}
+
+var hide = true;
+function hideDevItem()
+{
+	var devs;
+	for(devs = 0; devs < 64; devs++)
+	{
+		if(elId("list" + devs).value == -1)
+		{
+			break;
+		}
+	}
+	if(hide && (devs > 12))
+	{
+		var str = "";
+		elId("dev_extend").style.display = "none";
+		str += "<%GetString("NewUI","247");%>";
+		str += (devs - 12);
+		str += "<%GetString("NewUI","248");%>";
+		elId("disp_more").value = str;
+		elId("disp_more").style.display = "";
+	}
+	else
+	{
+		elId("disp_more").style.display = "none";
+	}
+}
+
+function handleDispMoreOnClick()
+{
+	elId("dev_extend").style.display = "";
+	elId("disp_more").style.display = "none";
+	hide = false;
+}
+
+function dispList(type)
+{
+	if(!isUndefined(devlist))
+	{
+		setWanItem(type);
+		if(devlist.SUPPORT)
+		{
+			if(devlist.FUNCTION)
+			{
+				var devcnt = 0;
+				unsetDevItemAll();
+				for(i = 0; i < 64; i++)
+				{
+					if(devlist.DEVICE[i].NULL)
+					{
+						break;
+					}
+					else
+					{
+						if((type == 3) && (devlist.DEVICE[i].WWW=="0"))
+						{
+							setDevItemDisable(type, devcnt, i);
+						}
+						else
+						{
+							setDevItem(type, devcnt, i);
+						}
+						devcnt++;
+					}
+				}
+				hideDevItem();
+			}
+		}
+	}
+}
+
+function handleTabOnClick(type)
+{	
+	for(i = 0; i < 5; i++)
+	{
+		if(i==1)
+			continue;
+		if(i == type)
+		{
+			elId("tabhead" + i).className = "tab_head_active";
+			elId("tabheadimg" + i).className = "tabimg tab" + i + "_current";
+		}
+		else
+		{
+			elId("tabhead" + i).className = "tab_head";
+			elId("tabheadimg" + i).className = "tabimg tab" + i;
+		}
+	}
+	if(type == 0)
+	{
+		elId("tab_body").className = "tab_body tab_left";
+	}
+	else if(type == 4)
+	{
+		elId("tab_body").className = "tab_body tab_right";
+	}
+	else
+	{
+		elId("tab_body").className = "tab_body tab_center";
+	}
+	dispList(type);
+	active_tab = type;
+}
+
+function getDevList()
+{
+	if(!iconDisable)
+	{
+		getJsonParam("GetDeviceControl", handleDevctrlParamOnComplete);
+	}
+}
+///////////////////////////////////////////////////////////////////////
+// device item
+
+
+// wol
+////////////////////////////////////////////////////////////////////////
+function handleWolDialogOnOk()
+{
+	document.getElementById("waiting_base").style.display = "none";
+	document.getElementById("wol_body").style.display = "none";
+}
+
+function handleWolOnComplete(req)
+{
+	if(req.status == 200)
+	{
+		document.getElementById("waiting_base").style.display = "";
+		document.getElementById("wol_body").style.display = "";
+	}
+}
+////////////////////////////////////////////////////////////////////////
+// wol
+
+
+// list <=> form
+////////////////////////////////////////////////////////////////////////
+function dispForm(flg, devidx)
+{
+	if(flg)
+	{
+		var listidx = elId("list" + devidx).value;
+		elId("form_img").className = "form_img devimg_" + devlist.DEVICE[listidx].IMAGE;
+		elId("form_name").value = (devlist.DEVICE[listidx].NAME=="unknow")?"<%GetString("NewUI","225");%>":decodeURIComponent(devlist.DEVICE[listidx].NAME);
+		elId("form_ip").innerHTML = devlist.DEVICE[listidx].IP;
+		elId("form_mac").innerHTML = devlist.DEVICE[listidx].MAC;
+		elId("form_qos").selectedIndex = devlist.DEVICE[listidx].QOS;
+		elId("form_parental").checked = devlist.DEVICE[listidx].PARENTAL;
+//		elId("form_disconnect").checked = devlist.DEVICE[listidx].DISCONNECT;
+		elId("form_disconnect").checked = devlist.DEVICE[listidx].WOL;
+		elId("devctrl_all").style.display = "none";
+		elId("devctrl_one").style.display = "";
+		elId("button_delete").style.display = (parseInt(devlist.DEVICETOTAL) < 64)?"none":"";
+		iconDisable = true;
+		parental_ori = devlist.DEVICE[listidx].PARENTAL;
+	}
+	else
+	{
+		elId("button_delete").style.display = "none";
+		elId("warning_devctrlname").style.display = "none";
+		err_devctrlname = false;
+		elId("button_accept").className = "button2";
+		elId("devctrl_all").style.display = "";
+		elId("devctrl_one").style.display = "none";
+		iconDisable = false;
+	}
+}
+
+function handleDevOnClick(idx)
+{
+	var listidx = elId("list" + idx).value;
+	switch(active_tab)
+	{
+		default:
+			break;
+		case 0: // ip
+		case 1: // qos
+		case 2: // parental
+			dispForm(true, idx);
+			break;
+		case 3: // www
+			if(devlist.DEVICE[listidx].WWW=="1")
+			{
+				top.location.href = "http://" + elId("devip" + idx).innerHTML + "/";
+			}else if(devlist.DEVICE[listidx].WWW=="2"){
+				top.location.href = "https://" + elId("devip" + idx).innerHTML + "/";
+			}
+			break;
+		case 4: // wol
+//			var post = "el=do_wol_DEVCTRL";
+//			post += "&mac=" + devlist.DEVICE[listidx].MAC;
+			elId("wol_dst").innerHTML = devlist.DEVICE[listidx].MAC;
+//			ajaxPost(post, handleWolOnComplete);
+			getJsonParam("GetDeviceControl&type=WOL&mac="+devlist.DEVICE[listidx].MAC, handleWolOnComplete);
+			break;
+	}
+}
+////////////////////////////////////////////////////////////////////////
+// list <=> form
+
+
+// form ctrl
+////////////////////////////////////////////////////////////////////////
+function handleSampleIconOnClick(devtype)
+{
+	if(elId("form_img").className != ("form_img devimg_" + devtype))
+	{
+		elId("form_img").className = "form_img devimg_" + devtype;
+	}
+}
+function handleAcceptOnClick(dev_method)
+{
+	if(elId("form_parental").checked != parental_ori && elId("form_parental").checked==true && (parseInt(devlist.NORTONTOTAL)>=20) && dev_method!="delete")
+	{
+			document.getElementById("indicator").style.display = "none";
+			document.getElementById("waiting_err_text").innerHTML = "<%GetString("NewUI","249");%>";
+			document.getElementById("waiting_err_text").style.display = "";
+			document.getElementById("waiting_err_btn").style.display = "";
+			dispWaiting(true);
+			return;
+	}
+	elId("DeviceControl_METHOD").value = dev_method;
+	if(elId("button_accept").className != "button2_disable")
+	{
+		var post = "el=basic_setting_DEVCTRL";
+		post += "&mac=" + elId("form_mac").innerHTML;
+		elId("DeviceControl_MAC").value = elId("form_mac").innerHTML;
+		{
+			var str = "unknown";
+			var key = ["printer","tablet","game","nas","pc","tv","stb"];
+			for(i = 0; i < key.length; i++)
+			{
+				if(elId("form_img").className.indexOf(key[i]) != -1)
+				{
+					str = key[i];
+					break;
+				}
+			}
+			post += "&img=" + str;
+		}
+		elId("DeviceControl_IMAGE").value = str;
+//		post += "&name=" + encodeURIComponent(elId("form_name").value);
+		elId("DeviceControl_NAME").value = encodeURIComponent(elId("form_name").value);
+//		post += "&qos=" + elId("form_qos").selectedIndex;
+//		post += "&parental=" + (elId("form_parental").checked ? 1 : 0);
+		elId("DeviceControl_PARENTAL").value = (elId("form_parental").checked ? true : false);
+//		post += "&disconnect=" + (elId("form_disconnect").checked ? 1 : 0);
+		elId("DeviceControl_WOL").value = (elId("form_disconnect").checked ? true : false);
+//		ajaxPost(post, handleButtonOnComplete);
+		
+		YAHOO.util.Connect.setForm('Save_Device'); 
+		YAHOO.util.Connect.asyncRequest('POST','Ajax_set_devctrl_value.html'+'?timestampt='+new Date().toString(),oCallback); 
+
+		
+	}
+}
+////////////////////////////////////////////////////////////////////////
+// form ctrl
+
+
+function updateInnerHtml()
+{
+	dispForm(false);
+	getDevList();
+}
+function tabImgPreLoad()
+{
+	var py20_tab_ip       = new Image();
+	var py20_tab_qos      = new Image();
+	var py20_tab_parental = new Image();
+	var py20_tab_www      = new Image();
+	var py20_tab_wol      = new Image();
+	
+	py20_tab_ip.src       = "/images/py20_devctrl_tab0.png";
+	py20_tab_qos.src      = "/images/py20_devctrl_tab1_current.png";
+	py20_tab_parental.src = "/images/py20_devctrl_tab2_current.png";
+	py20_tab_www.src      = "/images/py20_devctrl_tab3_current.png";
+	py20_tab_wol.src      = "/images/py20_devctrl_tab4_current.png";
+	return;
+}
+
+var arg = new Object;
+function storeCgiArguments()
+{
+	var pair=location.search.substring(1).split('&');
+	for(i=0;pair[i];i++) {
+		var key = pair[i].split('=');
+		arg[key[0]]=key[1];
+	}
+}
+
+function changeTab()
+{
+	storeCgiArguments();
+	//alert(arg["from"]);
+	if(arg["from"] == "setting_basic_qos.html"){
+		active_tab = 1 ;
+		handleTabOnClick(1);
+	} else if(arg["from"] == "setting_basic_parental.html"){
+		active_tab = 2 ;
+		handleTabOnClick(2);
+	}
+}
+
+function devctlBackOnClick()
+{
+
+	storeCgiArguments();
+	//alert(arg["from"]);
+	/*if(arg["from"] != undefined){
+		location.href="/cgi-bin/cgi?req=frm&frm=" + arg["from"]  ;
+	} else {
+		location.href="/";
+	}*/
+	history.back();
+}
+
+function handleInfoIconOnClick(id, el)
+{
+	var top = 0;
+	var left = 0;
+	if(getCookie("mobile") == "false")
+	{
+		top = getAbsoluteTop(el) + el.offsetHeight;
+		left = getAbsoluteLeft(el) + el.offsetWidth - 260;
+	}	
+	document.getElementById(id).style.top = top + "px";
+	document.getElementById(id).style.left = left + "px";	
+	document.getElementById("popup_bg").style.display = "";
+	document.getElementById("popup_info").style.display="";
+}
+
+function checkBrowserCssTopPage(){
+	var isIE = navigator.userAgent.search("MSIE") > -1;
+	if("<%NvramGet("MobileDevice");%>"=="1"){
+		$('mobilecss_common').rel = 'stylesheet';
+		$('mobilecss_devctrl').rel = 'stylesheet';
+		$('iecss_common').disabled = true;
+		$('iecss_devctrl').disabled = true;
+		$('anothercss_common').disabled = true;
+		$('anothercss_devctrl').disabled = true;
+
+	}else if(isIE){
+		$('iecss_common').rel = 'stylesheet';
+		$('iecss_devctrl').rel = 'stylesheet';
+		$('mobilecss_common').disabled = true;
+		$('mobilecss_devctrl').disabled = true;
+		$('anothercss_common').disabled = true;
+		$('anothercss_devctrl').disabled = true;
+	}else{
+		$('anothercss_common').rel = 'stylesheet';
+		$('anothercss_devctrl').rel = 'stylesheet';
+		$('iecss_common').disabled = true;
+		$('iecss_devctrl').disabled = true;
+		$('mobilecss_common').disabled = true;
+		$('mobilecss_devctrl').disabled = true;
+	}
+	setTimeout("document.getElementById('id_body').style.display = '';", 300);
+}
+
+function modify_screen()
+{	
+	if(document.getElementById('id_title_devctrl').offsetHeight>100)
+		document.getElementById("id_wan_ap").className = "wan_ap_ext";
+	else
+		document.getElementById("id_wan_ap").className = "wan_ap";
+}
+
+function devicenameload()
+{
+	var verstr="<%NvramGet("FirmwareVersion");%>";
+	var end=verstr.indexOf(" ");
+	document.getElementById("id_modelname").innerHTML=verstr.substring(0,end);
+}
+
+function handleBodyOnLoad()
+{
+	iconImgPreLoad();
+	tabImgPreLoad();
+	checkBrowserCssTopPage();
+	getJsonParam("DEVICE", handleDeviceParamOnComplete);
+	getJsonParam("FUNCTION", handleFunctionParamOnComplete);
+	getJsonParam("GetDeviceControl", handleDevctrlParamOnComplete);
+	getIconState();
+	setInterval(getIconState, 2000);
+	setInterval(getDevList, 5000);
+	changeTab();
+	devicenameload();
+	if (document.referrer.match("setting_basic_norton.html"))
+		handleTabOnClick(2);
+	if ("<%NvramGet("MobileDevice");%>"=="1")	
+		window.setTimeout("modify_screen()", 500);	
+}
+
+// -->
+</script>
+
+<script type="text/javascript" src="/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/common_json2lang.js"></script>
+<script type="text/javascript">
+<!--
+
+//J2L.current_lang = "jp";
+
+// -->
+</script>
+ <script language="JavaScript">
+  <!--
+  var exec = false;
+  function onceOnly(thform) {
+    if(exec == true){ 
+      return false;
+    } else {
+      exec = true;
+      return true;
+    } 
+  }
+  // -->
+</script>
+</head>
+<body onLoad="handleBodyOnLoad();" id="id_body" style="display:none;">
+	<div class="head"><!-- header -->
+		<img src="/images/py20_logo_buffalo.png" alt="BUFFALO" class="headerLogo" />
+		<div class="statusArea">
+			<span class="statusIcon status_home" onclick="handleHomeOnClick();"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="handleInternetIconOnClick('popup_internet', this, 'top_main.html')" style="<%CheckModedis();%>"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick('popup_info', this)" style="display: none;"></span>
+			<span id="icon_LOGOUT" class="statusIcon status_logout" onclick="location.href='logout.html'"></span>
+			<span style="clear:both"></span>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="title_devctrl" id="id_title_devctrl">
+		<div class="title_icon titleimg_devctrl"></div>
+		<div class="title_text">
+			<span data-file=setting_basic_devctrl class=label_devctrl_t1_setting_basic_devctrl ><%GetString("NewUI","60");%></span>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="contents"><!-- contents -->
+		<div class="mainContents">
+			<div class="main">
+				
+				<!-- startof main -->
+					<div id="devctrl_all">
+						<div class="without_button_area">
+							<div class="setting_main_devctrl">
+								<div class="tab">
+									<div id="tabhead0" onClick="handleTabOnClick(0)" class="tab_head_active"><div id="tabheadimg0" class="tabimg tab0_current"></div></div>
+									<!--div id="tabhead1" onClick="handleTabOnClick(1)" class="tab_head"><div id="tabheadimg1" class="tabimg tab1"></div></div-->
+									<div id="tabhead2" onClick="handleTabOnClick(2)" class="tab_head"><div id="tabheadimg2" class="tabimg tab2"></div></div>
+									<div id="tabhead3" onClick="handleTabOnClick(3)" class="tab_head"><div id="tabheadimg3" class="tabimg tab3"></div></div>
+									<div id="tabhead4" onClick="handleTabOnClick(4)" class="tab_head"><div id="tabheadimg4" class="tabimg tab4"></div></div>
+									<div class="tab_head"><div></div></div>
+								</div>
+								<div class="wan_ap" id="id_wan_ap">
+									<div class="wandevice">
+										<div class="devimg devimg_wan"></div>
+										<div class="wantxt">
+											<span data-file=setting_basic_devctrl class=label_internet_setting_basic_devctrl ><%GetString("NewUI","154");%></span>
+										</div>
+										<div class="wantxt" id="wantxt"></div>
+									</div>
+									<div class="wandevice">
+										<div class="devimg devimg_ap"></div>
+										<div class="wantxt" id="MODEL3">
+											<span id="id_modelname" data-file=setting_basic_devctrl class=label_internet_setting_basic_devctrl ></span>
+										</div>
+										<div class="wantxt" id="aptxt"></div>
+									</div>
+									<div class="wanline"></div>
+									<div class="wanline2"></div>
+									<div style="clear:both;"></div>
+								</div>
+								<div id="tab_body" class="tab_body tab_left">
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(0)" id="dev0"><div class="devimg" id="devimg0"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson0"></div><div class="notice_icon notice_ban" id="devban0"></div><div class="notice_icon notice_wireless" id="devwireless0"></div></div><div class="devtxt" id ="devtxt0"></div><div class="devtxt" id ="devip0"></div><input type="hidden" id="list0" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(1)" id="dev1"><div class="devimg" id="devimg1"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson1"></div><div class="notice_icon notice_ban" id="devban1"></div><div class="notice_icon notice_wireless" id="devwireless1"></div></div><div class="devtxt" id ="devtxt1"></div><div class="devtxt" id ="devip1"></div><input type="hidden" id="list1" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(2)" id="dev2"><div class="devimg" id="devimg2"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson2"></div><div class="notice_icon notice_ban" id="devban2"></div><div class="notice_icon notice_wireless" id="devwireless2"></div></div><div class="devtxt" id ="devtxt2"></div><div class="devtxt" id ="devip2"></div><input type="hidden" id="list2" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(3)" id="dev3"><div class="devimg" id="devimg3"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson3"></div><div class="notice_icon notice_ban" id="devban3"></div><div class="notice_icon notice_wireless" id="devwireless3"></div></div><div class="devtxt" id ="devtxt3"></div><div class="devtxt" id ="devip3"></div><input type="hidden" id="list3" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(4)" id="dev4"><div class="devimg" id="devimg4"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson4"></div><div class="notice_icon notice_ban" id="devban4"></div><div class="notice_icon notice_wireless" id="devwireless4"></div></div><div class="devtxt" id ="devtxt4"></div><div class="devtxt" id ="devip4"></div><input type="hidden" id="list4" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(5)" id="dev5"><div class="devimg" id="devimg5"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson5"></div><div class="notice_icon notice_ban" id="devban5"></div><div class="notice_icon notice_wireless" id="devwireless5"></div></div><div class="devtxt" id ="devtxt5"></div><div class="devtxt" id ="devip5"></div><input type="hidden" id="list5" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(6)" id="dev6"><div class="devimg" id="devimg6"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson6"></div><div class="notice_icon notice_ban" id="devban6"></div><div class="notice_icon notice_wireless" id="devwireless6"></div></div><div class="devtxt" id ="devtxt6"></div><div class="devtxt" id ="devip6"></div><input type="hidden" id="list6" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(7)" id="dev7"><div class="devimg" id="devimg7"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson7"></div><div class="notice_icon notice_ban" id="devban7"></div><div class="notice_icon notice_wireless" id="devwireless7"></div></div><div class="devtxt" id ="devtxt7"></div><div class="devtxt" id ="devip7"></div><input type="hidden" id="list7" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(8)" id="dev8"><div class="devimg" id="devimg8"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson8"></div><div class="notice_icon notice_ban" id="devban8"></div><div class="notice_icon notice_wireless" id="devwireless8"></div></div><div class="devtxt" id ="devtxt8"></div><div class="devtxt" id ="devip8"></div><input type="hidden" id="list8" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(9)" id="dev9"><div class="devimg" id="devimg9"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson9"></div><div class="notice_icon notice_ban" id="devban9"></div><div class="notice_icon notice_wireless" id="devwireless9"></div></div><div class="devtxt" id ="devtxt9"></div><div class="devtxt" id ="devip9"></div><input type="hidden" id="list9" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(10)" id="dev10"><div class="devimg" id="devimg10"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson10"></div><div class="notice_icon notice_ban" id="devban10"></div><div class="notice_icon notice_wireless" id="devwireless10"></div></div><div class="devtxt" id ="devtxt10"></div><div class="devtxt" id ="devip10"></div><input type="hidden" id="list10" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(11)" id="dev11"><div class="devimg" id="devimg11"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson11"></div><div class="notice_icon notice_ban" id="devban11"></div><div class="notice_icon notice_wireless" id="devwireless11"></div></div><div class="devtxt" id ="devtxt11"></div><div class="devtxt" id ="devip11"></div><input type="hidden" id="list11" value="-1" /></div>
+<div id="dev_extend" style="display: none;"><div class="landevice" style="display: none;" onClick="handleDevOnClick(12)" id="dev12"><div class="devimg" id="devimg12"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson12"></div><div class="notice_icon notice_ban" id="devban12"></div><div class="notice_icon notice_wireless" id="devwireless12"></div></div><div class="devtxt" id ="devtxt12"></div><div class="devtxt" id ="devip12"></div><input type="hidden" id="list12" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(13)" id="dev13"><div class="devimg" id="devimg13"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson13"></div><div class="notice_icon notice_ban" id="devban13"></div><div class="notice_icon notice_wireless" id="devwireless13"></div></div><div class="devtxt" id ="devtxt13"></div><div class="devtxt" id ="devip13"></div><input type="hidden" id="list13" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(14)" id="dev14"><div class="devimg" id="devimg14"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson14"></div><div class="notice_icon notice_ban" id="devban14"></div><div class="notice_icon notice_wireless" id="devwireless14"></div></div><div class="devtxt" id ="devtxt14"></div><div class="devtxt" id ="devip14"></div><input type="hidden" id="list14" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(15)" id="dev15"><div class="devimg" id="devimg15"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson15"></div><div class="notice_icon notice_ban" id="devban15"></div><div class="notice_icon notice_wireless" id="devwireless15"></div></div><div class="devtxt" id ="devtxt15"></div><div class="devtxt" id ="devip15"></div><input type="hidden" id="list15" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(16)" id="dev16"><div class="devimg" id="devimg16"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson16"></div><div class="notice_icon notice_ban" id="devban16"></div><div class="notice_icon notice_wireless" id="devwireless16"></div></div><div class="devtxt" id ="devtxt16"></div><div class="devtxt" id ="devip16"></div><input type="hidden" id="list16" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(17)" id="dev17"><div class="devimg" id="devimg17"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson17"></div><div class="notice_icon notice_ban" id="devban17"></div><div class="notice_icon notice_wireless" id="devwireless17"></div></div><div class="devtxt" id ="devtxt17"></div><div class="devtxt" id ="devip17"></div><input type="hidden" id="list17" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(18)" id="dev18"><div class="devimg" id="devimg18"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson18"></div><div class="notice_icon notice_ban" id="devban18"></div><div class="notice_icon notice_wireless" id="devwireless18"></div></div><div class="devtxt" id ="devtxt18"></div><div class="devtxt" id ="devip18"></div><input type="hidden" id="list18" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(19)" id="dev19"><div class="devimg" id="devimg19"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson19"></div><div class="notice_icon notice_ban" id="devban19"></div><div class="notice_icon notice_wireless" id="devwireless19"></div></div><div class="devtxt" id ="devtxt19"></div><div class="devtxt" id ="devip19"></div><input type="hidden" id="list19" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(20)" id="dev20"><div class="devimg" id="devimg20"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson20"></div><div class="notice_icon notice_ban" id="devban20"></div><div class="notice_icon notice_wireless" id="devwireless20"></div></div><div class="devtxt" id ="devtxt20"></div><div class="devtxt" id ="devip20"></div><input type="hidden" id="list20" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(21)" id="dev21"><div class="devimg" id="devimg21"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson21"></div><div class="notice_icon notice_ban" id="devban21"></div><div class="notice_icon notice_wireless" id="devwireless21"></div></div><div class="devtxt" id ="devtxt21"></div><div class="devtxt" id ="devip21"></div><input type="hidden" id="list21" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(22)" id="dev22"><div class="devimg" id="devimg22"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson22"></div><div class="notice_icon notice_ban" id="devban22"></div><div class="notice_icon notice_wireless" id="devwireless22"></div></div><div class="devtxt" id ="devtxt22"></div><div class="devtxt" id ="devip22"></div><input type="hidden" id="list22" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(23)" id="dev23"><div class="devimg" id="devimg23"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson23"></div><div class="notice_icon notice_ban" id="devban23"></div><div class="notice_icon notice_wireless" id="devwireless23"></div></div><div class="devtxt" id ="devtxt23"></div><div class="devtxt" id ="devip23"></div><input type="hidden" id="list23" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(24)" id="dev24"><div class="devimg" id="devimg24"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson24"></div><div class="notice_icon notice_ban" id="devban24"></div><div class="notice_icon notice_wireless" id="devwireless24"></div></div><div class="devtxt" id ="devtxt24"></div><div class="devtxt" id ="devip24"></div><input type="hidden" id="list24" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(25)" id="dev25"><div class="devimg" id="devimg25"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson25"></div><div class="notice_icon notice_ban" id="devban25"></div><div class="notice_icon notice_wireless" id="devwireless25"></div></div><div class="devtxt" id ="devtxt25"></div><div class="devtxt" id ="devip25"></div><input type="hidden" id="list25" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(26)" id="dev26"><div class="devimg" id="devimg26"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson26"></div><div class="notice_icon notice_ban" id="devban26"></div><div class="notice_icon notice_wireless" id="devwireless26"></div></div><div class="devtxt" id ="devtxt26"></div><div class="devtxt" id ="devip26"></div><input type="hidden" id="list26" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(27)" id="dev27"><div class="devimg" id="devimg27"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson27"></div><div class="notice_icon notice_ban" id="devban27"></div><div class="notice_icon notice_wireless" id="devwireless27"></div></div><div class="devtxt" id ="devtxt27"></div><div class="devtxt" id ="devip27"></div><input type="hidden" id="list27" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(28)" id="dev28"><div class="devimg" id="devimg28"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson28"></div><div class="notice_icon notice_ban" id="devban28"></div><div class="notice_icon notice_wireless" id="devwireless28"></div></div><div class="devtxt" id ="devtxt28"></div><div class="devtxt" id ="devip28"></div><input type="hidden" id="list28" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(29)" id="dev29"><div class="devimg" id="devimg29"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson29"></div><div class="notice_icon notice_ban" id="devban29"></div><div class="notice_icon notice_wireless" id="devwireless29"></div></div><div class="devtxt" id ="devtxt29"></div><div class="devtxt" id ="devip29"></div><input type="hidden" id="list29" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(30)" id="dev30"><div class="devimg" id="devimg30"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson30"></div><div class="notice_icon notice_ban" id="devban30"></div><div class="notice_icon notice_wireless" id="devwireless30"></div></div><div class="devtxt" id ="devtxt30"></div><div class="devtxt" id ="devip30"></div><input type="hidden" id="list30" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(31)" id="dev31"><div class="devimg" id="devimg31"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson31"></div><div class="notice_icon notice_ban" id="devban31"></div><div class="notice_icon notice_wireless" id="devwireless31"></div></div><div class="devtxt" id ="devtxt31"></div><div class="devtxt" id ="devip31"></div><input type="hidden" id="list31" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(32)" id="dev32"><div class="devimg" id="devimg32"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson32"></div><div class="notice_icon notice_ban" id="devban32"></div><div class="notice_icon notice_wireless" id="devwireless32"></div></div><div class="devtxt" id ="devtxt32"></div><div class="devtxt" id ="devip32"></div><input type="hidden" id="list32" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(33)" id="dev33"><div class="devimg" id="devimg33"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson33"></div><div class="notice_icon notice_ban" id="devban33"></div><div class="notice_icon notice_wireless" id="devwireless33"></div></div><div class="devtxt" id ="devtxt33"></div><div class="devtxt" id ="devip33"></div><input type="hidden" id="list33" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(34)" id="dev34"><div class="devimg" id="devimg34"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson34"></div><div class="notice_icon notice_ban" id="devban34"></div><div class="notice_icon notice_wireless" id="devwireless34"></div></div><div class="devtxt" id ="devtxt34"></div><div class="devtxt" id ="devip34"></div><input type="hidden" id="list34" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(35)" id="dev35"><div class="devimg" id="devimg35"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson35"></div><div class="notice_icon notice_ban" id="devban35"></div><div class="notice_icon notice_wireless" id="devwireless35"></div></div><div class="devtxt" id ="devtxt35"></div><div class="devtxt" id ="devip35"></div><input type="hidden" id="list35" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(36)" id="dev36"><div class="devimg" id="devimg36"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson36"></div><div class="notice_icon notice_ban" id="devban36"></div><div class="notice_icon notice_wireless" id="devwireless36"></div></div><div class="devtxt" id ="devtxt36"></div><div class="devtxt" id ="devip36"></div><input type="hidden" id="list36" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(37)" id="dev37"><div class="devimg" id="devimg37"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson37"></div><div class="notice_icon notice_ban" id="devban37"></div><div class="notice_icon notice_wireless" id="devwireless37"></div></div><div class="devtxt" id ="devtxt37"></div><div class="devtxt" id ="devip37"></div><input type="hidden" id="list37" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(38)" id="dev38"><div class="devimg" id="devimg38"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson38"></div><div class="notice_icon notice_ban" id="devban38"></div><div class="notice_icon notice_wireless" id="devwireless38"></div></div><div class="devtxt" id ="devtxt38"></div><div class="devtxt" id ="devip38"></div><input type="hidden" id="list38" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(39)" id="dev39"><div class="devimg" id="devimg39"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson39"></div><div class="notice_icon notice_ban" id="devban39"></div><div class="notice_icon notice_wireless" id="devwireless39"></div></div><div class="devtxt" id ="devtxt39"></div><div class="devtxt" id ="devip39"></div><input type="hidden" id="list39" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(40)" id="dev40"><div class="devimg" id="devimg40"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson40"></div><div class="notice_icon notice_ban" id="devban40"></div><div class="notice_icon notice_wireless" id="devwireless40"></div></div><div class="devtxt" id ="devtxt40"></div><div class="devtxt" id ="devip40"></div><input type="hidden" id="list40" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(41)" id="dev41"><div class="devimg" id="devimg41"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson41"></div><div class="notice_icon notice_ban" id="devban41"></div><div class="notice_icon notice_wireless" id="devwireless41"></div></div><div class="devtxt" id ="devtxt41"></div><div class="devtxt" id ="devip41"></div><input type="hidden" id="list41" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(42)" id="dev42"><div class="devimg" id="devimg42"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson42"></div><div class="notice_icon notice_ban" id="devban42"></div><div class="notice_icon notice_wireless" id="devwireless42"></div></div><div class="devtxt" id ="devtxt42"></div><div class="devtxt" id ="devip42"></div><input type="hidden" id="list42" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(43)" id="dev43"><div class="devimg" id="devimg43"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson43"></div><div class="notice_icon notice_ban" id="devban43"></div><div class="notice_icon notice_wireless" id="devwireless43"></div></div><div class="devtxt" id ="devtxt43"></div><div class="devtxt" id ="devip43"></div><input type="hidden" id="list43" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(44)" id="dev44"><div class="devimg" id="devimg44"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson44"></div><div class="notice_icon notice_ban" id="devban44"></div><div class="notice_icon notice_wireless" id="devwireless44"></div></div><div class="devtxt" id ="devtxt44"></div><div class="devtxt" id ="devip44"></div><input type="hidden" id="list44" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(45)" id="dev45"><div class="devimg" id="devimg45"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson45"></div><div class="notice_icon notice_ban" id="devban45"></div><div class="notice_icon notice_wireless" id="devwireless45"></div></div><div class="devtxt" id ="devtxt45"></div><div class="devtxt" id ="devip45"></div><input type="hidden" id="list45" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(46)" id="dev46"><div class="devimg" id="devimg46"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson46"></div><div class="notice_icon notice_ban" id="devban46"></div><div class="notice_icon notice_wireless" id="devwireless46"></div></div><div class="devtxt" id ="devtxt46"></div><div class="devtxt" id ="devip46"></div><input type="hidden" id="list46" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(47)" id="dev47"><div class="devimg" id="devimg47"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson47"></div><div class="notice_icon notice_ban" id="devban47"></div><div class="notice_icon notice_wireless" id="devwireless47"></div></div><div class="devtxt" id ="devtxt47"></div><div class="devtxt" id ="devip47"></div><input type="hidden" id="list47" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(48)" id="dev48"><div class="devimg" id="devimg48"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson48"></div><div class="notice_icon notice_ban" id="devban48"></div><div class="notice_icon notice_wireless" id="devwireless48"></div></div><div class="devtxt" id ="devtxt48"></div><div class="devtxt" id ="devip48"></div><input type="hidden" id="list48" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(49)" id="dev49"><div class="devimg" id="devimg49"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson49"></div><div class="notice_icon notice_ban" id="devban49"></div><div class="notice_icon notice_wireless" id="devwireless49"></div></div><div class="devtxt" id ="devtxt49"></div><div class="devtxt" id ="devip49"></div><input type="hidden" id="list49" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(50)" id="dev50"><div class="devimg" id="devimg50"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson50"></div><div class="notice_icon notice_ban" id="devban50"></div><div class="notice_icon notice_wireless" id="devwireless50"></div></div><div class="devtxt" id ="devtxt50"></div><div class="devtxt" id ="devip50"></div><input type="hidden" id="list50" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(51)" id="dev51"><div class="devimg" id="devimg51"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson51"></div><div class="notice_icon notice_ban" id="devban51"></div><div class="notice_icon notice_wireless" id="devwireless51"></div></div><div class="devtxt" id ="devtxt51"></div><div class="devtxt" id ="devip51"></div><input type="hidden" id="list51" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(52)" id="dev52"><div class="devimg" id="devimg52"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson52"></div><div class="notice_icon notice_ban" id="devban52"></div><div class="notice_icon notice_wireless" id="devwireless52"></div></div><div class="devtxt" id ="devtxt52"></div><div class="devtxt" id ="devip52"></div><input type="hidden" id="list52" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(53)" id="dev53"><div class="devimg" id="devimg53"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson53"></div><div class="notice_icon notice_ban" id="devban53"></div><div class="notice_icon notice_wireless" id="devwireless53"></div></div><div class="devtxt" id ="devtxt53"></div><div class="devtxt" id ="devip53"></div><input type="hidden" id="list53" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(54)" id="dev54"><div class="devimg" id="devimg54"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson54"></div><div class="notice_icon notice_ban" id="devban54"></div><div class="notice_icon notice_wireless" id="devwireless54"></div></div><div class="devtxt" id ="devtxt54"></div><div class="devtxt" id ="devip54"></div><input type="hidden" id="list54" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(55)" id="dev55"><div class="devimg" id="devimg55"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson55"></div><div class="notice_icon notice_ban" id="devban55"></div><div class="notice_icon notice_wireless" id="devwireless55"></div></div><div class="devtxt" id ="devtxt55"></div><div class="devtxt" id ="devip55"></div><input type="hidden" id="list55" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(56)" id="dev56"><div class="devimg" id="devimg56"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson56"></div><div class="notice_icon notice_ban" id="devban56"></div><div class="notice_icon notice_wireless" id="devwireless56"></div></div><div class="devtxt" id ="devtxt56"></div><div class="devtxt" id ="devip56"></div><input type="hidden" id="list56" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(57)" id="dev57"><div class="devimg" id="devimg57"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson57"></div><div class="notice_icon notice_ban" id="devban57"></div><div class="notice_icon notice_wireless" id="devwireless57"></div></div><div class="devtxt" id ="devtxt57"></div><div class="devtxt" id ="devip57"></div><input type="hidden" id="list57" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(58)" id="dev58"><div class="devimg" id="devimg58"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson58"></div><div class="notice_icon notice_ban" id="devban58"></div><div class="notice_icon notice_wireless" id="devwireless58"></div></div><div class="devtxt" id ="devtxt58"></div><div class="devtxt" id ="devip58"></div><input type="hidden" id="list58" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(59)" id="dev59"><div class="devimg" id="devimg59"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson59"></div><div class="notice_icon notice_ban" id="devban59"></div><div class="notice_icon notice_wireless" id="devwireless59"></div></div><div class="devtxt" id ="devtxt59"></div><div class="devtxt" id ="devip59"></div><input type="hidden" id="list59" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(60)" id="dev60"><div class="devimg" id="devimg60"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson60"></div><div class="notice_icon notice_ban" id="devban60"></div><div class="notice_icon notice_wireless" id="devwireless60"></div></div><div class="devtxt" id ="devtxt60"></div><div class="devtxt" id ="devip60"></div><input type="hidden" id="list60" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(61)" id="dev61"><div class="devimg" id="devimg61"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson61"></div><div class="notice_icon notice_ban" id="devban61"></div><div class="notice_icon notice_wireless" id="devwireless61"></div></div><div class="devtxt" id ="devtxt61"></div><div class="devtxt" id ="devip61"></div><input type="hidden" id="list61" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(62)" id="dev62"><div class="devimg" id="devimg62"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson62"></div><div class="notice_icon notice_ban" id="devban62"></div><div class="notice_icon notice_wireless" id="devwireless62"></div></div><div class="devtxt" id ="devtxt62"></div><div class="devtxt" id ="devip62"></div><input type="hidden" id="list62" value="-1" /></div>
+<div class="landevice" style="display: none;" onClick="handleDevOnClick(63)" id="dev63"><div class="devimg" id="devimg63"></div><div class="notice_icon_all"><div class="notice_icon notice_person" id="devperson63"></div><div class="notice_icon notice_ban" id="devban63"></div><div class="notice_icon notice_wireless" id="devwireless63"></div></div><div class="devtxt" id ="devtxt63"></div><div class="devtxt" id ="devip63"></div><input type="hidden" id="list63" value="-1" /></div>
+</div>
+
+									<div style="clear:both;"></div>
+									<input type="button" class="disp_more" id="disp_more" value="" style="display: none;" onClick="handleDispMoreOnClick()"/>
+									<div class="landevice_pad"></div><div class="landevice_pad"></div>
+								</div>
+							</div>
+						</div>
+						<div class="button_area">
+							<div class="button2" onClick="devctlBackOnClick()">
+								<div class="button_text"><span data-file=dic class=common_dic_BUTTON_BACK ><%GetString("NewUI","39");%></span></div>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+					
+					<div id="devctrl_one" style="display: none;">
+						<div class="without_button_area">
+							<div class="setting_main">
+								<div class ="main_left">
+									<div class="input_item">
+										<span data-file=setting_basic_devctrl class=label_devctrl_t2_setting_basic_devctrl ><%GetString("NewUI","155");%></span>
+										<div style="clear:both;"></div>
+										<div class="form_img" id="form_img"></div>
+										<input type="text"
+											class="form_name"
+											placeholder="<%GetString("NewUI","156");%>" data-file=setting_basic_devctrl data-placeholder="label_hint_name_setting_basic_devctrl"
+											id="form_name"
+											onKeyup="handleFormOnKeyup(this, 'warning_devctrlname')"><br />
+										<div class="form_imglist">
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('pc')"><div class="form_imglist_item devimg_pc"></div></div>
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('tablet')"><div class="form_imglist_item devimg_tablet"></div></div>
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('game')"><div class="form_imglist_item devimg_game"></div></div>
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('tv')"><div class="form_imglist_item devimg_tv"></div></div>
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('stb')"><div class="form_imglist_item devimg_stb"></div></div>
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('nas')"><div class="form_imglist_item devimg_nas"></div></div>
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('printer')"><div class="form_imglist_item devimg_printer"></div></div>
+											<div class="form_imglist_outarea" onClick="handleSampleIconOnClick('unknown')"><div class="form_imglist_item devimg_unknown"></div></div>
+											<div style="clear:both;"></div>
+										</div>
+									</div>
+								</div>
+								<div class ="main_right">
+									<div class="input_item">
+										<span data-file=setting_basic_devctrl class=label_ipaddr_setting_basic_devctrl ><%GetString("NewUI","157");%></span><br />
+										<div id="form_ip"></div>
+									</div>
+									<div class="input_item">
+										<span data-file=setting_basic_devctrl class=label_macaddr_setting_basic_devctrl ><%GetString("NewUI","158");%></span><br />
+										<div id="form_mac"></div>
+									</div>
+									<div class="input_item" style="display:none">
+										<span data-file=setting_basic_devctrl class=label_a_qos_setting_basic_devctrl ><%GetString("NewUI","159");%></span><br />
+										<select class="form_qos" id="form_qos">
+											<option><%GetString("NewUI","160");%></option>
+											<option><%GetString("NewUI","161");%></option>
+											<option><%GetString("NewUI","162");%></option>
+											<option><%GetString("NewUI","163");%></option>
+											<option><%GetString("NewUI","164");%></option>
+											<option><%GetString("NewUI","165");%></option>
+											<option><%GetString("NewUI","166");%></option>
+										</select>
+									</div>
+									<div class="input_item">
+										<label onClick="">
+
+											<span data-file=dic class=common_dic_mn_i_filter ><%GetString("NewUI","85");%></span>
+
+											<br />
+
+
+
+											
+
+											<input type="checkbox" class="editbox_check" id="form_parental"><span data-file=setting_basic_devctrl class=label_exclude_setting_basic_devctrl ><%GetString("NewUI","167");%></span>
+										</label>
+									</div>
+									<div class="input_item">
+										<label onClick="">
+											<span data-file=setting_basic_devctrl class=label_wol_set_setting_basic_devctrl ><%GetString("NewUI","168");%></span><br />
+
+											<table><tr class="fix_height_30px_ics"><td>
+												<input type="checkbox" class="editbox_check" id="form_disconnect"><span data-file=setting_basic_devctrl class=label_display_anytime_setting_basic_devctrl ><%GetString("NewUI","169");%></span>
+												
+											</td></tr></table>
+
+										</label>
+									</div>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+						</div>
+						<div class="button_area">
+
+							<div id="button_accept" class="button2" onClick="handleAcceptOnClick('add')">
+								<div class="button_text"><span data-file=dic class=common_dic_BUTTON_APPLY ><%GetString("NewUI","40");%></span></div>
+							</div>
+							<div class="button2" onClick="dispForm(false)">
+								<div class="button_text"><span data-file=dic class=common_dic_BUTTON_BACK ><%GetString("NewUI","39");%></span></div>
+							</div>
+							<div id="button_delete"  class="button4" onClick="handleAcceptOnClick('delete')">
+								<div class="button_text"><span data-file=dic class=common_dic_BUTTON_DELETE ><%GetString("NewUI","246");%></span></div>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+				
+				<!-- endof main -->
+			</div>
+		</div>
+		<div class="footer">
+			<div class="aistation_logo"></div>
+			<div class="modelname">
+				<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+			</div>
+			<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+		</div>
+</div>
+	<div class="waiting_base" id="waiting_base" style="display: none;"></div>
+	<div class="waiting_body" id="waiting_body" style="display: none;">
+		<div class="indicator" id="indicator">
+			<img class="progress" src="/images/py20_a_busy.gif"><br />
+			<span data-file=py20_common_waiting class=label_waiting_py20_common_waiting ><%GetString("NewUI","170");%></span>
+		</div>
+		<div id="waiting_err_text"></div>
+		<input class="button3" id="waiting_err_btn" type="button" value="OK" onClick="handleErrDialogOnOk()"/>
+	</div>
+
+	<div class="backalert_bg" id="backalert_bg" style="display: none;"></div>
+	<div class="backalert_body" id="backalert_body" style="display: none;">
+		<span> <%GetString("NewUI","111");%></span><br />
+		<input type="checkbox" id="cb_backalert"><span> <%GetString("NewUI","112");%></span><br />
+		<div>
+			<input type="button" value=" <%GetString("NewUI","113");%>" onClick="handleBackalertOkOnClick()"/>
+			<input type="button" value=" <%GetString("NewUI","114");%>" onClick="handleBackalertCancelOnClick()"/>
+		</div>
+	</div>
+
+	<div class="popup_bg" id="popup_bg" style="display: none;" onClick="undispPopupAll()"></div>
+	<div class="popup" id="popup_internet" style="display: none;" onClick="undispPopup('popup_internet')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","171");%>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_repeater" style="display: none;" onClick="undispPopup('popup_repeater')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_repeater_py20_common_popup ><%GetString("NewUI","172");%></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_info" style="display: none;" onClick="undispPopup('popup_info')">
+		<div class="popup_info_item" id="infotype1" style="display: none;">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info1_py20_common_popup ><%GetString("NewUI","173");%></span><br />
+				(<span data-file=py20_common_popup class=label_verion_py20_common_popup ><%GetString("NewUI","174");%></span> <span id="popup_current_ver"></span> -> <span id="popup_new_ver"></span>)<br />
+				<input type="button" class="button_middle" value="To firmware update screen" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=wizard_func_fwupdate_online.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype2" style="display: none;">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info2_py20_common_popup ><%GetString("NewUI","175");%></span><br />
+				<input type="button" class="button_middle" value="<%GetString("NewUI","176");%>" data-file=py20_common_popup data-value="label_button_info2_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype3" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info3_py20_common_popup ><%GetString("NewUI","177");%></span><br />
+				<input type="button" class="button_middle" value="<%GetString("NewUI","178");%>" data-file=py20_common_popup data-value="label_button_info3_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype4" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info4_py20_common_popup ><%GetString("NewUI","179");%></span><br />
+				<input type="button" class="button_middle" value="<%GetString("NewUI","180");%>" data-file=py20_common_popup data-value="label_button_info4_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=8&sWebSessionid=967633760';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype5" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info5_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle"  
+					value="" data-file=py20_common_popup data-value="label_button_info5_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=9&sWebSessionid=266243876';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype6" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info6_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info6_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=APPS&ITEM=WEB_AXS';"
+				/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype7" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info7_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info7_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=10&sWebSessionid=1936746208';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype8" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info8_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info8_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_nas.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype9" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info9_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info9_py20_common_popup" onClick="UpdateIfilterSrvStatus()">
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		
+	<div class="popup_item" id="info_behavior">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<%GetString("NewUI","125");%>
+				<div class="info_block">
+					<!--<%GetString("NewUI","126");%>-->
+					<div id="info_behavior_router" style="display: none;">
+						<%GetString("NewUI","127");%>
+						<div id="behavior_router_connect">
+							<%GetString("NewUI","128");%>:
+							<div id="wanip"></div>
+						</div>
+						<div id="behavior_router_disconnect">
+							<%GetString("NewUI","129");%>
+						</div>
+					</div>
+					<div id="info_behavior_bridge" style="display: none;">
+						<%GetString("NewUI","130");%>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_support" style="display: none;" onClick="undispPopup('popup_support')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_support_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+
+	<div class="warning" id="warning_devctrlname" style="margin-top: 0px; margin-left: 0px; display: none;">
+		<div id="warning_devctrlname0">
+			<span data-file=py20_warning_devctrl class=label_warning_devctrlname0_py20_warning_devctrl ><%GetString("NewUI","181");%></span>
+		</div>
+		<div id="warning_devctrlname1">
+			<span data-file=py20_warning_devctrl class=label_warning_devctrlname1_py20_warning_devctrl ><%GetString("NewUI","182");%></span>
+		</div>
+		<div id="warning_devctrlname2">
+			<span data-file=py20_warning_devctrl class=label_warning_devctrlname2_py20_warning_devctrl ><%GetString("NewUI","183");%></span>
+		</div>
+	</div>
+
+	<div class="waiting_body" id="wol_body" style="display: none;">
+		<span id="wol_dst" style="display:none;"></span>
+		<span data-file=setting_basic_devctrl class=label_wol_complete_setting_basic_devctrl ><%GetString("NewUI","184");%></span><br />
+		<input class="button3" id="waiting_err_btn" type="button" value="OK" onClick="handleWolDialogOnOk()"/>
+	</div>
+	<form name="Save_Device" id="Save_Device">
+		<input type="hidden" name="DeviceControl_METHOD" id="DeviceControl_METHOD" value="">
+		<input type="hidden" name="DeviceControl_MAC" id="DeviceControl_MAC" value="">
+		<input type="hidden" name="DeviceControl_NAME" id="DeviceControl_NAME" value="">
+		<input type="hidden" name="DeviceControl_IMAGE" id="DeviceControl_IMAGE" value="">
+		<input type="hidden" name="DeviceControl_PARENTAL" id="DeviceControl_PARENTAL" value="">
+		<input type="hidden" name="DeviceControl_WOL" id="DeviceControl_WOL" value="">
+		<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>
+</body>
+</html>

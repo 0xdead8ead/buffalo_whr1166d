@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<meta http-equiv="content-type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<meta http-equiv="Content-Style-Type" content="text/css">
+  <script language="JavaScript">
+  <!--
+     ReloadTime = 5000;
+     function ReloadTimer(){
+     	setTimeout("location.href='easy-top-connecting.html'" , ReloadTime)
+     }
+     function Init()
+     {
+     	var wan="<%NvramGet("WanIPAssignment");%>";
+     	var pppoe_name_array   = new Array("<%NvramGet("PPPoE1Name");%>", "<%NvramGet("PPPoE2Name");%>", "<%NvramGet("PPPoE3Name");%>", "<%NvramGet("PPPoE4Name");%>", "<%NvramGet("PPPoE5Name");%>");
+	var pppoe_session_index="<%NvramGet("PPPoEWizardAction");%>";
+	var pppoe_name_string="";
+
+	if((parseInt(pppoe_session_index)>=1)&&(parseInt(pppoe_session_index)<=5))
+		pppoe_name_string=pppoe_name_array[parseInt(pppoe_session_index)-1];
+	
+     	if (document.getElementById("status_title").innerHTML!="<%GetString("TopMain","97");%>")
+     	{
+     		document.getElementById("back_button").style.display="";
+     	}
+     	else
+     		document.getElementById("back_button").style.display="none";
+     	
+     	if (wan=="1")
+     	{
+     		document.getElementById("wan_mode").innerHTML="DHCP";
+     		document.getElementById("wan_action").innerHTML="<%GetString("TopMain","107");%>";
+		document.getElementById("wan_action2").innerHTML="<%GetString("TopMain","107");%>";
+     	}
+     	else if (wan=="2")
+     	{
+     		document.getElementById("wan_mode").innerHTML="PPPoE "+pppoe_name_string;
+     		document.getElementById("wan_action").innerHTML="<%GetString("TopMain","118");%>";
+		document.getElementById("wan_action2").innerHTML="<%GetString("TopMain","118");%>";
+     	}
+     	else
+     		document.getElementById("wan_mode").innerHTML="<%GetString("TopMain","116");%>";
+     	
+     }
+  //-->
+  </script>
+
+<BODY class=WIZ_BODY onLoad="ReloadTimer();Init();">
+  <TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C id="wan_action">
+     		<%GetString("TopMain","107");%>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C id="wan_action2">
+     		<%GetString("TopMain","107");%>
+            </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+     			<td class=TBL_C id="wan_mode">&nbsp;
+     				<%GetString("TopMain","106");%>
+     			</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			  <table class=WIZ_SET>
+     			    <tbody>
+     				 <tr>
+     				   <th><%GetString("TopMain","139");%></th>
+     				   <td>
+     					<table>
+     					<tbody>
+     					<tr>
+     					<td id="status_title"><%GetWanStatus("state");%></td>
+     					</tr>
+     					</tbody>
+     					</table>
+     				   </td>
+     				 </tr>
+     			    </tbody>
+     			  </table>
+     				</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+<div id="back_button" style="display:none;">
+	 <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+     			<INPUT type="button" value="<%GetString("TopMain","90");%>" onClick="top.location.href='index.html'">
+            </td>
+            <td class=NAVI_C>
+     	  </td>
+     	  <td class=NAVI_R>
+     	  </td>
+     	</tr>
+        </TBODY>
+      </TABLE>
+</div>  
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+</BODY>
+</html>

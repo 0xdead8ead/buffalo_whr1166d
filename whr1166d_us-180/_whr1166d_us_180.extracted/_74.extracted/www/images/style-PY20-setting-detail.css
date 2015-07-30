@@ -1,0 +1,111 @@
+table {
+	margin: auto auto auto 2em;
+	border: 0 none #000000;
+	border-collapse: separate;
+	border-spacing: 1px;
+}
+
+th {
+	border-width: 1px 1px 0px 0px;
+	border-style: solid;
+	border-color: #FFF;
+	background-color: #C9D7F1;
+	color: #1A2C2A;
+}
+tr,td {
+	border-width: 1px 1px 0px 1px;
+	border-style: solid;
+	border-color: #FFF;
+	background-color: #D2EEF4;
+	color: #325174;
+}
+
+table.wmm_para,
+table.wmm_para tr,
+table.wmm_para td
+{
+	margin: auto;
+	background: none;
+	border: none;
+	color: #325174;
+}
+
+input, label {
+	vertical-align: middle;
+}
+dl {
+	margin: auto auto auto 2em;
+	padding: 0;
+	border-width: 0px 0px 1px 1px;
+	border-style: solid;
+	border-color: #CCC;
+	width: 500px;
+	background-color: #FFFFFF;
+	background-color: #C9D7F1;
+	color: #1A2C2A;
+	display:table;
+}
+dt {
+	border-width: 1px 1px 0px 0px;
+	border-style: solid;
+	border-color: #FFF;
+	float: left;
+	clear: both;
+	text-align: center;
+	background-color: #C9D7F1;
+	color: #1A2C2A;
+	white-space: nowrap;
+}
+dd {
+	padding: 5px;
+	border-width: 1px 1px 0px 1px;
+	border-style: solid;
+	border-color: #FFF;
+	background-color: #D2EEF4;
+	color: #325174;
+}
+
+dd p.form_parts {
+	margin: 0;
+	padding: 0;
+	border: 0px #DDD solid;
+	white-space: nowrap;
+}
+
+dd p.sub_parts {
+	margin-left: 1.5em;
+	position: relative;
+}
+
+.notice {
+	color: #999999;
+}
+
+/* for confined */
+.confined dl, .confined dt, .confined dd {
+	border: 0px none #000;
+	background-color: #FFF;
+}
+.confined dl {
+	width: 100%;
+}
+.confined dt {
+	float: none;
+	text-align: left;
+	width: 100%;
+}
+.confined dd {
+	margin-left: 1em;
+	position: relative;
+	width: 100%;
+}
+.confined dd input[type=text],
+.confined dd select
+{
+	display:block;
+	width: 98%;
+}
+
+#setting_detail_apply {
+	text-align: right;
+}

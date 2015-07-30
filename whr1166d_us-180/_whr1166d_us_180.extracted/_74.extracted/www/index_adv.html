@@ -1,0 +1,914 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+ <HEAD>
+	<title>WHR-1166D - BUFFALO AirStation</title>
+	<meta HTTP-EQUIV="Content-Type" Content="text/html; charset=<%ChangeCharset();%>"></meta>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+	<META http-equiv="Content-Style-Type" content="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+	<link rel="stylesheet" type="text/css" href="/images/style-PY20-advanced.css">
+	<script type="text/javascript" src="common.js"></script>
+	<script type="text/javascript" src="/js/prototype.js"></script>
+	<script type="text/javascript" src="/js/py20_common.js"></script>
+	<script type="text/javascript" src="/js/py20_icon_popup.js"></script>
+	<script type="text/javascript" src="/js/py20_backalert.js"></script>
+	<script type="text/javascript" src="/js/cookiectrl.js"></script>
+	<script type="text/javascript" src="/js/py20_set_wait.js"></script>
+	<script type="text/javascript" src="/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="/common_json2lang.js"></script>
+	<script type="text/javascript" src="/js/py20_adjust_iframe.js"></script>
+	<script type="text/javascript" src="/js/py20_apply_button.js"></script>
+	<style type="text/css">
+	body {  margin: 0 auto; }
+	
+	</style>
+	<script type="text/javascript">
+/*
+var advanced = (function($) {
+	function get_json_data(url, handler) {
+		return $.ajax({
+			scriptcharset: 'utf-8',
+			url: url,
+			datatype: 'json',
+			cache: false,
+			timeout: 8000,
+			//success: function(data, status, xhr) { buff = $.extend(true, {}, data); },
+			success: function(data, status, xhr) { handler(data); },
+			error: function(data, status, xhr) {},
+			complete: function() {}
+		});
+	}
+
+	$(document).ready(function() {
+		$('body').on('flushed.J2L', function() {
+			var $wrapper = $('#wrapper');
+			var $menu = $('#menu');
+			var $main = $('#main');
+			var $content_help = $('#content_help');
+			var $content_main = $('#content_main');
+			var default_wide = parseInt($main.css('width')) + 'px';
+			var help_mode_wide = parseInt($wrapper.css('width')) + 'px';
+
+			$('#toggle_help').data('state','menu');
+			$('#toggle_help').attr({'src': '/images/py20_help_open.png', width: '80px', height: '20px'});
+			$content_help.hide();
+			$('#toggle_help').on('click', function() {
+				var menu_height = $menu.height();
+				if ($(this).data('state') == 'menu') {
+					$main.css({width: help_mode_wide});
+					$('p.menu_selected').hide();
+					//$('p', this).text('>>>>');
+			$('#toggle_help').attr({'src': '/images/py20_help_close.png', width: '80px', height: '20px'});
+					$(this).data('state','help');
+					$menu.animate({'marginLeft':-parseInt($menu.width()) + 5 +'px'},'fast','swing');
+					$content_help.show();
+					//$content_help.height(menu_height);
+					//var base = $content_help.contents().find('body').height();
+					//var offset = 200;
+					//var h = (base > (menu_height - 50)) ? base + offset : menu_height;
+					//$content_help.height(h + 'px');
+				}
+				else {
+					$main.css({width: default_wide});
+					$('p.menu_selected').show();
+					//$('p',this).text('<<<<');
+			$('#toggle_help').attr({'src': '/images/py20_help_open.png', width: '80px', height: '20px'});
+					$(this).data('state','menu');
+					$menu.animate({'marginLeft':'0px'},'fast','swing');
+					$content_help.hide();
+					//$('#content_main,#content_help').height(menu_height);
+					//var base = $content_main.contents().find('body').height();
+					//var offset = 200;
+					//var h = (base > (menu_height - 50)) ? base + offset : menu_height;
+					//$content_main.height(h + 'px');
+				}
+			});
+
+			var func_menu = {};
+			var function_url = '/cgi-bin/cgi?req=fnc&fnc=%24{get_json_param(FUNCTION,' + (new Date()).getTime() + ')}';
+			var $menu_tree = $('#menu_tree');
+
+			function make_menu_tree(data) {
+				var res = $.parseJSON(data);
+				// form setting_basic.html
+				// icon
+				if(res.BASIC_ICON != undefined)
+				{
+					var label = ["WAN","REPEATER", "INFO","SUPPORT"];
+					for(i = 0; i < label.length; i++)
+					{
+						if(res.BASIC_ICON.indexOf(label[i]) != -1)
+						{
+							document.getElementById("icon_" + label[i]).style.display = "";
+						}
+					}
+				}
+
+				$('dt',$menu_tree).each(function() {
+					var seach_class = $(this).attr('class');
+					if ($.inArray(seach_class,  res.MENU) == -1) {
+						$(this).remove();
+						$('+dd',this).remove();
+						if (typeof console !== 'undefined') {
+								//console.log("MENU:" + seach_class + 'is not found');
+						}
+						return true;
+					}
+					else {
+						var seach_menu = $('+dd', this).attr('class');
+						$('+dd p', this).each(function() {
+							if ($.inArray($(this).attr('class'), eval('res.' + seach_menu)) == -1) {
+								if (typeof console !== 'undefined') {
+										//console.log(seach_menu + ":" + $(this).attr('class') + ' is not found');
+								}
+								$(this).remove();
+								return true;
+							}
+						});
+					}
+				});
+
+				// for direct menu link
+				var CAT = 'DIAG', ITEM = 'SYSTEM';
+				if ((CAT !== '') && (ITEM !== '')) {
+					$('dt.' + 'DIAG').trigger('click').each(function() {
+						$('+dd p.' + 'SYSTEM', this).trigger('click');
+					});
+				}
+
+			}
+			get_json_data(function_url, make_menu_tree);
+			$('p', $menu_tree).on('click', function() {
+				//$('p', $menu_tree).css({backgroundColor: $menu.css('backgroundColor')});
+				//$content_main.height($menu.height());
+				$content_help.height($menu.height());
+				$content_main.attr('scrolling', 'no');
+				$content_main.adjustHeight({
+					defaultHeight: $menu.height(),
+					offsetHeight: 100,
+					tracking: '#content_help',
+					action: false
+				});
+				$('p', $menu_tree).removeClass('menu_selected');
+				$('#menu_selected_padding').remove();
+				//$(this).css({backgroundColor:'#fcfcfc'});
+				$(this).addClass('menu_selected');
+				$(this).append('<span id="menu_selected_padding">&nbsp;</span>');
+				if (iconDisable == false) {
+					var rand = parseInt(Math.random()*100000000);
+					$content_main.attr('src', '/cgi-bin/cgi?req=frm&frm=' + $(this).data('main') + '&rnd=' + rand);
+					$content_help.attr('src', '/cgi-bin/cgi?req=frm&frm=' + $(this).data('help'));
+				}
+
+				// ADJUST IFRAME
+				///////////////////////////////////////////
+				$content_main.adjustHeight({
+					defaultHeight: $menu.height(),
+					offsetHeight: 100,
+					tracking: '#content_help',
+					action: true
+				});
+				$content_main.attr('scrolling', 'auto');
+				///////////////////////////////////////////
+
+				// APPLY BUTTON
+				///////////////////////////////////////////
+				$content_main.applyButton(
+					$.extend({}, $(this).data('apply'),
+						{
+							
+							buttonTxt:""+J2L.global_dic['common_dic_BUTTON_APPLY']+""
+						}
+					)
+				);
+				///////////////////////////////////////////
+			});
+
+			$('dl dd', $menu_tree).css('display', 'none');
+			$('dl dt', $menu_tree).on('click', function() {
+				//$('p', $menu_tree).css({backgroundColor: $menu.css('backgroundColor')});
+				if ($('+dd', this).css('display') == 'none') {
+					$('dd', $menu_tree).slideUp('fast');
+					$('+dd', this).slideDown('fast');
+				}
+				else {
+					$('+dd', this).slideUp('fast');
+				}
+			});
+
+
+	
+			//////////////////////////////////////////////////////////////// for BUSY_WAIT (start)
+			$content_main.on('load', function() {
+				if ($(this).get(0).contentWindow.PY20_BUSY_WAIT_FLAG) {
+					dispWaitingAdvanced(true);
+				}
+				else {
+					if (ICON_FLAG_EVENTED === false) {
+						dispWaitingAdvanced(false);
+					}
+				}
+			});
+			//////////////////////////////////////////////////////////////// for BUSY_WAIT (end)
+
+	});
+		});
+
+	})(jQuery);
+
+	// from basic_setting.html
+	var waiting = false;
+	var iconDisable = false;
+	function getJsonParam(category, handle)
+	{
+		//	new Ajax.Request("/cgi-bin/cgi?req=fnc&fnc=%24{get_json_param("+ category +")}",
+		//		{method : 'post', onComplete : handle});
+		var url = '/cgi-bin/cgi?req=fnc&fnc=%24{get_json_param('+ category + ',' + (new Date()).getTime() + ')}';
+		jQuery.ajax({
+			url: url,
+			type: 'post',
+			timeout: 2000,
+			success: function(data, status, xhr) { handle(xhr); },
+			error: function(data, status, xhr) {
+				console.log('!!!!! load fail(' + status + '): ' + url);
+			},
+			complete: function () {}
+		});
+	}
+
+	function beParent()
+	{
+		if (self != top)
+			{
+				top.location.href = self.location.href;
+			}
+	}
+	function handleDeviceParamOnComplete(req)
+	{
+		var data = req.responseText.evalJSON();
+		insertTitle(data.MODEL.escapeHTML());
+		document.getElementById("MODEL2").innerHTML    = data.MODEL.escapeHTML();
+		document.getElementById("COPYRIGHT").innerHTML = data.COPYRIGHT;
+		document.getElementById("VERSION").innerHTML   = data.VERSION.escapeHTML();
+	}
+	var ICON_FLAG_EVENTED = false;
+
+function handleBodyOnLoad()
+{
+	beParent();
+	iconImgPreLoad();
+	
+	getJsonParam("DEVICE", handleDeviceParamOnComplete);
+	//getJsonParam("FUNCTION", handleFunctionParamOnComplete);
+	var timerId = setInterval(getIconState, 2000);
+	jQuery('body').on('FWUP_START_EVENT ICON_DISABLE_EVENT', function() {
+		//console.log('DISABLE ICON');
+		clearInterval(timerId);
+		iconDisable = true;
+		ICON_FLAG_EVENTED = true;
+	}).on('FWUP_END_EVENT ICON_ENABLE_EVENT', function() {
+		//console.log('ENABLE ICON');
+		clearInterval(timerId);
+		iconDisable = false;
+		timerId = setInterval(getIconState, 2000);
+		ICON_FLAG_EVENTED = false;
+	});
+}
+
+function dispWaitingAdvanced(flg)
+{
+	var disp = (flg ? "" : "none");
+	document.getElementById("waiting_err_text").style.display = "none";
+	document.getElementById("waiting_err_btn").style.display = "none";
+	document.getElementById("waiting_base").style.display = disp;
+	document.getElementById("waiting_body").style.display = disp;
+	waiting = flg;
+	popupDisable = flg;
+	iconDisable = flg;
+}
+*/
+	var err_item="<%GetString("Confirm","13");%>";
+	var new_err_item="<%GetString("WDS","47");%>";
+	var err_description="<%GetString("Confirm","14");%>";
+	var err_CONTENTS="<%GetString("Confirm","15");%>:";
+
+	var displaydd = 0;
+	var routermode = '<%NvramGet("RouterMode");%>';
+	var iconDisable = false;
+
+	function init()
+	{
+		checkBrowserCss();
+		getIconState();
+		setInterval(getIconState, 2000);
+
+		var index = '<%NvramGet("advIndex");%>';
+
+		var Routemode = "<%NvramGet("RouterMode");%>";
+		
+		if (Routemode == "1")
+			document.getElementById("sub_meu5_1").style.display = "";
+		else
+			document.getElementById("sub_meu5_1").style.display = "none";
+		
+		if (index == 1)
+		{
+			showdd('3');
+
+			if (routermode == 1)
+			{
+				Menu2Unselect('sub_meu3_0','7');
+				ChangeMenu2Css('wlan_basic.html','sub_meu3_2','7','help_wlan.html');
+			}
+			else
+			{
+				Menu2Unselect('sub_meu3_0','8');
+				ChangeMenu2Css('wlan_basic.html','sub_meu3_2','8','help_wlan.html');
+			}
+		}
+		else if (index == 2)
+		{
+			showdd('3');
+
+			if (routermode == 1)
+			{
+				Menu2Unselect('sub_meu3_0','7');
+				ChangeMenu2Css('wlan_multi_5g.html','sub_meu3_3','7','help_wlan.html');
+			}
+			else
+			{
+				Menu2Unselect('sub_meu3_0','8');
+				ChangeMenu2Css('wlan_multi_5g.html','sub_meu3_3','8','help_wlan.html');
+			}
+		}
+		else if (index == 3)
+		{
+			showdd('3');
+
+			if (routermode == 1)
+			{
+				Menu2Unselect('sub_meu3_0','7');
+				ChangeMenu2Css('wlan_guestport.html','sub_meu3_6','7','help_guest_port.html');
+			}
+			else
+			{
+				Menu2Unselect('sub_meu3_0','8');
+				ChangeMenu2Css('wlan_guestport.html','sub_meu3_6','8','help_guest_port.html');
+			}
+		}
+		else if (index == 4)
+		{
+			showdd('4');
+			Menu2Unselect('sub_meu4_0','7');
+			ChangeMenu2Css('norton_dns.html','sub_meu4_6','7','help_norton_dns.html');
+		}
+		else if (index == 5)
+		{
+			showdd('1');
+			Menu2Unselect('sub_meu1_0','4');
+			ChangeMenu2Css('pppoe_main.html','sub_meu1_1','4','help_pppoe_main.html');
+		}
+		else if (index == 6)
+		{
+			showdd('3');
+			
+			if (routermode == 0)
+			{
+				Menu2Unselect('sub_meu3_0','8');
+				ChangeMenu2Css('aoss.html','sub_meu3_1','8','help_aoss.html');
+			}
+		}
+		else
+		{
+			showdd('7');
+			Menu2Unselect('sub_meu7_0','4');
+			ChangeMenu2Css('info.html','sub_meu7_0','4','<% TurnMenu("help_info.html"); %>');
+		}
+		
+		closehelpimg();//solve tab key problem in IE
+		openhelpimg();		
+	}
+
+	function getJsonParam(category, handle)
+	{
+		new Ajax.Request("/Ajax_get_value.html&action="+category,
+			{method : 'get', onComplete : handle});
+	}
+
+	function openhelpimg()
+	{
+		document.getElementById("open_help").style.display = "block";
+		document.getElementById("close_help").style.display = "none";
+
+		document.getElementById("menu").style.display = "block";
+		document.getElementById("maincontecnt").style.display = "block";
+		document.getElementById("help").style.display = "none";
+	}
+
+	function closehelpimg()
+	{
+		document.getElementById("open_help").style.display = "none";
+		document.getElementById("close_help").style.display = "block";
+
+		document.getElementById("menu").style.display = "none";
+		document.getElementById("maincontecnt").style.display = "block";
+		document.getElementById("help").style.display = "block";
+	}
+
+	function showdd(id)
+	{
+		var i=0;
+
+		if (displaydd == id)
+		{
+			displaydd = 0;
+			document.getElementById("dd_"+id).style.display = "none";
+		}
+		else
+		{
+			displaydd = 0;
+
+			for (i=1; i<=7; i++)
+			{
+				if (routermode == 0)
+				{
+					if (i == 1 || i == 4)
+					{
+						continue;
+					}
+				}
+
+				if (i == id)
+				{
+					document.getElementById("dd_"+i).style.display = "block";
+					displaydd = id;
+				}
+				else
+				{
+					document.getElementById("dd_"+i).style.display = "none";
+				}
+			}
+		}
+	}
+
+	function ChangeMenu2Css(url,meu,num,helpurl)
+	{
+		var menu_name;
+
+		for(i=0; i<num; i++)
+		{
+			menu_name = meu.substring(0,9);
+			document.getElementById(menu_name+i).className = "";
+			document.getElementById(menu_name+i+"b").className = "";
+		}
+		document.getElementById(meu).className = "menu_selected"
+		document.getElementById(meu+"b").className = "menu_selected_padding"
+
+		top.content_frame.document.location.href = url;
+		top.content_helpframe.document.location.href = "./help/"+helpurl;
+	}
+
+	function Menu2Unselect(meu,num)
+	{
+		var menu_name;
+
+		for(i=0; i<num; i++)
+		{
+			menu_name = meu.substring(0,9);
+			document.getElementById(menu_name+i).className = "";
+			document.getElementById(menu_name+i+"b").className = "";
+		}
+	}
+	
+function handleInfoIconOnClick(id, el)
+{
+	var top = 0;
+	var left = 0;
+	if(getCookie("mobile") == "false")
+	{
+		top = getAbsoluteTop(el) + el.offsetHeight;
+		left = getAbsoluteLeft(el) + el.offsetWidth - 260;
+	}	
+	document.getElementById(id).style.top = top + "px";
+	document.getElementById(id).style.left = left + "px";	
+	document.getElementById("popup_bg").style.display = "";
+	document.getElementById("popup_info").style.display="";
+}
+//-->
+	</script>
+	<script language="JavaScript">
+	  <!--
+	  var exec = false;
+	  function onceOnly(thform) {
+		if(exec == true){ 
+		  return false;
+		} else {
+		  exec = true;
+		  return true;
+		} 
+	  }
+	  // -->
+	</script>
+</HEAD>
+<body onLoad="init();" id="id_main">
+<center>
+<div id="wrapper">
+	<div class="head"><!-- header -->
+		<span class="headerLogo">
+			<img alt="BUFFALO" src="/images/py20_logo_buffalo.png">
+		</span>
+		<span class="statusArea">
+			<span class="statusIcon status_home" onclick="top.location.href='index.html'"></span>
+			<span id="icon_WAN" class="statusIcon" onclick="handleInternetIconOnClick('popup_internet', this, 'top_main.html')" style="<%CheckModedis();%>"></span>
+			<span id="icon_REPEATER" class="statusIcon status_repeater_ok" onclick="" style="display: none;"></span>
+			<span id="icon_INFO" class="statusIcon status_info_none" onclick="handleInfoIconOnClick('popup_info', this)" style=""></span>
+			<span id="icon_LOGOUT" class="statusIcon status_logout" onclick="location.href='logout.html'"></span>
+			<span style="clear:both"></span>
+		</span>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="helpcontents">
+		<div class="helpmaincontents">
+			<input type="image" class="helpbutton" id="open_help" onclick="closehelpimg();" src="/images/py20_help_open.png" style="display: block;">
+			<input type="image" class="helpbutton" id="close_help" onclick="openhelpimg();" src="/images/py20_help_close.png" style="display: none;">
+		</div>
+	</div>
+
+
+	<div id="main" style="width:940px;">
+		<div id="disp_main">
+			<div id="menu">
+
+<!-- ############################################################################## for MENU_TREE (start) -->
+			<div id="menu_tree">
+			<!--<dl class="MENU">
+				<dt class="WAN"><%GetString("Menu","9");%></dt>
+				<dd class="MENU_WAN" style="display:block;">
+					<p class="CONNECT menu_selected" onclick="loadpage();">test<span id="menu_selected_padding">&nbsp;</span></p>
+				</dd>
+				<dt class="WAN"><%GetString("Menu","12");%></dt>
+				<dd class="MENU_WAN" style="display:block;">
+					<p class="CONNECT menu_selected" onclick="loadpage();">test<span id="menu_selected_padding">&nbsp;</span></p>
+				</dd>
+				<dt class="WAN"><%GetString("Menu","3");%></dt>
+				<dd class="MENU_WAN" style="display:block;">
+					<p class="CONNECT menu_selected" onclick="loadpage();">test<span id="menu_selected_padding">&nbsp;</span></p>
+				</dd>
+			</dl>
+			
+			<dl class="MENU">
+				<dt class="WAN"><span data-file=dic class=common_dic_menu_top_wan_eng ></span></dt>
+				<dd class="MENU_WAN">
+					<p class="CONNECT" data-main="wan.html" data-help="help_wan_port.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_top_wan_eng ></span></p>
+					<p class="PPPOE" data-main="pppoe.html" data-help="help_pppoe.html"
+						data-apply='{"disp": true, "name": "DEF_UNNUM_SET"}'
+					><span data-file=dic class=common_dic_menu_wan_pppoe ></span></p>
+					<p class="DDNS" data-main="ddns.html" data-help="help_ddns.html"
+						data-apply='{"disp": true, "name": "action", "text_id": "disp_setup_value"}'
+					><span data-file=dic class=common_dic_menu_wan_ddns ></span></p>
+					<p class="VPN" data-main="pptps.html" data-help="help_pptp_server.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wan_pptp ></span></p>
+					<p class="NAT" data-main="nat.html" data-help="help_nat.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wan_nat ></span></p>
+				</dd>
+				<dt class="LAN"><span data-file=dic class=common_dic_menu_top_lan_eng ></span></dt>
+				<dd class="MENU_LAN">
+					<p class="LAN"
+data-main="lan.html" data-help="help_lan.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_lan_lan ></span></p>
+					<p class="DHCP" data-main="dhcps_lease.html" data-help="help_dhcps_lease.html"><span data-file=dic class=common_dic_menu_lan_lease ></span></p>
+					<p class="ROUTING" data-main="route_reg.html" data-help="help_route_reg.html"><span data-file=dic class=common_dic_menu_lan_routing ></span></p>
+				</dd>
+				<dt class="WIRELESS"><span data-file=dic class=common_dic_menu_top_wireless ></span></dt>
+				<dd class="MENU_WIRELESS">
+					<p class="BAND2G" data-main="wireless_band2g.html" data-help="help_wireless_band2g.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wireless_band2g ></span></p>
+					<p class="BAND5G" data-main="wireless_band5g.html" data-help="help_wireless_band5g.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wireless_band5g ></span></p>
+					<p class="WPS" data-main="wsc.html" data-help="help_wsc.html"
+						data-apply='{"disp": true, "name": "SET"}'
+					><span data-file=dic class=common_dic_menu_wireless_wps ></span></p>
+					<p class="AOSS" data-main="aoss.html" data-help="help_aoss.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wireless_aoss ></span></p>
+					<p class="FILTER" data-main="mac.html" data-help="help_mac.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wireless_filter ></span></p>
+					<p class="SNOOPING" data-main="snooping.html" data-help="help_snooping.html"
+						data-apply='{"disp": true, "name": "SETUP_DUMMY"}'
+					><span data-file=dic class=common_dic_menu_wireless_snooping ></span></p>
+					<p class="GUEST" data-main="guest_port.html" data-help="help_guest_port.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wireless_guest ></span></p>
+					<p class="WDS" data-main="wireless_extender.html" data-help="help_wireless_extender.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_wireless_extender ></span></p>
+				</dd>
+				<dt class="SECURITY"><span data-file=dic class=common_dic_menu_top_security ></span></dt>
+				<dd class="MENU_SECURITY">
+					<p class="FIREWALL" data-main="filter.html" data-help="help_filter.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_security_firewall ></span></p>
+					<p class="FILTER" data-main="filter_ip.html" data-help="help_filter_ip.html"><span data-file=dic class=common_dic_menu_security_filter ></span></p>
+					<p class="PASSTHROUGH" data-main="vpn_pass_through.html" data-help="help_vpn_pass_through.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_security_passthrough ></span></p>
+					<p class="FORWARD" data-main="nat_reg.html" data-help="help_nat_reg.html"><span data-file=dic class=common_dic_menu_security_forward ></span></p>
+					<p class="DMZ" data-main="dmz.html" data-help="help_dmz.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_security_dmz ></span></p>
+					<p class="UPNP" data-main="upnp.html" data-help="help_upnp.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_security_upnp ></span></p>
+
+					<p class="PARENTAL" data-main="i_filter.html" data-help="help_i_filter.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_security_parental_ifilter ></span></p>
+
+				</dd>
+				<dt class="APPS"><span data-file=dic class=common_dic_menu_top_apps ></span></dt>
+				<dd class="MENU_APPS">
+					<p class="NAS" data-main="apps_nas.html" data-help="help_apps_nas.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_diskmng ></span></p>
+					<p class="SHARE" data-main="nas_service.html" data-help="help_nas_service.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_share ></span></p>
+					<p class="WEB_AXS" data-main="apps_web_axs.html" data-help="help_nas_web_access.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_web_axs ></span></p>
+					<p class="DLNA" data-main="apps_dlna.html" data-help="help_nas_dlna.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_dlna ></span></p>
+					<p class="TORRENT" data-main="apps_torrent.html" data-help="help_nas_bittorrent.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_torrent ></span></p>
+					<p class="QOS" data-main="advanced_qos.html" data-help="help_advanced_qos.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_qos ></span></p>
+					<p class="SCHEDULE" data-main="eco_timer_reboot.html" data-help="help_eco.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_schedule ></span></p>
+					<p class="NETUSB" data-main="device_server.html" data-help="help_device_server.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_apps_printsrv ></span></p>
+				</dd>
+				<dt class="ADMIN"><span data-file=dic class=common_dic_menu_top_admin ></span></dt>
+				<dd class="MENU_ADMIN">
+					<p class="SYSTEM" data-main="ap_password_access_date_ntp.html" data-help="help_ap_password_access_date_ntp.html"
+						data-apply='{"disp": true, "name": "SETUP"}'
+					><span data-file=dic class=common_dic_menu_admin_system ></span></p>
+					<p class="LOG" data-main="log_log.html" data-help="help_log.html"
+						data-apply='{"disp": true, "name": "action"}'
+					><span data-file=dic class=common_dic_menu_admin_log ></span></p>
+					<p class="INIT" data-main="save_init.html" data-help="help_save_init.html"><span data-file=dic class=common_dic_menu_admin_init ></span></p>
+					<p class="FIRMWARE" data-main="fwupdate.html" data-help="help_fwupdate.html"><span data-file=dic class=common_dic_menu_admin_firmware ></span></p>
+				</dd>
+				<dt class="DIAG"><span data-file=dic class=common_dic_menu_top_diag ></span></dt>
+				<dd class="MENU_DIAG">
+					<p class="SYSTEM" data-main="info.html" data-help="help_info.html"><span data-file=dic class=common_dic_menu_diag_system ></span></p>
+					<p class="LOG" data-main="log_disp.html" data-help="help_log_disp.html"><span data-file=dic class=common_dic_menu_diag_log ></span></p>
+					<p class="PACKET" data-main="packet.html" data-help="help_packet.html"><span data-file=dic class=common_dic_menu_diag_packet ></span></p>
+					<p class="PING" data-main="ping.html" data-help="help_ping.html"><span data-file=dic class=common_dic_menu_diag_ping ></span></p>
+				</dd>
+			</dl>-->
+			<dl class="MENU">
+				<dt class="WAN" onclick="showdd('1');Menu2Unselect('sub_meu1_0','4');" style="<%CheckModedis();%>"><%GetString("NewUI","64");%></dt>
+				<dd class="MENU_WAN" id="dd_1" style="display:none">
+					<p class="CONNECT" id="sub_meu1_0"
+					onclick="ChangeMenu2Css('wan.html','sub_meu1_0','4','help_wan_port.html');"><%GetString("NewUI","64");%><span id="sub_meu1_0b">&nbsp;</span></p>
+					<p class="PPPOE" id="sub_meu1_1"
+					onClick="ChangeMenu2Css('pppoe_main.html','sub_meu1_1','4','help_pppoe_main.html');"><%GetString("NewUI","65");%><span id="sub_meu1_1b">&nbsp;</span></p>
+					<p class="DDNS" id="sub_meu1_2"
+					onClick="ChangeMenu2Css('ddns.html','sub_meu1_2','4','');"><%GetString("NewUI","66");%><span id="sub_meu1_2b">&nbsp;</span></p>
+					<!--<p class="VPN"><%GetString("NewUI","64");%><span data-file=dic class=common_dic_menu_wan_pptp ></span></p>-->
+					<p class="NAT" id="sub_meu1_3"
+					onClick="ChangeMenu2Css('nat.html','sub_meu1_3','4','help_nat.html');"><%GetString("NewUI","68");%><span id="sub_meu1_3b">&nbsp;</span></p>
+				</dd>
+				<%GetLANListByMode();%>
+				<%GetWLANListByMode();%>
+				<dt class="SECURITY" onclick="showdd('4');Menu2Unselect('sub_meu4_0','8');" style="<%CheckModedis();%>"><%GetString("NewUI","78");%></dt>
+				<dd class="MENU_SECURITY" id="dd_4" style="display:none">
+					<p class="FIREWALL" id="sub_meu4_0" onClick="ChangeMenu2Css('filter.html','sub_meu4_0','8','help_filter.html');"><%GetString("NewUI","79");%><span id="sub_meu4_0b">&nbsp;</span></p>
+					<p class="FILTER" id="sub_meu4_1" onClick="ChangeMenu2Css('filter_ip.html','sub_meu4_1','8','help_filter_ip.html');"><%GetString("NewUI","80");%><span id="sub_meu4_1b">&nbsp;</span></p>
+					<p class="PASSTHROUGH" id="sub_meu4_2" onClick="ChangeMenu2Css('vpn_pass_through.html','sub_meu4_2','8','help_vpn_pass_through.html');"><%GetString("NewUI","81");%><span id="sub_meu4_2b">&nbsp;</span></p>
+					<p class="FORWARD" id="sub_meu4_3" onClick="ChangeMenu2Css('nat_reg.html','sub_meu4_3','8','help_nat_reg.html');"><%GetString("NewUI","82");%><span id="sub_meu4_3b">&nbsp;</span></p>
+					<p class="DMZ" id="sub_meu4_4" onClick="ChangeMenu2Css('dmz.html','sub_meu4_4','8','help_dmz.html');"><%GetString("NewUI","83");%><span id="sub_meu4_4b">&nbsp;</span></p>
+					<p class="UPNP" id="sub_meu4_5" onClick="ChangeMenu2Css('upnp.html','sub_meu4_5','8','help_upnp.html');"><%GetString("NewUI","84");%><span id="sub_meu4_5b">&nbsp;</span></p>
+					<p class="NORTON" id="sub_meu4_6" onClick="ChangeMenu2Css('norton_dns.html','sub_meu4_6','8','help_norton_dns.html');"><%GetString("NewUI","85");%><span id="sub_meu4_6b">&nbsp;</span></p>
+					<p class="ACCESS" id="sub_meu4_7" onClick="ChangeMenu2Css('access_control.html','sub_meu4_7','8','help_access_control.html');"><%GetString("NewUI","277");%><span id="sub_meu4_7b">&nbsp;</span></p>
+				</dd>
+				<dt class="APPS" onclick="showdd('5');Menu2Unselect('sub_meu5_0','2');"><%GetString("NewUI","87");%></dt>
+				<dd class="MENU_APPS" id="dd_5" style="display:none">
+					<p class="QOS" id="sub_meu5_1" onClick="ChangeMenu2Css('qos.html','sub_meu5_1','2','help_qos.html');"><%GetString("Menu","29");%><span id="sub_meu5_1b">&nbsp;</span></p>
+					<p class="SCHEDULE" id="sub_meu5_0" onClick="ChangeMenu2Css('eco.html','sub_meu5_0','2','help_eco.html');"><%GetString("NewUI","93");%><span id="sub_meu5_0b">&nbsp;</span></p>					
+				</dd>
+				<dt class="ADMIN" onclick="showdd('6');Menu2Unselect('sub_meu6_0','4');"><%GetString("NewUI","95");%></dt>
+				<dd class="MENU_ADMIN" id="dd_6" style="display:none">
+					<p class="SYSTEM" id="sub_meu6_0" onClick="ChangeMenu2Css('ap.html','sub_meu6_0','4','help_ap.html');"><%GetString("NewUI","96");%><span id="sub_meu6_0b">&nbsp;</span></p>
+					<p class="LOG" id="sub_meu6_1" onClick="ChangeMenu2Css('log.html','sub_meu6_1','4','help_log.html');"><%GetString("NewUI","97");%><span id="sub_meu6_1b">&nbsp;</span></p>
+					<p class="INIT" id="sub_meu6_2" onClick="ChangeMenu2Css('init.html','sub_meu6_2','4','help_init.html');"><%GetString("NewUI","98");%><span id="sub_meu6_2b">&nbsp;</span></p>
+					<p class="FIRMWARE" id="sub_meu6_3" onClick="ChangeMenu2Css('fwupdate.html','sub_meu6_3','4','help_fwupdate.html');"><%GetString("NewUI","99");%><span id="sub_meu6_3b">&nbsp;</span></p>
+				</dd>
+				<dt class="DIAG" onclick="showdd('7');Menu2Unselect('sub_meu7_0','4');"><%GetString("NewUI","100");%></dt>
+				<dd class="MENU_DIAG" id="dd_7" style="display:none">
+					<p class="SYSTEM" id="sub_meu7_0" onClick="ChangeMenu2Css('info.html','sub_meu7_0','4','<% TurnMenu("help_info.html"); %>');"><%GetString("NewUI","101");%><span id="sub_meu7_0b">&nbsp;</span></p>
+					<p class="LOG" id="sub_meu7_1" onClick="ChangeMenu2Css('log_disp.html','sub_meu7_1','4','help_log_disp.html');"><%GetString("NewUI","102");%><span id="sub_meu7_1b">&nbsp;</span></p>
+					<p class="PACKET" id="sub_meu7_2" onClick="ChangeMenu2Css('packet.html','sub_meu7_2','4','help_packet.html');"><%GetString("NewUI","103");%><span id="sub_meu7_2b">&nbsp;</span></p>
+					<p class="PING" id="sub_meu7_3" onClick="ChangeMenu2Css('ping.html','sub_meu7_3','4','help_ping.html');"><%GetString("NewUI","104");%><span id="sub_meu7_3b">&nbsp;</span></p>
+				</dd>
+			</dl>
+			</div><!-- #menu_tree -->
+<!-- ############################################################################## for MENU_TREE (end) -->
+
+			</div><!-- #menu -->
+
+			<div id="maincontecnt">
+				<div id="content_wrapper">
+					<div id="content_load_area">
+						<iframe name="content_frame" id="content_main" src="" frameborder="0" height="540px" width="98%" scrolling="no" onload="Javascript:SetCwinHeight();"></iframe>
+					</div>
+				</div><!-- #content_wrapper -->
+			</div>
+
+			<div id="help" class="creafix">
+				<iframe name="content_helpframe" id="content_help" src="" frameborder="0" height="540px" width="230px"></iframe>
+			</div>
+
+		</div><!-- #disp_main -->
+	</div><!-- #main -->
+
+	<div class="footer">
+		<div class="aistation_logo"></div>
+		<div class="modelname">
+			<span class="modelname_prefix"><%NvramGet("FirmwareVersionCopy");%></span>
+		</div>
+		<div id="COPYRIGHT" class="copyright"><%GetString("NewUI","105");%></div>
+	</div>
+
+</div><!-- #wrapper -->
+</center>
+	<div class="waiting_base" id="waiting_base" style="display: none;"></div>
+	<div class="waiting_body" id="waiting_body" style="display: none;">
+		<div class="indicator" id="indicator">
+			<img class="progress" src="/images/py20_a_busy.gif"><br />
+			<span data-file=py20_common_waiting class=label_waiting_py20_common_waiting ><%GetString("NewUI","170");%></span>
+		</div>
+		<div id="waiting_err_text"></div>
+		<input class="button3" id="waiting_err_btn" type="button" value="OK" onClick="handleErrDialogOnOk()"/>
+	</div>
+
+	<div class="popup_bg" id="popup_bg" style="display: none;" onClick="undispPopupAll()"></div>
+	<div class="popup" id="popup_internet" style="display: none;" onClick="undispPopup('popup_internet')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right" align="left">
+				<%GetString("NewUI","171");%>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_repeater" style="display: none;" onClick="undispPopup('popup_repeater')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_repeater_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_info" style="display: none;" onClick="undispPopup('popup_info')">
+		<div class="popup_info_item" id="infotype1" style="display: none;">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info1_py20_common_popup ></span><br />
+				(<span data-file=py20_common_popup class=label_verion_py20_common_popup ></span> <span id="popup_current_ver"></span> -> <span id="popup_new_ver"></span>)<br />
+				<input type="button" class="button_middle" value="To firmware update screen" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=wizard_func_fwupdate_online.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype2" style="display: none;">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info2_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info2_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype3" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info3_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info3_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=SECURITY&ITEM=PARENTAL';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype4" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info4_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info4_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=48&sWebSessionid=829375816';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype5" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info5_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info5_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=49&sWebSessionid=2032920744';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype6" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info6_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info6_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=frm&frm=advanced.html&CAT=APPS&ITEM=WEB_AXS';"
+				/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype7" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info7_py20_common_popup ></span><br />
+
+				<input type="button" class="button_middle" 
+					value="" data-file=py20_common_popup data-value="label_button_info7_py20_common_popup" 
+					onClick="location.href = '/cgi-bin/cgi?req=inp&res=top_wizard_inet_start.html&START=true&sWebSessionnum=50&sWebSessionid=184989856';"
+				/>
+
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype8" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info8_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info8_py20_common_popup" onClick="location.href = '/cgi-bin/cgi?req=frm&frm=setting_basic_nas.html';"/>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="popup_info_item" id="infotype9" style="display: none;">
+			<div class="popup_left popup_icon3"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_info9_py20_common_popup ></span><br />
+				<input type="button" class="button_middle" value="" data-file=py20_common_popup data-value="label_button_info9_py20_common_popup" onClick="UpdateIfilterSrvStatus()">
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		
+		<div class="popup_item" id="info_behavior">
+			<div class="popup_left popup_icon1"></div>
+			<div class="popup_right" align="left">
+				<%GetString("NewUI","125");%>
+				<div class="info_block">
+					<!--<%GetString("NewUI","126");%>-->
+					<div id="info_behavior_router" style="display: none;">
+						<%GetString("NewUI","127");%>
+						<div id="behavior_router_connect">
+							<%GetString("NewUI","128");%>:
+							<div id="wanip"></div>
+						</div>
+						<div id="behavior_router_disconnect">
+							<%GetString("NewUI","129");%>
+						</div>
+					</div>
+					<div id="info_behavior_bridge" style="display: none;">
+						<%GetString("NewUI","130");%>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+	<div class="popup" id="popup_support" style="display: none;" onClick="undispPopup('popup_support')">
+		<div class="popup_item">
+			<div class="popup_left popup_icon2"></div>
+			<div class="popup_right">
+				<span data-file=py20_common_popup class=label_popup_support_py20_common_popup ></span>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+
+</body>
+</html>

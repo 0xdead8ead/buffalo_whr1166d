@@ -1,0 +1,50 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<script type="text/javascript" src="/js/py20_icon_popup.js"></script>
+<script language="JavaScript">
+<!--
+
+function init(val)
+{		
+	if('3' == '<%NvramGet("onlinefwlist_checking");%>' ){
+		document.getElementById("otherInfo").innerHTML="<%GetString("Fwupdate","34");%>";
+		document.getElementById("wlan_notConnect").style.display = "none";
+		document.getElementById("wlan_Connect").style.display = "";		
+	}
+	else if('4' == '<%NvramGet("onlinefwlist_checking");%>' ){
+		document.getElementById("otherInfo").innerHTML="<%GetString("Fwupdate","35");%>";
+		document.getElementById("wlan_notConnect").style.display = "none";
+		document.getElementById("wlan_Connect").style.display = "";	
+	}
+	else{
+		document.getElementById("wlan_Connect").style.display = "none";		
+	}
+	if('0' == '<%NvramGet("RouterMode");%>' )
+		document.getElementById("id_trigger_link").style.display = "none";
+}
+
+-->
+</script>
+
+</head>
+
+<BODY onload="init();" class="BFK_BODY">
+<br>
+<div id="wlan_notConnect">
+  <%GetString("Fwupdate","21");%><br>
+  <a id="id_trigger_link" href="#" onclick="handleInternetIFWcheck('top_main.html')" ><%GetString("Fwupdate","33");%></a>
+</div>
+
+<div id="wlan_Connect" style="display:none">
+  <p>&nbsp;<span id="otherInfo"></span></p>
+</div>
+
+<p><input type="button" name="RETURN" value="<%GetString("Fwupdate","28");%>" onClick="location.href='fwupdate.html'"></p>
+</BODY>
+</HTML>

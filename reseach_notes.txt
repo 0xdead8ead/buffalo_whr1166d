@@ -1,0 +1,50 @@
+Buffalo Wireless WHR-1166D - Reversing Notes
+============================================
+
+
+Device Info:
+------------
+
+Consumer Name:          AirStation™ AC 1200 Dual Band Wireless Router
+
+Product Page:           http://www.buffalotech.com/products/wireless/dual-band/airstation-ac-1200-dual-band-wireless-router
+
+Support Page(s):	http://www.buffalotech.com/products/wireless/dual-band/airstation-ac-1200-dual-band-wireless-router#downloads
+			http://www.buffalotech.com/products/wireless/dual-band/airstation-ac-1200-dual-band-wireless-router#resources
+
+User Manual:            http://manual.buffalo.jp/buf-doc/35020394-02_EN.pdf
+
+Model:                  WHR-1166D
+
+Firmware Download:      http://www.buffalotech.com/support-and-downloads/download/whr1166d_us-180.zip
+			http://cdn.cloudfiles.mosso.com/c85091/info-whr1166d-us-180.txt			
+
+Checksum:		MD5 (whr1166d_us_180) = bec668df35b4a3ffcb15844e1036d51b
+			5b8c35cee954c5bf0fc1443d22fe56a57487962e  whr1166d_us_180
+
+			MD5 (whr1166d_us_170) = 0ed19fc1cfa8cfc9f6dee5b72469d029
+			ff081be6753225f1c375510416a2733e1a9aa603  whr1166d_us_170
+
+			MD5 (whr1166d_us_150) = 879ffd1e4075ac530b26fcdba31514d9
+			5fb66daa8566333d6ff2d6be0210a54f742f04ea  whr1166d_us_150
+
+
+
+---
+
+
+Github Page:            <insert_repo>
+
+
+---
+
+Firmware Binaries of Interest:
+------------------------------
+
+
+
+
+
+Reversing Notes:
+----------------
+

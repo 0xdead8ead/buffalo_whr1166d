@@ -1,0 +1,167 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<META http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+
+<script language="JavaScript">
+<!--
+<%GetIPv6SectionHTML("javascript");%>
+-->
+</script>
+
+</head>
+
+<BODY class=WIZ_BODY>
+
+<FORM method="POST" name="main">
+
+<%GetIPv6SectionHTML("variable");%>
+<INPUT type="hidden" name="WIFIIGMPSnoopEnable" id="id_WIFIIGMPSnoopEnable" value="">
+
+<table class=WIZ_FRAME>
+<tbody>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+        <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+            	<%GetString("WizardFuncBroadcasting","1");%>
+            </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+            	<%GetString("WizardFuncBroadcasting","2");%>
+            </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+                <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+     					&nbsp;<%GetString("WizardFuncBroadcasting","2");%>
+                    </td>
+                    <td class=TBL_R></td>
+                  </tr>
+                  <tr class=TBL>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+                      <table class=WIZ_SET>
+                      <tbody>
+
+				<%GetIPv6SectionHTML("html");%>
+
+						<%GetIPv6SectionHTML("snooping");%>
+
+<!-- Multicast Rate start -->
+                        <tr>
+                          <th>
+                             <%GetString("WizardFuncBroadcasting","5");%>
+                          </th>
+                          <td>
+<table>
+<tbody>
+     		<tr>
+     			<td>
+     				<span class=WLAN11G><%GetString("WizardFuncBroadcasting","19");%></span>
+     				<select name="nosave_multiRate">
+     					<option value="54">54 Mbps</option>
+					<option value="48">48 Mbps</option>
+					<option value="36">36 Mbps</option>
+					<option value="24">24 Mbps</option>
+					<option value="18">18 Mbps</option>
+					<option value="12">12 Mbps</option>
+					<option value="11" selected>11 Mbps</option>
+					<option value="9">9 Mbps</option>
+					<option value="6">6 Mbps</option>
+					<option value="5">5.5 Mbps</option>
+					<option value="2">2 Mbps</option>
+					<option value="1">1 Mbps</option>
+     				</select>
+     				(<%GetString("WizardFuncBroadcasting","10");%> : <%GetMulticastRate("Current");%> )
+     			</td>
+     		</tr>
+</tbody>
+</table>
+                          </td>
+                        </tr>
+<!-- Multicast Rate end -->
+
+                      </tbody>
+                      </table>
+
+                      <table class=WIZ_TIPS>
+                      <tbody>
+                        <tr>
+                          <td>
+				<%GetIPv6SectionHTML("tip");%>
+                          </td>
+                        </tr>
+                      </tbody>
+                      </table>
+                  </td>
+                  <td class=TBL_R></td>
+                </tr>
+                <tr class=FOOT>
+                  <td class=TBL_L></td>
+                  <td class=TBL_C></td>
+                  <td class=TBL_R></td>
+                </tr>
+              </tbody>
+              </table>
+            </td>
+            <td class=TBL_R></td>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </tbody>
+        </table>
+        <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+                  <INPUT type="button" value="<%GetString("WizardFuncBroadcasting","15");%>" onClick="top.location.href='index.html'">
+            </td>
+            <td class=NAVI_C></td>
+            <td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("WizardFuncBroadcasting","16");%>" onClick="apply()">
+            </td>
+          </tr>
+        </tbody>
+        </table>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</tbody>
+</table>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</FORM>
+</BODY>
+</HTML>

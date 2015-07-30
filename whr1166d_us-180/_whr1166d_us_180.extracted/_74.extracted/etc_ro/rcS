@@ -1,0 +1,361 @@
+#!/bin/sh
+
+# booting LED
+led 9 blink_mode3
+
+RC_FILE=/tmp/rc.conf
+mount -a
+#mkdir /etc/config
+# Mount JFFS2 NTD partition
+/bin/mount -t jffs2 /dev/mtdblock4 /etc/config
+mkdir -p /var/run
+#for syslogd
+mkdir -p /var/log
+cat /etc_ro/motd
+/usr/sbin/nvram_recover
+#nvram_daemon&
+
+#For v4.2.0.1 (10M problem)
+mii_mgr -s -p 0 -r 0 -v 0x3100
+mii_mgr -s -p 1 -r 0 -v 0x3100
+mii_mgr -s -p 2 -r 0 -v 0x3100
+mii_mgr -s -p 3 -r 0 -v 0x3100
+mii_mgr -s -p 4 -r 0 -v 0x3100
+# need to initialize for software reboot if ECO changes register
+mii_mgr -s -p 5 -r 9 -v 0x0700
+mii_mgr -s -p 5 -r 0 -v 0x1140
+
+# initialize nvram
+/usr/sbin/nvram init
+# prevent weird string in nvram from stopping system
+#. $RC_FILE
+
+# Check MAC
+/usr/sbin/gt_utils check_MAC
+
+# Init LED Flag for ECO
+/usr/sbin/nvram set Internetled_flag=0
+/usr/sbin/nvram set Diagled_flag=0
+
+# Init DDNS Status Value
+/usr/sbin/nvram set DDNSStatus=""
+
+# initialize WAN state parameters
+/usr/sbin/nvram set DHCPState=4
+/usr/sbin/nvram set PPPoE1State=9
+#/usr/sbin/nvram set PPPoE2State=9
+#/usr/sbin/nvram set PPPoE3State=9
+#/usr/sbin/nvram set PPPoE4State=9
+#/usr/sbin/nvram set PPPoE5State=9
+
+/usr/sbin/nvram set boot_ok=0
+/usr/sbin/nvram set ns_edit=0
+/usr/sbin/nvram set ns_mac=""
+/usr/sbin/nvram set ns_searching=255
+
+/usr/sbin/nvram set ifilterActivated=0
+/usr/sbin/nvram set ifilterRegStatus=1
+/usr/sbin/nvram set ifilterExpDate="----/--/--"
+
+/usr/sbin/nvram set pbever=0
+
+#Set Time zone
+/usr/shell/settimezone.sh
+
+# Set default System date
+/bin/date `nvram get SystemDefaultTime`
+
+#Initialize this nvram value for ECO
+checkntp_status=`nvram get checkntp_gettime`
+now_eco_mode_status=`nvram get now_eco_mode`
+AOSS_exception_status=`nvram get AOSS_exception`
+InAOSSECO_status=`nvram get InAOSSECO`
+return_page_status=`nvram get return_page`
+if [ "$checkntp_status" != "0" ] ; then
+	nvram set checkntp_gettime="0"
+fi
+
+if [ "$now_eco_mode_status" != "0" ] ; then
+	nvram set now_eco_mode="0"
+fi
+
+if [ "$AOSS_exception_status" != "0" ] ; then
+	nvram set AOSS_exception="0"
+fi
+
+if [ "$InAOSSECO_status" != "0" ] ; then
+	nvram set InAOSSECO="0"
+fi
+
+if [ "$return_page_status" != "0" ] ; then
+	nvram set return_page="0"
+fi
+
+#Initialize Wan Check Status
+/usr/sbin/nvram set WanCheckStatus=0
+
+/usr/sbin/nvram set ld_stop_once=0
+/usr/sbin/nvram set bootup_diag_led=0
+
+#check auto switch
+#get pre setting
+auto_switch=`nvram get AutoSwitch`
+if [ "$auto_switch" != 2 ] ; then
+	nvram set BrMethod="1"
+fi
+/usr/sbin/switch_set
+auto_switch=`nvram get AutoSwitch`
+if [ "$auto_switch" == 2 ] ; then
+	nvram set RouterMode="0"
+	nvram set WanIPAssignment="0"
+elif [ "$auto_switch" == 3 ] ; then
+	nvram set RouterMode="1"
+	nvram set WanMethod="4"
+else
+	nvram set RouterMode="1"
+fi 
+
+# Ralink recommends to set this for SmartBits test: 3f502b28+bit8~9:0 => 3f50 2 [1011] 28 => 3f50 2 [1000] 28
+#switch reg w 0xc8 3f502828
+
+/sbin/klogd -c 4 &
+/usr/sbin/gt_utils syslog start
+
+# Initialize LAN interface
+/usr/sbin/gt_utils lan_init
+
+# add static WAN MAC address in switch table for port bridge issue
+router_mode=`nvram get RouterMode`
+if [ "$router_mode" != 0 ] ; then
+	gt_utils port_bridge_on
+fi
+
+#Send terminate when receive Echo request. for PPPoE connection issue.
+/usr/sbin/pppoe_terminate &
+
+# for bridge mode wireless separate
+if [ "$router_mode" != 0 ] ; then
+	echo "0" > /proc/is_br_mode
+else
+	echo "1" > /proc/is_br_mode
+fi 
+
+#Firmware version and release date
+/usr/sbin/gt_utils version
+
+#Set Time zone
+#/usr/shell/settimezone.sh
+
+# Set default System date
+#/bin/date `nvram get SystemDefaultTime`
+
+#echo "nameserver 168.95.1.1" > /etc/resolv.conf
+
+# loopback interface
+/sbin/ifconfig lo up
+
+# Start klogd and syslogd
+touch /tmp/log
+
+#--Gemtek Make console log level=4 to prevent Router reboot.
+#/sbin/klogd -c 4 &
+#/usr/sbin/gt_utils syslog start
+
+#Enable Watchdog daemon
+mknod /tmp/watchdog c 10 130
+wd_keepalive -c /etc_ro/watchdog.conf -b
+
+#Reset AOSS status to default 
+nvram set WIFIAOSSActive="0"
+nvram set WIFIAOSSActive_web="0"
+
+#Always enable WMM
+nvram set WIFIWmmCapable=1
+
+# Detect push button
+/usr/sbin/pbc_detect &
+
+# Initialize semaphores
+firewall sem_init
+/usr/sbin/gt_utils wan_sem_init
+
+# Initialize Firewalli
+#router_mode=`nvram get RouterMode`
+if [ "$router_mode" != 0 ] ; then
+	firewall init
+fi
+
+#for dnsmasq redirect https
+matrixtunnel_httpd -A /etc/certSrv.pem -p /etc/privkeySrv.pem -d 444 -r 80 &
+
+if [ "$router_mode" == "1" ] ; then
+	nvram set WIFIApCliEnable="0"
+fi
+
+
+#Jayo 2010/01/15: insert ipv6 passthrough module after wlan init,and before lan service starting
+ipv6_pass=`nvram get IPV6Passthrough`
+if [ "$router_mode" != 0 ] && [ "$ipv6_pass" == 1 ] ; then
+insmod /lib/modules/2.6.36/kernel/net/ipv6passthru/ipv6passthru.ko
+fi
+/usr/sbin/gt_utils lan_service start
+
+# Add Boot Log
+/usr/sbin/gt_utils boot_log
+# single SKU for 2.4G
+region=`nvram get Region`
+if [ "$region" == "JP" ] ; then
+	cp -a /etc_ro/Wireless/RT2860AP/JP.dat /etc_ro/Wireless/RT2860AP/SingleSKU.dat
+elif [ "$region" == "US" ] || [ "$region" == "TW" ] ; then
+	cp -a /etc_ro/Wireless/RT2860AP/US.dat /etc_ro/Wireless/RT2860AP/SingleSKU.dat
+	cp -a /etc_ro/Wireless/iNIC/US_5G.dat /etc_ro/Wireless/iNIC/SingleSKU.dat
+elif [ "$region" == "HK" ] ; then
+	cp -a /etc_ro/Wireless/RT2860AP/US.dat /etc_ro/Wireless/RT2860AP/SingleSKU.dat
+	cp -a /etc_ro/Wireless/iNIC/HK_5G.dat /etc_ro/Wireless/iNIC/SingleSKU.dat
+else
+	cp -a /etc_ro/Wireless/RT2860AP/EU.dat /etc_ro/Wireless/RT2860AP/SingleSKU.dat
+fi 
+
+#Prevent Open DNS resolver
+if [ "$router_mode" != 0 ] ; then
+	/bin/iptables -t mangle -N Open_DNS_resolver
+	/bin/iptables -t mangle -A PREROUTING -j Open_DNS_resolver
+	/bin/iptables -t mangle -A Open_DNS_resolver -i vlan0002 -p udp --dport 53 -j DROP
+	/bin/iptables -t mangle -A Open_DNS_resolver -i ppp+ -p udp --dport 53 -j DROP
+fi
+
+# Reset DFS remaining time and uptime.
+/usr/sbin/gt_utils reset_dfs
+
+# Initialize WLAN interface and start LAN Services
+insmod -q rlt_wifi
+sleep 3
+/usr/sbin/gt_utils wlan_init
+
+# disable by default in driver for wrong DFS detection (EU-20MHz-ch64)
+if [ "$region" == "EU" ] || [ "$region" == "HK" ] ; then
+	iwpriv rai0 set DfsSwDisable=0
+fi 
+
+#Fix BTS#113864: when auto mode bootup, bridge_restart in wan check decision state will kill httpd
+/usr/sbin/httpd
+
+#GTK +++ 2013.09.27 for Guest port porting
+# Initialize GuestPort interface
+/usr/sbin/gt_utils guestport_init
+#GTK --- 2013.09.27 for Guest port porting
+
+#GTK +++ 2013.09.27 for Guest port porting
+guestportFlag=`nvram get GuestPortEnabled`
+if [ "$guestportFlag" == 1 ] ; then
+	/usr/sbin/gt_utils guestport start
+fi
+#GTK --- 2013.09.27 for Guest port porting
+
+#Auto Switch Mode
+if [ "$auto_switch" == 3 ] ; then
+	/usr/sbin/auto_switch 0
+fi 
+
+#Add for icon_WAN
+nvram set WanCurrentIP=""
+# Dtetct WAN Link
+/usr/sbin/link_detect &
+
+#wan_mode=`nvram get WanMethod`
+BrMethod=`nvram get BrMethod`
+#if [ "$wan_mode" != "4" ] && [ "$router_mode" != "0" ] ; then
+#	/usr/sbin/wan_check 2
+#elif [ "$router_mode" == "0" ] && [ "$BrMethod" != "1" ] ; then
+#if [ "$router_mode" == "0" ] && [ "$BrMethod" != "1" ] ; then
+#	#/usr/sbin/wan_check 2
+#	/usr/sbin/gt_utils bridge restart
+#fi
+
+#When manufacture, run backdoor process
+#ManufactureFlag=`nvram get MassProductFlag`
+#BuffaloCounter=`nvram get BuffaloMassProductCounter`
+#if [ "$ManufactureFlag" = "1" ] || [ "$BuffaloCounter" -gt "0" ] ; then
+#        /usr/sbin/massProduct &
+#fi
+
+#GUI
+#cp /usr/sbin/html.tar.bz2 /tmp/
+#cd /tmp/
+#tar -jxvf html.tar.bz2
+#rm -f html.tar.bz2
+#/usr/sbin/httpd &
+/bin/ap_serv -i br0 &
+# DIAG LED
+#/usr/sbin/led 39 off
+
+# ECO
+eco_mode=`nvram get ECOEnable`
+if [ "$eco_mode" == 1 ] ; then
+	killall eco
+	/usr/sbin/eco &
+fi
+
+# ACCESS_CONTROL
+access_control=`nvram get Access_Control_Check`
+nvram set Access_Control_boot=1
+if [ "$access_control" == 1 ] ; then
+	killall access
+	/usr/sbin/access &
+fi
+	
+#ICMP redirect
+#echo 0 > /proc/sys/net/ipv4/conf/all/send_redirects
+#echo 0 > /proc/sys/net/ipv4/conf/default/send_redirects
+#echo 0 > /proc/sys/net/ipv4/conf/br0/send_redirects
+
+#ARP ignore when ARP ask lan side IP
+if [ "$router_mode" == "1" ] ; then
+echo 1 > /proc/sys/net/ipv4/conf/vlan0002/arp_ignore
+fi
+
+# booting LED done
+#led 9 on
+
+/usr/sbin/nvram set boot_ok=1
+
+# bridge mode, static IP mode, for wireless separate feature
+if [ "$router_mode" == "0" ] && [ "$BrMethod" == "1" ] ; then
+#when gateway IP is "", just let the program reset /proc
+	/usr/sbin/gt_utils br_iso_mac &
+fi
+
+#PPTP
+# prevent lock parameter from being saved
+/usr/sbin/nvram set pptp_dhcp_lock=0
+if [ "$router_mode" != 0 ] ; then
+	/usr/sbin/gt_utils pptpip &
+fi
+
+#launch network service detect process
+/usr/sbin/ns_detect &
+
+WanCheck=`nvram get WanCheckPhase`
+i=0
+while [ "$WanCheck" != 0 -a "$i" -le 60 ]
+do
+	sleep 1
+	i=$(($i+1))
+	WanCheck=`nvram get WanCheckPhase`
+done
+
+#set session number
+#/usr/sbin/gt_utils set_session_number
+
+# for WAN DHCP get same network IP when auto mode
+bootup_error=`nvram get bootup_diag_led`
+
+if [ "$auto_switch" == 3 ] && [ "$bootup_error" == 1 ] ; then
+	led 9 off
+	/usr/sbin/nvram set bootup_diag_led=0
+else
+	led 9 on
+fi 
+
+#set snooping function
+/usr/sbin/gt_utils snooping_restart

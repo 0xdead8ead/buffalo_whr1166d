@@ -1,0 +1,303 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script src="OpenHelp.html"></script>
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+
+function Show_error_date(item_name, err_msg)
+{
+	var errObj = document.getElementById("id_errtbl");
+	var inputERstring = "<%GetString("Save","21");%>";
+	
+	//var itemstring=top.err_item;
+	var itemstring="<%GetString("Confirm","42");%>";
+	item_name = "<%GetString("Date","1");%>" + "<%GetString("Date","5");%>";
+	var descriptionstring=top.err_description;
+	//alert(itemstring+" : "+descriptionstring);
+	errObj.innerHTML = '<hr>';
+	errObj.innerHTML += "<p>"+ inputERstring + "<br>" + itemstring+" "+item_name+"<br>"+descriptionstring+" "+err_msg+"</p>";
+	errObj.innerHTML += '<hr>';
+	errObj.style.display="";
+	window.scroll(0,0);
+}
+
+
+function Date_Refresh() {
+if(window.navigator.appName=="Microsoft Internet Explorer")
+	window.location.reload();
+else
+	window.location.replace("date.html");
+}
+
+function setPCTime() {
+    dd = new Date();
+    document.F1.nosave_PCTIME.disabled=false;
+    document.F1.nosave_PCTIME.value = dd.toString();
+		document.F1.submit();
+}
+
+function check_modify()
+{
+	document.F1.nosave_DateManualModify.value = 1;
+}
+
+function check_intstyle()
+{	
+	var PDYV="<%GetTime("year");%>";
+	var PDMV="<%GetTime("mon");%>";
+	var PDDV="<%GetTime("day");%>";
+	var PTHV="<%GetTime("hour");%>";
+	var PTMV="<%GetTime("min");%>";
+	var PTSV="<%GetTime("sec");%>";	
+
+	PDYV=parseInt(PDYV,10);
+	PDMV=parseInt(PDMV,10);
+	PDDV=parseInt(PDDV,10);
+	PTHV=parseInt(PTHV,10);
+	PTMV=parseInt(PTMV,10);
+	PTSV=parseInt(PTSV,10);
+
+	document.getElementById("id_nosave_YEAR").value=PDYV;
+	document.getElementById("id_nosave_MON").value=PDMV;	
+	document.getElementById("id_nosave_DAY").value=PDDV;
+	document.getElementById("id_nosave_HOUR").value=PTHV;
+	document.getElementById("id_nosave_MIN").value=PTMV;
+	document.getElementById("id_nosave_SEC").value=PTSV;
+}
+
+function doapply()
+{	
+
+
+	var dateYEAR=document.getElementById("id_nosave_YEAR");
+	var	dateMON=document.getElementById("id_nosave_MON");
+	var	dateDAY=document.getElementById("id_nosave_DAY");
+	var dateHOUR=document.getElementById("id_nosave_HOUR");
+	var	dateMIN=document.getElementById("id_nosave_MIN");
+	var	dateSEC=document.getElementById("id_nosave_SEC");
+	
+	
+	var YEARvalue=parseInt(dateYEAR.value,10);	
+	var MONvalue=parseInt(dateMON.value,10);	
+	var DAYvalue=parseInt(dateDAY.value,10);
+	var HOURvalue=parseInt(dateHOUR.value,10);
+	var MINvalue=parseInt(dateMIN.value,10);
+	var SECvalue=parseInt(dateSEC.value,10);
+	var string_time="<%GetString("Date","38");%>";
+	var string_msg="<%GetString("Date","39");%>";
+	Hide_error();
+	
+
+	if((dateYEAR.value.length!=0) && (dateMON.value.length!=0) && (dateDAY.value.length!=0))
+	{
+			if(check_integer(dateYEAR.value))
+			{
+			//In WHR-G300N : the default max value is 2037
+				if(!check_integer_range(dateYEAR.value,2010,2037))
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+			
+			if(check_integer(dateMON.value))
+			{
+				if((dateMON.value<=0)||(dateMON.value>=13))
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateDAY.value))
+			{
+				if((MONvalue == 1)||(MONvalue == 3)||(MONvalue == 5)||(MONvalue == 7)||(MONvalue == 8)||(MONvalue == 10)||(MONvalue == 12))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=32))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else if((MONvalue == 4)||(MONvalue == 6)||(MONvalue == 9)||(MONvalue == 11))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=31))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else if((MONvalue == 2)&&(dateYEAR.value%4==0))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=30))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else if((MONvalue == 2)&&(dateYEAR.value%4!=0))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=29))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else
+				{
+						Show_error_date(string_time,string_msg);
+						return false;				
+				}
+				
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateHOUR.value))
+			{
+				if(HOURvalue>=24)
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}	
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateMIN.value))
+			{
+				if(MINvalue>=60)
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateSEC.value))
+			{
+				if(SECvalue>=60)
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}				
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+	}else{
+		Show_error_date(string_time,string_msg);
+		return false;
+	}
+		
+	document.F1.submit();
+}
+// -->
+</script>
+</head>
+<body class="BFK_BODY" onload="check_intstyle();">
+<br>
+
+<p class=C_WARN>
+ 
+</p>
+<p></p>
+<form name="F1"  method="POST">
+<div id="id_errtbl" class="C_ERR" style="display:none;">
+</div>
+
+<div id="id_NTP" class="C_ERR" style="display: <%NvramMatch("NTPEnable","0","none");%>;">
+<%GetString("Date","37");%>
+</div>
+
+  <table class="AD_SET">
+	<tr>
+      <th><%GetString("Date","1");%></th>
+      <td>
+     <input type="text" name="nosave_YEAR" id="id_nosave_YEAR" size="4" maxlength="4" value='<%GetTime("year");%>' onchange="check_modify();"><%GetString("Date","2");%>
+     <input type="text" name="nosave_MON" id="id_nosave_MON"  size="2" maxlength="2" value='<%GetTime("mon");%>' onchange="check_modify();"><%GetString("Date","3");%>
+     <input type="text" name="nosave_DAY" id="id_nosave_DAY"  size="2" maxlength="2" value='<%GetTime("day");%>' onchange="check_modify();"><%GetString("Date","4");%>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Date","5");%></th>
+      <td>
+     <input type="text" name="nosave_HOUR" id="id_nosave_HOUR" size="2" maxlength="2" value='<%GetTime("hour");%>' onchange="check_modify();"><%GetString("Date","6");%>
+     <input type="text" name="nosave_MIN" id="id_nosave_MIN"  size="2" maxlength="2" value='<%GetTime("min");%>' onchange="check_modify();"><%GetString("Date","7");%>
+     <input type="text" name="nosave_SEC" id="id_nosave_SEC"  size="2" maxlength="2" value='<%GetTime("sec");%>' onchange="check_modify();"><%GetString("Date","8");%>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%GetString("Date","9");%></th>
+      <td>
+        <select size="1" name="DatetimeTimezone">
+          <option <%NvramMatch("DatetimeTimezone","GMT-12","selected");%> value="GMT-12" ><%GetString("Date","10");%></option><!-- Eniwetok&#x2C; Kwajalein-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-11","selected");%> value="GMT-11" ><%GetString("Date","11");%></option><!-- Midway island&#x2C; Samoa-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-10","selected");%> value="GMT-10" ><%GetString("Date","12");%></option><!-- Hawaii-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-9:30","selected");%> value="GMT-9:30" ><%GetString("Date","40");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT-9","selected");%> value="GMT-9" ><%GetString("Date","13");%></option><!--Alaska -->
+          <option <%NvramMatch("DatetimeTimezone","GMT-8","selected");%> value="GMT-8" ><%GetString("Date","14");%></option><!-- Pacific Standard Time: PST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-7","selected");%> value="GMT-7" ><%GetString("Date","15");%></option><!-- Mountain Standard Time: MST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-6","selected");%> value="GMT-6" ><%GetString("Date","16");%></option><!-- Central Standard Time: CST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-5","selected");%> value="GMT-5" ><%GetString("Date","17");%></option><!-- Eastern Standard Time: EST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-4:30","selected");%> value="GMT-4:30" ><%GetString("Date","41");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT-4","selected");%> value="GMT-4" ><%GetString("Date","18");%></option><!-- Atlantic Standard Time: AST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-3:30","selected");%> value="GMT-3:30" ><%GetString("Date","42");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT-3","selected");%> value="GMT-3" ><%GetString("Date","19");%></option><!-- Buenos Aires&#x2C; Georgetown-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-2","selected");%> value="GMT-2" ><%GetString("Date","20");%></option><!-- Mid-Atlantic-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-1","selected");%> value="GMT-1" ><%GetString("Date","21");%></option><!-- Azores islands&#x2C; Cape Verde islands-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+0","selected");%> value="GMT+0" ><%GetString("Date","22");%></option><!-- Greenwich Mean Time&#x2C; London-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+1","selected");%> value="GMT+1" ><%GetString("Date","23");%></option><!-- Copenhargen&#x2C; Madrid&#x2C; Paris-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+2","selected");%> value="GMT+2" ><%GetString("Date","24");%></option><!-- Athens&#x2C; Istanbul&#x2C; Jerusalem-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+3","selected");%> value="GMT+3" ><%GetString("Date","25");%></option><!-- Baghdad&#x2C; Nairobi&#x2C; Moscow-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+3:30","selected");%> value="GMT+3:30" ><%GetString("Date","43");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+4","selected");%> value="GMT+4" ><%GetString("Date","26");%></option><!-- Abu Dhabi&#x2C; muscat&#x2C; Baku-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+4:30","selected");%> value="GMT+4:30" ><%GetString("Date","44");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+5","selected");%> value="GMT+5" ><%GetString("Date","27");%></option><!-- Islamabad&#x2C; Karachi-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+5:30","selected");%> value="GMT+5:30" ><%GetString("Date","45");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+5:45","selected");%> value="GMT+5:45" ><%GetString("Date","46");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+6","selected");%> value="GMT+6" ><%GetString("Date","28");%></option><!-- -->
+          <option <%NvramMatch("DatetimeTimezone","GMT+6:30","selected");%> value="GMT+6:30" ><%GetString("Date","47");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+7","selected");%> value="GMT+7" ><%GetString("Date","29");%></option><!-- Hanoi&#x2C; Jakarta-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+8","selected");%> value="GMT+8" ><%GetString("Date","30");%></option><!-- Beijing&#x2C; Hong Kong&#x2C; Taipei-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+8:45","selected");%> value="GMT+8:45" ><%GetString("Date","48");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+9","selected");%> value="GMT+9" ><%GetString("Date","31");%></option><!-- Osaka&#x2C; Seoul-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+9:30","selected");%> value="GMT+9:30" ><%GetString("Date","49");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+10","selected");%> value="GMT+10" ><%GetString("Date","32");%></option><!-- Sydney&#x2C; Guam-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+10:30","selected");%> value="GMT+10:30" ><%GetString("Date","50");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+11","selected");%> value="GMT+11" ><%GetString("Date","33");%></option><!--Solomon Islands&#x2C; New Caledonia-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+11:30","selected");%> value="GMT+11:30" ><%GetString("Date","51");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+12","selected");%> value="GMT+12" ><%GetString("Date","52");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+12:45","selected");%> value="GMT+12:45" ><%GetString("Date","53");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+13","selected");%> value="GMT+13" ><%GetString("Date","54");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+14","selected");%> value="GMT+14" ><%GetString("Date","55");%></option>
+        </select>
+      </td>
+    </tr>
+  </table>
+  <p>
+  <input type="button" value="<%GetString("Date","34");%>" name="nosave_SETUP" onclick="doapply();">
+  <input type="button" value="<%GetString("Date","35");%>" name="nosave_NOW" onclick='Date_Refresh();'>
+  <input type="button" value="<%GetString("Date","36");%>" name="nosave_SETPCTIME" onclick="setPCTime();">
+  <input type="hidden" name="nosave_PCTIME" size="50" disabled>
+  <input type="hidden" name="nosave_DateManualModify" value="0">
+  </p>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

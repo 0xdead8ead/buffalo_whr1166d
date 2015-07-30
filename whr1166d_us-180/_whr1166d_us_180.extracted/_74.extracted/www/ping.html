@@ -1,0 +1,160 @@
+
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script src="OpenHelp.html"></script>
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+
+function ping_exe()
+{
+  if (isBlank(document.form_main.ping_ipaddress.value))
+  {
+    Show_error("<%GetString("Ping","5");%>", "<%GetString("Ping","6");%>");
+    return false;
+  }
+  if (!isAllowValue(document.form_main.ping_ipaddress.value))
+  {
+    return false;
+  }
+  document.form_main.submit();
+}
+
+function isAllowValue(s)
+{
+  var i;
+  var s_ip;
+  s_ip = s.split('.');
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='-') || (c=='.'))
+		{
+		  if (((c=='-') || (c=='.')) && ((i==0) || (i==s.length-1)))
+		  {
+		    Show_error("<%GetString("Ping","5");%>", "<%GetString("Ping","7");%>");
+		    return false;
+		  }
+		}
+		else
+		{
+		  Show_error("<%GetString("Ping","5");%>", "<%GetString("Ping","8");%>");
+			return false;
+		}
+	}
+	
+	if( s.match('.') || s.match('-'))
+	{
+		for ( i=0;i<s.length;i++)
+		{
+			if ((s.charAt(i)=='.') && (s.charAt(i+1)=='.'))
+			{
+				Show_error("<%GetString("Ping","5");%>", "<%GetString("Ping","8");%>");
+				return false;
+			}
+			if ((s.charAt(i)=='-') && (s.charAt(i+1)=='.'))
+			{
+				Show_error("<%GetString("Ping","5");%>", "<%GetString("Ping","8");%>");
+				return false;
+			}
+			if((s.charAt(i)=='.') && (s.charAt(i+1)=='-'))
+			{
+				Show_error("<%GetString("Ping","5");%>", "<%GetString("Ping","8");%>");
+				return false;
+			}
+		}		
+	}
+	
+	if(s=="255.255.255.255")
+	{
+		Show_error("<%GetString("Ping","5");%>", "<%GetString("Lan","31");%>");
+		return false;
+	}
+	else if(s=="0.0.0.0")
+	{
+		Show_error("<%GetString("Ping","5");%>", "<%GetString("Lan","30");%>");
+		return false;
+	}
+	
+	if(s_ip.length==4)
+	{
+		if(check_integer(s_ip[0]) && check_integer(s_ip[1]) && check_integer(s_ip[2]) &&check_integer(s_ip[3]))
+		{
+			if(s_ip[0]>255 || s_ip[1]>255 || s_ip[2]>255 || s_ip[3] >255)
+			{
+				Show_error("<%GetString("Ping","5");%>", "<%GetString("Lan","33");%>");			
+				return false;
+			}
+			if(s_ip[0]>=224 && s_ip[0]<=239)
+			{
+				Show_error("<%GetString("Ping","5");%>", "<%GetString("WizardFuncInet","49");%>");						
+				return false;
+			}
+			if(s_ip[0]>=240 && s_ip[0]<=255)
+			{
+				Show_error("<%GetString("Ping","5");%>", "<%GetString("Lan","35");%>");						
+				return false;
+			}
+		
+		
+		}	
+	}
+	
+	return true;
+}
+
+// -->
+</script>
+</head>
+<body class="BFK_BODY">
+<br>
+
+
+<form name="form_main" action="ping.html" method="POST" onsubmit="return ping_exe();">
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Ping","1");%></th>
+      <td>
+        <input type="text" name="ping_ipaddress" size="40" maxlength="255">
+      </td>
+    </tr>
+  </table>
+  <p><input type="button" value="<%GetString("Ping","2");%>" name="ping_exec" onclick="ping_exe();"></p>
+
+  <table class="AD_TTL2">
+    <tr>
+      <td><%GetString("Ping","3");%></td>
+    </tr>
+  </table>
+
+  <table class="AD_INFO">
+    <tr>
+      <th><%GetString("Ping","4");%></th>
+      <td><!--Not Entered--><%GetPingResult("Destination");%></td>
+    </tr>
+    <tr>
+      <th><%GetString("Ping","3");%></th>
+      <td><!--Not Executed--><%GetPingResult("Result");%></td>
+    </tr>
+    
+  </table>
+  
+  <%GetPingResult("finish");%>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+<form   onsubmit="return onceOnly(this);"  method="POST" action="--WEBBOT-SELF--">
+<input type="hidden" name="ie-return-input-dummy" value="0">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

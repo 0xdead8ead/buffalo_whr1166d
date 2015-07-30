@@ -1,0 +1,212 @@
+.panel_action {
+	padding: 0px;
+	margin: 0px;
+	float: left;
+	cursor: pointer;
+}
+.panel {
+	width: 213px;
+	height: 221px;
+	padding: 0px;
+	margin: 5px;
+	text-align: left;
+	background: url(/images/py20_panel.png) no-repeat;
+}
+.panel:hover {
+	background: url(/images/py20_panel_hover.png) no-repeat;
+}
+.panel_norton {
+	width: 213px;
+	height: 205px;
+	margin: 0px;
+	padding: 0px;
+	background: url(/images/py20_banner_norton_small.png) no-repeat bottom center;
+}
+.panel_icon {
+	padding: 17px 0px 10px 19px;
+	float: left;
+}
+.panel_title {
+	clear: both;
+	padding: 0px 19px 6px 19px;
+	font-size: 14px;
+	font-weight: bold;
+}
+.panel_body {
+	padding: 0px 19px 0px 19px;
+	font-size: 11px;
+}
+.panel_sub {
+}
+.panel_subicon {
+}
+.panel_subtext {
+}
+.panel_clickable {
+	background-color: #0000FF;
+	position:absolute;
+	z-index:1;
+	width: 215px;
+	height: 223px;
+}
+.btnblank {
+	width: 96px;
+	height: 50px;
+	margin: 10px 0px 0px 0px;
+	padding 0px;
+	text-align: center;
+	float: right;
+	cursor: default;
+}
+.btnblank_center {
+	text-align: center;
+	cursor: default;
+}
+.ipsw {
+	list-style-type: none;
+	margin: 0;
+	padding: 15px 0px 0px 20px;
+}
+.panel_button_center {
+	width: 180px;
+	margin: 5px;
+	padding: 2px;
+	font-size: 11px;
+	text-decoration: none;
+	background-color: #eeeeee;
+	border: 1px outset #999999;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	cursor: pointer;
+}
+.panel_button_center:link {
+	color: #000000;
+}
+.panel_button_center:visited {
+	color: #000000;
+}
+.panel_button_center:active {
+	color: #000000;
+}
+.panel_button_center:hover {
+	color: #66AAFF;
+	border: 1px outset #66AAFF;
+}
+.panel_subicon_11a {
+	display: none;
+}
+.panel_subicon_11g {
+	display: none;
+}
+.panel_blank {
+	margin: 5px;
+	float: left;
+	width: 213px;
+	height: 221px;
+	background: url(/images/py20_panel_none.png) no-repeat;
+}
+.panel_advanced {
+	color: #FFFFFF;
+	margin: 13px;
+	float: right;
+	background-color: #666666;
+	width: 213px;
+	height: 221px;
+	background: url(/images/py20_panel_advanced.png) no-repeat;
+	cursor: pointer;
+}
+.panel_advanced:hover {
+	color: #66AAFF;
+	background: url(/images/py20_panel_hover.png) no-repeat;
+}
+.icon_advanced {
+	width: 36px;
+	height: 36px;
+	margin: 17px 0px 3px 19px;
+	background: url(/images/py20_header_advanced.png) no-repeat center center;
+}
+.text_advanced {
+	padding: 7px 19px 8px 19px;
+	font-size: 14px;
+	font-weight: bold;
+}
+.panel_end {
+	clear: both;
+}
+
+/* AOSS
+---------------------------------------*/
+.aoss_bg{
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 3;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+	-moz-opacity: 0.6;
+}
+.aoss_body
+{
+	min-height: 110px;
+	width: 240px;
+	padding: 20px;
+	background-color: #FFFFFF;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top:-120px;
+	margin-left:-120px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	z-index: 4;
+}
+.aoss_text
+{
+	font-size: 12px;
+	min-height: 90px;
+}
+
+/* NAS
+---------------------------------------*/
+.ptsubicon {
+	margin: 4px 7px 4px 0px;
+	width: 15px;
+	height: 15px;
+	float: left;
+}
+.ptsubicon0 {
+	background: url(/images/py20_num_01.png) no-repeat;
+}
+.ptsubicon1 {
+	background: url(/images/py20_num_02.png) no-repeat;
+}
+.ptsubicon2 {
+	background: url(/images/py20_num_03.png) no-repeat;
+}
+.ptsubicon3 {
+	background: url(/images/py20_num_04.png) no-repeat;
+}
+.ptinfo_left {
+	width: 150px;
+	float: left;
+}
+.ptinfo_gauge_outer {
+	height: 4px;
+	width: 100%;
+	background-color: #CCCCCC;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.ptinfo_gauge_inner {
+	height: 4px;
+	background:
+		url(/images/py20_gauge_fill.png) repeat-x top center,
+		url(/images/py20_gauge_left.png) no-repeat top left,
+		url(/images/py20_gauge_right.png) no-repeat top right;
+}

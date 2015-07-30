@@ -1,0 +1,69 @@
+
+
+<html>
+
+<head>
+<META http-equiv="Content-Style-Type "content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-help-ENG.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<script src="OpenHelp.html"></script>
+<title> Help </title>
+<script src="OnceOnly.html"></script>
+<script language="javascript">
+function openNew(url) { 
+	
+  var  mode;
+  if ("<%GetSystemInfo("HardwareModeSwitchStatus");%>" == "Router mode")
+	mode = "ROUTER";
+  else
+    mode = "BRIDGE";  
+
+  var str;
+  str = "<%NvramGet("FirmwareVersionCopy");%>"
+  
+  var  model = str.slice(0,9);
+  var  version = str.slice(18);   
+	
+  url = url.replace("MODEL","model="+model);
+  url = url.replace("REGION","region="+"<%NvramGet("Region");%>");
+  url = url.replace("VERSION","version="+version);
+  url = url.replace("MODE","mode="+mode);
+  
+  detail = "toolbar=no,scrollbars=yes,menubar=no,width=400,height=600";
+  window.open(url,'thiswindow',detail,false);
+}
+</script>
+</head>
+<body>
+<p class="HELP_TTL1"><%GetString("HelpSecurity","1");%></p><hr>
+<p class="HELP_BODY2">
+<%GetString("HelpSecurity","2");%>
+<br>
+
+</p><br>
+
+<p class="HELP_TTL2"><%GetString("HelpSecurity","3");%></p>
+<p class="HELP_BODY2">
+<%GetString("HelpSecurity","4");%>
+
+</p><br>
+
+<p class="HELP_TTL2"><%GetString("HelpSecurity","5");%></p>
+<p class="HELP_BODY2">
+<%GetString("HelpSecurity","6");%>
+
+
+</p><br>
+
+<p class="HELP_TTL2"><%GetString("HelpSecurity","7");%></p>
+<p class="HELP_BODY2">
+<%GetString("HelpSecurity","8");%>
+
+
+</p><br>
+
+
+
+
+</body>
+</html>

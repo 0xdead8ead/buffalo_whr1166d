@@ -1,0 +1,1125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='ap.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+
+//add password Start
+var clearFlag=0;
+function InitFlag()
+{
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+	set_display();
+	var setPassword="<%IsChangePwd();%>";
+	if (setPassword=="1")
+	{
+		document.getElementById("id_HTTPPassword").value="********";
+		//document.getElementById("id_CfmHTTPPassword").value="*****";
+	}
+	else
+	{
+		document.getElementById("id_HTTPPassword").value="";
+		//document.getElementById("id_CfmHTTPPassword").value="";
+	}
+	document.getElementById("id_NTPSyncInterval_tmp").value=<%NvramGet("NTPSyncInterval");%>/3600;
+	
+}
+
+function ShowPassword()
+{
+	if (document.getElementById("id_HTTPPassword").value=="********")
+		ClearPwd();
+	if(document.getElementById("id_ShowPassword").checked == true)
+	{
+		//document.getElementById("id_HTTPPassword").type="text";
+		document.getElementById("id_HTTPPassword_text").style.display = "";
+		document.getElementById("id_HTTPPassword").style.display = "none";
+		document.getElementById("id_HTTPPassword_text").value=document.getElementById("id_HTTPPassword").value;
+	}
+	else
+	{
+		//document.getElementById("id_HTTPPassword").type="password";
+		document.getElementById("id_HTTPPassword_text").style.display = "none";
+		document.getElementById("id_HTTPPassword").style.display = "";
+		document.getElementById("id_HTTPPassword").value=document.getElementById("id_HTTPPassword_text").value;
+	}
+		
+}
+function ClearPwd()
+{
+	if (clearFlag==0)
+	{
+		document.getElementById("id_HTTPPassword").value="";
+		//document.getElementById("id_CfmHTTPPassword").value="";
+		clearFlag=1;
+	}
+}
+
+/*function CheckPwd()
+{
+	if (clearFlag)
+	{
+		if (document.getElementById("id_HTTPPassword").value!=document.getElementById("id_CfmHTTPPassword").value)
+			Show_error("<%GetString("Password","6");%>", "<%GetString("Password","7");%>");
+		else
+		{
+		  return true;
+		}
+	}
+}*/
+
+function isAllowPasswordValue(s)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='_'))
+		{
+      continue;
+		}
+		else
+		{
+		  Show_error("<%GetString("Password","6");%>", "<%GetString("Password","8");%>");
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+//add password End
+
+//add access limit Start
+function setValue0(val)
+{
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"0":"1";
+}
+function setValue1(val)
+{
+	SetCwinHeight();
+	document.getElementById("mm_" + val).value=
+		(document.getElementById("id_" + val).checked)?"1":"0";
+}
+function set_display()
+{
+	 SetCwinHeight();
+     if(document.getElementById("id_HTTPWANAccessEnable").checked == true)
+     {
+     	document.getElementById("reject_from_wan_ext").style.display = "block";
+     } else {
+     	document.getElementById("reject_from_wan_ext").style.display = "none";
+     }
+}
+function setAccess()
+{
+	var accessip=document.getElementById("id_wanaccessip");
+	var accessport=document.getElementById("id_wanaccessport");
+	var lanip='<%NvramGet("LanIPAddr");%>';
+	var lanip_split = lanip.split('.');
+	var accessip_split = accessip.value.split('.');
+	if(document.getElementById("id_HTTPWANAccessEnable").checked == true)
+	{
+		if (accessip.value.length !=0)
+		{
+			if(accessip.value.length < 6)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","17");%>");
+				return;
+			}
+			if(check_ip(accessip.value) == 1)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","18");%>");
+				return;
+			}
+			if(check_ip(accessip.value) == 2)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","19");%>");
+				return;
+			}
+			if(lanip == accessip.value)
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("AccessLimit","20");%>");
+				return;
+			}
+			if( (accessip_split[0] == lanip_split[0]) && (accessip_split[1] == lanip_split[1]) && (accessip_split[2] == lanip_split[2]) )
+			{
+				Show_error("<%GetString("AccessLimit","15");%>", "<%GetString("Wan","41");%>");
+				return;
+			}
+		}
+			if(accessport.value.length == 0)
+			{
+				Show_error("<%GetString("AccessLimit","16");%>", "<%GetString("AccessLimit","21");%>");
+				return;
+			}
+			if(!check_port(accessport.value))
+			{
+				Show_error("<%GetString("AccessLimit","16");%>", "<%GetString("AccessLimit","22");%>");
+				return;
+			}   
+	}
+	
+	checkItem();
+}
+
+function checkItem()
+{
+  var wirelesslan='<%NvramGet("HTTPWLANAccessEnable");%>';
+  var wiredlan='<%NvramGet("HTTPLANAccessEnable");%>';
+
+  if (wirelesslan=="0")
+    wirelesslan=true;
+  else
+    wirelesslan=false;
+    
+  if (wiredlan=="0")
+    wiredlan=true;
+  else
+    wiredlan=false;
+    
+  if ((document.getElementById("id_HTTPWLANAccessEnable").checked == true) && (document.getElementById("id_HTTPLANAccessEnable").checked == true))
+  {
+    document.getElementById("selectitem").innerHTML="<%GetString("AccessLimit","23");%>";
+  }
+  else if (document.getElementById("id_HTTPWLANAccessEnable").checked == true)
+  {
+    document.getElementById("selectitem").innerHTML="<%GetString("AccessLimit","24");%>";
+  }
+  else if (document.getElementById("id_HTTPLANAccessEnable").checked == true)
+  {
+    document.getElementById("selectitem").innerHTML="<%GetString("AccessLimit","25");%>";
+  }
+  else
+  {
+	 DoSubmit();
+    return;
+  }
+  
+  if (((document.getElementById("id_HTTPWLANAccessEnable").checked == true) || (document.getElementById("id_HTTPLANAccessEnable").checked == true)) && ((wirelesslan!=document.getElementById("id_HTTPWLANAccessEnable").checked) || (wiredlan!=document.getElementById("id_HTTPLANAccessEnable").checked)))
+  {
+    document.getElementById("content").style.display = "none";
+    document.getElementById("confirm").style.display = "";
+  }
+  else 
+   DoSubmit();
+  return;
+ 
+}
+
+function goBack()
+{
+  document.getElementById("content").style.display = "";
+	document.getElementById("confirm").style.display = "none";
+}
+
+
+//add access limit End
+
+
+//add ntp Start
+function ntp_select()
+{
+     if (document.getElementById("NTPEnable2").checked)
+     {
+		document.forms[0].NTPEnable.value = "1";
+     	document.forms[0].NTPDefServer1.disabled = 0;
+     	document.forms[0].NTPSyncInterval.disabled = 0;
+		document.forms[0].id_NTPSyncInterval_tmp.disabled = 0;
+		document.forms[0].nosave_YEAR.disabled = 1;
+		document.forms[0].nosave_MON.disabled = 1;
+		document.forms[0].nosave_DAY.disabled = 1;
+		document.forms[0].nosave_HOUR.disabled = 1;
+		document.forms[0].nosave_MIN.disabled = 1;
+		document.forms[0].nosave_SEC.disabled = 1;
+		document.forms[0].nosave_NOW.disabled = 1;
+		document.forms[0].nosave_SETPCTIME.disabled = 1;
+     }
+     else
+     {
+		document.forms[0].NTPEnable.value = "0";
+     	document.forms[0].NTPDefServer1.disabled = 1;
+     	document.forms[0].NTPSyncInterval.disabled = 1;
+		document.forms[0].id_NTPSyncInterval_tmp.disabled = 1;	
+		document.forms[0].nosave_YEAR.disabled = 0;
+		document.forms[0].nosave_MON.disabled = 0;
+		document.forms[0].nosave_DAY.disabled = 0;
+		document.forms[0].nosave_HOUR.disabled = 0;
+		document.forms[0].nosave_MIN.disabled = 0;
+		document.forms[0].nosave_SEC.disabled = 0;
+		document.forms[0].nosave_NOW.disabled = 0;
+		document.forms[0].nosave_SETPCTIME.disabled = 0;
+     }
+}
+
+function check_intstyle()
+{
+	var NTPI="<%NvramGet("NTPSyncInterval");%>";
+	
+	NTPI=parseInt(NTPI,10)/3600;
+		
+	document.getElementById("id_NTPSyncInterval_tmp").value=NTPI;
+}
+
+function check_domain_ip(s)
+{
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+			
+		c=s.charAt(i);
+		
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='.') || (c=='-'))
+		{
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+function setntp()
+{
+	var NS=document.getElementById("id_NTPServer");
+	var NSnum=NS.value.length;
+	var NHOUR=document.getElementById("id_NTPSyncInterval_tmp");
+	var NSname="<%GetString("Ntp","3");%>";
+	var NSUpdate="<%GetString("Ntp","4");%>";
+	var lanmask="<%NvramGet("LanNetmask");%>";
+	var RouterMode="<%NvramGet("RouterMode");%>";
+	var n;
+	if(RouterMode=="1")
+	  var lanip="<%NvramGet("LanIPAddr");%>";
+	else
+		var lanip="<%NvramGet("BrLanIPAddr");%>";
+	var lanip_split = lanip.split('.');
+	n=NS.value.split('.');
+	Hide_error();
+	document.getElementById("id_NTPSyncInterval").value = (NHOUR.value)*3600;
+	
+	if (document.getElementById("NTPEnable2").checked)
+	{
+		if(NSnum!=0)
+		{
+			if (!check_domain_ip(NS.value))
+			{
+				Show_error(NSname,"<%GetString("Ntp","7");%>");
+				return false;	
+			}
+			else if(NSnum > 64 && n.length==1)
+			{
+				Show_error(NSname,"<%GetString("Ntp","16");%>");
+				return false;
+			}
+			else if (NS.value=="0.0.0.0")
+			{
+			    Show_error(NSname, "<%GetString("Ntp","8");%>");
+			    return false;
+			 }
+			else if (NS.value=="255.255.255.255")
+			{
+			    Show_error(NSname, "<%GetString("Ntp","9");%>");
+			    return false;
+			}
+			else if (NS.value==lanip)
+			{
+				Show_error(NSname, "<%GetString("Ntp","10");%>");
+			    return false;
+			}
+			
+		/*	else if(check_the_same_subnet(NS.value,lanip,lanmask))
+			{
+				Show_error(NSname, "<%GetString("Lan","37");%>");
+				return false;
+			}*/
+			
+			
+			
+			if( NS.value.match('.') || NS.value.match('-'))
+			{
+				var i;
+				for ( i=0;i<NSnum;i++)
+				{
+					if ((NS.value.charAt(i)=='.') && (NS.value.charAt(i+1)=='.'))
+					{
+						Show_error(NSname,"<%GetString("Ntp","7");%>");
+						return false;
+					}
+					if ((NS.value.charAt(i)=='-') && (NS.value.charAt(i+1)=='.'))
+					{
+						Show_error(NSname,"<%GetString("Ntp","7");%>");
+						return false;
+					}
+					if((NS.value.charAt(i)=='.') && (NS.value.charAt(i+1)=='-'))
+					{
+						Show_error(NSname,"<%GetString("Ntp","7");%>");
+						return false;
+					}
+				}		
+			}
+	
+			if ((NS.value.charAt(0)=='.')||(NS.value.charAt(NSnum-1)=='.') ||(NS.value.charAt(0)=='-')||(NS.value.charAt(NSnum-1)=='-'))
+			{
+				Show_error(NSname,"<%GetString("Ntp","13");%>");
+				return false;		
+			}
+			if(n.length==4)
+			{
+				if((n[0]>=224)&&(n[0]<=239)&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					Show_error(NSname, "<%GetString("WizardFuncInet","49");%>");
+					return false;
+				}
+				if((n[0]>=240)&&(n[0]<=255)&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					Show_error(NSname, "<%GetString("Ntp","11");%>");
+					return false;
+				}
+				else if((n[0]==127)&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					Show_error(NSname, "<%GetString("Ntp","12");%>");
+					return false;
+				}
+				else if ((check_integer(n[0]))&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					if ((n[0]>255) || (n[1]>255) || (n[2]>255) || (n[3]>255))
+					{
+						Show_error(NSname,"<%GetString("Ntp","7");%>");
+						return false;
+					}
+					if (check_subnet(lanip,NS.value,lanmask))
+	        {
+	          Show_error(NSname,"<%GetString("Ntp","17");%>");
+	          return false;
+	        }
+	        if (check_broadcast(lanip,NS.value,lanmask))
+	        {
+	          Show_error(NSname,"<%GetString("Ntp","18");%>");
+	          return false;
+	        }
+	          /*
+						else if( (n[0] == lanip_split[0]) && (n[1] == lanip_split[1]) && (n[2] == lanip_split[2]) && (n[3]==0) )
+					  {
+						  Show_error(NSname,"<%GetString("Ntp","17");%>");
+						  return;
+					  }
+					  else if( (n[0] == lanip_split[0]) && (n[1] == lanip_split[1]) && (n[2] == lanip_split[2]) && (n[3]==255) )
+					  {
+						  Show_error(NSname,"<%GetString("Ntp","18");%>");
+						  return;
+					  }*/
+				}
+			}
+			
+			if (n.length > 0)
+			{
+				var k;
+				for (k=0 ; k<n.length ; k++)
+				{
+					if (n[k].length > 64)
+					{
+						Show_error(NSname,"<%GetString("Ntp","16");%>");
+						return false;
+					}
+				}
+			}
+						
+		}else{
+			Show_error(NSname,"<%GetString("Ntp","14");%>");
+			return false;
+		}
+		
+		if(NHOUR.value.length!=0)
+		{
+			if (NHOUR.value.charAt(0) == '0')
+			{
+				if((NHOUR.value.length<=1)||(!check_integer(NHOUR.value.charAt(1))))
+				{
+					Show_error(NSUpdate,"<%GetString("Ntp","15");%>");
+					//NHOUR.value=NHOUR.defaultValue;
+					NHOUR.value=<%NvramGet("NTPSyncInterval");%>/3600;
+					NHOUR.focus();
+					return false;
+				}
+			}else if(check_integer(NHOUR.value))
+			{
+				if(NHOUR.value>=25)
+				{
+					Show_error(NSUpdate,"<%GetString("Ntp","15");%>");
+					return false;
+				}
+			}else{
+				Show_error(NSUpdate,"<%GetString("Ntp","13");%>");
+				return false;
+			}
+		}else{
+			Show_error(NSUpdate,"<%GetString("Ntp","15");%>");
+			return false;		
+		}
+			setAccess();
+			return false;
+	}else {
+		setAccess();
+	}
+
+}
+//add ntp End
+
+//add date Start
+function Show_error_date(item_name, err_msg)
+{
+	var errObj = document.getElementById("id_errtbl");
+	var inputERstring = "";
+	
+	//var itemstring=top.err_item;
+	var itemstring="<%GetString("Confirm","42");%>";
+	item_name = "<%GetString("Date","38");%>" ;
+	var descriptionstring=top.err_description;
+	//alert(itemstring+" : "+descriptionstring);
+	errObj.innerHTML = '<hr>';
+	errObj.innerHTML += "<p>"+ itemstring+" "+item_name+"<br>"+descriptionstring+" "+err_msg+"</p>";
+	errObj.innerHTML += '<hr>';
+	errObj.style.display="";
+	window.scroll(0,0);
+}
+
+
+function Date_Refresh() {
+if(window.navigator.appName=="Microsoft Internet Explorer")
+	window.location.reload();
+else
+	window.location.replace("ap.html");
+}
+
+function setPCTime() {
+    dd = new Date();
+    document.forms[0].nosave_PCTIME.disabled=false;
+    document.forms[0].nosave_PCTIME.value = dd.toString();
+		document.forms[0].submit();
+}
+
+function setPCTimeToGUI()
+{
+    // +++ offset calculation
+    //DatetimeTimezone: GMT+1 GMT-11:30/45
+    /*var tzstring = '<%NvramGet("DatetimeTimezone");%>'.substr(3); // if get tz from nvram*/
+    var tzstring = document.forms[0].DatetimeTimezone.value; // get tz from GUI
+    tzstring = tzstring.toString().substr(3);
+    var offsetstr;
+    var offsetnum;
+    var offset_sign = tzstring.charAt(0);
+    var offset_part1;
+    var colon_index = tzstring.search(":");
+    
+    if (colon_index == -1)
+    {
+        offsetstr = tzstring;
+    }
+    else // :30 or :45
+    {
+        offset_part1 = tzstring.substring(1,colon_index);
+        if (tzstring.charAt(colon_index+1)=="3")
+            offsetstr = offset_sign + offset_part1 + ".5"
+        else
+            offsetstr = offset_sign + offset_part1 + ".75"
+    }
+    
+    offsetnum = parseFloat(offsetstr);
+    // --- offset calculation
+    
+    var d_1 = new Date();
+    var utc_millisec = d_1.getTime() + (d_1.getTimezoneOffset() * 60000);
+    var d_2 = new Date(utc_millisec + (3600000*offsetnum));
+    
+    document.getElementById("id_nosave_YEAR").value = d_2.getFullYear();
+    document.getElementById("id_nosave_MON").value = d_2.getMonth()+1;	
+    document.getElementById("id_nosave_DAY").value = d_2.getDate();
+    document.getElementById("id_nosave_HOUR").value = d_2.getHours();
+    document.getElementById("id_nosave_MIN").value = d_2.getMinutes();
+    document.getElementById("id_nosave_SEC").value = d_2.getSeconds();
+    
+    document.forms[0].nosave_DateManualModify.value = 1; // do not trigger timezone shift
+}
+
+function check_modify()
+{
+	document.forms[0].nosave_DateManualModify.value = 1;
+}
+
+function check_intstyle()
+{	
+	var PDYV="<%GetTime("year");%>";
+	var PDMV="<%GetTime("mon");%>";
+	var PDDV="<%GetTime("day");%>";
+	var PTHV="<%GetTime("hour");%>";
+	var PTMV="<%GetTime("min");%>";
+	var PTSV="<%GetTime("sec");%>";	
+
+	PDYV=parseInt(PDYV,10);
+	PDMV=parseInt(PDMV,10);
+	PDDV=parseInt(PDDV,10);
+	PTHV=parseInt(PTHV,10);
+	PTMV=parseInt(PTMV,10);
+	PTSV=parseInt(PTSV,10);
+
+	document.getElementById("id_nosave_YEAR").value=PDYV;
+	document.getElementById("id_nosave_MON").value=PDMV;	
+	document.getElementById("id_nosave_DAY").value=PDDV;
+	document.getElementById("id_nosave_HOUR").value=PTHV;
+	document.getElementById("id_nosave_MIN").value=PTMV;
+	document.getElementById("id_nosave_SEC").value=PTSV;
+}
+
+function setdate()
+{	
+
+
+	var dateYEAR=document.getElementById("id_nosave_YEAR");
+	var	dateMON=document.getElementById("id_nosave_MON");
+	var	dateDAY=document.getElementById("id_nosave_DAY");
+	var dateHOUR=document.getElementById("id_nosave_HOUR");
+	var	dateMIN=document.getElementById("id_nosave_MIN");
+	var	dateSEC=document.getElementById("id_nosave_SEC");
+	
+	
+	var YEARvalue=parseInt(dateYEAR.value,10);	
+	var MONvalue=parseInt(dateMON.value,10);	
+	var DAYvalue=parseInt(dateDAY.value,10);
+	var HOURvalue=parseInt(dateHOUR.value,10);
+	var MINvalue=parseInt(dateMIN.value,10);
+	var SECvalue=parseInt(dateSEC.value,10);
+	var string_time="<%GetString("Date","38");%>";
+	var string_msg="<%GetString("Date","39");%>";
+	Hide_error();
+	
+
+	if((dateYEAR.value.length!=0) && (dateMON.value.length!=0) && (dateDAY.value.length!=0))
+	{
+			if(check_integer(dateYEAR.value))
+			{
+			//In WHR-G300N : the default max value is 2037
+				if(!check_integer_range(dateYEAR.value,2013,2037))
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+			
+			if(check_integer(dateMON.value))
+			{
+				if((dateMON.value<=0)||(dateMON.value>=13))
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateDAY.value))
+			{
+				if((MONvalue == 1)||(MONvalue == 3)||(MONvalue == 5)||(MONvalue == 7)||(MONvalue == 8)||(MONvalue == 10)||(MONvalue == 12))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=32))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else if((MONvalue == 4)||(MONvalue == 6)||(MONvalue == 9)||(MONvalue == 11))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=31))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else if((MONvalue == 2)&&(dateYEAR.value%4==0))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=30))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else if((MONvalue == 2)&&(dateYEAR.value%4!=0))
+				{
+					if((dateDAY.value<=0)||(dateDAY.value>=29))
+					{
+						Show_error_date(string_time,string_msg);
+						return false;
+					}
+				}else
+				{
+						Show_error_date(string_time,string_msg);
+						return false;				
+				}
+				
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateHOUR.value))
+			{
+				if(HOURvalue>=24)
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}	
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateMIN.value))
+			{
+				if(MINvalue>=60)
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+
+			if(check_integer(dateSEC.value))
+			{
+				if(SECvalue>=60)
+				{
+					Show_error_date(string_time,string_msg);
+					return false;
+				}				
+			}else{
+				Show_error_date(string_time,string_msg);
+				return false;
+			}
+	}else{
+		Show_error_date(string_time,string_msg);
+		return false;
+	}
+		
+	setntp();
+
+}
+//add date End
+
+function setValue(val)
+{
+	var rval = (document.getElementById("id_" + val).checked)?"1":"0";		
+	document.getElementById("mm_" + val).value = rval;
+}
+
+function isEmpty(s)
+{
+	if(s.length==0)
+	{
+		Show_error("<%GetString("Ap","3");%>", "<%GetString("Ap","4");%>");
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function isAllowApValue(s)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='-'))
+		{
+		  if ((c=='-') && ((i==0) || (i==s.length-1)))
+		  {
+		    Show_error("<%GetString("Ap","3");%>", "<%GetString("Ap","5");%>");
+		    return false;
+		  }
+		}
+		else
+		{
+		  Show_error("<%GetString("Ap","3");%>", "<%GetString("Ap","6");%>");
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function apply()
+{
+	if(document.getElementById("id_ShowPassword").checked == true)
+	{
+		document.getElementById("id_HTTPPassword").value=document.getElementById("id_HTTPPassword_text").value;
+	}
+	if (document.getElementById("id_HTTPPassword").value=="********")
+			document.getElementById("id_HTTPPassword").value="<%NvramGet("HTTPPassword");%>";
+	if (isAllowPasswordValue(document.getElementById("id_HTTPPassword").value))
+	{
+		document.forms[0].nosave_savePassword.value=1;
+		if (!isEmpty(document.forms[0].DeviceName.value) && (isAllowApValue(document.forms[0].DeviceName.value)==true))
+		{
+			setdate();
+		}
+		else
+			return false;  
+	
+	}
+	
+		else
+			return false;
+	
+}
+
+function DoSubmit()
+{
+	/* if (isAllowPasswordValue(document.getElementById("id_HTTPPassword").value))
+	{
+		document.forms[0].nosave_savePassword.value=1;
+		if (!isEmpty(document.forms[0].DeviceName.value) && (isAllowApValue(document.forms[0].DeviceName.value)==true))
+		{
+			YAHOO.util.Connect.setForm('nosave_SETUP'); 
+			YAHOO.util.Connect.asyncRequest('POST','ap.html'+'?timestampt='+new Date().toString(),oCallback); 
+		}
+		else
+			return false;  
+	
+	}*/
+	YAHOO.util.Connect.setForm('nosave_SETUP'); 
+	YAHOO.util.Connect.asyncRequest('POST','ap.html'+'?timestampt='+new Date().toString(),oCallback); 
+	
+	
+}
+//-->
+</script>
+
+</head>
+<body class="BFK_BODY" onLoad="InitFlag();ntp_select();check_intstyle();" id="id_main" style="display:none;">
+<p>
+<br>
+
+</p>
+
+<form name="nosave_SETUP" method="POST" onsubmit = "return apply();"> 
+<div id="content">
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+   <table class="AD_TTL2">
+    <tr><td><%GetString("NewUI","192");%></td></tr>
+  </table>
+  
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Ap","1");%></th>
+      <td>
+        <input type="text" name="DeviceName" size="30" maxlength="64" value='<%NvramGet("DeviceName");%>'>
+      </td>
+    </tr>
+  </table>
+  <!---
+    <table class="AD_SET">
+     <tr>
+      <th><%GetString("Ap","7");%></th>
+      <td>
+      	<input type="hidden" name="NetWatchdEnable" id="mm_NetWatchdEnable" value="<%NvramGet("NetWatchdEnable");%>">
+        <input type="checkbox" id="id_NetWatchdEnable" <%NvramMatch("NetWatchdEnable","1","checked");%> onclick="setValue('NetWatchdEnable')"><%GetString("Ap","8");%>
+      </td>
+    </tr>
+  </table>
+ 
+  <table class="AD_SET">
+     <tr>
+      <th><%GetString("NS","55");%></th>
+      <td>
+      	<input type="hidden" name="NetworkServiceEnable" id="mm_NetworkServiceEnable" value='<%NvramGet("NetworkServiceEnable");%>'>
+        <input type="checkbox" id="id_NetworkServiceEnable" <%NvramMatch("NetworkServiceEnable","1","checked");%> onclick="setValue('NetworkServiceEnable')"><%GetString("Aoss","8");%>
+      </td>
+    </tr>
+  </table>
+   -->
+ <!---password--->
+ <div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+  <table class="AD_SET">
+    <tr>
+      <th>
+        <%GetString("Password","1");%>
+      </th>
+      <td>
+        <%GetString("Password","2");%>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Password","3");%></th>
+      <td>
+        <input type="hidden" name="nosave_savePassword" value="0">
+        <input type="password" name="HTTPPassword" id="id_HTTPPassword" size="30" maxlength="8" value="" onfocus="ClearPwd()">
+        <input type="text" id="id_HTTPPassword_text" size="30" maxlength="8" value="" onfocus="ClearPwd()" style="display:none;">
+		  <input type="checkbox" id="id_ShowPassword" onclick="ShowPassword();" ><%GetString("NewUI","193");%>
+        <br>
+        <!--<input type="password" id="id_CfmHTTPPassword" size="30" maxlength="8" value="" onfocus="ClearPwd()"><%GetString("Password","4");%>-->
+      </td>
+    </tr>
+  </table>
+<hr>
+
+ <!---access limit--->
+
+
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+ <!--- <table class="AD_SET">
+    <tr>
+      <th><%GetString("AccessLimit","1");%></th>
+      <td>
+      	<input type="hidden" name="LogAccessEnable" id="mm_LogAccessEnable" value="<%NvramGet("LogAccessEnable");%>">
+        <input type="checkbox" id="id_LogAccessEnable" value="1" onclick="setValue1('LogAccessEnable');" 
+        	<%NvramMatch("LogAccessEnable","1","checked");%>><%GetString("AccessLimit","2");%>
+      </td>
+    </tr>
+  </table>---->
+  <br>
+   <table class="AD_TTL2">
+    <tr><td><%GetString("Menu","34");%></td></tr>
+  </table>
+
+  <table class="AD_LIST">
+    <tr>
+      <th><%GetString("AccessLimit","3");%></th>
+      <th><%GetString("AccessLimit","4");%></th>
+      <th><%GetString("AccessLimit","5");%></th>
+    </tr>
+    <tr <%NvramMatch("HTTPWLANAccessEnable","1","class=DISABLE");%>>
+      <td>
+      <input type="hidden" name="HTTPWLANAccessEnable" id="mm_HTTPWLANAccessEnable" value="<%NvramGet("HTTPWLANAccessEnable");%>">
+      <input type="checkbox" id="id_HTTPWLANAccessEnable" value="1" onclick="setValue0('HTTPWLANAccessEnable');"
+      	<%NvramMatch("HTTPWLANAccessEnable","0","checked");%>></td>
+      <td><%GetString("AccessLimit","6");%></td>
+      <td><div class="DIGIT"><%GetCounter("WIRELESS");%></div></td>
+    </tr>
+    <tr <%NvramMatch("HTTPLANAccessEnable","1","class=DISABLE");%>>
+      <td>
+      <input type="hidden" name="HTTPLANAccessEnable" id="mm_HTTPLANAccessEnable" value="<%NvramGet("HTTPLANAccessEnable");%>">
+      <input type="checkbox" id="id_HTTPLANAccessEnable" value="1" onclick="setValue0('HTTPLANAccessEnable');"
+      	<%NvramMatch("HTTPLANAccessEnable","0","checked");%>></td>
+      <td><%GetString("AccessLimit","7");%></td>
+      <td><div class="DIGIT"><%GetCounter("WIRED");%></div></td>
+    </tr>
+  </table>
+  <BR>
+
+  <table class="AD_TTL2" <% TurnMenu("show"); %>>
+    <tr><td><%GetString("AccessLimit","8");%></td></tr>
+  </table>
+  <table class="AD_LIST" <% TurnMenu("show"); %>>
+    <tr>
+     <th><%GetString("AccessLimit","9");%></th>
+     <th><%GetString("AccessLimit","10");%></th>
+    </tr>
+    <tr <%NvramMatch("HTTPWANAccessEnable","0","class=DISABLE");%>>
+      <td>
+      <input type="hidden" name="HTTPWANAccessEnable" id="mm_HTTPWANAccessEnable" value="<%NvramGet("HTTPWANAccessEnable");%>">
+      <input type="checkbox" id="id_HTTPWANAccessEnable" value="1" OnClick="set_display();setValue1('HTTPWANAccessEnable');"
+      	<%NvramMatch("HTTPWANAccessEnable","1","checked");%>></td>
+      <td><%GetString("AccessLimit","11");%></td>
+    </tr>
+  </table>
+<div id="reject_from_wan_ext" style="display:none">
+  <table class="AD_SET" <% TurnMenu("show"); %>>
+    <tr>
+      <th><%GetString("AccessLimit","12");%></th>
+      <td>
+        <input type="text" name="HTTPWANAccessIP" id="id_wanaccessip" value="<%NvramGet("HTTPWANAccessIP");%>" maxlength="15" size="18">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("AccessLimit","13");%></th>
+      <td>
+        <input type="text" name="HTTPWANAccessPort" id="id_wanaccessport" value="<%NvramGet("HTTPWANAccessPort");%>" maxlength="5" size="5">
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<hr>
+<!-----date----->
+  <br>
+   <table class="AD_TTL2">
+    <tr><td><%GetString("Menu","32");%></td></tr>
+  </table>
+		<input type="hidden" name="NTPEnable">
+ <table class="AD_SET">
+    <tr>
+      <th><%GetString("Ntp","1");%></th>
+      <td>
+        <!--<input type="checkbox" id="NTPEnable2" <%NvramMatch("NTPEnable","1","checked");%> onClick="ntp_select();">Enable-->
+        <input type="checkbox" id="NTPEnable2" onClick="ntp_select();" <%NvramMatch("NTPEnable","1","checked");%> ><%GetString("Ntp","2");%>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Ntp","3");%></th>
+      <td>
+        <!--<input type="text" name="NTPDefServer1" id="id_NTPServer" size="40" maxlength="255" value='<%NvramGet("NTPDefServer1");%>'>-->
+        <input type="text" name="NTPDefServer1" id="id_NTPServer" size="40" maxlength="255" value='<%NvramGet("NTPDefServer1");%>'>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Ntp","4");%></th>
+      <td>
+        <input type="text" id="id_NTPSyncInterval_tmp" size="10" maxlength="2" value=''><%GetString("Ntp","5");%>
+        <input type="hidden" name="NTPSyncInterval" id="id_NTPSyncInterval" value='<%NvramGet("NTPSyncInterval");%>'>
+      </td>
+    </tr>
+  </table>
+
+<!-----ntp--->
+  <table class="AD_SET">
+	<tr>
+      <th><%GetString("Date","1");%></th>
+      <td>
+     <input type="text" name="nosave_YEAR" id="id_nosave_YEAR" size="4" maxlength="4" value='<%GetTime("year");%>' onchange="check_modify();"><%GetString("Date","2");%>
+     <input type="text" name="nosave_MON" id="id_nosave_MON"  size="2" maxlength="2" value='<%GetTime("mon");%>' onchange="check_modify();"><%GetString("Date","3");%>
+     <input type="text" name="nosave_DAY" id="id_nosave_DAY"  size="2" maxlength="2" value='<%GetTime("day");%>' onchange="check_modify();"><%GetString("Date","4");%>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Date","5");%></th>
+      <td>
+     <input type="text" name="nosave_HOUR" id="id_nosave_HOUR" size="2" maxlength="2" value='<%GetTime("hour");%>' onchange="check_modify();"><%GetString("Date","6");%>
+     <input type="text" name="nosave_MIN" id="id_nosave_MIN"  size="2" maxlength="2" value='<%GetTime("min");%>' onchange="check_modify();"><%GetString("Date","7");%>
+     <input type="text" name="nosave_SEC" id="id_nosave_SEC"  size="2" maxlength="2" value='<%GetTime("sec");%>' onchange="check_modify();"><%GetString("Date","8");%>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%GetString("Date","9");%></th>
+      <td>
+        <select size="1" name="DatetimeTimezone">
+          <option <%NvramMatch("DatetimeTimezone","GMT-12","selected");%> value="GMT-12" ><%GetString("Date","10");%></option><!-- Eniwetok&#x2C; Kwajalein-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-11","selected");%> value="GMT-11" ><%GetString("Date","11");%></option><!-- Midway island&#x2C; Samoa-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-10","selected");%> value="GMT-10" ><%GetString("Date","12");%></option><!-- Hawaii-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-9:30","selected");%> value="GMT-9:30" ><%GetString("Date","40");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT-9","selected");%> value="GMT-9" ><%GetString("Date","13");%></option><!--Alaska -->
+          <option <%NvramMatch("DatetimeTimezone","GMT-8","selected");%> value="GMT-8" ><%GetString("Date","14");%></option><!-- Pacific Standard Time: PST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-7","selected");%> value="GMT-7" ><%GetString("Date","15");%></option><!-- Mountain Standard Time: MST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-6","selected");%> value="GMT-6" ><%GetString("Date","16");%></option><!-- Central Standard Time: CST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-5","selected");%> value="GMT-5" ><%GetString("Date","17");%></option><!-- Eastern Standard Time: EST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-4:30","selected");%> value="GMT-4:30" ><%GetString("Date","41");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT-4","selected");%> value="GMT-4" ><%GetString("Date","18");%></option><!-- Atlantic Standard Time: AST-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-3:30","selected");%> value="GMT-3:30" ><%GetString("Date","42");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT-3","selected");%> value="GMT-3" ><%GetString("Date","19");%></option><!-- Buenos Aires&#x2C; Georgetown-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-2","selected");%> value="GMT-2" ><%GetString("Date","20");%></option><!-- Mid-Atlantic-->
+          <option <%NvramMatch("DatetimeTimezone","GMT-1","selected");%> value="GMT-1" ><%GetString("Date","21");%></option><!-- Azores islands&#x2C; Cape Verde islands-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+0","selected");%> value="GMT+0" ><%GetString("Date","22");%></option><!-- Greenwich Mean Time&#x2C; London-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+1","selected");%> value="GMT+1" ><%GetString("Date","23");%></option><!-- Copenhargen&#x2C; Madrid&#x2C; Paris-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+2","selected");%> value="GMT+2" ><%GetString("Date","24");%></option><!-- Athens&#x2C; Istanbul&#x2C; Jerusalem-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+3","selected");%> value="GMT+3" ><%GetString("Date","25");%></option><!-- Baghdad&#x2C; Nairobi&#x2C; Moscow-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+3:30","selected");%> value="GMT+3:30" ><%GetString("Date","43");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+4","selected");%> value="GMT+4" ><%GetString("Date","26");%></option><!-- Abu Dhabi&#x2C; muscat&#x2C; Baku-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+4:30","selected");%> value="GMT+4:30" ><%GetString("Date","44");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+5","selected");%> value="GMT+5" ><%GetString("Date","27");%></option><!-- Islamabad&#x2C; Karachi-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+5:30","selected");%> value="GMT+5:30" ><%GetString("Date","45");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+5:45","selected");%> value="GMT+5:45" ><%GetString("Date","46");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+6","selected");%> value="GMT+6" ><%GetString("Date","28");%></option><!-- -->
+          <option <%NvramMatch("DatetimeTimezone","GMT+6:30","selected");%> value="GMT+6:30" ><%GetString("Date","47");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+7","selected");%> value="GMT+7" ><%GetString("Date","29");%></option><!-- Hanoi&#x2C; Jakarta-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+8","selected");%> value="GMT+8" ><%GetString("Date","30");%></option><!-- Beijing&#x2C; Hong Kong&#x2C; Taipei-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+8:45","selected");%> value="GMT+8:45" ><%GetString("Date","48");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+9","selected");%> value="GMT+9" ><%GetString("Date","31");%></option><!-- Osaka&#x2C; Seoul-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+9:30","selected");%> value="GMT+9:30" ><%GetString("Date","49");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+10","selected");%> value="GMT+10" ><%GetString("Date","32");%></option><!-- Sydney&#x2C; Guam-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+10:30","selected");%> value="GMT+10:30" ><%GetString("Date","50");%></option>		  
+          <option <%NvramMatch("DatetimeTimezone","GMT+11","selected");%> value="GMT+11" ><%GetString("Date","33");%></option><!--Solomon Islands&#x2C; New Caledonia-->
+          <option <%NvramMatch("DatetimeTimezone","GMT+11:30","selected");%> value="GMT+11:30" ><%GetString("Date","51");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+12","selected");%> value="GMT+12" ><%GetString("Date","52");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+12:45","selected");%> value="GMT+12:45" ><%GetString("Date","53");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+13","selected");%> value="GMT+13" ><%GetString("Date","54");%></option>
+          <option <%NvramMatch("DatetimeTimezone","GMT+14","selected");%> value="GMT+14" ><%GetString("Date","55");%></option>
+        </select>
+      </td>
+    </tr>
+  </table>
+<p>
+  <!--<input type="button" value="<%GetString("Date","34");%>" name="nosave_SETUP" onclick="doapply();">--->
+  <input type="button" value="<%GetString("Date","35");%>" name="nosave_NOW" onclick='Date_Refresh();'>
+  <input type="button" value="<%GetString("Date","36");%>" name="nosave_SETPCTIME" onclick="setPCTimeToGUI();">
+  <!--input type="hidden" name="nosave_PCTIME" size="50" disabled-->
+  <input type="hidden" name="nosave_DateManualModify" value="1">
+  </p>
+<br/>
+  <div class="button5" id="nosave_action" name="nosave_action" onclick="apply();">
+	<div class="button_text"><%GetString("Ap","2");%></div>
+  </div>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</div>
+</br>
+</br>
+</br>
+</br>
+</br>
+<!---------------------------------------->
+<div id="confirm" style="display:none;">
+<p>
+    <div id="selectitem"></div>
+</p>
+<p>
+<%GetString("AccessLimit","26");%>
+</p>
+
+<div class="C_CONFIRM">
+<p>
+<%GetString("AccessLimit","27");%><br>
+<ol>
+<%GetString("AccessLimit","28");%>
+<%GetString("AccessLimit","29");%>
+<%GetString("AccessLimit","30");%>
+</ol>
+<%GetString("AccessLimit","31");%>
+</p>
+</div>
+     <input type="button" id="go"   value="<%GetString("AccessLimit","32");%>" onclick="DoSubmit();">
+     <input type="button" id="back" value="<%GetString("AccessLimit","33");%>" onclick="goBack();">
+</div>
+<br	><br>
+</form>
+</body>
+</html>

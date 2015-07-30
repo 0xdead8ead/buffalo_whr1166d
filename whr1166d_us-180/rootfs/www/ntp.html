@@ -1,0 +1,222 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT"><META http-equiv="Content-Style-Type" content="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css"><LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+
+<script src="OpenHelp.html"></script>
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function ntp_select()
+{
+     if (document.getElementById("NTPEnable2").checked)
+     {
+		document.forms[0].NTPEnable.value = "1";
+     	document.forms[0].NTPDefServer1.disabled = 0;
+     	document.forms[0].NTPSyncInterval.disabled = 0;
+		document.forms[0].id_NTPSyncInterval_tmp.disabled = 0;
+     }
+     else
+     {
+		document.forms[0].NTPEnable.value = "0";
+     	document.forms[0].NTPDefServer1.disabled = 1;
+     	document.forms[0].NTPSyncInterval.disabled = 1;
+		document.forms[0].id_NTPSyncInterval_tmp.disabled = 1;	
+     }
+}
+
+function check_intstyle()
+{
+	var NTPI="<%NvramGet("NTPSyncInterval");%>";
+	
+	NTPI=parseInt(NTPI,10)/3600;
+		
+	document.getElementById("id_NTPSyncInterval_tmp").value=NTPI;
+}
+
+function check_domain_ip(s)
+{
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+			
+		c=s.charAt(i);
+		
+		if (((c>='0')&&(c<='9')) || ((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z')) || (c=='.') || (c=='-'))
+		{
+			continue;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+function DoSubmit()
+{
+	var NS=document.getElementById("id_NTPServer");
+	var NSnum=NS.value.length;
+	var NHOUR=document.getElementById("id_NTPSyncInterval_tmp");
+	var NSname="<%GetString("Ntp","3");%>";
+	var NSUpdate="<%GetString("Ntp","4");%>";
+	var lanmask="<%NvramGet("LanNetmask");%>";
+	var RouterMode="<%NvramGet("RouterMode");%>";
+	var n;
+	if(RouterMode=="1")
+	  var lanip="<%NvramGet("LanIPAddr");%>";
+	else
+		var lanip="<%NvramGet("BrLanIPAddr");%>";
+	n=NS.value.split('.');
+	Hide_error();
+	
+	document.getElementById("id_NTPSyncInterval").value = (NHOUR.value)*3600;
+	
+	if (document.getElementById("NTPEnable2").checked)
+	{
+		if(NSnum!=0)
+		{
+			if (!check_domain_ip(NS.value))
+			{
+				Show_error(NSname,"<%GetString("Ntp","7");%>");
+				return false;	
+			}
+			else if (NS.value=="0.0.0.0")
+			{
+			    Show_error(NSname, "<%GetString("Ntp","8");%>");
+			    return false;
+			 }
+			else if (NS.value=="255.255.255.255")
+			{
+			    Show_error(NSname, "<%GetString("Ntp","9");%>");
+			    return false;
+			}
+			else if (NS.value==lanip)
+			{
+				Show_error(NSname, "<%GetString("Ntp","10");%>");
+			    return false;
+			}
+			/*
+			else if(check_the_same_subnet(NS.value,lanip,lanmask))
+			{
+				Show_error(NSname, "<%GetString("Lan","37");%>");
+				return false;
+			}
+			*/
+			
+			else if(n.length==4)
+			{
+				if((n[0]>=224)&&(n[0]<=239)&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					Show_error(NSname, "<%GetString("WizardFuncInet","49");%>");
+					return false;
+				}
+				if((n[0]>=240)&&(n[0]<=255)&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					Show_error(NSname, "<%GetString("Ntp","11");%>");
+					return false;
+				}
+				else if((n[0]==127)&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					Show_error(NSname, "<%GetString("Ntp","12");%>");
+					return false;
+				}
+				else if ((check_integer(n[0]))&&(check_integer(n[1]))&&(check_integer(n[2]))&&(check_integer(n[3])))
+				{
+					if ((n[0]>255) || (n[1]>255) || (n[2]>255) || (n[3]>255))
+					{
+						Show_error(NSname,"<%GetString("Ntp","7");%>");
+						return false;
+					}
+				}
+			}			
+			else if ((NS.value.charAt(0)=='-')||(NS.value.charAt(0)=='.')||(NS.value.charAt(NSnum-1)=='-')||(NS.value.charAt(NSnum-1)=='.'))
+			{
+				Show_error(NSname,"<%GetString("Ntp","13");%>");
+				return false;		
+			}
+		}else{
+			Show_error(NSname,"<%GetString("Ntp","14");%>");
+			return false;
+		}
+		
+		if(NHOUR.value.length!=0)
+		{
+			if (NHOUR.value.charAt(0) == '0')
+			{
+				if((NHOUR.value.length<=1)||(!check_integer(NHOUR.value.charAt(1))))
+				{
+					Show_error(NSUpdate,"<%GetString("Ntp","15");%>");
+					//NHOUR.value=NHOUR.defaultValue;
+					NHOUR.value=<%NvramGet("NTPSyncInterval");%>/3600;
+					NHOUR.focus();
+					return false;
+				}
+			}else if(check_integer(NHOUR.value))
+			{
+				if(NHOUR.value>=25)
+				{
+					Show_error(NSUpdate,"<%GetString("Ntp","15");%>");
+					return false;
+				}
+			}else{
+				Show_error(NSUpdate,"<%GetString("Ntp","13");%>");
+				return false;
+			}
+		}else{
+			Show_error(NSUpdate,"<%GetString("Ntp","15");%>");
+			return false;		
+		}
+		
+			document.forms[0].submit();	
+			return false;
+	}else{
+
+	document.forms[0].submit();	
+	}
+
+}
+// -->
+</script>
+<script src="OnceOnly.html"></script>
+</head>
+<body class="BFK_BODY" onload="ntp_select();check_intstyle();">
+<br>
+
+<p></p>
+<form onsubmit="return onceOnly(this);" method="POST">
+<div id="id_errtbl" class="C_ERR" style="display:none;">
+</div>
+  <input type="hidden" name="NTPEnable">
+  
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Ntp","1");%></th>
+      <td>
+        <!--<input type="checkbox" id="NTPEnable2" <%NvramMatch("NTPEnable","1","checked");%> onClick="ntp_select();">Enable-->
+        <input type="checkbox" id="NTPEnable2" onClick="ntp_select();" <%NvramMatch("NTPEnable","1","checked");%> ><%GetString("Ntp","2");%>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Ntp","3");%></th>
+      <td>
+        <!--<input type="text" name="NTPDefServer1" id="id_NTPServer" size="40" maxlength="255" value='<%NvramGet("NTPDefServer1");%>'>-->
+        <input type="text" name="NTPDefServer1" id="id_NTPServer" size="40" maxlength="255" value='<%NvramGet("NTPDefServer1");%>'>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Ntp","4");%></th>
+      <td>
+        <input type="text" id="id_NTPSyncInterval_tmp" size="10" maxlength="2" value=''><%GetString("Ntp","5");%>
+        <input type="hidden" name="NTPSyncInterval" id="id_NTPSyncInterval" value='<%NvramGet("NTPSyncInterval");%>'>
+      </td>
+    </tr>
+  </table>
+  <input type="button" value="<%GetString("Ntp","6");%>" name="nosave_SETUPNTP" onClick="DoSubmit();">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

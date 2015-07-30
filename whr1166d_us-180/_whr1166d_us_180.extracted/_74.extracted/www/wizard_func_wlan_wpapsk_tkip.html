@@ -1,0 +1,244 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<META http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+
+<script language="javascript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+
+function gotoconfirm()
+{
+	if (document.getElementById("id_WIFIWPAPSK0").value!="******")
+	{
+		var err_title="<%GetString("WizardFuncWlanWpapskTkip","22");%>";
+		var err_msg="<%GetString("WizardFuncWlanWpapskTkip","23");%>";
+		var key_value=document.getElementById("id_WIFIWPAPSK0").value;
+		var n;
+		
+		if(check_0Tof(key_value))
+		{		
+			if(key_value.length<8)			
+			{
+				Show_WizardError(err_title,err_msg);
+				return;
+			}
+		}
+		else
+		{
+			if (key_value.length<8)
+			{
+				Show_WizardError(err_title,err_msg);
+				return;
+			}
+			else if(key_value.length==64)
+			{
+				Show_WizardError(err_title,err_msg+" <%GetString("WizardFuncWlanWpapskTkip","26");%>");
+				return;
+			}
+		}
+		if(!Escape_String(key_value))
+		{
+			Show_WizardError(err_title,err_msg);
+			return;					
+		}
+
+	}
+	else
+		document.getElementById("id_WIFIWPAPSK0").disabled=true;
+	document.getElementById("wpapskt_title").innerHTML = "<%GetString("WizardFuncWlanWpapskTkip","9");%>";
+	document.getElementById("wpapskt_subtitle").innerHTML = "<%GetString("WizardFuncWlanWpapskTkip","10");%>";
+	document.getElementById("content").style.display = "none";
+	document.getElementById("b_content").style.display = "none";
+	document.getElementById("confirm").style.display = "";
+	document.getElementById("b_confirm").style.display = "";
+	
+	var aoss_mode="<%NvramGet("WIFIAOSSMode");%>";
+	if ((document.getElementById("id_WIFIWPAPSK0").value.length == 64)&&(aoss_mode =="1"))
+		document.getElementById("aoss_disable_flag").style.display = "";
+	else
+		document.getElementById("aoss_disable_flag").style.display = "none";
+}
+function apply()
+{
+	document.main.submit();
+}
+
+// -->
+</script>
+</head>
+
+<BODY class=WIZ_BODY>
+<FORM method="POST" name="main" action="wizard_func_wlan_wpapsk_tkip.html">
+
+	<input type="hidden" name="WIFIAuthType0" value="WPAPSK">
+	<input type="hidden" name="WIFIEncrypType0" value="TKIP">
+
+  <table class=WIZ_FRAME>
+<tbody>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("WizardFuncWlanWpapskTkip","1");%></TD>
+     	  <TD class=TBL_R></TD>
+          </TR>
+     	<TR class=HEAD2>
+     	  <TD class=TBL_L></TD>
+     	  <TD class=TBL_C id="wpapskt_title"><%GetString("WizardFuncWlanWpapskTkip","2");%>
+     	  </TD>
+     	  <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C  id="wpapskt_subtitle">
+                  	&nbsp;<%GetString("WizardFuncWlanWpapskTkip","3");%>
+                  	<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+     			</td>
+     			<td class=TBL_R></td>
+                  </tr>
+                  <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+     			<div id="content">
+     			  <table class=WIZ_SET>
+     			    <TBODY>
+     				 <TR>
+     				   <th>
+     					<%GetString("WizardFuncWlanWpapskTkip","4");%>
+     				   </th>
+					   
+					   
+     				   <TD>
+     					<input type="password" name="WIFIWPAPSK0" id="id_WIFIWPAPSK0" size="64" maxlength="64" 
+     						     value="<%ChangeKeyToStar("WIFIWPAPSK0");%>">
+     				   </TD>
+     				 </TR>
+     			    </TBODY>
+     			  </TABLE>
+     			  <TABLE class=WIZ_TIPS>
+     			    <TBODY>
+     				 <TR>
+     				   <TD>
+     					<P>
+     					<%GetString("WizardFuncWlanWpapskTkip","5");%><br>
+     					</P>
+     				   </TD>
+     				 </TR>
+     			    </TBODY>
+     			  </TABLE>
+     			  </div>
+     			  <div id="confirm" style="display:none;">
+      				<TABLE class=WIZ_TIPS>
+      				    <tr>
+     					<td>
+     			   		<P>
+					<%GetString("WizardFuncWlanWpapskTkip","11");%><br>
+					<%GetString("WizardFuncWlanWpapskTkip","12");%><br>
+					<%GetString("WizardFuncWlanWpapskTkip","13");%><br>
+					
+					<span id="aoss_disable_flag"><p style="color:red;">
+					<%GetString("WizardFuncWlanWpapskTkip","24");%>
+					<br><%GetString("WizardFuncWlanWpapskTkip","25");%>
+					</p></span>
+					
+					<%GetString("WizardFuncWlanWpapskTkip","14");%><br>
+					<%GetString("WizardFuncWlanWpapskTkip","15");%><br>
+					<ol>
+					  <li><%GetString("WizardFuncWlanWpapskTkip","16");%></li>
+					  <li><%GetString("WizardFuncWlanWpapskTkip","17");%></li>
+					  <li><%GetString("WizardFuncWlanWpapskTkip","18");%></li>
+					</ol>
+					<%GetString("WizardFuncWlanWpapskTkip","19");%>
+					</P>
+     					</td>            
+     				    </tr>
+     				</TABLE>
+      			</div>
+     			</TD>
+     			<TD class=TBL_R></TD>
+     		   </TR>
+     		   <TR class=FOOT>
+     			<TD class=TBL_L></TD>
+     			<TD class=TBL_C></TD>
+     			<TD class=TBL_R></TD>
+     		   </TR>
+     		 </TBODY>
+     	    </TABLE>
+     	  </td>
+     	  <TD class=TBL_R></TD>
+     	</TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+      <div id="b_content">
+      <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWpapskTkip","20");%>" onClick=location.href="wizard_func_wlan_crypto.html">
+     	  </td>
+     	  <td class=NAVI_C>
+     	  </td>
+     	  <td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWpapskTkip","21");%>" onclick="gotoconfirm()">
+     	  </td>
+     	</tr>
+        </tbody>
+      </table>
+      </div>
+      <div id="b_confirm" style="display:none;">
+      <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWpapskTkip","20");%>" onClick=location.href="wizard_func_wlan_wpapsk_tkip.html">
+     	  </td>
+     	  <td class=NAVI_C>
+     	  </td>
+     	  <td class=NAVI_R>
+                  <INPUT type="button" value="<%GetString("WizardFuncWlanWpapskTkip","21");%>" onclick="apply();">
+     	  </td>
+     	</tr>
+        </tbody>
+      </table>
+      </div>         
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</tbody>
+</table>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</FORM>
+</BODY>
+</HTML>

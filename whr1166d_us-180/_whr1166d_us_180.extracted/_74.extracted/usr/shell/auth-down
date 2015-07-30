@@ -1,0 +1,37 @@
+#!/bin/sh
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+PPTPDEnable=`nvram get PPTPEnable`
+
+if [ "$PPTPDEnable" == "0" ]
+then
+	exit 0
+fi
+
+PPPLINE=$1
+USER=$2
+STATUS=$5
+
+if [ "$PPPLINE" != "ppp10" ] && [ "$PPPLINE" != "ppp11" ] && [ "$PPPLINE" != "ppp12" ] 
+then
+	exit 0
+fi
+
+# EXIT_PEER_DEAD		15
+# when disconnect, delete IP address info and PPPD pid info
+if [ -f "/tmp/pptpd/pid/$USER" ]
+then
+	if [ "$STATUS" == "15" ]
+	then
+		echo "err:timeout" > /tmp/pptpd/status/$USER; # when timeout error, keep the file with error code
+	else
+		rm "/tmp/pptpd/status/$USER";	
+	fi
+	
+	rm "/tmp/pptpd/pid/$USER";
+fi
+
+
+echo "$1:$2:$3:$4:$5:$6" > /tmp/pptp_auth_down
+

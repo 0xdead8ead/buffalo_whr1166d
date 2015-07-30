@@ -1,0 +1,184 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<script language="JavaScript">
+  <!--
+     ReloadTime = <%CheckConnection("redirect_secs");%>;
+function ReloadTimer()
+{
+	setTimeout("location.href='wizard_fun_auto_connect_check.html'" , ReloadTime);
+}
+function AutoClose()
+{
+    var PPPstate="<%NvramGet("PPPoE1State");%>";
+    
+    if(PPPstate=="2")
+    {
+       var obj = document.getElementById("id_PPPoEsucess");
+       //setTimeout('Close();', 60000);
+       obj.style.display="";
+       obj.innerHTML = "<BR/>&nbsp; <%GetString("AutoDetectSmart","55");%><BR/>";
+       obj.innerHTML += "&nbsp; <%GetString("AutoDetectSmart","56");%>";  
+    }
+    else
+    {
+        //document.getElementById("id_PPPoEsucess").style.display="";
+		var obj = document.getElementById("id_PPPoEsucess");
+		//setTimeout('Close();', 60000);
+		obj.style.display="";
+		obj.innerHTML = "<BR/>&nbsp; <%GetString("AutoDetectSmart","55");%><BR/>";
+		obj.innerHTML += "&nbsp; <%GetString("AutoDetectSmart","56");%>";
+    }
+}
+function back()
+{
+	document.check_connect.submit();
+}
+
+var busy = false;
+function Close()
+{
+     if (!busy)
+     {
+     	busy = true;
+     	if (navigator.appName == "Netscape")
+     	{
+     		window.open("", "_top");
+     		window.close();
+     	}
+     	else
+     	{
+     		if (document.all && (navigator.userAgent.match(/MSIE (\d\.\d)/), RegExp.$1) >= 5.5)
+     		{
+     			var w = window.open("", "_top");
+     			w.opener = window;
+     			w.close();
+     		}
+     		else
+     		{
+     			top.close();
+     			var timer = setTimeout("busy = false; Close();", 500);
+     		}
+     	}
+     }
+}
+//-->
+</script>
+<title><%GetString("TopWizardInetStart","1");%></title>
+
+</HEAD>
+<BODY class=WIZ_BODY  onLoad="<%CheckConnection("onload_jscall");%>;">
+  <TABLE class=WIZ_FRAME>
+  <TBODY>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+      <table class=WIZ_FRAME2>
+        <tbody>
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+                 <%GetString("TopMain","66");%>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+                 <%GetString("TopMain","66");%>
+            </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+     	    <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+     			<td class=TBL_C>&nbsp;<%GetString("TopMain","66");%></td>
+     			<td class=TBL_R></td>
+     		   </tr>
+     		   <tr class=TBL>
+     			<td class=TBL_L></td>
+     			<td class=TBL_C>
+                <div id="id_PPPoEsucess" style="dispaly:none; text-align:left;"></div>
+                  <TABLE class=WIZ_CONN_CHECK>
+                    <TBODY>
+                      <TR>
+     <TD <%CheckConnection("step_cabling");%>><%CheckConnection("string_cabling");%></TD>
+     <TD <%CheckConnection("step_ifconfig");%>><%CheckConnection("string_ifconfig");%></TD>
+     <TD <%CheckConnection("step_nameresolution");%>><%CheckConnection("string_nameresolution");%></TD>
+                      </TR>
+                    </TBODY>
+                  </TABLE>
+                  <IFRAME 
+                  	src= "inframe_check_info.html"
+                  	name="ok_image" id="id_chkok" width="400" height="100" scrolling="no" border="0" marginheight="0" marginwidth="0" leftmargin="0" topmargin="0">
+                  </IFRAME>
+                  <BR>
+                  <%CheckConnection("link");%>
+     				  <BR>
+     				  <BR>
+     				</td>
+     			<td class=TBL_R></td>
+     		   </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+     	    </table>
+     	  </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+      </TABLE>
+<form method="POST" name="check_connect" action="redirect.html">
+<input type="hidden" name="PageName" value="check_connect.html">
+ 	 <table class=NAVI>
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+            <%CheckConnection("button");%>
+            </td>
+            <td class=NAVI_C align="center">
+			<%CheckConnection("button_auto_finish");%>
+     		</td>
+     	  <td class=NAVI_R>
+     	  </td>
+     	</tr>
+        </TBODY>
+      </TABLE>
+      <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</TBODY>
+</TABLE>
+</BODY>
+</HTML>

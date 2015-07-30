@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<title>AirStation Settings</title>
+ <script language="JavaScript">
+  <!--
+
+  function parser_url(){
+	var url=window.location.toString();
+	var str="";
+	var action="";
+	var mac_info="";
+	var redirect_page="";
+	
+	if(url.indexOf("?")!=-1){
+	    var ary=url.split("?")[1].split("&");
+	    for(var i in ary){
+	        str=ary[i].split("=")[0];
+	        if (str == "action") {
+				action = ary[i].split("=")[1];
+	        }else if(str == "mac_info"){
+				mac_info = ary[i].split("=")[1];
+			}else if(str == "redirect_page"){
+				redirect_page = ary[i].split("=")[1];
+			}
+	    }
+	}
+
+	operation_set.action.value=action;
+	operation_set.mac_info.value=mac_info;
+	operation_set.redirect_page.value=redirect_page;
+	document.operation_set.submit();
+  }
+	
+  // -->
+</script>
+</head>
+
+<BODY class=WIZ_BODY onload=parser_url();>
+<form method="POST" name="operation_set">
+<input type="hidden" name="mac_info" value="">
+<input type="hidden" name="redirect_page" value="">
+<input type="hidden" name="action" value="">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>
+

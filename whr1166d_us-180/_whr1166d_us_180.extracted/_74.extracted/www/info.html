@@ -1,0 +1,722 @@
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<script language="JavaScript">
+<!--
+function Apply(item)
+{
+	document.info_state.wan_action.value=item;
+	document.info_state.submit();
+} 
+
+function Apply_bridge(item)
+{
+	document.info_state_bridge.wan_action.value=item;
+	document.info_state_bridge.submit();
+} 
+
+var nt_agree = '<%NvramGet("Nortonagree");%>';
+
+function init_status()
+{
+	var ifilterEnable = <%NvramGet("ifilterEnabled");%>;
+	var region = "<%NvramGet("Region");%>";
+	if(region!="JP")
+	{
+		document.getElementById("ifilterStatus").style.display="none";
+	}
+	
+	if(ifilterEnable==0)
+	{
+		document.getElementById("ifilterReg").style.display="none";
+		document.getElementById("ifilterExpdate").style.display="none";
+		document.getElementById("ifilterActivate").style.display="none";
+	}
+	
+	
+	if(nt_agree == 1)//web filter
+	{
+		if ("<% NvramMatch("ConnectSafe_Filtering_Level", "0", "checked"); %>" == "checked")
+		{
+			document.getElementById("web_filter_enabled").style.display="none";
+			document.getElementById("web_filter_disabled").style.display="";		
+			document.getElementById("web_filter_level1").style.display="none";		
+			document.getElementById("web_filter_level2").style.display="none";		
+			document.getElementById("web_filter_level3").style.display="none";
+		}
+		
+		if ("<% NvramMatch("ConnectSafe_Filtering_Level", "1", "checked"); %>" == "checked")
+		{
+			document.getElementById("web_filter_enabled").style.display="";
+			document.getElementById("web_filter_disabled").style.display="none";		
+			document.getElementById("web_filter_level1").style.display="";		
+			document.getElementById("web_filter_level2").style.display="none";		
+			document.getElementById("web_filter_level3").style.display="none";
+		}
+		
+		if ("<% NvramMatch("ConnectSafe_Filtering_Level", "2", "checked"); %>" == "checked")
+		{
+			document.getElementById("web_filter_enabled").style.display="";
+			document.getElementById("web_filter_disabled").style.display="none";		
+			document.getElementById("web_filter_level1").style.display="none";		
+			document.getElementById("web_filter_level2").style.display="";		
+			document.getElementById("web_filter_level3").style.display="none";
+		}
+		
+		if ("<% NvramMatch("ConnectSafe_Filtering_Level", "3", "checked"); %>" == "checked")
+		{
+			document.getElementById("web_filter_enabled").style.display="";
+			document.getElementById("web_filter_disabled").style.display="none";		
+			document.getElementById("web_filter_level1").style.display="none";		
+			document.getElementById("web_filter_level2").style.display="none";		
+			document.getElementById("web_filter_level3").style.display="";
+		}
+		
+	}
+	else
+	{
+		document.getElementById("web_filter_enabled").style.display="none";
+		document.getElementById("web_filter_disabled").style.display="";		
+		document.getElementById("web_filter_level1").style.display="none";		
+		document.getElementById("web_filter_level2").style.display="none";		
+		document.getElementById("web_filter_level3").style.display="none";	
+	}
+	if ("<%NvramGet("GuestPortEnabled")%>" == "1")
+	{
+		if ("<%NvramGet("WIFIModuleEnable")=="0"%>" && "<%NvramGet("WIFIModuleEnable_5g")%>"=="0")
+			document.getElementById("id_GPStatus").innerHTML = "<%GetString("Guestport","62");%>"
+		else
+			document.getElementById("id_GPStatus").innerHTML = "<%GetString("Guestport","3");%>";
+	}
+	else
+	{
+		document.getElementById("id_GPStatus").innerHTML = "<%GetString("Info","70");%>";
+	}
+	if ("<%NvramGet("WIFIModuleEnable")%>" == "1")
+	{
+		document.getElementById("id_GPSSID").innerHTML = "<%NvramGetAdv("WIFISsid4");%>";
+	}
+	else
+	{
+		document.getElementById("id_guest_info").style.display="none";
+	}
+	if ("<%NvramGet("WIFIModuleEnable_5g")%>" == "1")
+	{
+		document.getElementById("id_GPSSID_5g").innerHTML = "<%NvramGetAdv("WIFISsid4");%>";
+	}
+	else
+		document.getElementById("id_guest_info_5g").style.display="none";
+}
+
+//-->
+</SCRIPT>
+</head>
+<body class="BFK_BODY" onload="init_status();">
+<br>
+
+  <table class="AD_SYSINFO">
+
+    <tr>
+      <th><%GetString("Info","1");%></th>
+      <td>
+        <p align="left">
+        <!--WHR-G300N&nbsp;Ver.1.60&nbsp;(R1.49/B1.09)-->
+        <!-- SUBVER="1.49" DATE="2008/09/02 17:33:18 JST"-->
+        <div name="firmwareversion"><%NvramGet("FirmwareVersion");%></div>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("Info","2");%></th>
+      <td>
+        <!--AP001D73747324-->
+        <div name="DeviceName"><%NvramGet("DeviceName");%></div>
+      </td>
+    </tr>
+
+    <tr>
+      <th><%GetString("Info","3");%></th>
+      <td>
+     	<!--Router Mode ON-->
+     	<div name="AutoModeSwitchStatus"><%GetSystemInfo("AutoModeSwitchStatus");%></div>
+      </td>
+    </tr>
+
+	
+    <tr>
+      <th><%GetString("Info","4");%></th>
+      <td>
+     	<!--Router Mode ON-->
+     	<div name="HardwareModeSwitchStatus"><%GetSystemInfo("HardwareModeSwitchStatus");%></div>
+      </td>
+    </tr>
+
+
+<!-- ------------------------------------------------------------------------------------- -->
+<!-- ---------------------------------------------------------------- -->
+
+    <tr <%GetSystemInfo("display_router");%>>
+      <th><%GetString("Info","5");%></th>
+      <td>
+      <form method="POST" name="info_state">
+        <table>
+          <tr>
+            <th><%GetString("Info","11");%><BR><%GetString("Info","12");%></th>
+            <td>
+     		<div name="InternetIPAddress"><%GetSystemInfo("InternetIPAddress");%></div>
+     	    </td>
+          </tr>
+
+<!-- ---------------------------------------- -->
+	<%GetSystemInfo("InternetSatus");%>
+	<input type="hidden" value="" name="wan_action" id="id_action">
+<!-- ---------------------------------------- -->
+
+     	<tr><td colspan="2"><hr></td></tr>
+     	<tr>
+     	  <th><%GetString("Info","13");%></th>
+     	  <td>
+	    <!--Disconnected-->
+	    <div name="InternetWiredLink"><%GetSystemInfo("InternetWiredLink");%></div>
+	  </td>
+     	</tr>
+	    <div name="InternetMac"><%GetSystemInfo("InternetMac");%></div>
+        </table>
+        <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+        </form>
+      </td>
+    </tr>
+
+<!-- --------------------------------------------------------------------------------------- -->
+
+
+    <tr <%GetSystemInfo("display_router");%>>
+      <th><%GetString("Info","6");%></th>
+      <td>
+        <table>
+          <tr>
+            <th><%GetString("AutoDetectNocablePPPoEWDS","14");%></th>
+            <td>
+            <!--10.7.207.193--><div name="LanIPAddr"><%NvramGet("LanIPAddr");%></div>            
+            </td>
+          </tr>
+          <tr>
+            <th><%GetString("Info","14");%></th>
+            <td>
+            <!--255.255.255.0--><div name="LanNetmask"><%NvramGet("LanNetmask");%></div></td>    
+          </tr>
+          <tr>
+            <th><%GetString("Info","15");%></th>
+            <td><!--Disabled-->
+            <div name="DHCPStatus"><%NvramMatchString("DHCPSEnable", "1", "Info", "27");%><%NvramMatchString("DHCPSEnable", "0", "Info", "68");%></div>    
+            </td>
+          </tr>
+          <tr>
+            <th><%GetString("Info","16");%></th>
+            <td>
+            <!--00:1D:73:74:73:24--><div name="LANMACAddress"><%GetSystemInfo("LANMACAddress");%></div> 
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    
+    <!-- ---------------------------------------------------------------- -->
+
+
+    <tr <%GetSystemInfo("display_bridge");%>>
+      <th><%GetString("Info","6");%></th>
+      <td>
+        <form method="POST" name="info_state_bridge">
+        <table>
+          <tr>
+          <th><%GetString("Wan","1");%></th>
+          <td>
+            <div name="InternetIPAddress"><%GetSystemInfo("InternetIPAddress");%></div> 
+          </td>
+          </tr>
+          
+          <!-- ---------------------------------------- -->
+          <%GetSystemInfo("BrLanSatus");%>
+          <input type="hidden" value="" name="wan_action">
+          <!-- ---------------------------------------- -->
+          
+          <tr><td colspan="2"><hr></td></tr>
+          <tr>
+            <th><%GetString("Info","16");%></th>
+            <td>
+            <div name="InternetIPAddress"><%GetSystemInfo("LANMACAddress");%></div> 
+            </td>
+          </tr>
+        </table>
+        <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+      </form>
+      </td>
+    </tr>
+    
+    
+<!--  -->
+<!--  -->
+
+
+<tr>
+<th>
+  <%GetString("Info","33");%>(<span class=WLAN11A><!--802.11a-->5 GHz</span>)
+</th>
+<td>
+  <table>
+	  <th><%GetString("Info","17");%></th>
+	  <td>
+		<!--MAC Access Control-->
+		<div name="WirelessStatus_5g"><%GetSystemInfo("WirelessStatus_5g");%></div>
+	  </td>
+  </table>
+  <div id="wlan_tbl_5g" <%GetSystemInfo("display_wlan_5g");%>>
+  <table>
+	</tr>
+	
+	 	  <tr>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+	 	  <tr <%GetSystemInfo("display1_5g");%>>
+	  	    <th><%GetSystemInfo("SSIDNAME0");%></th>
+	  	    <td><div name="SSID1_5g"><%GetSystemInfo("SSID1_5g");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display1_5g");%>>
+	  	    <th><%GetString("Info","19");%></th>
+	  	    <td>
+			<div name="AUTH1_5g"><%GetSystemInfo("AUTH1_5g");%></div>
+	  	    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display1_5g");%>>
+	  	    <th><%GetString("Info","20");%></th>
+	  	    <td>
+		    	<div name="ENCRYP1_5g"><%GetSystemInfo("ENCRYP1_5g");%></div>
+	  	    </td>
+		  </tr>
+	 <!--  -->
+		  <tr <%GetSystemInfo("display1_5g");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>
+		  
+		  <!--Gemtek mark 2011/09/13 -->
+		  <!--<tr <%GetSystemInfo("display2");%>>
+		    <th><%GetSystemInfo("SSIDNAME2");%></th>
+		    <td><div name="SSID2"><%GetSystemInfo("SSID2");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display2");%>>
+		    <th><%GetString("Info","19");%></th>
+		    <td>
+			<div name="AUTH2"><%GetSystemInfo("AUTH2");%></div>
+		    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display2");%>>
+		    <th><%GetString("Info","20");%></th>
+		    <td>
+		    	<div name="ENCRYP2"><%GetSystemInfo("ENCRYP2");%></div>
+		    </td>
+		  </tr>
+
+		  <tr <%GetSystemInfo("display2");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>-->
+		  
+		  
+		  <tr <%GetSystemInfo("display3_5g");%>>
+		    <th><%GetSystemInfo("SSIDNAME1");%></th>
+		    <td><div name="SSID3_5g"><%GetSystemInfo("SSID3_5g");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display3_5g");%>>
+		    <th><%GetString("Info","19");%></th>
+		    <td>
+				<div name="AUTH3_5g"><%GetSystemInfo("AUTH3_5g");%></div>
+		    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display3_5g");%>>
+		    <th><%GetString("Info","20");%></th>
+		    <td>
+		    	<div name="ENCRYP3_5g"><%GetSystemInfo("ENCRYP3_5g");%></div>
+		    </td>
+		  </tr>
+	 <!--  -->
+	 <!--  -->
+		  <tr <%GetSystemInfo("display3_5g");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>
+		  
+		  <!--Gemtek mark 2011/09/13 -->
+		  <!--
+		  <tr <%GetSystemInfo("display4");%>>
+		    <th><%GetSystemInfo("SSIDNAME4");%></th>
+		    <td><div name="SSID4"><%GetSystemInfo("SSID4");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display4");%>>
+		    <th><%GetString("Info","19");%></th>
+		    <td>
+			<div name="AUTH4"><%GetSystemInfo("AUTH4");%></div>
+		    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display4");%>>
+		    <th><%GetString("Info","20");%></th>
+		    <td>
+		    	<div name="ENCRYP4"><%GetSystemInfo("ENCRYP4");%></div>
+		    </td>
+		  </tr>
+
+		  <tr <%GetSystemInfo("display4");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>
+		  -->
+		  
+     
+		  <tr>
+            <th><%GetString("Info","21");%></th>
+            <td>
+            <!--Enable--><div name="WIFIHideSSID1_5g"><%GetSystemInfo("Broadcast_5g");%></div></td>
+       </tr>
+       <tr>
+            <th><%GetString("Info","22");%></th>
+            <td>
+            <!--Disable-->
+            <div name="WIFINoForwardingBTNBSSID_5g"><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "1", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "2", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "4", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "6", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "8", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "10", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "12", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "14", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID_5g", "0", "Info", "70");%></div></td>
+       </tr>
+          <tr>
+            <th><%GetString("Info","23");%></th>
+            <td><!--10(Auto)-->
+            <div name="WirelessChannel_5g"><%GetSystemInfo("WirelessChannel_5g");%></div></td>
+          </tr>
+          <tr>
+            <th><%GetString("Info","24");%></th>
+            <td><!--20 MHz--><div name="WirelessHTBW_5g"><%GetSystemInfo("WirelessHTBW_5g");%><!--<%GetSystemInfo("WIFIExtensionChl_5g");%>--></div></td>
+          </tr>
+          <tr>
+            <th><%GetString("Info","25");%></th>
+            <td><!--00:1D:73:74:73:24--><div name="WirelessMACAddress_5g"><%GetSystemInfo("WirelessMACAddress_5g");%></div></td>
+          </tr>
+	 </table>
+	</div>
+</td>
+</tr>
+
+
+<tr>
+<th>
+  <%GetString("Info","33");%>(<span class=WLAN11G><!--802.11g-->2.4 GHz</span>)
+</th>
+<td>
+  <table>
+	  <th><%GetString("Info","17");%></th>
+	  <td>
+		<!--MAC Access Control-->
+		<div name="WirelessStatus"><%GetSystemInfo("WirelessStatus");%></div>
+	  </td>
+  </table>
+  <div id="wlan_tbl" <%GetSystemInfo("display_wlan");%>>
+  <table>
+	</tr>
+	
+	 	  <tr>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>
+	 	  <tr <%GetSystemInfo("display1");%>>
+	  	    <th><%GetSystemInfo("SSIDNAME0");%></th>
+	  	    <td><div name="SSID1"><%GetSystemInfo("SSID1");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display1");%>>
+	  	    <th><%GetString("Info","19");%></th>
+	  	    <td>
+			<div name="AUTH1"><%GetSystemInfo("AUTH1");%></div>
+	  	    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display1");%>>
+	  	    <th><%GetString("Info","20");%></th>
+	  	    <td>
+		    	<div name="ENCRYP1"><%GetSystemInfo("ENCRYP1");%></div>
+	  	    </td>
+		  </tr>
+	 <!--  -->
+		  <tr <%GetSystemInfo("display1");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>
+		  
+		  <!--Gemtek mark 2011/09/13 -->
+		  <!--<tr <%GetSystemInfo("display2");%>>
+		    <th><%GetSystemInfo("SSIDNAME2");%></th>
+		    <td><div name="SSID2"><%GetSystemInfo("SSID2");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display2");%>>
+		    <th><%GetString("Info","19");%></th>
+		    <td>
+			<div name="AUTH2"><%GetSystemInfo("AUTH2");%></div>
+		    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display2");%>>
+		    <th><%GetString("Info","20");%></th>
+		    <td>
+		    	<div name="ENCRYP2"><%GetSystemInfo("ENCRYP2");%></div>
+		    </td>
+		  </tr>
+
+		  <tr <%GetSystemInfo("display2");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>-->
+		  
+		  
+		  <tr <%GetSystemInfo("display3");%>>
+		    <th><%GetSystemInfo("SSIDNAME1");%></th>
+		    <td><div name="SSID3"><%GetSystemInfo("SSID3");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display3");%>>
+		    <th><%GetString("Info","19");%></th>
+		    <td>
+				<div name="AUTH3"><%GetSystemInfo("AUTH3");%></div>
+		    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display3");%>>
+		    <th><%GetString("Info","20");%></th>
+		    <td>
+		    	<div name="ENCRYP3"><%GetSystemInfo("ENCRYP3");%></div>
+		    </td>
+		  </tr>
+	 <!--  -->
+	 <!--  -->
+		  <tr <%GetSystemInfo("display3");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>
+		  
+		  <!--Gemtek mark 2011/09/13 -->
+		  <!--
+		  <tr <%GetSystemInfo("display4");%>>
+		    <th><%GetSystemInfo("SSIDNAME4");%></th>
+		    <td><div name="SSID4"><%GetSystemInfo("SSID4");%></div></td>
+		  </tr>
+		  <tr <%GetSystemInfo("display4");%>>
+		    <th><%GetString("Info","19");%></th>
+		    <td>
+			<div name="AUTH4"><%GetSystemInfo("AUTH4");%></div>
+		    </td>
+		  </tr>
+		  <tr <%GetSystemInfo("display4");%>>
+		    <th><%GetString("Info","20");%></th>
+		    <td>
+		    	<div name="ENCRYP4"><%GetSystemInfo("ENCRYP4");%></div>
+		    </td>
+		  </tr>
+
+		  <tr <%GetSystemInfo("display4");%>>
+		    <td colspan="2"><hr style="margin:0px;"></td>
+		  </tr>
+		  -->
+		  
+     
+		  <tr>
+            <th><%GetString("Info","21");%></th>
+            <td>
+            <!--Enable--><div name="WIFIHideSSID1"><%GetSystemInfo("Broadcast");%></div></td>
+       </tr>
+       <tr>
+            <th><%GetString("Info","22");%></th>
+            <td>
+            <!--Disable-->
+            <div name="WIFINoForwardingBTNBSSID"><%NvramMatchString("WIFINoForwardingBTNBSSID", "1", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "2", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "4", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "6", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "8", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "10", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "12", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "14", "Info", "69");%><%NvramMatchString("WIFINoForwardingBTNBSSID", "0", "Info", "70");%></div></td>
+       </tr>
+          <tr>
+            <th><%GetString("Info","23");%></th>
+            <td><!--10(Auto)-->
+            <div name="WirelessChannel"><%GetSystemInfo("WirelessChannel");%></div></td>
+          </tr>
+          <tr>
+            <th><%GetString("Info","24");%></th>
+            <td><!--20 MHz--><div name="WirelessHTBW"><%GetSystemInfo("WirelessHTBW");%><%GetSystemInfo("WIFIExtensionChl");%></div></td>
+          </tr>
+          <tr>
+            <th><%GetString("Info","25");%></th>
+            <td><!--00:1D:73:74:73:24--><div name="WirelessMACAddress"><%GetSystemInfo("WirelessMACAddress");%></div></td>
+          </tr>
+	 </table>
+	</div>
+</td>
+</tr>
+
+
+<!-- --------------------------------------------------------------------------------------- -->
+
+
+    <tr>
+      <th><%GetString("Guestport","1");%></th>
+      <td>
+        <table>
+          <tr>
+            <th><%GetString("Multipppoe","24");%></th>
+            <td>
+            <!--10.7.207.193--><div name="GPStatus" id="id_GPStatus">
+			</div>            
+            </td>
+          </tr>
+		  
+		  <tr <%GetSystemInfo("GuestPortInfo");%>>
+			<th><%GetString("Guestport","4");%></th>
+			<td>
+			<!--255.255.255.0--><div name="GPUA"><%NvramMatchString("GuestPortAuthEnabled", "1", "Guestport", "3");%><%NvramMatchString("GuestPortAuthEnabled", "0", "Info", "70");%></div></td>    
+		  </tr>
+		  <tr <%GetSystemInfo("GuestPortInfo");%>>
+			<th><%GetString("Guestport","8");%></th>
+			<td><!--Disabled-->
+			<div name="GPIP"><%NvramGet("GuestPortIP");%></div>    
+			</td>
+			 </tr>
+		  <tr <%GetSystemInfo("GuestPortInfo");%>>
+			<th><%GetString("Guestport","9");%></th>
+			<td>
+			<!--00:1D:73:74:73:24--><div name="GPMASK"><%NvramGet("GuestPortMask");%></div> 
+			</td>
+			 </tr>
+		  <tr <%GetSystemInfo("GuestPortInfo");%> id="id_guest_info">
+			<th>SSID(<span class=WLAN11G>2.4 GHz</span>)</th>
+			<td>
+			<!--00:1D:73:74:73:24--><div name="GPSSID" id="id_GPSSID"></div> 
+			</td>
+	      </tr>
+		  <tr <%GetSystemInfo("GuestPortInfo");%> id="id_guest_info_5g">
+			<th>SSID(<span class=WLAN11A>5 GHz</span>)</th>
+			<td>
+			<!--00:1D:73:74:73:24--><div name="GPSSID_5g" id="id_GPSSID_5g"></div> 
+			</td>
+	      </tr>
+        </table>
+      </td>
+    </tr>
+    
+	
+	<!-- --------------------------------------------------------------------------------------- -->
+
+<!-- web filter -->
+    <tr>
+      <th><%GetString("NewUI","85");%></th>
+      <td>
+        <table>  
+		  <tr id="web_filter_disabled" style="display:none;">
+			<th><%GetString("NewUI","265");%></th>			
+		  </tr>
+		  <tr id="web_filter_enabled">
+			<th><%GetString("NewUI","266");%></th>			
+		  </tr>
+		  <tr id="web_filter_level1" style="display:none;">
+			<th><%GetString("NewUI","121");%></th>
+			<td >
+			<div><%GetString("NewUI","131");%></div>    
+			</td>
+		  </tr>
+		  
+		  <tr id="web_filter_level2" style="display:none;">
+			<th><%GetString("NewUI","121");%></th>
+			<td >
+			<div><%GetString("NewUI","133");%></div>    
+			</td>
+		  </tr>
+		  
+		  <tr id="web_filter_level3" style="display:none;">
+			<th><%GetString("NewUI","121");%></th>
+			<td >
+			<div><%GetString("NewUI","135");%></div>    
+			</td>
+		  </tr>		  
+		  
+        </table>
+      </td>
+    </tr>
+	
+    <!-- ---------------------------------------------------------------- -->
+
+          
+  <tr <%GetSystemInfo("wdsdisplay");%>>
+		<th><%GetString("Info","119");%></th>
+		<td>
+		<table>
+			<tr>
+  			<th><%GetString("Info","120");%></th>
+  			<td><div name="WIFIApCliEnable"><%NvramMatchString("WIFIApCliEnable", "1", "Info", "30");%><%NvramMatchString("WIFIApCliEnable", "2", "Info", "30");%><%NvramMatchString("WIFIApCliEnable", "0", "Info", "97");%><%GetSystemInfo("WDSmethod");%></div></td>
+			</tr>
+			<tr <%GetSystemInfo("displayWDS");%>>
+  			<th><%GetString("Info","18");%></th>
+  			<td><div name="WDSSSID"><%GetSystemInfo("WDSSSID");%></div></td>
+			</tr>
+			<tr <%GetSystemInfo("displayWDS");%>>
+  			<th><%GetString("Info","19");%></th><!-- AUTH-->
+  			<td><div name="WDSAuth"><%GetSystemInfo("WDSAuth");%></div></td>
+			</tr>
+			<tr <%GetSystemInfo("displayWDS");%>>
+  			<th><%GetString("Info","20");%></th><!-- Encry -->
+  			<td><div name="WDSEncry"><%GetSystemInfo("WDSEncry");%></div></td>
+			</tr>
+			<tr <%GetSystemInfo("displayWDS");%>>
+  			<th><%GetString("Info","25");%></th>
+  			<td><div name="WDSMAC_AP" <%GetSystemInfo("displayWDSAPMAC");%>><%GetSystemInfo("WDSAPMAC");%> (<%GetString("Info","46");%>)</div>
+  				<div name="WDSMAC_CLI"><%GetSystemInfo("WDSClientMAC");%> (<%GetString("Info","119");%>)</div></td>
+			</tr>			
+			<tr <%GetSystemInfo("displayWDS");%>>
+  			<th><%GetString("WizardFuncInet","19");%></th>
+  			<td><div name="WDSConnet"><%GetSystemInfo("WDSConnet_abgn");%></div></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+
+	<tr id="ifilterStatus">
+		<th><%GetString("IFilter","1");%></th>
+		<td>
+		<table>
+		  <tr>
+		    <th><%NvramMatchString("ifilterEnabled", "1", "IFilter", "11");%><%NvramMatchString("ifilterEnabled", "0", "IFilter", "12");%></th>
+		  </tr>
+		  <tr id="ifilterReg">
+		    <th><%GetString("IFilter","13");%></th>
+		    <td>
+			<div><%NvramMatchString("ifilterRegStatus", "1", "IFilter", "9");%><%NvramMatchString("ifilterRegStatus", "3", "IFilter", "10");%><%NvramMatchString("ifilterRegStatus", "4", "IFilter", "8");%><%NvramMatchString("ifilterRegStatus", "5", "IFilter", "16");%></div>
+		    </td>
+		  </tr>
+		  <tr id="ifilterExpdate">
+		    <th><%GetString("IFilter","3");%></th>
+		    <td>
+			<div><%NvramGet("ifilterExpDate");%></div>
+		    </td>
+		  </tr>
+		   <tr id="ifilterActivate">
+		    <th><%GetString("IFilter","15");%></th>
+		    <td>
+			<div><%NvramMatchString("ifilterActivated", "1", "IFilter", "5");%><%NvramMatchString("ifilterActivated", "0", "IFilter", "6");%></div>
+		    </td>
+		  </tr>
+		</table>
+		</td>
+	</tr>	
+		
+	<tr>
+		<th><%GetString("Info","129");%></th>
+		<td>
+		<table>
+		  <tr>
+		    <th><%GetString("Info","130");%></th>
+		    <td>
+			<div name="displayeco_info"><%GetSystemInfo("displayeco_info");%></div>
+		    </td>
+		  </tr>
+		</table>
+		</td>
+	</tr>
+
+  </table>
+  <br>
+  <input type="button" value="<%GetString("Info","112");%>" onClick="location.href='info.html'">
+  <br/><br/><br/>
+</form>
+
+</body>
+</html>

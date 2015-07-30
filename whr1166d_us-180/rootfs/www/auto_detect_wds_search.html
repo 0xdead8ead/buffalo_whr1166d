@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+
+
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!--
+function init(val)
+{
+	if("<%NvramGet("WIFIApCli_UImode");%>"=="1")
+	{
+		document.getElementById("id_search_show").style.display = "";
+		//top.content_helpframe.document.location.href = "./help/help_wlan_ure_sta_search.html";
+	}
+	for(i=1;i<=64;i++)
+	{
+		if(document.getElementById("apcli_"+i+"_1")==undefined)
+			break;
+		if(document.getElementById("apcli_"+i+"_1").checked==true)
+			document.getElementById("id_select_button").disabled=false;
+	}
+}
+
+function ssid_select(val)
+{
+	var str;
+	document.getElementById("id_select_button").disabled=false;
+	document.getElementById("id_WIFIApCliBssid").value=document.getElementById("apcli_"+val+"_2").value;
+    document.getElementById("id_WIFIApCliSsid").value=document.getElementById("apcli_"+val+"_3").value;
+    document.getElementById("id_WIFIApCliChannel").value=document.getElementById("apcli_"+val+"_4").value;
+    str=document.getElementById("apcli_"+val+"_5").value.split("/");
+
+	if(str[0]=="NONE")
+	{
+		document.getElementById("id_WIFIApCliAuth").value="OPEN";	
+		document.getElementById("id_WIFIApCliEncryp").value="NONE";	
+	}
+	else if(str[0]=="WEP")
+	{
+		document.getElementById("id_WIFIApCliAuth").value="OPEN";
+		document.getElementById("id_WIFIApCliEncryp").value="WEP";
+	}
+	else
+	{
+		document.getElementById("id_WIFIApCliAuth").value=str[0];
+		document.getElementById("id_WIFIApCliEncryp").value=str[1];
+	}
+}
+
+function searchClient()
+{
+	document.getElementById("id_WIFIApCli_UImode").value="1";	
+    document.ApCliSearch.submit();
+}
+
+function apply()
+{
+	for(i=1;i<=64;i++)
+	{
+		if(document.getElementById("apcli_"+i+"_1")==undefined)
+			break;
+		if(document.getElementById("apcli_"+i+"_1").checked==true)	
+			ssid_select(i);
+	}
+	document.getElementById("id_WIFIApCliBssid").disabled=false;	
+	document.getElementById("id_WIFIApCliSsid").disabled=false;	
+	document.getElementById("id_WIFIApCliChannel").disabled=false;
+	document.getElementById("id_WIFIApCliAuth").disabled=false;
+	document.getElementById("id_WIFIApCliEncryp").disabled=false;
+	document.getElementById("id_WIFIApCli_UImode").value="2";
+	//Changelink('wlan_ure_sta.html', 'help_wlan_ure_sta.html')
+	window.location.href = "auto_detect_wds_setting.html";
+	document.ApCliSearch.submit();
+}
+
+// -->
+</script>
+</head>
+
+<body class="BFK_BODY" onload="init()">
+<form method="POST" name="ApCliSearch">
+<div id="id_search_show" style="display:none;">
+<P><%GetString("WDSsearch","1");%></P>
+	<table class="AD_SET_WDS">
+	<tbody>
+	<tr>
+    <th><p><%GetString("WDSsearch","3");%></p></th>
+    <th><p><%GetString("WDSsearch","4");%></p></th>
+    <th><p><%GetString("WDSsearch","5");%></p></th>
+    <th><p><%GetString("WDSsearch","6");%></p></th>
+    <th><p><%GetString("WDSsearch","7");%></p></th>
+    <th><p><%GetString("WDSsearch","8");%></p></th>
+    <th><p><%GetString("WDSsearch","9");%></p></th>
+	</tr>
+  <%GetApCliTable();%>
+  <tr>
+  </tr>
+	</tbody>
+	</table>
+<input type="hidden" name="WIFIApCli_UImode" id="id_WIFIApCli_UImode" value="0">	
+<input type="hidden" name="WIFIApCliBssid_UItmp" id="id_WIFIApCliBssid" value="" disabled>
+<input type="hidden" name="WIFIApCliSsid_UItmp" id="id_WIFIApCliSsid" value="" disabled>
+<input type="hidden" name="WIFIApCliChannel_UItmp" id="id_WIFIApCliChannel" value="" disabled>
+<input type="hidden" name="WIFIApCliAuthMode_UItmp" id="id_WIFIApCliAuth" value="" disabled>		
+<input type="hidden" name="WIFIApCliEncrypType_UItmp" id="id_WIFIApCliEncryp" value="" disabled>
+	
+<input type="button" id="id_select_button" value="&nbsp;<%GetString("WDSsearch","3");%>&nbsp;" onclick="apply()" disabled>	
+<input type="button" onclick="searchClient()" value="<%GetString("WDSsearch","16");%>">
+<input type="button" value="&nbsp;<%GetString("WDSsearch","17");%>&nbsp;" onclick=location.href="auto_detect_wds_setting.html">
+</div>
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>

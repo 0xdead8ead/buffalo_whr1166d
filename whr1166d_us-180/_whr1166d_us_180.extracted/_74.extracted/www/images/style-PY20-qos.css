@@ -1,0 +1,98 @@
+.radio_qos {
+	line-height: 35px;
+}
+.radio_ex_txt {
+	font-size: 12px;
+}
+
+.additionaltext{
+	height: 60px;
+	margin: 0px 20px 0px 40px;
+	padding: 10px;
+}
+
+.category{
+	font-size: 10px;
+	width: 300px;
+	border-bottom: 1px solid #CCCCCC;
+	padding: 2px;
+	margin: 0px 0px 0px 20px;
+	overflow: hidden;
+}
+.category_head{
+	padding-top: 2px;
+	float: left;
+	font-size: 11px;
+}
+.category_left{
+	float: left;
+	width: 80px;
+}
+.category_img{
+	width: 30px;
+	height: 30px;
+	padding: 1px 0px 0px 72px;
+}
+.category_img_VIDEO {
+	background: url(/images/py20_priority_VIDEO.png) no-repeat center center;
+}
+.category_img_VC {
+	background: url(/images/py20_priority_VC.png) no-repeat center center;
+}
+.category_img_GAME {
+	background: url(/images/py20_priority_GAME.png) no-repeat center center;
+}
+.category_img_AUDIO {
+	background: url(/images/py20_priority_AUDIO.png) no-repeat center center;
+}
+.category_img_BROWSER {
+	background: url(/images/py20_priority_BROWSER.png) no-repeat center center;
+}
+.category_img_DOWNLOAD {
+	background: url(/images/py20_priority_DOWNLOAD.png) no-repeat center center;
+}
+
+.category_right{
+	padding: 16px 8px 0px 0px;
+	width: 10px;
+	line-height: 10px;
+	float: left;
+	position: relative;
+}
+.category_icon{
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 10px;
+}
+.category_icon_normal{
+	background: url(/images/py20_priority_normal.png) no-repeat center center;
+}
+.category_icon_up{
+	background: url(/images/py20_priority_up.png) no-repeat center center;
+}
+.category_icon_down{
+	background: url(/images/py20_priority_down.png) no-repeat center center;
+}
+
+.category_gauge{
+	width: 200px;
+	padding: 15px 0px 0px 0px;
+	float: left;
+}
+.category_gauge_outer{
+	height: 4px;
+	width: 100%;
+	margin: 6px 0px 6px 0px;
+	background-color: #CCCCCC;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.category_gauge_inner{
+	height: 4px;
+	background:
+		url(/images/py20_gauge_fill.png) repeat-x top center,
+		url(/images/py20_gauge_left.png) no-repeat top left,
+		url(/images/py20_gauge_right.png) no-repeat top right;
+}

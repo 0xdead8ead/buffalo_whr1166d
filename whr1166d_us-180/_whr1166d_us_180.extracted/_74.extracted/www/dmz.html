@@ -1,0 +1,260 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script src="OpenHelp.html"></script>
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script type="text/javascript">
+<!-- 
+ var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='dmz.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+function check_ip_format(ip, item, type)
+{
+	var n;
+	var lanip='<%NvramGet("LanIPAddr");%>';
+	var lanmask='<%NvramGet("LanNetmask");%>';
+	
+	if (ip=="0.0.0.0")
+	{
+    Show_error(item, "<%GetString("Dmz","4");%>");
+    return false;
+  }
+  if (ip=="255.255.255.255")
+  {
+    Show_error(item, "<%GetString("Dmz","5");%>");
+    return false;
+  }
+  if (ip==lanip)
+  {
+    Show_error(item, "<%GetString("Dmz","6");%>");
+    return false;
+  }
+
+	if (!isBlank(ip))
+	{
+		n = ip.split('.');
+		
+		if (n.length<4)
+		{
+		  Show_error(item, "<%GetString("Dmz","7");%>");
+        return false;
+		}
+		else
+		{
+  		if(isBlank(n[0]))
+  		{
+  		  Show_error(item, "<%GetString("Dmz","7");%>");
+        return false;
+      }	
+  		//else if((isNaN(n[0]))||(n[0]<=0)||!check_integer(n[0])||check_initial_zero(n[0])) 
+		else if((isNaN(n[0]))||(n[0]<=0)||!check_integer(n[0])) 
+  		{
+        Show_error(item, "<%GetString("Dmz","7");%>");
+        return false; 
+      }
+      else if (n[0]==127)
+      {
+        Show_error(item, "<%GetString("Dmz","8");%>");
+        return false;
+      }
+      else if (n[0]>=224 && n[0]<=239)
+      {
+        Show_error(item, "<%GetString("WizardFuncInet","49");%>");
+        return false;
+      }	
+      else if (n[0]>=240 && n[0]<=255)
+      {
+        Show_error(item, "<%GetString("Dmz","9");%>");
+        return false;
+      }	
+  			
+  		if(isBlank(n[1]))
+  		{
+        Show_error(item, "<%GetString("Dmz","7");%>");
+        return false;
+      }
+  		else if((isNaN(n[1]))||(n[1]<0)||(n[1]>255)||!check_integer(n[1])) 
+  		{
+        Show_error(item, "<%GetString("Dmz","7");%>");
+        return false; 
+      }		
+  		
+  		if(isBlank(n[2]))
+  		{
+        Show_error(item, "<%GetString("Dmz","7");%>");
+        return false;
+      }
+  		else if((isNaN(n[2]))||(n[2]<0)||(n[2]>255)||!check_integer(n[2])) 
+  		{
+        Show_error(item, "<%GetString("Dmz","7");%>");
+        return false; 
+      }
+  		
+  		if(isBlank(n[3]))
+  		{
+        Show_error(item, "<%GetString("Dmz","7");%>");
+        return false;
+      }
+  		else if((isNaN(n[3]))||(n[3]<=0)||(n[3]>=255)||!check_integer(n[3])) 
+  		{
+        Show_error(item, "<%GetString("Dmz","7");%>");
+        return false; 
+      }
+      
+      if (!isBlank(lanip))
+      {
+        if (!check_the_same_subnet(ip,lanip,lanmask))
+        {
+          Show_error(item, "<%GetString("Dmz","10");%>");
+          return false;
+        }
+      }
+    }
+	}
+
+	return true;
+}
+
+function isAllowValue(s)
+{
+  var i;
+	for (i=0; i<s.length; i++)
+	{
+		var c;
+		
+		c=s.charAt(i);
+	
+		if (((c>='0')&&(c<='9')) || (c=='.'))
+		{
+      continue;
+		}
+		else
+		{
+		  Show_error("<%GetString("Dmz","11");%>", "<%GetString("Dmz","15");%>");
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function check_initial_zero(tmp)
+{	
+	if(tmp.length>1&&tmp.charAt(0)=="0")
+	{
+		return true;
+	}
+	return false;
+}
+
+function init()
+{
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+}
+
+function Apply()
+{
+	var DMZIP_tmp;
+  DMZIP_tmp=ip_normalize_0(document.forms[0].DMZIP.value);
+  if (!isAllowValue(DMZIP_tmp))
+    return false;
+  
+  if(!check_ip_format(document.getElementById("id_dmzip").value,"<%GetString("Dmz","11");%>",""))
+    return false;
+  
+	var dmzip;
+	dmzip = document.getElementById("id_dmzip").value;
+	if (dmzip.length!=0)
+		document.getElementById("id_dmzenable").value = "1";
+	else
+		document.getElementById("id_dmzenable").value = "0";
+		
+	Hide_error();
+	YAHOO.util.Connect.setForm('nosave_SETUP'); 
+    YAHOO.util.Connect.asyncRequest('POST','dmz.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+
+function warning_click()
+{
+	if(document.getElementById("dmz_warning").style.display=="none")
+	{		
+		document.getElementById("dmz_warning").style.display="";		
+	}
+	else if(document.getElementById("dmz_warning").style.display=="")
+	{		
+		document.getElementById("dmz_warning").style.display="none";
+	}
+}
+
+
+function warning_close()
+{
+	document.getElementById("dmz_warning").style.display="none";
+}
+
+  // -->
+</script>
+<script src="OnceOnly.html"></script>
+</head>
+
+<!--<body  class="BFK_BODY" onkeydown="return pressEnterKey(event);">-->
+<body class="BFK_BODY" onLoad="init();" id="id_main" style="display:none;"> <!--patch 20100105-->
+<br>
+<form name="nosave_SETUP" onsubmit="return Apply();" method="POST" action="dmz.html">
+<div id="id_errtbl" class="C_ERR" style="display:none;"></div>
+<img id="warning_icon" onclick="warning_click();" style="display:<% NvramMatch("NATTrans", "1", "none"); %>;  font-size: 15px; font-weight: bold; width: 32px; height: 32px; margin-bottom: 1em; cursor: pointer;" src="/images/py20_warning.png">
+<div id="dmz_warning" class="popup_warn" style=" position: absolute; font-size: 15px; white-space: normal; color: rgb(255, 0, 0); background-color: rgb(255, 255, 255); width: 300px; opacity: 0.9; padding: 4px; border: 3px solid rgb(0, 0, 0); top: 60px; left: 50px; display:none;">
+	<div style="color: rgb(119, 119, 119); font-size: 15px; font-weight: bold; border: 1px solid rgb(204, 0, 0); height: 2em; line-height: 2em; cursor: move;">
+		<input type="button" value="<%GetString("NewUI","233");%>" style="margin: 0px; padding: 0px 5px; height: 2em; line-height: 1.5em; font-size: 15px; font-weight: bold; cursor: pointer; float: right;" onClick="warning_close()">
+	</div>
+	<p class="warnning_info" style="font-weight:bolder">
+		<%GetString("NewUI","278");%><br>
+		<%GetString("NewUI","296");%>
+	</p>
+</div>
+  <table class="AD_SET">
+    <tr>
+      <th><%GetString("Dmz","1");%></th>
+      <td>
+        <input type="text" name="DMZIP" id="id_dmzip" size="20" value="<%NvramGet("DMZIP");%>" maxlength="15">
+      </td>
+    </tr>
+  </table>
+  
+  <p class="notice">* <%GetString("Dmz","2");%> <%GetLanIPAddress();%>.</p>
+  
+  <input type="hidden" value="" name="nosave_SETUP">
+  <input type="hidden" value="0" name="DMZEnable" id="id_dmzenable">
+
+    <br/>
+  <div class="button5" id="dmz" name="dmz" onclick="Apply();">
+	<div class="button_text"><%GetString("Dmz","3");%></div>
+  </div>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</body>
+</html>

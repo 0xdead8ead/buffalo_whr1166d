@@ -1,0 +1,1939 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<style type="text/css">
+<!--
+
+body{
+	font-family : '<%GetString("NS","53");%>';
+	font-weight : normal;
+}
+
+a:link,a:visited {  color:#505050;  }
+a:active,a:hover {  color:#ff5500;  }
+small            {  font-size:75%;  }
+big              {  font-size:125%; }
+strong           {  font-weight:bolder; color:#ff0000; }
+
+p {
+	padding         : 0px;
+	margin          : 8px 0px 8px 0px;
+}
+
+hr {
+	padding         : 0px;
+	margin          : 24px 0px 0px 0px;
+}
+
+img {
+	border          : 0px none #000000;
+	padding         : 0px;
+	margin          : 0px;
+}
+
+body.COPYRIGHT {
+	background-color: #1970a4;
+	font-weight     : normal;
+	font-size       : 12px;
+	color           : #8cb8d2;
+	padding         : 0px;
+	margin          : 0px;
+}
+
+body.COPYRIGHT table {
+	width           : 100%;
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+	padding         : 0px;
+	margin          : 0px;
+}
+
+body.COPYRIGHT table td{
+	width           : 100%;
+	height          : 15px;
+
+	font-weight     : normal;
+	font-size       : 12px;
+	text-align      : center;
+	vertical-align  : middle;
+}
+
+body.TTL_BODY{
+	background-color : #ffffff;
+	color : #000000;
+
+	font-weight : bolder;
+	font-size   : 14px;
+	color       : #666666;
+
+	text-align  : center;
+	vertical-align : middle;
+	padding     : 0px;
+	margin      : 0px;
+}
+
+table.TTL_FRAME{
+	width : 100%;
+	height : 70px; /* TTL_MENU1 + TTL_MENU2 */
+	border          : 0px none #000000;
+
+	border-collapse : collapse;
+	border-spacing  : 0px;
+}
+
+table.TTL_FRAME td{
+	padding         : 0px;
+	margin          : 0px;
+}
+
+table.INFO {
+	width  : 100%;
+	height : 53px;
+
+	background-image  : url(/images/a-repeat.png);
+	background-repeat : repeat-x;
+
+	border-collapse : collapse;
+	border-spacing  : 0px;
+	padding     : 0px;
+	margin      : 0px;
+}
+
+
+
+
+
+table.INFO td.INFO_L{
+	width  : 320px;
+	height : 53px;
+
+	background-image  : url(/images/a-l-redlogo.png);
+	background-repeat : no-repeat;
+
+    padding : 0px 0px 0px 0px;
+    margin : 0px;
+    vertical-align : top;
+    position : relative;
+}
+
+
+
+
+
+
+
+span.banner{
+    position : absolute;
+    top : 25px;
+    left : 25px;
+    font-size   : 16px;
+    text-align  : left;
+    color : #c9d7e0;
+    font-weight : bolder;
+}
+
+
+
+
+table.INFO td.INFO_R{
+	width  : 450px;
+	height : 53px;
+
+	background-image  : url(/images/a-r.png);
+	background-repeat : no-repeat;
+	padding     :0px;
+	margin      : 0px;
+}
+
+table.TTL_MENU_WIZ,
+table.TTL_MENU1,
+table.TTL_MENU1_BRI {
+	width : 100%;
+	height:34px;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	background-image : url(/images/a-bar1.png);
+	background-repeat : repeat-x;
+
+	font-weight : bolder;
+	font-size   : 16px;
+	color       : #ffffff;
+
+	text-align  : center;
+	vertical-align  : middle;
+}
+
+table.TTL_MENU_WIZ td {
+	width : 140px;
+
+	border-top   : 1px solid #ffffff;
+	border-left  : 1px solid #ffffff;
+	border-right : 1px solid #ffffff;
+	border-bottom: 1px solid #ffffff;
+
+	padding         : 0px;
+	margin          : 0px;
+}
+
+table.TTL_MENU1 td {
+
+
+
+	width : 140px;
+
+	border-top   : 1px solid #ffffff;
+	border-left  : 1px solid #ffffff;
+	border-right : 1px solid #ffffff;
+	border-bottom: 1px solid #ffffff;
+
+	padding         : 0px;
+	margin          : 0px;
+}
+
+table.TTL_MENU1_BRI td {
+
+
+
+	width : 180px;
+
+	border-top   : 1px solid #ffffff;
+	border-left  : 1px solid #ffffff;
+	border-right : 1px solid #ffffff;
+	border-bottom: 1px solid #ffffff;
+
+	padding         : 0px;
+	margin          : 0px;
+}
+
+table.TTL_MENU_WIZ td.SELECTED,
+table.TTL_MENU1 td.SELECTED,
+table.TTL_MENU1_BRI td.SELECTED {
+	color       : #666666;
+	background-image : url(/images/a-bar-sub1.png);
+	background-color  : #c0ffff;
+
+	border-top   : 1px solid #ffffff;
+	border-left  : 1px solid #ffffff;
+	border-right : 1px solid #ffffff;
+	border-bottom: 1px none  #ffffff;
+}
+
+table.TTL_MENU_WIZ td.BLANK,
+table.TTL_MENU1 td.BLANK,
+table.TTL_MENU1_BRI td.BLANK {
+	border-top   : 1px none  #ffffff;
+	border-left  : 1px none  #ffffff;
+	border-right : 1px none  #ffffff;
+	border-bottom: 1px solid #ffffff;
+}
+
+table.TTL_MENU2 {
+	border-collapse : collapse;
+	border-spacing : 0px;
+	background-image : url(/images/a-bar-sub1.png);
+	background-repeat : repeat-x;
+	background-color : #c0ffff;
+	height:37px;
+	padding: 0px;
+	width : 100%;
+
+	font-weight : bolder;
+	font-size   : 14px;
+	color       : #666666;
+
+	text-align  : left;
+	vertical-align  : middle;
+
+}
+
+table.TTL_MENU2 td{
+	padding         : 0px 0px 0px 0px;
+	margin          : 0px;
+	
+	line-height     : 130%;
+	white-space : nowrap;
+	
+	border-top   : 1px none  #ffffff;
+	border-left  : 1px solid #ffffff;
+	border-right : 1px none  #ffffff;
+	border-bottom: 1px solid #ffffff;
+
+	text-align      : left;
+	vertical-align  : top;
+}
+
+table.TTL_MENU2 td.ITEM_MIDDLE_FRONT{
+	padding         : 0px 4px 0px 0px;
+	margin          : 0px;
+	
+	line-height     : 120%;
+	white-space : nowrap;
+	
+	border-top   : 1px none  #ffffff;
+	border-left  : 1px none  #ffffff;
+	border-right : 1px none  #ffffff;
+	border-bottom: 1px solid  #ffffff;
+
+	text-align      : left;
+	vertical-align  : top;
+}
+
+table.TTL_MENU2 td.ITEM_LOGOUT {
+	width : 100%;
+	text-align  : right;
+
+	border-top   : 1px none  #ffffff;
+	border-left  : 1px none  #ffffff;
+	border-right : 1px solid #ffffff;
+	border-bottom: 1px solid #ffffff;
+
+	padding         : 0px 4px 0px 4px;
+	margin          : 0px;
+}
+
+table.TTL_MENU2 td.TAIL{
+	width: 100%;
+	border-top   : 1px none  #ffffff;
+	border-left  : 1px none  #ffffff;
+	border-right : 1px none  #ffffff;
+	border-bottom: 1px solid  #ffffff;
+}
+
+div.ITEM_LOGOUT {
+	position:absolute;
+	top:103px;
+	right:10px; 
+	width : 70px;
+	text-align  : right;
+	padding         : 0px 4px 0px 4px;
+	margin          : 0px;
+}
+
+div.ITEM_LOGOUT_MANUAL {
+	position:absolute;
+	top:88px;
+	right:0px; 
+	width : 115px;
+	text-align  : right;
+	padding         : 0px 0px 0px 0px;
+	margin          : 0px;
+}
+
+div.ITEM_LOGOUT_MANUAL_IOS {
+	position:absolute;
+	top:83px;
+	right:0px; 
+	width : 115px;
+	text-align  : right;
+	padding         : 0px 0px 0px 0px;
+	margin          : 0px;
+}
+
+table.TTL_MENU2 span {
+	margin          : 0px 2px 0px 2px;
+	padding : 0px 4px 0px 4px;
+}
+
+
+
+
+
+
+table.TTL_MENU2 span span.BANDNAME {
+	font-family : '<%GetString("NS","54");%>';
+	margin          : 0px;
+	padding : 0px;
+}	
+table.TTL_MENU2 span.UNSELECTED {
+	border-right : 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background-color: #f0ffff;
+}
+table.TTL_MENU2 span.UNSELECTED_WLAN11A {
+	border-right : 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background-color: #008f00;
+	color: #ffffff;
+}
+table.TTL_MENU2 span.UNSELECTED_WLAN11G {
+	border-right : 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background-color: #00008f;
+	color: #ffffff;
+}
+table.TTL_MENU2 span.UNSELECTED_WLAN11A a:link,
+table.TTL_MENU2 span.UNSELECTED_WLAN11G a:link,
+table.TTL_MENU2 span.UNSELECTED_WLAN11A a:visited,
+table.TTL_MENU2 span.UNSELECTED_WLAN11G a:visited {
+	color:#ffffff;
+	text-decoration : none;
+}
+
+table.TTL_MENU2 span.UNSELECTED_WLAN11A a:active,
+table.TTL_MENU2 span.UNSELECTED_WLAN11G a:active,
+table.TTL_MENU2 span.UNSELECTED_WLAN11A a:hover,
+table.TTL_MENU2 span.UNSELECTED_WLAN11G a:hover {
+	color:#ffffff;
+	text-decoration : underline;
+}
+
+table.TTL_MENU2 span.SELECTED {
+	border-left : 1px solid #000000;
+	border-top: 1px solid #000000;
+	background-color: #bbeeee;
+	color:#3333ff;
+}
+
+table.TTL_MENU2 span.SELECTED span.WLAN11A,
+table.TTL_MENU2 span.SELECTED span.WLAN11G
+{
+	color:#3333ff;
+}
+
+table.TTL_MENU_WIZ a:link,
+table.TTL_MENU_WIZ a:visited,
+table.TTL_MENU1 a:link,
+table.TTL_MENU1 a:visited,
+table.TTL_MENU1_BRI a:link,
+table.TTL_MENU1_BRI a:visited {
+	color:#ffffff;
+	text-decoration : none;
+}
+
+table.TTL_MENU_WIZ a:active,
+table.TTL_MENU_WIZ a:hover,
+table.TTL_MENU1 a:active,
+table.TTL_MENU1 a:hover,
+table.TTL_MENU1_BRI a:active,
+table.TTL_MENU1_BRI a:hover {
+	color:#ffffff;
+	text-decoration : underline;
+}
+
+table.TTL_MENU2 a:link,
+table.TTL_MENU2 a:visited {
+	color:#666666;
+	text-decoration : none;
+}
+
+table.TTL_MENU2 a:active,
+table.TTL_MENU2 a:hover {
+	color:#666666;
+	text-decoration : underline;
+}
+
+div.ITEM_LOGOUT a:link,
+div.ITEM_LOGOUT a:visited {
+	color:#009933;
+	text-decoration : none;
+}
+
+div.ITEM_LOGOUT a:active,
+div.ITEM_LOGOUT a:hover {
+	color:#009933;
+	text-decoration : none;
+}
+
+div.ITEM_LOGOUT_MANUAL a:link,
+div.ITEM_LOGOUT_MANUAL a:visited {
+	color:#009933;
+	text-decoration : none;
+}
+
+div.ITEM_LOGOUT_MANUAL a:active,
+div.ITEM_LOGOUT_MANUAL a:hover {
+	color:#009933;
+	text-decoration : none;
+}
+
+div.ITEM_LOGOUT_MANUAL_IOS a:link,
+div.ITEM_LOGOUT_MANUAL_IOS a:visited {
+	font-weight : bolder;
+	font-size   : 14px;
+	color:#009933;
+	text-decoration : none;
+}
+
+div.ITEM_LOGOUT_MANUAL_IOS a:active,
+div.ITEM_LOGOUT_MANUAL_IOS a:hover {
+	font-weight : bolder;
+	font-size   : 14px;
+	color:#009933;
+	text-decoration : none;
+}
+
+table.TTL_MENU2 span.SELECTED a:link,
+table.TTL_MENU2 span.SELECTED a:visited {
+	color:#3333ff;
+	text-decoration : none;
+}
+
+table.TTL_MENU2 span.SELECTED a:active,
+table.TTL_MENU2 span.SELECTED a:hover {
+	color:#3333ff;
+	text-decoration : underline;
+}
+
+div.C_ERR hr {
+	padding         : 0px;
+	margin          : 0px;
+}
+div.C_ERR p {
+	padding         : 0px;
+	margin          : 0px;
+}
+
+.C_WARN, .C_ERR {
+	color       : #ff0000;
+}
+
+p.C_WARN, p.C_ERR {
+	font-size   : 15px;
+	font-weight : 600;
+	color       : #ff0000;
+}
+
+.C_NOTICE {
+	color       : #996600;
+}
+
+.C_MOD {
+	color       : red;
+}
+
+.C_CONFIRM {
+	color       : #202020;
+}
+
+.WLAN11A {
+	color:#008f00;
+}
+.WLAN11G {
+	color:#00008f;
+}
+
+table.TTL_MENU2 span span.WLAN11A {
+	color:#008f00;
+	padding         : 0px;
+}
+table.TTL_MENU2 span span.WLAN11G {
+	color:#00008f;
+	padding         : 0px;
+}
+
+.DIGIT {
+	text-align  : right;
+}
+
+.CENTER {
+	text-align  : center;
+}
+
+
+body.TOP_BODY {
+	background-color : #ffffff;
+	color : #000000;
+
+	font-weight : bolder;
+	font-size   : 14px;
+	color       : #666666;
+
+	text-align  : center;
+	vertical-align : middle;
+	padding     : 0px;
+	margin      : 0px;
+}
+
+table.TOP_FRAME {
+	width  : 100%;
+	height : 100%;
+
+	border          : 0px none #000000;
+	border-collapse : separate;
+	border-spacing  : 8px;
+}
+
+table.TOP_FRAME td{
+	text-align     : center;
+	vertical-align : top;
+
+	margin:8px;
+}
+
+
+table.TOP_WIZ_GRP{
+	width : 300px;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	margin : 10px 0px 0px 0px;
+}
+
+table.TOP_WIZ_GRP tr.HEAD td.TBL_C{
+	background-color : #7797c7;
+
+	font-size : 12pt;
+	font-weight : bolder;
+	color : #ffffff;
+
+	text-align     : left;
+	vertical-align : middle;
+	padding : 6px 0px 0px 10px;
+}
+
+table.TOP_WIZ_GRP tr.HEAD td.TBL_L,
+table.TOP_WIZ_GRP tr.HEAD td.TBL_R{
+	width : 6px;
+	background-color : #7797c7;
+}
+
+table.TOP_WIZ_GRP tr.FOOT td.TBL_C{
+	height : 6px;
+	background-color : #7797c7;
+}
+
+table.TOP_WIZ_GRP tr.FOOT td.TBL_L,
+table.TOP_WIZ_GRP tr.FOOT td.TBL_R{
+	width  : 6px;
+	height : 6px;
+	background-color : #7797c7;
+}
+
+table.TOP_WIZ_GRP tr.HEAD2 td.TBL_C{
+	height : 23px;
+
+	background-color : #e0e0e0;
+	border-top    : 1px solid gray;
+	border-bottom : 1px solid gray;
+	border-left   : 1px solid gray;
+	border-right  : 1px solid gray;
+
+	font-size : 14px;
+	font-weight : bolder;
+	color : #7b7b7b;
+
+	text-align     : left;
+	vertical-align : middle;
+	padding : 0px 0px 0px 15px;
+}
+
+table.TOP_WIZ_GRP tr.HEAD2 td.TBL_L{
+	width : 6px;
+	background-color : #7797c7;
+
+	border       : 0px none  gray;
+}
+
+table.TOP_WIZ_GRP tr.HEAD2 td.TBL_R{
+	width : 6px;
+	background-color : #7797c7;
+
+	border       : 0px none  gray;
+}
+
+table.TOP_WIZ_GRP tr.FOOT2 td.TBL_C{
+	height : 0px;
+	background-color : #ffffff;
+}
+table.TOP_WIZ_GRP tr.FOOT2 td.TBL_L{
+	width : 6px;
+	height : 0px;
+	background-color : #7797c7;
+}
+table.TOP_WIZ_GRP tr.FOOT2 td.TBL_R{
+	width  : 6px;
+	height : 0px;
+	background-color : #ffffff;
+}
+
+table.TOP_WIZ_GRP tr.TBL td.TBL_C{
+	height : 16px;
+	background-color : #ffffff;
+
+	font-size : 9pt;
+	font-weight : normal;  
+	color : #505050;
+
+	text-align     : left;
+	vertical-align : middle;
+}
+
+table.TOP_WIZ_GRP tr.TBL td.TBL_L{
+	width : 6px;
+	background-color : #7797c7;
+}
+
+table.TOP_WIZ_GRP tr.TBL td.TBL_R{
+	width : 6px;
+	background-color : #7797c7;
+}
+
+table.TOP_WIZ_GRP ul{
+	padding : 0px;
+	margin  : 0px 0px 0px 30px;
+}
+
+table.TOP_WIZ_GRP ul li{
+	padding : 0px 5px 0px 5px;
+	margin  : 4px 0px 3px 0px;
+	list-style-image: url(/images/y_orange.png);
+}
+
+
+table.TOP_INFO_GRP{
+	width : 290px;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	margin : 10px 0px 0px 0px;
+}
+
+table.TOP_INFO_GRP tr.HEAD td.TBL_C{
+	background-color : #b9e1cb;
+
+	font-size : 14px;
+	font-weight : bolder;
+	color : #003939;
+
+	text-align     : left;
+	vertical-align : middle;
+	padding : 2px 0px 0px 0px;
+}
+
+table.TOP_INFO_GRP tr.HEAD td.TBL_L,
+table.TOP_INFO_GRP tr.HEAD td.TBL_R{
+	width : 6px;
+	background-color : #b9e1cb;
+}
+
+table.TOP_INFO_GRP tr.FOOT td.TBL_C{
+	text-align : center;
+
+	padding : 6px;
+	background-color : #b9e1cb;
+}
+table.TOP_INFO_GRP tr.FOOT td.TBL_C table td.L{
+	width : 123px;
+}
+table.TOP_INFO_GRP tr.FOOT td.TBL_C table td.C{
+	width : 32px;
+	text-align     : center;
+}
+table.TOP_INFO_GRP tr.FOOT td.TBL_C table td.R{
+	width : 123px;
+	
+	font-size : 9pt;
+	color : #008268;
+
+	text-align     : left;
+	vertical-align : middle;
+}
+
+table.TOP_INFO_GRP tr.FOOT td.TBL_L,
+table.TOP_INFO_GRP tr.FOOT td.TBL_R{
+	width  : 6px;
+	height : 6px;
+	background-color : #b9e1cb;
+}
+
+table.TOP_INFO_GRP tr.HEAD2 td.TBL_C{
+	background-color : #ebefe2;
+
+	font-size : 14px;
+	font-weight : bolder;
+	color : #008268;
+
+	border-bottom : 1px dotted #7b6157;
+
+	text-align     : left;
+	vertical-align : middle;
+	padding : 2px 0px 0px 0px;
+}
+
+table.TOP_INFO_GRP tr.HEAD2 td.TBL_L,
+table.TOP_INFO_GRP tr.HEAD2 td.TBL_R{
+	width : 6px;
+	background-color : #ebefe2;
+
+	border-bottom : 1px dotted #7b6157;
+}
+
+table.TOP_INFO_GRP tr.FOOT2 td.TBL_C,
+table.TOP_INFO_GRP tr.FOOT2 td.TBL_R,
+table.TOP_INFO_GRP tr.FOOT2 td.TBL_L{
+	width  : 6px;
+	height : 6px;
+	background-color : #ebefe2;
+}
+
+
+table.TOP_INFO_GRP tr.TBL td.TBL_C{
+	height : 14px;
+	background-color : #ebefe2;
+
+	font-size : 9pt;
+	font-weight : normal;  
+	height : 16px;
+	color : #008268;
+
+	text-align     : left;
+	vertical-align : middle;
+}
+
+table.TOP_INFO_GRP tr.TBL td.TBL_C table{
+	width : 278px;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	margin : 0px 0px 0px 0px;
+}
+
+table.TOP_INFO_GRP tr.TBL td.TBL_L{
+	width : 6px;
+	background-color : #ebefe2;
+}
+
+table.TOP_INFO_GRP tr.TBL td.TBL_R{
+	width : 6px;
+	background-color : #ebefe2;
+}
+
+input.AOSS_BUTTON{
+	width           : 32px;
+	height          : 32px;
+	border          : 0px none #000000;
+}
+
+body.TOP_IFRAME_BODY {
+	background-color : #ffffff;
+	color : #000000;
+
+	padding     : 0px;
+	margin      : 0px;
+}
+
+body.TOP_IFRAME_BODY table{
+	width : 100%;
+	height : 100%;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	padding : 0px;
+	margin  : 0px;
+}
+
+body.TOP_IFRAME_BODY table td{
+	width : 100%;
+	height : 100%;
+
+	text-align     : center;
+	vertical-align : top;
+}
+
+
+body.WIZ_BODY {
+	background-color : #ffffff;
+	color : #000000;
+	width : 100%;
+
+	padding     : 0px;
+	margin      : 0px;
+}
+
+table.WIZ_FRAME{
+/*	width : 100%; */
+
+	background-color : #ffffff;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	padding : 0px;
+	margin  : 0px auto;
+}
+
+table.WIZ_FRAME ul{
+	padding : 0px;
+	margin  : 0px 0px 0px 30px;
+}
+
+table.WIZ_FRAME ul li{
+	padding : 0px 5px 0px 5px;
+	margin  : 4px 0px 3px 0px;
+	list-style-image: url(/images/y_orange.png);
+}
+
+table.WIZ_FRAME tr.TBL td.TBL_L,
+table.WIZ_FRAME tr.TBL td.TBL_R{
+	width : 86px;
+	background-color : #ffffff;
+}
+
+table.WIZ_FRAME tr.TBL td.TBL_C{
+	background-color : #ffffff;
+        text-align : center;
+
+	padding : 0px;
+	margin  : 0px;
+}
+
+table.WIZ_FRAME tr.HEAD td.TBL_C,
+table.WIZ_FRAME tr.HEAD td.TBL_L,
+table.WIZ_FRAME tr.HEAD td.TBL_R{
+	height: 16px;
+	background-color : #ffffff;
+}
+
+table.WIZ_FRAME tr.FOOT td.TBL_C,
+table.WIZ_FRAME tr.FOOT td.TBL_L,
+table.WIZ_FRAME tr.FOOT td.TBL_R{
+	height: 16px;
+	background-color : #ffffff;
+}
+
+table.WIZ_FRAME2{
+	width : 727px;
+
+	background-color : #ffffff;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	padding : 0px;
+	margin  : 0px;
+}
+
+table.WIZ_FRAME2 tr.HEAD td.TBL_C{
+	height: 26px;
+	background-color : #7797c7;
+
+	font-size : 16px;
+	font-weight : bolder;
+	color : #ffffff;
+
+	text-align     : left;
+	vertical-align : middle;
+	padding : 6px 0px 0px 10px;
+
+}
+
+table.WIZ_FRAME2 tr.HEAD td.TBL_L,
+table.WIZ_FRAME2 tr.HEAD td.TBL_R{
+	width  : 6px;
+	height : 26px;
+	background-color : #7797c7;
+}
+
+table.WIZ_FRAME2 tr.HEAD2 td.TBL_C{
+	height : 23px;
+
+	background-color : #e0e0e0;
+	border         : 1px solid gray;
+
+	font-size : 14px;
+	font-weight : bolder;
+	color : #7b7b7b;
+
+	text-align     : left;
+	vertical-align : middle;
+	padding : 0px 0px 0px 15px;
+}
+
+table.WIZ_FRAME2 tr.HEAD2 td.TBL_L,
+table.WIZ_FRAME2 tr.HEAD2 td.TBL_R{
+	width  : 6px;
+	height : 23px;
+	background-color : #7797c7;
+}
+
+table.WIZ_FRAME2 tr.FOOT td.TBL_C{
+	height : 6px;
+	background-color : #7797c7;
+}
+
+table.WIZ_FRAME2 tr.FOOT td.TBL_L,
+table.WIZ_FRAME2 tr.FOOT td.TBL_R{
+	width  : 6px;
+	height : 6px;
+	background-color : #7797c7;
+}
+
+table.WIZ_FRAME2 tr.TBL td.TBL_C{
+	background-color : #ffffff;
+
+	text-align     : center;
+	vertical-align : middle;
+}
+table.WIZ_FRAME2 tr.TBL td.TBL_L,
+table.WIZ_FRAME2 tr.TBL td.TBL_R{
+	width : 6px;
+	background-color : #7797c7;
+}
+
+table.WIZ_FRAME3{
+	width : 667px;
+
+	background-color : #999999;
+
+	border          : 0px none #999999;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	padding : 0px;
+	margin  : 12px 24px 12px 24px;
+}
+
+table.WIZ_FRAME3 tr.HEAD td.TBL_C{
+	height: 12px;
+	background-color   : #eeeeee;
+	background-image   : url(/images/y_orange.png);
+	background-repeat  : no-repeat;
+	background-position: 4px 6px;
+	border             : 1px solid #999999;
+
+	font-size : 9pt;
+	font-weight : normal;  
+	height : 16px;
+	color : #505050;
+
+	text-align     : left;
+	vertical-align : middle;
+
+	padding : 4px 5px 3px 24px;
+	margin  : 0px;
+}
+
+table.WIZ_FRAME3 tr.HEAD td.TBL_L,
+table.WIZ_FRAME3 tr.HEAD td.TBL_R{
+	background-color : #ffffff;
+	border           : 0px none #ffffff;
+}
+
+
+table.WIZ_FRAME3 tr.FOOT{
+	background-color : #ffffff;
+	border           : 0px none #ffffff;
+}
+
+table.WIZ_FRAME3 tr.FOOT td.TBL_L,
+table.WIZ_FRAME3 tr.FOOT td.TBL_R{
+	background-color : #ffffff;
+	border           : 0px none #ffffff;
+}
+
+table.WIZ_FRAME3 tr.TBL td.TBL_C{
+	background-color : #ffffff;
+	border             : 1px solid #999999;
+
+	text-align     : center;
+	vertical-align : middle;
+}
+
+table.WIZ_FRAME3 tr.TBL td.TBL_L,
+table.WIZ_FRAME3 tr.TBL td.TBL_R{
+	background-color : #ffffff;
+	border           : 0px none #ffffff;
+}
+
+table.NAVI {
+	width : 600px;
+	background-color : #ffffff;
+	border          : 0px none #999999;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	padding : 0px;
+	margin  : 0px;
+
+	padding : 0px;
+	margin  : 12px 68px 12px 68px;
+}
+
+table.NAVI td{
+	height : 20px;
+
+	font-size : 9pt;
+	font-weight : normal;  
+	height : 16px;
+	color : #505050;
+
+	text-align : center;
+	vertical-align : middle;
+}
+
+table.NAVI td.NAVI_L{
+	width      : 25%;
+	text-align : left;
+}
+
+table.NAVI td.NAVI_C{
+	width      : 50%;
+	text-align : center;
+}
+
+table.NAVI td.NAVI_R{
+	width      : 25%;
+	text-align : right;
+}
+
+
+table.WIZ_SET,
+table.WIZ_TIPS{
+	width : 650px;
+
+	background-color : #999999;
+	border          : 0px none #999999;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	padding : 0px;
+	margin  : 12px 6px 12px 6px;
+}
+
+table.WIZ_SET th,
+table.WIZ_TIPS th{
+	width : 33%;
+	background-color   : #eeeeee;
+	border             : 1px solid #999999;
+
+	font-size : 9pt;
+	font-weight : normal;  
+	height : 16px;
+	color : #505050;
+
+	text-align     : left;
+	vertical-align : middle;
+
+	padding : 4px 5px 3px 5px;
+	margin  : 0px;
+}
+
+table.WIZ_SET td,
+table.WIZ_TIPS td{
+	background-color   : #ffffff;
+	border             : 1px solid #999999;
+
+	font-size : 9pt;
+	font-weight : normal;  
+	height : 16px;
+	color : #505050;
+
+	text-align     : left;
+	vertical-align : middle;
+
+	padding : 4px 5px 3px 5px;
+	margin  : 0px;
+}
+
+table.WIZ_SET td table,
+table.WIZ_TIPS td table{
+	width : auto;
+	background-color : #ffffff;
+
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	margin  : 0px;
+	padding : 0px;
+}
+
+table.WIZ_SET td table td,
+table.WIZ_TIPS td table td{
+	border          : 0px none #000000;
+	padding : 0px 4px 0px 0px;
+}
+
+table.WIZ_FRAME2 table,
+table.WIZ_FRAME3 table{
+	width : 650px;
+	background-color : #ffffff;
+	border             : 0px none #999999;
+
+	padding : 0px;
+	margin  : 12px 6px 12px 6px;
+}
+
+table.WIZ_FRAME2 table td,
+table.WIZ_FRAME3 table td{
+	font-size : 9pt;
+	font-weight : normal;  
+	height : 16px;
+	color : #505050;
+
+	text-align     : left;
+	vertical-align : middle;
+
+	padding : 4px 5px 3px 5px;
+	margin  : 0px;
+}
+
+
+table.WIZ_FRAME_INFO{
+	width : 727px;
+	background-color   : #ffffff;
+	border          : 0px none #000000;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	padding : 0px;
+	margin  : 0px;
+}
+
+table.WIZ_FRAME_INFO tr.HEAD td.TBL_C{
+	height : 23px;
+	background-image   : url(/images/y_orange.png);
+	background-repeat  : no-repeat;
+	background-position: 4px 6px;
+
+	font-size : 9pt;
+	font-weight : normal;
+	height : 16px;
+	color : #505050;
+
+	text-align     : left;
+	vertical-align : middle;
+
+	padding : 4px 5px 3px 24px;
+	margin  : 0px;
+}
+
+table.WIZ_FRAME_INFO tr.HEAD td.TBL_L,
+table.WIZ_FRAME_INFO tr.HEAD td.TBL_R{
+	width  : 6px;
+	height : 23px;
+	background-color : #ffffff;
+}
+
+table.WIZ_FRAME_INFO tr.FOOT td.TBL_C{
+	height : 6px;
+	background-color : #ffffff;
+}
+
+table.WIZ_FRAME_INFO tr.FOOT td.TBL_L,
+table.WIZ_FRAME_INFO tr.FOOT td.TBL_R{
+	width  : 6px;
+	height : 6px;
+	background-color : #ffffff;
+}
+
+table.WIZ_FRAME_INFO tr.TBL td.TBL_C{
+	background-color : #ffffff;
+	border             : 0px none #ffffff;
+
+	text-align     : left;
+	vertical-align : top;
+}
+
+table.WIZ_FRAME_INFO tr.TBL td.TBL_L,
+table.WIZ_FRAME_INFO tr.TBL td.TBL_R{
+	width  : 6px;
+	height : 6px;
+	background-color : #ffffff;
+}
+
+table.WIZ_LIST{
+	border-collapse : separate;
+	border-spacing  : 1px;
+
+	border  : 0px none #000000;
+	margin  : 0px 0px 8px 0px;
+}
+
+table.WIZ_LIST th{
+	height : 18px;
+	background-color : #d2e6fa;
+
+	font-size : 14px;
+	font-weight : normal;  
+	color : #505050;
+	white-space: nowrap;
+
+	text-align     : left;
+	vertical-align : middle;
+
+	padding : 2px 0px 2px 0px;
+	margin  : 0px;
+}
+
+table.WIZ_LIST th.ARROW{
+	background-color : #ffffff;
+}
+
+table.WIZ_LIST td{
+	height : 16px;
+	background-color : #c8ffc8;
+
+	font-size : 12px;
+	font-weight : normal;  
+	color : #505050;
+	white-space: nowrap;
+
+	text-align     : left;
+	vertical-align : middle;
+
+	padding : 2px 0px 2px 0px;
+	margin  : 0px;
+}
+
+table.WIZ_LIST tr.DISABLE td{
+	color : #990000;
+	background-color : #e6e6e6;
+}
+
+table.WIZ_LIST td.ARROW,
+table.WIZ_LIST tr.DISABLE td.ARROW{
+	background-color : #ffffff;
+}
+
+table.WIZ_LIST td.NO_ENTRY{
+	text-align : center;
+}
+
+table.WIZ_FRAME3 table.WIZ_CONN_CHECK {
+	width : 650px;
+	border-collapse : separate;
+	border-spacing  : 1px;
+	border          : 0px none #000000;
+	padding : 0px;
+	margin  : 12px 6px 12px 6px;
+}
+
+table.WIZ_FRAME3 table.WIZ_CONN_CHECK td {
+	width           : 33%;
+	background-color: #6f7b82;
+
+	font-size       : 12px;
+	font-weight     : bolder;
+	color           : #ffffff;
+	text-align      : center;
+	vertical-align  : middle;
+
+	padding         : 0px;
+	margin          : 0px;
+}
+
+table.WIZ_FRAME3 table.WIZ_CONN_CHECK td.CHECK {
+	background-color: #9c2121;
+}
+
+
+body.AS_BODY {
+	background-color: #ffffff;
+
+	font-size       : 15px;
+	font-weight     : 600;
+	color           : #294887;
+
+	padding-top     : 2px;
+	padding-bottom  : 7px;
+}
+
+body.AS_BODY a:link     { color:#141168; }
+body.AS_BODY a:visited  { color:#141168; }
+body.AS_BODY a:active   { color:#ff0000; }
+body.AS_BODY a:hover    { color:#141168; }
+
+form {
+	margin  : 0px 0px 0px 0px;
+	padding-top : 0px;
+	padding-bottom : 0px;
+	padding-left : 0px;
+	padding-right : 0px;
+}
+
+table.AD_TTL {
+	width : 100%;
+}
+
+table.AD_TTL td {
+	background-color : #d9e7ff;
+	font-size: 18px;
+	font-weight: bold;
+	color: #1a2c4a;
+	padding: 4px 0px 4px 20px;
+
+	border : 0px none #000000;
+}
+
+table.AD_TTL2 td {
+	font-size : 15px;
+	font-weight : 600;
+	color : #294887;
+
+	padding-top : 2px;
+	padding-bottom : 7px;
+}
+
+
+
+table.AD_SET {
+	border-collapse : separate;
+	border-spacing  : 1px;
+
+	border          : 0px none #000000;
+	margin  : 0px 0px 8px 0px;
+}
+
+table.AD_SET th {
+	font-size : 14px;
+	font-weight : normal;
+	color : #1a2c4a;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #c9d7f1;
+	padding : 2px 5px 2px 5px;
+	white-space: nowrap;
+}
+
+table.AD_SET td {
+	font-size : 12px;
+	font-weight : normal;
+	color : #325174;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #d2eef4;
+	white-space: nowrap;
+
+	padding : 2px 5px 2px 5px;
+}
+
+table.AD_SET table {
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+	border  : 0px none #000000;
+	margin  : 0px;
+	padding : 0px;
+	white-space: nowrap;
+}
+
+table.AD_SET table th{
+	white-space: nowrap;
+	padding : 0px 4px 0px 0px;
+	border  : 0px none #000000;
+	white-space: nowrap;
+}
+
+table.AD_SET table td{
+	white-space: nowrap;
+	padding : 0px 4px 0px 0px;
+	border  : 0px none #000000;
+	white-space: nowrap;
+}
+
+table.AD_SET td.DK_PT {
+	font-size : 12px;
+	font-weight : normal;
+	color : #325174;
+	white-space: nowrap;
+	background-color : #d2eef4;
+	white-space: nowrap;
+
+}
+table.AD_SET table.CHILD{
+	border          : 0px none #ffffff;
+	border-collapse : collapse;
+	border-spacing  : 0px;
+
+}
+
+table.AD_SET table.CHILD td {
+	border          : 2px solid #ffffff;
+	border-collapse : separate;
+	border-spacing  : 0px;
+	font-size   : 12px;
+	font-weight : normal;
+	color       : #325174;
+	background-color : #d2eef4;
+	white-space : nowrap;
+}
+
+table.AD_INFO {
+	border-collapse : separate;
+	border-spacing  : 1px;
+	border          : 0px none #000000;
+	margin  : 0px 0px 8px 0px;
+}
+
+table.AD_INFO th {
+	height : 16px;
+
+	font-size : 14px;
+	font-weight : normal;
+	color : #003939;
+	text-align : left;
+	background-color : #b9e1cb;
+
+	padding : 2px 5px 2px 5px;
+}
+
+table.AD_INFO td {
+	height : 16px;
+
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	background-color : #ebefe2;
+
+	padding : 2px 2px 2px 2px;
+}
+
+table.AD_INFO td table th {
+	height : 16px;
+
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #ebefe2;
+	white-space: nowrap;
+
+	padding : 0px;
+}
+
+table.AD_INFO td table td {
+	height : 16px;
+
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #ebefe2;
+	white-space: nowrap;
+
+	padding : 0px;
+}
+
+table.AD_INFO td.NO_ENTRY {
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	background-color : #ebefe2;
+	text-align : center;
+
+	padding : 2px 5px 2px 5px;
+}
+
+table.AD_INFO_ENC {
+	border-collapse : collapse;
+	border          : 0px none #000000;
+	margin  : 0px;
+}
+
+table.AD_INFO_ENC td {
+	font-size : 11px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	vertical-align : middle ;
+	background-color : #ebefe2;
+
+	padding : 0px 2px 0px 0px;
+}
+
+table.AD_INFO_LOG {
+	width   : 100%;
+	border-collapse : separate;
+	border-spacing  : 1px;
+	border          : 0px none #000000;
+	margin  : 0px 0px 8px 0px;
+}
+
+table.AD_INFO_LOG th {
+	height : 16px;
+
+	font-size : 14px;
+	font-weight : normal;
+	color : #003939;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #b9e1cb;
+
+	padding : 2px 5px 2px 5px;
+}
+
+table.AD_INFO_LOG td {
+	height : 16px;
+
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #ebefe2;
+
+	padding : 2px 5px 2px 5px;
+}
+
+table.AD_INFO_LOG .DATE {
+}
+table.AD_INFO_LOG .KIND {
+}
+table.AD_INFO_LOG .KIND {
+}
+
+table.AD_SYSINFO{
+	border-collapse : separate;
+	border-spacing  : 1px;
+	width : 100%;
+	border          : 0px none #000000;
+	margin  : 0px 0px 8px 0px;
+}
+table.AD_SYSINFO th {
+	height : 18px;
+
+	font-size : 14px;
+	font-weight : normal;
+	color : #003939;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #b9e1cb;
+
+	padding : 2px 5px 2px 5px;
+}
+table.AD_SYSINFO td {
+	height : 16px;
+
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	background-color : #ebefe2;
+
+	padding : 2px 5px 2px 5px;
+}
+table.AD_SYSINFO td table{
+	border-collapse : separate;
+	border-spacing  : 0px;
+	border          : 0px none #000000;
+	margin  : 0px 0px 0px 0px;
+	width :100%;
+}
+table.AD_SYSINFO td table th{
+	width : 40%;
+	height : 16px;
+	font-size : 12px;
+	color : #008268;
+	text-align : left;
+	background-color : #ebefe2;
+
+	padding : 0px;
+}
+table.AD_SYSINFO td table td{
+	height : 16px;
+	font-size : 12px;
+	color : #008268;
+	text-align : left;
+	background-color : #ebefe2;
+
+	padding : 0px;
+}
+table.AD_LIST {
+	border-collapse : separate;
+	border-spacing  : 1px;
+
+	border          : 0px none #000000;
+	margin  : 0px 0px 8px 0px;
+}
+
+table.AD_LIST th {
+	font-size : 14px;
+	font-weight : normal;
+	color : #505050;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #d2e6fa;
+	white-space: nowrap;
+
+	padding : 2px 5px 2px 5px;
+}
+
+table.AD_LIST td {
+	font-size : 12px;
+	font-weight : normal;
+	color : #505050;
+	white-space: nowrap;
+	background-color : #c8ffc8;
+	white-space: nowrap;
+
+	padding : 2px 5px 2px 5px;
+}
+
+table.AD_LIST tr.DISABLE td{
+	color : #990000;
+	background-color : #e6e6e6;
+}
+
+table.AD_LIST th.ARROW{
+	background-color : #ffffff;
+}
+
+table.AD_LIST td.ARROW {
+	text-align : center;
+	background-color : #ffffff;
+}
+
+table.AD_LIST td.NO_ENTRY {
+	font-size : 12px;
+	font-weight : normal;
+	color : #505050;
+	background-color : #c8ffc8;
+	text-align : center;
+
+	padding : 2px 5px 2px 5px;
+}
+table.WPS_SYSINFO{
+	border-collapse : separate;
+	border-spacing  : 1px;
+	width : 100%;
+	border          : 0px none #000000;
+	margin  : 0px 0px 8px 0px;
+}
+table.WPS_SYSINFO th {
+	height : 18px;
+
+	font-size : 14px;
+	font-weight : normal;
+	color : #003939;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #b9e1cb;
+
+	padding : 2px 5px 2px 5px;
+}
+table.WPS_SYSINFO td {
+	height : 16px;
+
+	font-size : 12px;
+	font-weight : normal;
+	color : #008268;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #ebefe2;
+
+	padding : 2px 5px 2px 5px;
+}
+table.WPS_SYSINFO td table{
+	border-collapse : separate;
+	border-spacing  : 0px;
+	border          : 0px none #000000;
+	margin  : 0px 0px 0px 0px;
+	width :100%;
+}
+table.WPS_SYSINFO td table th{
+	width : 100px;
+	height : 16px;
+	font-size : 12px;
+	color : #008268;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #ebefe2;
+
+	padding : 0px;
+}
+table.WPS_SYSINFO td table td{
+	height : 16px;
+	font-size : 12px;
+	color : #008268;
+	text-align : left;
+	white-space: nowrap;
+	background-color : #ebefe2;
+
+	padding : 0px;
+}
+
+table.SCHEDULE_TABLE{
+	border          : 0px none #ffffff;
+	border-collapse : collapse;
+	padding         : 0px;
+	margin          : 0px;
+}
+
+table.SCHEDULE_TABLE td{
+	border-right    : 1px solid #000000;
+	background-color : #FFFFFF;
+}
+
+table.SCHEDULE_TABLE td.time{
+	border-style : none solid none none; 
+	border-width : 1px 1px 1px 1px; 
+	border-color : #FFFFFF #000000 #FFFFFF #FFFFFF;
+	width : 48px;
+	height : 24px;
+	text-align : left;
+	background-color : #FFFFFF;
+}
+
+table.SCHEDULE_TABLE td.normal{
+	border-right    : 1px solid #ffffff;
+	width  : 12px;
+	height : 20px;
+}
+
+table.SCHEDULE_TABLE td.time_separate{
+	border-right    : 1px solid #000000;
+	width  : 12px;
+	height : 20px;
+}
+
+table.SCHEDULE_TABLE td.normal_interval{
+	border-right    : 1px solid #ffffff;
+	width  : 12px;
+	height : 5px;
+}
+
+table.SCHEDULE_TABLE td.time_separate_interval{
+	border-right    : 1px solid #000000;
+	width  : 12px;
+	height : 5px;
+}
+
+-->
+</style>
+<META http-equiv="Content-Style-Type" content="text/css">
+<title>AirStation Settings</title>
+ <script language="JavaScript">
+  <!--
+
+  // -->
+</script>
+</head>
+
+<BODY class=WIZ_BODY>
+<table class=WIZ_FRAME>
+<tbody>
+  <tr class=HEAD>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=TBL>
+    <td class=TBL_L></td>
+    <td class=TBL_C>
+
+        <table class=WIZ_FRAME2>
+        <tbody>
+
+          <TR class=HEAD>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C><%GetString("NS","2");%></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=HEAD2>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C>
+              <%GetString("NS","28");%>
+            </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=TBL>
+            <TD class=TBL_L></TD>
+            <td class=TBL_C>
+
+
+                <table class=WIZ_FRAME3>
+                <tbody>
+                  <tr class=HEAD>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+                      <%GetString("NS","28");%>
+                    </td>
+                    <td class=TBL_R></td>
+                  </tr>
+                  <tr class=TBL>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C>
+                      <table>
+                      <tbody>
+                      <tr>
+                        <td>
+							<script type="text/javascript" language="javascript">
+							<!--
+								document.open();
+								if( 1 == <%NvramGet("NetworkServiceEnable");%> ){
+									document.write('<%GetString("NS","29");%>' + "<br>" + '<%GetString("NS","30");%>');
+								}else{
+									document.write('<%GetString("NS","51");%>');
+								}
+								document.close();
+							// -->
+							</script>
+                        </td>
+                      </tr>
+                      </tbody>
+                      </table>
+
+                    </td>
+                    <td class=TBL_R></td>
+                  </tr>
+                  <tr class=FOOT>
+                    <td class=TBL_L></td>
+                    <td class=TBL_C></td>
+                    <td class=TBL_R></td>
+                  </tr>
+                </tbody>
+                </table>
+
+            </TD>
+            <TD class=TBL_R></TD>
+          </TR>
+          <TR class=FOOT>
+            <TD class=TBL_L></TD>
+            <TD class=TBL_C></TD>
+            <TD class=TBL_R></TD>
+          </TR>
+        </TBODY>
+        </TABLE>
+
+        <table class=NAVI>
+        <form method="POST" name="operation_set">
+        <input type="hidden" name="action" value="">
+        <tbody>
+          <tr>
+            <td class=NAVI_L>
+              <input type="button" value='<%GetString("NS","14");%>' onclick="top.location.href='hosts.html'">
+            </td>
+            <td class=NAVI_C></td>
+            <td class=NAVI_R></td>
+          </tr>
+        </tbody>
+        <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+        </form>
+        </table>
+
+    </td>
+    <td class=TBL_R></td>
+  </tr>
+
+  <tr class=FOOT>
+    <td class=TBL_L></td>
+    <td class=TBL_C></td>
+    <td class=TBL_R></td>
+  </tr>
+</tbody>
+</table>
+</body>
+</html>
+

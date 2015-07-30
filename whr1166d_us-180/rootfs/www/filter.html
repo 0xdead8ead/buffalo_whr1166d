@@ -1,0 +1,337 @@
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=<%ChangeCharset();%>">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="Thu, 01 Dec 1994 16:00:00 GMT">
+<META http-equiv="Content-Style-Type" content="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ENG.css" type="text/css">
+<LINK rel="stylesheet" href="WHR-G300N-160149-style-ad-ENG.css" type="text/css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="JavaScript" type="text/javascript" src="common.js"></script>
+<script language="JavaScript">
+<!--
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='filter.html'", 5000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+function init()
+{
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+
+	//var PPPoE1 = "<%NvramGet("PPPoEDefault");%>";
+	//var PPPoE2 = "<%NvramGet("UnIPIFIndex");%>";
+	//var Waninfo = "<%GetWanInfo();%>";
+	//var WanType = "<%NvramGet("WanMethod");%>";
+	var PPPoEType = "<%NvramGet("WanIPAssignment");%>";
+	var PPPoENum = "<%NvramGet("PPPoENumNow");%>";
+
+	if (document.getElementById("id_nbtenable").checked == false)
+	{
+		document.getElementById("id_nbtenableppp1").disabled=true;
+		document.getElementById("id_nbtenableppp2").disabled=true;
+		document.getElementById("id_nbtenableppp3").disabled=true;
+		document.getElementById("id_nbtenableppp4").disabled=true;
+		document.getElementById("id_nbtenableppp5").disabled=true;
+	}
+	else
+	{
+		document.getElementById("id_nbtenableppp1").disabled=false;
+		document.getElementById("id_nbtenableppp2").disabled=false;
+		document.getElementById("id_nbtenableppp3").disabled=false;
+		document.getElementById("id_nbtenableppp4").disabled=false;
+		document.getElementById("id_nbtenableppp5").disabled=false;
+	}
+
+	if (document.getElementById("id_pingenable").checked == false)
+	{
+		document.getElementById("id_pingenableppp1").disabled=true;
+		document.getElementById("id_pingenableppp2").disabled=true;
+		document.getElementById("id_pingenableppp3").disabled=true;
+		document.getElementById("id_pingenableppp4").disabled=true;
+		document.getElementById("id_pingenableppp5").disabled=true;
+	}
+	else
+	{
+		document.getElementById("id_pingenableppp1").disabled=false;
+		document.getElementById("id_pingenableppp2").disabled=false;
+		document.getElementById("id_pingenableppp3").disabled=false;
+		document.getElementById("id_pingenableppp4").disabled=false;
+		document.getElementById("id_pingenableppp5").disabled=false;
+	}
+
+	if (PPPoEType == 2)
+	{
+		document.getElementById("id_NBT").style.display = "";
+		document.getElementById("id_Ping").style.display = "";
+
+		if ("<%NvramGet("PPPoE1No");%>" != 0)
+		{			
+			document.getElementById("id_NBT_Mutiple1").style.display = "";
+			document.getElementById("id_Ping_Mutiple1").style.display = "";
+		}
+		else
+		{
+			document.getElementById("id_NBT_Mutiple1").style.display = "none";
+			document.getElementById("id_Ping_Mutiple1").style.display = "none";
+		}
+
+		if ("<%NvramGet("PPPoE2No");%>" != 0)
+		{
+			document.getElementById("id_NBT_Mutiple2").style.display = "";
+			document.getElementById("id_Ping_Mutiple2").style.display = "";
+		}
+		else
+		{
+			document.getElementById("id_NBT_Mutiple2").style.display = "none";
+			document.getElementById("id_Ping_Mutiple2").style.display = "none";
+		}
+
+		if ("<%NvramGet("PPPoE3No");%>" != 0)
+		{
+			document.getElementById("id_NBT_Mutiple3").style.display = "";
+			document.getElementById("id_Ping_Mutiple3").style.display = "";
+		}
+		else
+		{
+			document.getElementById("id_NBT_Mutiple3").style.display = "none";
+			document.getElementById("id_Ping_Mutiple3").style.display = "none";
+		}
+
+		if ("<%NvramGet("PPPoE4No");%>" != 0)
+		{
+			document.getElementById("id_NBT_Mutiple4").style.display = "";
+			document.getElementById("id_Ping_Mutiple4").style.display = "";
+		}
+		else
+		{
+			document.getElementById("id_NBT_Mutiple4").style.display = "none";
+			document.getElementById("id_Ping_Mutiple4").style.display = "none";
+		}
+
+		if ("<%NvramGet("PPPoE5No");%>" != 0)
+		{
+			document.getElementById("id_NBT_Mutiple5").style.display = "";
+			document.getElementById("id_Ping_Mutiple5").style.display = "";
+		}
+		else
+		{
+			document.getElementById("id_NBT_Mutiple5").style.display = "none";
+			document.getElementById("id_Ping_Mutiple5").style.display = "none";
+		}
+
+		document.getElementById("id_NBT_PPP1Name").innerHTML = "<%NvramGetAdv("PPPoE1Name");%>";
+		document.getElementById("id_NBT_PPP2Name").innerHTML = "<%NvramGetAdv("PPPoE2Name");%>";
+		document.getElementById("id_NBT_PPP3Name").innerHTML = "<%NvramGetAdv("PPPoE3Name");%>";
+		document.getElementById("id_NBT_PPP4Name").innerHTML = "<%NvramGetAdv("PPPoE4Name");%>";
+		document.getElementById("id_NBT_PPP5Name").innerHTML = "<%NvramGetAdv("PPPoE5Name");%>";
+
+		document.getElementById("id_Ping_PPP1Name").innerHTML = "<%NvramGetAdv("PPPoE1Name");%>";
+		document.getElementById("id_Ping_PPP2Name").innerHTML = "<%NvramGetAdv("PPPoE2Name");%>";
+		document.getElementById("id_Ping_PPP3Name").innerHTML = "<%NvramGetAdv("PPPoE3Name");%>";
+		document.getElementById("id_Ping_PPP4Name").innerHTML = "<%NvramGetAdv("PPPoE4Name");%>";
+		document.getElementById("id_Ping_PPP5Name").innerHTML = "<%NvramGetAdv("PPPoE5Name");%>";
+	}
+}
+
+function set_enable(item)
+{
+	if (document.getElementById("id_nbtenable").checked == false)
+	{
+		document.getElementById("id_nbtenableppp1").disabled=true;
+		document.getElementById("id_nbtenableppp2").disabled=true;
+		document.getElementById("id_nbtenableppp3").disabled=true;
+		document.getElementById("id_nbtenableppp4").disabled=true;
+		document.getElementById("id_nbtenableppp5").disabled=true;
+	}
+	else
+	{
+		document.getElementById("id_nbtenableppp1").disabled=false;
+		document.getElementById("id_nbtenableppp2").disabled=false;
+		document.getElementById("id_nbtenableppp3").disabled=false;
+		document.getElementById("id_nbtenableppp4").disabled=false;
+		document.getElementById("id_nbtenableppp5").disabled=false;
+	}
+
+	if (document.getElementById("id_pingenable").checked == false)
+	{
+		document.getElementById("id_pingenableppp1").disabled=true;
+		document.getElementById("id_pingenableppp2").disabled=true;
+		document.getElementById("id_pingenableppp3").disabled=true;
+		document.getElementById("id_pingenableppp4").disabled=true;
+		document.getElementById("id_pingenableppp5").disabled=true;
+	}
+	else
+	{
+		document.getElementById("id_pingenableppp1").disabled=false;
+		document.getElementById("id_pingenableppp2").disabled=false;
+		document.getElementById("id_pingenableppp3").disabled=false;
+		document.getElementById("id_pingenableppp4").disabled=false;
+		document.getElementById("id_pingenableppp5").disabled=false;
+	}
+
+	if (document.getElementById(item).checked == true)
+	{ 
+     	document.getElementById(item+"_tmp").value = "0";
+	}
+	else
+     	document.getElementById(item+"_tmp").value = "1";
+}
+
+function logoutput(item)
+{
+	if(document.getElementById(item).checked == true)
+		document.getElementById(item+"_tmp").value = 1;
+	else
+		document.getElementById(item+"_tmp").value = 0;
+}
+
+function apply()
+{
+	YAHOO.util.Connect.setForm('nosave_SETUP'); 
+    YAHOO.util.Connect.asyncRequest('POST','filter.html'+'?timestampt='+new Date().toString(),oCallback); 
+}
+
+// -->
+</script>
+</head>
+<body class="BFK_BODY" onLoad="init();" id="id_main" style="display:none;">
+<br>
+<form name="nosave_SETUP" method="POST">
+ <!--- <table class="AD_SET">
+    <tr>
+      <th><%GetString("Filter","1");%></th>
+      <td>
+        <input type="checkbox" id="log_firewall" <%NvramMatch("LogFirewallEnable","1","checked");%> onClick="logoutput('log_firewall');"><%GetString("Filter","2");%>
+        <input type="hidden" name="LogFirewallEnable" id="log_firewall_tmp" value="<%NvramGet("LogFirewallEnable");%>">
+      </td>
+    </tr>
+  </table>
+  <br>---->
+
+  <table class="AD_LIST">
+    <tr>
+      <th><%GetString("Filter","2");%></th>
+      <th><%GetString("Filter","4");%></th>
+      <th><%GetString("Filter","5");%></th>
+    </tr>
+    <tr <%NvramMatch("WanNBTEnable","1","class=DISABLE");%>>
+      <td align="center">
+        <input type="checkbox" id="id_nbtenable" onClick="set_enable('id_nbtenable');" <%NvramMatch("WanNBTEnable","0","checked");%>>
+        <input type="hidden" id="id_nbtenable_tmp" name="WanNBTEnable" value="<%NvramGet("WanNBTEnable");%>">
+      </td>
+      <td>
+		<span id="id_NBT" style="display:">
+			<%GetString("Filter","6");%>
+		</span>
+		<span id="id_NBT_Mutiple1" style="display:none">
+			<br>
+			<input type="checkbox" id="id_nbtenableppp1" onClick="set_enable('id_nbtenableppp1');" <%NvramMatch("WanNBTEnablePPP1","0","checked");%>>
+			<input type="hidden" id="id_nbtenableppp1_tmp" name="WanNBTEnablePPP1" value="<%NvramGet("WanNBTEnablePPP1");%>">
+			<%GetString("Multipppoe","71");%>: <span id="id_NBT_PPP1Name"></span> <%GetString("Multipppoe","72");%>
+		</span>
+		<span id="id_NBT_Mutiple2" style="display:none">
+			<br>
+			<input type="checkbox" id="id_nbtenableppp2" onClick="set_enable('id_nbtenableppp2');" <%NvramMatch("WanNBTEnablePPP2","0","checked");%>>
+			<input type="hidden" id="id_nbtenableppp2_tmp" name="WanNBTEnablePPP2" value="<%NvramGet("WanNBTEnablePPP2");%>">
+			<%GetString("Multipppoe","74");%>: <span id="id_NBT_PPP2Name"></span> <%GetString("Multipppoe","72");%>
+		</span>
+		<span id="id_NBT_Mutiple3" style="display:none">
+			<br>
+			<input type="checkbox" id="id_nbtenableppp3" onClick="set_enable('id_nbtenableppp3');" <%NvramMatch("WanNBTEnablePPP3","0","checked");%>>
+			<input type="hidden" id="id_nbtenableppp3_tmp" name="WanNBTEnablePPP3" value="<%NvramGet("WanNBTEnablePPP3");%>">
+			<%GetString("Multipppoe","75");%>: <span id="id_NBT_PPP3Name"></span> <%GetString("Multipppoe","72");%>
+		</span>
+		<span id="id_NBT_Mutiple4" style="display:none">
+			<br>
+			<input type="checkbox" id="id_nbtenableppp4" onClick="set_enable('id_nbtenableppp4');" <%NvramMatch("WanNBTEnablePPP4","0","checked");%>>
+			<input type="hidden" id="id_nbtenableppp4_tmp" name="WanNBTEnablePPP4" value="<%NvramGet("WanNBTEnablePPP4");%>">
+			<%GetString("Multipppoe","76");%>: <span id="id_NBT_PPP4Name"></span> <%GetString("Multipppoe","72");%>
+		</span>
+		<span id="id_NBT_Mutiple5" style="display:none">
+			<br>
+			<input type="checkbox" id="id_nbtenableppp5" onClick="set_enable('id_nbtenableppp5');" <%NvramMatch("WanNBTEnablePPP5","0","checked");%>>
+			<input type="hidden" id="id_nbtenableppp5_tmp" name="WanNBTEnablePPP5" value="<%NvramGet("WanNBTEnablePPP5");%>">
+			<%GetString("Multipppoe","77");%>: <span id="id_NBT_PPP5Name"></span> <%GetString("Multipppoe","72");%>
+		</span>
+	  </td>
+      <td align="right"><%GetCounter("NBT");%></td>
+    </tr>
+    <tr <%NvramMatch("WanIdentEnable","1","class=DISABLE");%>>
+      <td align="center">
+        <input type="checkbox" id="id_identenable" onClick="set_enable('id_identenable');" <%NvramMatch("WanIdentEnable","0","checked");%>>
+        <input type="hidden" id="id_identenable_tmp" name="WanIdentEnable" value="<%NvramGet("WanIdentEnable");%>">
+      </td>
+      <td><%GetString("Filter","7");%></td>
+      <td align="right"><%GetCounter("IDENT");%></td>
+    </tr>
+    <tr <%NvramMatch("WanPingEnable","1","class=DISABLE");%>>
+      <td align="center">
+        <input type="checkbox" id="id_pingenable" onClick="set_enable('id_pingenable');" <%NvramMatch("WanPingEnable","0","checked");%>>
+        <input type="hidden" id="id_pingenable_tmp" name="WanPingEnable" value="<%NvramGet("WanPingEnable");%>">
+      </td>
+      <td>
+		<span id="id_Ping" style="display:">
+			<%GetString("Filter","8");%>
+		</span>
+		<span id="id_Ping_Mutiple1" style="display:none">
+			<br>
+			<input type="checkbox" id="id_pingenableppp1" onClick="set_enable('id_pingenableppp1');" <%NvramMatch("WanPingEnablePPP1","0","checked");%>>
+			<input type="hidden" id="id_pingenableppp1_tmp" name="WanPingEnablePPP1" value="<%NvramGet("WanPingEnablePPP1");%>">
+			<%GetString("Multipppoe","71");%>: <span id="id_Ping_PPP1Name"></span> <%GetString("Multipppoe","73");%>
+		</span>
+		<span id="id_Ping_Mutiple2" style="display:none">
+			<br>
+			<input type="checkbox" id="id_pingenableppp2" onClick="set_enable('id_pingenableppp2');" <%NvramMatch("WanPingEnablePPP2","0","checked");%>>
+			<input type="hidden" id="id_pingenableppp2_tmp" name="WanPingEnablePPP2" value="<%NvramGet("WanPingEnablePPP2");%>">
+			<%GetString("Multipppoe","74");%>: <span id="id_Ping_PPP2Name"></span> <%GetString("Multipppoe","73");%>
+		</span>
+		<span id="id_Ping_Mutiple3" style="display:none">
+			<br>
+			<input type="checkbox" id="id_pingenableppp3" onClick="set_enable('id_pingenableppp3');" <%NvramMatch("WanPingEnablePPP3","0","checked");%>>
+			<input type="hidden" id="id_pingenableppp3_tmp" name="WanPingEnablePPP3" value="<%NvramGet("WanPingEnablePPP3");%>">
+			<%GetString("Multipppoe","75");%>: <span id="id_Ping_PPP3Name"></span> <%GetString("Multipppoe","73");%>
+		</span>
+		<span id="id_Ping_Mutiple4" style="display:none">
+			<br>
+			<input type="checkbox" id="id_pingenableppp4" onClick="set_enable('id_pingenableppp4');" <%NvramMatch("WanPingEnablePPP4","0","checked");%>>
+			<input type="hidden" id="id_pingenableppp4_tmp" name="WanPingEnablePPP4" value="<%NvramGet("WanPingEnablePPP4");%>">
+			<%GetString("Multipppoe","76");%>: <span id="id_Ping_PPP4Name"></span> <%GetString("Multipppoe","73");%>
+		</span>
+		<span id="id_Ping_Mutiple5" style="display:none">
+			<br>
+			<input type="checkbox" id="id_pingenableppp5" onClick="set_enable('id_pingenableppp5');" <%NvramMatch("WanPingEnablePPP5","0","checked");%>>
+			<input type="hidden" id="id_pingenableppp5_tmp" name="WanPingEnablePPP5" value="<%NvramGet("WanPingEnablePPP5");%>">
+			<%GetString("Multipppoe","77");%>: <span id="id_Ping_PPP5Name"></span> <%GetString("Multipppoe","73");%>
+		</span>
+	  </td>
+      <td align="right"><%GetCounter("PING");%></td>
+    </tr>
+
+  </table>
+  <br/>
+  <div class="button5" id="id_filter" name="filter_apply" onclick="apply();">
+	<div class="button_text"><%GetString("Filter","9");%></div>
+  </div>
+  <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+
+</body>
+</html>

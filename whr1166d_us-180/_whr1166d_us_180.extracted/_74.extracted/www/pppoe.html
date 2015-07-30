@@ -1,0 +1,969 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<META http-equiv=Content-Type content="text/html; charset=<%ChangeCharset();%>">
+<link rel="stylesheet" type="text/css" href="WHR-G300N-160149-style-ENG.css">   
+<link rel="stylesheet" type="text/css" href="WHR-G300N-160149-style-ad-ENG.css">
+<link rel="alternate stylesheet" id="anothercss_common" type="text/css" href="/images/style-PY20-common.css">
+<link rel="alternate stylesheet" id="iecss_common" type="text/css" href="/images/style-PY20-common-compatible.css">
+<script type="text/javascript" src="/js/yahoo_2.0.0.js"></script>
+<script type="text/javascript" src="/js/connection_2.0.0.js"></script>
+<script type="text/javascript" src="/js/event_2.0.0.js"></script>
+<script language="javascript" src="common.js"></script>
+<script language="JavaScript">
+<!-- 
+var oCallback = {
+success:function(oResponse) { 
+			document.getElementById("id_main").style.display = "none";
+			top.document.getElementById("indicator").style.display = "";
+			top.document.getElementById("waiting_err_text").style.display = "none";
+			top.document.getElementById("waiting_err_btn").style.display = "none";
+			top.dispWaiting(true);
+			window.setTimeout("window.location.href='pppoe.html'", 10000);
+}, 
+failure:function(oResponse) { 
+} 
+}
+
+var nowEdit=0;
+var oldEdit;
+var EditIndex=0;
+var FullEdit=0;
+var UserModify=0;
+var Edit_ShowPassword=0;
+
+function EnKeepAlive(item)
+{
+    if (document.getElementById("id_"+item+"Tmp").checked==true)
+    	document.getElementById("id_"+item).value="1";
+    else
+    	document.getElementById("id_"+item).value="0";
+}
+
+function EnIPFixed(item)
+{
+    if (document.getElementById("id_"+item+"Tmp").checked==true)
+    {
+		document.getElementById("id_"+item).value="1";
+		document.getElementById("id_PIP").disabled=false;
+	}	
+    else
+	{
+    	document.getElementById("id_"+item).value="0";
+		document.getElementById("id_PIP").disabled=true;
+	}
+}
+
+
+function Init()
+{
+	top.dispWaiting(false);
+	//document.getElementById("id_main").style.display = "block";
+	checkBrowserCss();
+	var i=0, pppoenum=0, pppoeno=0, pppoenonow=0;
+	var f = document.forms[0];
+
+	top.content_helpframe.document.location.href = "./help/help_pppoe.html";
+
+	for (i=1; i<6; i++)
+	{
+		pppoeno = eval("f.PPPoE" + i + "No").value;
+
+		if (pppoeno == 0)
+		{
+			pppoenonow = i;
+			break;
+		}
+	}
+	
+	pppoenum = '<%NvramGet("PPPoENum");%>';
+
+	if (pppoenum == 5)
+	{
+		FullEdit = 1;
+		document.getElementById("id_message").style.display = "";
+		document.getElementById("id_normal").style.display = "none";
+
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","58");%>";
+	}
+	else{
+		FullEdit = 0;
+		document.getElementById("id_message").style.display = "none";
+		document.getElementById("id_normal").style.display = "";
+
+		if (pppoenonow == 1)
+		{
+			document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","20");%>";
+		}
+		else if (pppoenonow == 2)
+		{
+			document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","54");%>";
+		}
+		else if (pppoenonow == 3)
+		{
+			document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","55");%>";
+		}
+		else if (pppoenonow == 4)
+		{
+			document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","56");%>";
+		}
+		else{
+			document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","57");%>";
+		}
+	}
+
+    document.getElementById("id_PDisTime").value=document.getElementById("id_PDisTime").value/60;
+
+    ///if (document.getElementById("id_PIPFixed").value=="1")
+	///{
+	///	document.getElementById("id_PIPFixedTmp").checked=true;
+	///	document.getElementById("id_PIP").disabled=false;
+	///}
+	///else
+	///{
+	///	document.getElementById("id_PIPFixedTmp").checked=false;
+	///	document.getElementById("id_PIP").disabled=true;
+	///}
+	
+}
+
+function space_check(item_string){
+	if(item_string.charAt(0) == ' ' || item_string.charAt(item_string.length-1) == ' ')
+		return false;
+	else
+		return true;
+}
+
+function edit_item()
+{	
+	document.getElementById("id_edit_item").style.display = "";
+	document.getElementById("id_save_button").style.display = "none"	; 
+	document.getElementById("id_edit_button").style.display = ""	; 	
+	
+	var str=document.getElementById("id_PName").value;
+	var unipppname="";
+	var i;
+	for (i=0;i<str.length;i++)	
+		unipppname += '&#' + str.charCodeAt(i);
+		
+	document.getElementById("edit_name").innerHTML=unipppname;
+}
+
+function CheckPPPoE()
+{
+    var f = document.forms[0];
+	var f2 = document.forms[2];
+	var mtu=document.getElementById("id_PMTU").value;
+    var mru=document.getElementById("id_PMRU").value;
+    var idletime=document.getElementById("id_PDisTime").value;
+    var i=0;
+	var pppoenum;
+	pppoenum = '<%NvramGet("PPPoENum");%>';
+	
+	if (pppoenum == 0)
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","81");%>";
+	else if (pppoenum ==1)
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","82");%>";
+	else if (pppoenum ==2)
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","83");%>";	
+	else if (pppoenum ==3)
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","84");%>";	
+	else if (pppoenum ==4)
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","85");%>";			
+		
+	for(i=1; i<6; i++)
+	{
+		if (eval("f.PPPoE" + i + "No").value != 0)
+		{
+			if (UserModify == 1)
+			{
+				if (i != f2.nosave_PPPoEModifyNo.value)
+				{
+					if (eval("f.PPPoE" + i + "Name").value == f.PPPoEName.value)
+					{
+						Show_error("<%GetString("InterPPPoEReg","6");%>","<%GetString("Multipppoe","62");%>");
+						if (!UserModify)
+							edit_item();
+						return false;
+					}
+				}
+			}
+			else
+			{
+				if (eval("f.PPPoE" + i + "Name").value == f.PPPoEName.value)
+				{
+					Show_error("<%GetString("InterPPPoEReg","6");%>","<%GetString("Multipppoe","62");%>");
+					if (!UserModify)
+						edit_item();
+					return false;
+				}
+			}
+		}
+	}
+    
+    var name_string="<%GetString("InterPPPoEReg","40");%>";
+    if(document.getElementById("id_PName").value=="")
+    {
+		if ("<% NvramGet("HTTPLanguage"); %>"=="ENG")
+			Show_error_new("<%GetString("WDS","81");%>");
+		else
+			Show_error("<%GetString("InterPPPoEReg","40");%>","<%GetString("InterPPPoEReg","41");%>");
+		if (!UserModify)
+			edit_item();
+    	return false;
+    }
+	if(!Escape_String(document.getElementById("id_PName").value))
+	{
+		Show_error(name_string, "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item(); 
+		return false;			
+	}
+	if(!space_check(document.getElementById("id_PName").value))
+	{
+		Show_error(name_string, "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item(); 
+		return false;			
+	}
+	if(!Escape_String(document.getElementById("id_PUsername").value))
+	{
+		Show_error("<%GetString("InterPPPoEReg","7");%>", "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item();
+		return false;			
+	}
+	if (document.getElementById("id_PUsername").value.length==0)
+	{
+		Show_error("<%GetString("InterPPPoEReg","7");%>", "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item();
+		return false;	
+	}
+	if(!space_check(document.getElementById("id_PUsername").value))
+	{
+		Show_error("<%GetString("InterPPPoEReg","7");%>", "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item();
+		return false;			
+	}
+	if(!Escape_String(document.getElementById("id_PPassword").value))
+	{
+		Show_error("<%GetString("InterPPPoEReg","8");%>", "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item();
+		return false;			
+	}
+	if(!space_check(document.getElementById("id_PPassword").value))
+	{
+		Show_error("<%GetString("InterPPPoEReg","8");%>", "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item();
+		return false;			
+	}
+	if(!Escape_String(document.getElementById("id_PService").value))
+	{
+		Show_error("<%GetString("InterPPPoEReg","10");%>", "<%GetString("InterPPPoEReg","61");%>");
+		if (!UserModify)
+			edit_item();
+		return false;			
+	}
+    if(idletime=="" || !check_integer_range(idletime,0,1440))
+    {
+    	Show_error("<%GetString("InterPPPoEReg","54");%>", "<%GetString("InterPPPoEReg","55");%>");
+		if (!UserModify)
+			edit_item();
+    	return false;
+    } 
+    if(mtu=="" || !check_integer_range(mtu,578,1492))
+    {
+    	Show_error("<%GetString("InterPPPoEReg","28");%>", "<%GetString("InterPPPoEReg","43");%>");
+		if (!UserModify)
+			edit_item();
+    	return false;
+    }   
+    if(mru=="" || !check_integer_range(mru,578,1492))
+    {
+    	Show_error("<%GetString("InterPPPoEReg","30");%>", "<%GetString("InterPPPoEReg","44");%>");
+		if (!UserModify)
+			edit_item();
+    	return false;
+    }  
+   /* if(document.getElementById("id_PPassword").value!=document.getElementById("id_PPassConfirm").value)
+    {
+    	Show_error("<%GetString("InterPPPoEReg","8");%>", "<%GetString("InterPPPoEReg","45");%>");
+    	return false;
+    }	*/
+    return true;    	
+}
+
+function CheckStaticIP()
+{
+	var id_PIP = document.getElementById("id_PIP").value;
+	var id_PDNS1 = document.getElementById("id_PDNS1").value;
+	var id_PDNS2 = document.getElementById("id_PDNS2").value;
+	id_PIP = ip_normalize_0(document.getElementById("id_PIP").value);
+	id_PDNS1 = ip_normalize_0(document.getElementById("id_PDNS1").value);
+	id_PDNS2 = ip_normalize_0(document.getElementById("id_PDNS2").value);
+
+	if(isBlank(id_PIP) && document.getElementById("id_PIPFixedTmp").checked==true ){
+		Show_error("<%GetString("InterPPPoEReg","58");%>", "<%GetString("InterPPPoEReg","56");%>");
+		return false;
+	}
+	else if(check_ip(id_PIP)!=0){
+		Show_error("<%GetString("InterPPPoEReg","58");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return false;
+	}
+	else if (!isBlank(id_PDNS1) && check_ip(id_PDNS1)!=0)
+	{
+		Show_error("<%GetString("InterPPPoEReg","59");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return false;
+	}
+	else if (!isBlank(id_PDNS2) && check_ip(id_PDNS2)!=0)
+	{
+		Show_error("<%GetString("InterPPPoEReg","60");%>", "<%GetString("InterPPPoEReg","61");%>");
+		return false;
+	}
+	else if(!isBlank(id_PDNS1) && (id_PDNS1==id_PDNS2))
+	{
+		//Show_WizardError("same DNS IP", "No duplicate DNS IP");
+		Show_error("<%GetString("AutoDetectJudgePPPoEConfig","17");%>", "<%GetString("AutoDetectJudgePPPoEConfig","22");%>");
+		return false;
+	}
+	else if(!check_ip(id_PDNS2) && !isBlank(id_PDNS2) && isBlank(id_PDNS1)){
+
+		Show_WizardError("<%GetString("AutoDetectJudgePPPoEConfig","16");%>", "<%GetString("Wan","45");%>");
+		return;
+	}
+	else
+		return true;
+}
+
+
+function PPPoEReg_submit(type)
+{
+	var f = document.forms[0];
+	var f2 = document.forms[2];
+
+	document.getElementById("id_edit_item").style.display = "none"	; 
+	if (document.getElementById("id_edit_message"))
+		document.getElementById("id_edit_message").style.display = "none"	; 
+	if(document.getElementById("id_ShowPassword").checked == true)
+	{
+		document.getElementById("id_PPassword").value=document.getElementById("id_PPassword_text").value;
+	}
+
+	f.PPPoEUsername.value = document.getElementById("id_PUsername").value;
+	f.PPPoEPassword.value = document.getElementById("id_PPassword").value;
+
+    if (!CheckPPPoE())
+    	return; 
+	///if (!CheckStaticIP())
+	///	return;
+
+	//f.PPPoEUsername.value = f.PPPoEUsername.value.replace(/\"/g, "&quot;");
+	//f.PPPoEPassword.value = f.PPPoEPassword.value.replace(/\"/g, "&quot;");
+
+	if (UserModify == 1)
+	{
+		f2.PPPoEName.value = f.PPPoEName.value;
+		f2.PPPoEUsername.value = f.PPPoEUsername.value;
+		f2.PPPoEPassword.value = f.PPPoEPassword.value;
+		f2.PPPoEService.value = f.PPPoEService.value;
+		///f2.PPPoEIPFixed.value = f.PPPoEIPFixed.value;
+		///f2.PPPoEIP.value = f.PPPoEIP.value;
+		///f2.PPPoEDNS1.value = f.PPPoEDNS1.value;
+		///f2.PPPoEDNS2.value = f.PPPoEDNS2.value;
+		f2.PPPoEMode.value = f.PPPoEMode.value;
+		f2.PPPoEOnDemandMode.value = f.PPPoEOnDemandMode.value;
+		f2.PPPoEIdletime.value = f.PPPoEIdletime.value*60;
+		f2.PPPoEAuthType.value = f.PPPoEAuthType.value;
+		f2.PPPoEMTU.value = f.PPPoEMTU.value;
+		f2.PPPoEMRU.value = f.PPPoEMRU.value;
+		if (document.getElementById("id_PKeepAliveTmp").checked == true)
+			f2.PPPoEKeepAlive.value = 1;
+		else
+			f2.PPPoEKeepAlive.value = 0;
+		YAHOO.util.Connect.setForm('PPPoEModify_from'); 
+		YAHOO.util.Connect.asyncRequest('POST','pppoe.html'+'?timestampt='+new Date().toString(),oCallback);
+	}
+	else
+	{
+		document.PPPoEReg_from.tmp_store_PPPoEUsername.value = f.PPPoEUsername.value;
+		document.PPPoEReg_from.tmp_store_PPPoEPassword.value = f.PPPoEPassword.value;
+		document.PPPoEReg_from.tmp_store_PPPoEPasswordConfirm.value = f.PPPoEPassword.value;
+		///if(document.getElementById("id_PIPFixedTmp").checked == true)
+		///	document.PPPoEReg_from.tmp_store_PPPoESIPEnabled.value = "1";
+		///else
+		///	document.PPPoEReg_from.tmp_store_PPPoESIPEnabled.value = "0";
+		///document.PPPoEReg_from.tmp_store_PPPoEstaticIP.value = document.getElementById("id_PIP").value;
+		///document.PPPoEReg_from.tmp_store_PPPoEDNS1.value = document.getElementById("id_PDNS1").value; 
+		///document.PPPoEReg_from.tmp_store_PPPoEDNS2.value = document.getElementById("id_PDNS2").value;
+		
+		document.getElementById("id_PDisTime").value=document.getElementById("id_PDisTime").value*60;
+
+		if (document.getElementById("id_PKeepAliveTmp").checked == true)
+		{
+			document.getElementById("id_PKeepAlive").value="1";
+		}
+		else
+		{
+			document.getElementById("id_PKeepAlive").value="0";
+		}
+
+		YAHOO.util.Connect.setForm('PPPoEReg_from'); 
+		YAHOO.util.Connect.asyncRequest('POST','pppoe.html'+'?timestampt='+new Date().toString(),oCallback);
+	}
+}
+
+function ChangeEnabled(item, enable)
+{
+	var f1 = document.forms[1];
+
+	if(document.getElementById("id_ShowPassword").checked == true)
+	{
+		document.getElementById("id_PPassword").value=document.getElementById("id_PPassword_text").value;
+	}
+
+	f1.nosave_PPPoEModifyNo.value = item;
+	f1.PPPoEEnable.value = enable;
+	YAHOO.util.Connect.setForm('PPPoEOnoff_from'); 
+	YAHOO.util.Connect.asyncRequest('POST','pppoe.html'+'?timestampt='+new Date().toString(),oCallback);
+}
+
+function ModifyValue(item)
+{
+	var f = document.forms[0];
+	var f2 = document.forms[2];
+	var i=0;
+	
+  Edit_ShowPassword=1;
+	if (FullEdit == "1")
+	{
+		document.getElementById("id_message").style.display = "none";
+		document.getElementById("id_normal").style.display = "";
+	}
+
+	if (item == 1)
+	{
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","81");%>";
+	}
+	else if (item == 2)
+	{
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","82");%>";
+	}
+	else if (item == 3)
+	{
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","83");%>";
+	}
+	else if (item == 4)
+	{
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","84");%>";
+	}
+	else{
+		document.getElementById("pppoetitle").innerHTML = "<%GetString("Multipppoe","85");%>";
+	}
+
+	UserModify = 1;
+	f2.nosave_PPPoEModifyNo.value = item;
+
+	document.getElementById("id_save_button").style.display = "";
+	document.getElementById("id_modify_button").style.display = "none";
+	document.getElementById("id_edit_button").style.display = "none";
+	document.getElementById("id_edit_item").style.display = "none";
+		
+	for(i=1; i<6; i++)
+	{
+		if (eval("f.PPPoE" + i + "No").value != 0)
+		{
+			if (i == item)
+			{
+				eval("document.getElementById(\"id_info_button_" + item + "\").style.display = \"none\";");
+				eval("document.getElementById(\"id_info_edit_" + item + "\").style.display = \"\";");
+				document.getElementById("id_save_button").style.display = "none";
+				document.getElementById("id_modify_button").style.display = "";
+			}
+			else
+			{
+				eval("document.getElementById(\"id_info_button_" + i + "\").style.display = \"\";");
+				eval("document.getElementById(\"id_info_edit_" + i + "\").style.display = \"none\";");			
+			}
+		}
+	}
+
+	f.PPPoEName.value = eval("f.PPPoE" + item + "Name").value;
+	f.PPPoEUsername.value = eval("f.PPPoE" + item + "Username").value;
+	f.PPPoEPassword.value = eval("f.PPPoE" + item + "Password").value;
+	//document.getElementById("id_PPassConfirm").value = eval("f.PPPoE" + item + "Password").value;
+	f.PPPoEService.value = eval("f.PPPoE" + item + "Service").value;
+	
+	document.getElementById("id_PUsername").value = f.PPPoEUsername.value;
+	document.getElementById("id_PPassword").value = f.PPPoEPassword.value;
+
+	///if (eval("f.PPPoE" + item + "IPFixed").value == 0)
+	///{
+	///	document.getElementById("id_PIPFixedTmp").checked = false;
+	///	document.getElementById("id_PIP").disabled = true;
+	///}
+	///else{
+	///	document.getElementById("id_PIPFixedTmp").checked = true;
+	///	document.getElementById("id_PIP").disabled = false;
+	///}
+
+	///f.PPPoEIP.value = eval("f.PPPoE" + item + "IP").value;
+	///f.PPPoEDNS1.value = eval("f.PPPoE" + item + "DNS1").value;
+	///f.PPPoEDNS2.value = eval("f.PPPoE" + item + "DNS2").value;
+
+	if (eval("f.PPPoE" + item + "Mode").value == 'always')
+	{
+		document.getElementById("id_PMode").selectedIndex = 0;
+	}
+	else if (eval("f.PPPoE" + item + "Mode").value == 'demand')
+	{
+		document.getElementById("id_PMode").selectedIndex = 1;
+	}
+	else
+	{
+		document.getElementById("id_PMode").selectedIndex = 2;
+	}
+	
+	if (eval("f.PPPoE" + item + "OnDemandMode").value == '0')
+	{
+		document.getElementById("id_PDisCond").selectedIndex = 0;
+	}
+	else if (eval("f.PPPoE" + item + "OnDemandMode").value == '1')
+	{
+		document.getElementById("id_PDisCond").selectedIndex = 1;
+	}
+	else
+	{
+		document.getElementById("id_PDisCond").selectedIndex = 2;
+	}
+
+	f.PPPoEIdletime.value = eval("f.PPPoE" + item + "Idletime").value/60;
+
+	if (eval("f.PPPoE" + item + "AuthType").value == 'AUTO')
+	{
+		document.getElementById("id_PAuthType").selectedIndex = 0;
+	}
+	else if (eval("f.PPPoE" + item + "AuthType").value == 'CHAP')
+	{
+		document.getElementById("id_PAuthType").selectedIndex = 1;
+	}
+	else
+	{
+		document.getElementById("id_PAuthType").selectedIndex = 2;
+	}
+
+	f.PPPoEMTU.value = eval("f.PPPoE" + item + "MTU").value;
+	f.PPPoEMRU.value = eval("f.PPPoE" + item + "MRU").value;
+
+	if (eval("f.PPPoE" + item + "KeepAlive").value == 0)
+	{
+		document.getElementById("id_PKeepAliveTmp").checked = false;
+	}
+	else{
+		document.getElementById("id_PKeepAliveTmp").checked = true;
+	}
+
+	DoDisable();
+}
+
+function ShowPassword()
+{
+	if(document.getElementById("id_ShowPassword").checked == true)
+	{
+		if(Edit_ShowPassword==1)
+		{
+			document.getElementById("id_PPassword_text").style.display = "";
+		  document.getElementById("id_PPassword").style.display = "none";
+		  document.getElementById("id_PPassword_text").value="";
+		  Edit_ShowPassword=0;
+		}
+		else
+		{
+		  //document.getElementById("id_PPassword").type="text";
+		  document.getElementById("id_PPassword_text").style.display = "";
+		  document.getElementById("id_PPassword").style.display = "none";
+		  document.getElementById("id_PPassword_text").value=document.getElementById("id_PPassword").value;
+		}
+	}
+	else
+	{
+		//document.getElementById("id_PPassword").type="password";
+		document.getElementById("id_PPassword_text").style.display = "none";
+		document.getElementById("id_PPassword").style.display = "";
+		document.getElementById("id_PPassword").value=document.getElementById("id_PPassword_text").value;
+	}
+}
+
+function DeleteValue(item)
+{
+	var f3 = document.forms[3];
+
+	if(document.getElementById("id_ShowPassword").checked == true)
+	{
+		document.getElementById("id_PPassword").value=document.getElementById("id_PPassword_text").value;
+	}
+
+	f3.nosave_PPPoEModifyNo.value = item;
+	YAHOO.util.Connect.setForm('PPPoEDelete_from'); 
+	YAHOO.util.Connect.asyncRequest('POST','pppoe.html'+'?timestampt='+new Date().toString(),oCallback);
+}
+
+function DoDisable()
+{
+	var PPPoEMode = document.getElementById("id_PMode").value;
+	if( PPPoEMode == "always")
+	{
+		//alert("always");
+		document.getElementById("id_PDisCond").disabled = true;
+		document.getElementById("id_PDisTime").disabled = true;
+	}
+	else
+	{
+		//alert("demand or manual");
+		document.getElementById("id_PDisCond").disabled = false;
+		document.getElementById("id_PDisTime").disabled = false;
+	}
+
+}
+
+//-->
+</script>
+</head>
+<body  id="id_main" style="display:none;" class="BFK_BODY" onload="Init();">
+<br>
+<input type="button" value="<%GetString("Multipppoe","33");%>" onClick="location.href='pppoe_main.html'">
+<hr>
+<div id="id_errtbl" class=C_ERR style="display:none;"></div>
+<form method="POST" name="PPPoEReg_from">
+<input type="hidden" name="nosave_EditRule" id="id_EditRule" value="" disabled>
+  <table class="AD_TTL2">
+    <tr>
+      <!--<td id="t_cintent"><%GetString("InterPPPoEReg","52");%></td>-->
+	  <td id="t_cintent"><span id="pppoetitle"></span></td>
+    </tr>
+  </table>
+<div id="id_message">
+  <table class="AD_TTL2">
+	<tbody>
+	  <tr><td><font color="red"><%GetString("Multipppoe","53");%></font></td></tr>
+	</tbody>
+  </table>
+</div>
+<div id="id_normal">
+  <table class=AD_SET>
+    <tr>
+      <th><%GetString("InterPPPoEReg","6");%></th>
+      <td>
+        <input type="text" name="PPPoEName" id="id_PName" size="45" maxlength="32" value="">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("InterPPPoEReg","7");%></th>
+      <td>
+        <input type="text" id="id_PUsername" size="45" maxlength="64" value="">
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("InterPPPoEReg","8");%></th>
+      <td>
+	  
+        <input type="password" id="id_PPassword" size="45" maxlength="64" value="" onClick="rm_start('id_PPassword');">
+        <input type="text" id="id_PPassword_text" size="45" maxlength="64" value="" onClick="rm_start('id_PPassword_text');" style="display:none;">
+		<br>
+		<input type="checkbox" id="id_ShowPassword" onclick="ShowPassword();" ><%GetString("NewUI","193");%>
+        <br>
+       <!--- <input type="password" id="id_PPassConfirm" size="45" maxlength="64" value=""  onClick="rm_start('id_PPassConfirm');"> &#x28;<%GetString("InterPPPoEReg","9");%>&#x29;---->
+      </td>
+    </tr>
+    <tr>
+      <th><%GetString("InterPPPoEReg","10");%></th>
+      <td>
+        <input type="text" name="PPPoEService" id="id_PService" size="45" maxlength="64" value="">
+      </td>
+    </tr>
+	 <!--<tr>
+	  <th><%GetString("InterPPPoEReg","57");%></th>
+      <td>
+         <input type="hidden" name="PPPoEIPFixed" id="id_PIPFixed" value="">
+		 <input type="checkbox" id="id_PIPFixedTmp" onClick="EnIPFixed('PIPFixed');">
+         <!--<input type="checkbox" id="id_PIPFixedTmp" onClick="EnIPFixed('PIPFixed');" <%NvramMatch("PPPoE1IPFixed", "1", "checked");%>>	->
+      </td>
+    </tr>
+		 <tr>
+	  <th><%GetString("InterPPPoEReg","58");%></th>
+      <td>
+        <input type="text" name="PPPoEIP" id="id_PIP" size="16" maxlength="16" value="">
+      </td>
+    </tr>
+		 <tr>
+	  <th><%GetString("InterPPPoEReg","59");%></th>
+      <td>
+        <input type="text" name="PPPoEDNS1" id="id_PDNS1" size="16" maxlength="16" value="">
+      </td>
+    </tr>
+		 <tr>
+	  <th><%GetString("InterPPPoEReg","60");%></th>
+      <td>
+        <input type="text" name="PPPoEDNS2" id="id_PDNS2" size="16" maxlength="16" value="">
+      </td>
+    </tr>-->
+  </table>
+<table class="AD_TTL2">
+  <tr>
+    <td><%GetString("InterPPPoEReg","11");%>  </td>
+  </tr>
+</table>
+<table class="AD_SET">
+  <tr>
+    <th><%GetString("InterPPPoEReg","12");%></th>
+      <td>
+        <select size="1" name="PPPoEMode" id="id_PMode" onChange="DoDisable()">
+     	  <option value="always" selected><%GetString("InterPPPoEReg","13");%></option>
+     	  <option value="demand"><%GetString("InterPPPoEReg","14");%></option>
+     	  <option value="manual"><%GetString("InterPPPoEReg","15");%></option>
+     	</select>
+      </td>
+	  <!--<td>
+        <select size="1" name="PPPoE1Mode" id="id_PMode">
+     	  <option value="always" <%NvramMatch("PPPoE1Mode", "always", "selected");%>><%GetString("InterPPPoEReg","13");%></option>
+     	  <option value="demand" <%NvramMatch("PPPoE1Mode", "demand", "selected");%>><%GetString("InterPPPoEReg","14");%></option>
+     	  <option value="manual" <%NvramMatch("PPPoE1Mode", "manual", "selected");%>><%GetString("InterPPPoEReg","15");%></option>
+     	</select>
+      </td>-->
+  </tr>
+  <tr>
+  <th><%GetString("InterPPPoEReg","16");%></th>
+    <td>
+      <table>
+        <tr>
+          <td nowrap><%GetString("InterPPPoEReg","17");%></td>
+          <td>
+            <select size="1" name="PPPoEOnDemandMode" id="id_PDisCond" disabled="disabled">
+        	<option value="0" selected><%GetString("InterPPPoEReg","18");%></option>
+        	<option value="1"><%GetString("InterPPPoEReg","19");%></option>
+        	<option value="2"><%GetString("InterPPPoEReg","20");%></option>
+            </select>
+          </td>
+		  <!--<td>
+            <select size="1" name="PPPoE1OnDemandMode" id="id_PDisCond">
+        	<option value="0" <%NvramMatch("PPPoE1OnDemandMode", "0", "selected");%>><%GetString("InterPPPoEReg","18");%></option>
+        	<option value="1" <%NvramMatch("PPPoE1OnDemandMode", "1", "selected");%>><%GetString("InterPPPoEReg","19");%></option>
+        	<option value="2" <%NvramMatch("PPPoE1OnDemandMode", "2", "selected");%>><%GetString("InterPPPoEReg","20");%></option>
+            </select>
+          </td>-->
+        </tr>
+     	<tr>
+     	  <td nowrap><%GetString("InterPPPoEReg","21");%></td>
+     	  <td nowrap><input type="text" name="PPPoEIdletime" id="id_PDisTime" size="10" maxlength="4" value="<%NvramGet("PPPoEIdleT");%>" disabled="disabled"><%GetString("InterPPPoEReg","22");%>
+     	  <br>(<%GetString("InterPPPoEReg","23");%>)</td>
+     	</tr>
+      </table>
+     </td>
+   </tr>
+    <tr>
+      <th><%GetString("InterPPPoEReg","24");%></th>
+      <td>
+        <select size="1" name="PPPoEAuthType" id="id_PAuthType">
+      	  <option value="AUTO" selected><%GetString("InterPPPoEReg","25");%></option>
+      	  <option value="CHAP"><%GetString("InterPPPoEReg","26");%></option>
+      	  <option value="PAP"><%GetString("InterPPPoEReg","27");%></option>
+        </select>
+      </td>
+	  <!--<td>
+        <select size="1" name="PPPoE1AuthType" id="id_PAuthType">
+      	  <option value="AUTO" <%NvramMatch("PPPoE1AuthType", "AUTO", "selected");%>><%GetString("InterPPPoEReg","25");%></option>
+      	  <option value="CHAP" <%NvramMatch("PPPoE1AuthType", "CHAP", "selected");%>><%GetString("InterPPPoEReg","26");%></option>
+      	  <option value="PAP" <%NvramMatch("PPPoE1AuthType", "PAP", "selected");%>><%GetString("InterPPPoEReg","27");%></option>
+        </select>
+      </td>-->
+     </tr>
+     <tr>
+       <th><%GetString("InterPPPoEReg","28");%></th>
+       <td>
+         <input type="text" name="PPPoEMTU" id="id_PMTU" size="10" maxlength="4" value="<%NvramGet("PPPoEMTUV");%>"><%GetString("InterPPPoEReg","29");%>
+       </td>
+     </tr>
+     <tr>
+       <th><%GetString("InterPPPoEReg","30");%></th>
+       <td>
+         <input type="text" name="PPPoEMRU" id="id_PMRU" size="10" maxlength="4" value="<%NvramGet("PPPoEMRUV");%>"><%GetString("InterPPPoEReg","29");%>
+       </td>
+     </tr>
+     <tr>
+       <th><%GetString("InterPPPoEReg","31");%></th>
+       <td>
+         <input type="hidden" name="PPPoEKeepAlive" id="id_PKeepAlive" value="">
+         <input type="checkbox" id="id_PKeepAliveTmp" onClick="EnKeepAlive('PKeepAlive');" checked><%GetString("InterPPPoEReg","32");%>
+		 <!--<input type="checkbox" id="id_PKeepAliveTmp" onClick="EnKeepAlive('PKeepAlive');" <%NvramMatch("PPPoE1KeepAlive", "1", "checked");%>><%GetString("InterPPPoEReg","32");%>-->
+       </td>
+     </tr>
+   </table>
+   <p>
+     <span id="id_save_button" style="display:block;">
+		<input type="button" value="<%GetString("InterPPPoEReg","53");%>" onClick="PPPoEReg_submit('add')">
+	 </span>
+	 <span id="id_edit_button" style="display:none;">
+		<input type="button" value="<%GetString("Multipppoe","60");%>" onClick="PPPoEReg_submit('add')">
+		<input type="button" value="<%GetString("Multipppoe","61");%>" onclick="location.href='pppoe.html'">
+	 </span>
+	 <span id="id_modify_button" style="display:none;">
+		<input type="button" value="<%GetString("Multipppoe","60");%>" onclick="PPPoEReg_submit('add')">
+		<input type="button" value="<%GetString("Multipppoe","61");%>" onclick="location.href='pppoe.html'">
+	 </span>	  
+   </p>
+</div>
+<hr>
+  <table class="AD_TTL2">
+    <tr>
+	  <td id="t_cintent"><%GetString("Multipppoe","59");%></td>
+    </tr>
+  </table>
+
+  <%PPPoEUserList();%>
+
+   <input type="hidden" name="tmp_store_PPPoEUsername" value="">
+   <input type="hidden" name="tmp_store_PPPoEPassword" value="">
+   <input type="hidden" name="tmp_store_PPPoEPasswordConfirm" value="">
+   <input type="hidden" name="tmp_store_PPPoESIPEnabled" value="">
+   <input type="hidden" name="tmp_store_PPPoEstaticIP" value="">
+   <input type="hidden" name="tmp_store_PPPoEDNS1" value="">
+   <input type="hidden" name="tmp_store_PPPoEDNS2" value="">
+   <input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+
+   <input type="hidden" name="nosave_PPPoEModifyMode" value="0">
+	<input type="hidden" name="PPPoE1No" value="<%NvramGet("PPPoE1No");%>">
+	<input type="hidden" name="PPPoE1Enable" value="<%NvramGet("PPPoE1Enable");%>">
+	<input type="hidden" name="PPPoE1Name" value="<%NvramGetAdv("PPPoE1Name");%>">
+	<input type="hidden" name="PPPoE1Username" value="<%NvramGetAdv("PPPoE1UsernameGUI");%>">
+	<input type="hidden" name="PPPoE1Password" value="<%NvramGetAdv("PPPoE1PasswordGUI");%>">
+	<input type="hidden" name="PPPoE1Service" value="<%NvramGetAdv("PPPoE1Service");%>">
+	<!--<input type="hidden" name="PPPoE1IPFixed" value="<%NvramGet("PPPoE1IPFixed");%>">
+	<input type="hidden" name="PPPoE1IP" value="<%NvramGet("PPPoE1IP");%>">
+	<input type="hidden" name="PPPoE1DNS1" value="<%NvramGet("PPPoE1DNS1");%>">
+	<input type="hidden" name="PPPoE1DNS2" value="<%NvramGet("PPPoE1DNS2");%>">-->
+	<input type="hidden" name="PPPoE1Mode" value="<%NvramGet("PPPoE1Mode");%>">
+	<input type="hidden" name="PPPoE1OnDemandMode" value="<%NvramGet("PPPoE1OnDemandMode");%>">
+	<input type="hidden" name="PPPoE1Idletime" value="<%NvramGet("PPPoE1Idletime");%>">
+	<input type="hidden" name="PPPoE1AuthType" value="<%NvramGet("PPPoE1AuthType");%>">
+	<input type="hidden" name="PPPoE1MTU" value="<%NvramGet("PPPoE1MTU");%>">
+	<input type="hidden" name="PPPoE1MRU" value="<%NvramGet("PPPoE1MRU");%>">
+	<input type="hidden" name="PPPoE1KeepAlive" value="<%NvramGet("PPPoE1KeepAlive");%>">
+
+	<input type="hidden" name="PPPoE2No" value="<%NvramGet("PPPoE2No");%>">
+	<input type="hidden" name="PPPoE2Enable" value="<%NvramGet("PPPoE2Enable");%>">
+	<input type="hidden" name="PPPoE2Name" value="<%NvramGetAdv("PPPoE2Name");%>">
+	<input type="hidden" name="PPPoE2Username" value="<%NvramGetAdv("PPPoE2UsernameGUI");%>">
+	<input type="hidden" name="PPPoE2Password" value="<%NvramGetAdv("PPPoE2PasswordGUI");%>">
+	<input type="hidden" name="PPPoE2Service" value="<%NvramGetAdv("PPPoE2Service");%>">
+	<!--<input type="hidden" name="PPPoE2IPFixed" value="<%NvramGet("PPPoE2IPFixed");%>">
+	<input type="hidden" name="PPPoE2IP" value="<%NvramGet("PPPoE2IP");%>">
+	<input type="hidden" name="PPPoE2DNS1" value="<%NvramGet("PPPoE2DNS1");%>">
+	<input type="hidden" name="PPPoE2DNS2" value="<%NvramGet("PPPoE2DNS2");%>">-->
+	<input type="hidden" name="PPPoE2Mode" value="<%NvramGet("PPPoE2Mode");%>">
+	<input type="hidden" name="PPPoE2OnDemandMode" value="<%NvramGet("PPPoE2OnDemandMode");%>">
+	<input type="hidden" name="PPPoE2Idletime" value="<%NvramGet("PPPoE2Idletime");%>">
+	<input type="hidden" name="PPPoE2AuthType" value="<%NvramGet("PPPoE2AuthType");%>">
+	<input type="hidden" name="PPPoE2MTU" value="<%NvramGet("PPPoE2MTU");%>">
+	<input type="hidden" name="PPPoE2MRU" value="<%NvramGet("PPPoE2MRU");%>">
+	<input type="hidden" name="PPPoE2KeepAlive" value="<%NvramGet("PPPoE2KeepAlive");%>">
+
+	<input type="hidden" name="PPPoE3No" value="<%NvramGet("PPPoE3No");%>">
+	<input type="hidden" name="PPPoE3Enable" value="<%NvramGet("PPPoE3Enable");%>">
+	<input type="hidden" name="PPPoE3Name" value="<%NvramGetAdv("PPPoE3Name");%>">
+	<input type="hidden" name="PPPoE3Username" value="<%NvramGetAdv("PPPoE3UsernameGUI");%>">
+	<input type="hidden" name="PPPoE3Password" value="<%NvramGetAdv("PPPoE3PasswordGUI");%>">
+	<input type="hidden" name="PPPoE3Service" value="<%NvramGetAdv("PPPoE3Service");%>">
+	<!--<input type="hidden" name="PPPoE3IPFixed" value="<%NvramGet("PPPoE3IPFixed");%>">
+	<input type="hidden" name="PPPoE3IP" value="<%NvramGet("PPPoE3IP");%>">
+	<input type="hidden" name="PPPoE3DNS1" value="<%NvramGet("PPPoE3DNS1");%>">
+	<input type="hidden" name="PPPoE3DNS2" value="<%NvramGet("PPPoE3DNS2");%>">-->
+	<input type="hidden" name="PPPoE3Mode" value="<%NvramGet("PPPoE3Mode");%>">
+	<input type="hidden" name="PPPoE3OnDemandMode" value="<%NvramGet("PPPoE3OnDemandMode");%>">
+	<input type="hidden" name="PPPoE3Idletime" value="<%NvramGet("PPPoE3Idletime");%>">
+	<input type="hidden" name="PPPoE3AuthType" value="<%NvramGet("PPPoE3AuthType");%>">
+	<input type="hidden" name="PPPoE3MTU" value="<%NvramGet("PPPoE3MTU");%>">
+	<input type="hidden" name="PPPoE3MRU" value="<%NvramGet("PPPoE3MRU");%>">
+	<input type="hidden" name="PPPoE3KeepAlive" value="<%NvramGet("PPPoE3KeepAlive");%>">
+
+	<input type="hidden" name="PPPoE4No" value="<%NvramGet("PPPoE4No");%>">
+	<input type="hidden" name="PPPoE4Enable" value="<%NvramGet("PPPoE4Enable");%>">
+	<input type="hidden" name="PPPoE4Name" value="<%NvramGetAdv("PPPoE4Name");%>">
+	<input type="hidden" name="PPPoE4Username" value="<%NvramGetAdv("PPPoE4UsernameGUI");%>">
+	<input type="hidden" name="PPPoE4Password" value="<%NvramGetAdv("PPPoE4PasswordGUI");%>">
+	<input type="hidden" name="PPPoE4Service" value="<%NvramGetAdv("PPPoE4Service");%>">
+	<!--<input type="hidden" name="PPPoE4IPFixed" value="<%NvramGet("PPPoE4IPFixed");%>">
+	<input type="hidden" name="PPPoE4IP" value="<%NvramGet("PPPoE4IP");%>">
+	<input type="hidden" name="PPPoE4DNS1" value="<%NvramGet("PPPoE4DNS1");%>">
+	<input type="hidden" name="PPPoE4DNS2" value="<%NvramGet("PPPoE4DNS2");%>">-->
+	<input type="hidden" name="PPPoE4Mode" value="<%NvramGet("PPPoE4Mode");%>">
+	<input type="hidden" name="PPPoE4OnDemandMode" value="<%NvramGet("PPPoE4OnDemandMode");%>">
+	<input type="hidden" name="PPPoE4Idletime" value="<%NvramGet("PPPoE4Idletime");%>">
+	<input type="hidden" name="PPPoE4AuthType" value="<%NvramGet("PPPoE4AuthType");%>">
+	<input type="hidden" name="PPPoE4MTU" value="<%NvramGet("PPPoE4MTU");%>">
+	<input type="hidden" name="PPPoE4MRU" value="<%NvramGet("PPPoE4MRU");%>">
+	<input type="hidden" name="PPPoE4KeepAlive" value="<%NvramGet("PPPoE4KeepAlive");%>">
+
+	<input type="hidden" name="PPPoE5No" value="<%NvramGet("PPPoE5No");%>">
+	<input type="hidden" name="PPPoE5Enable" value="<%NvramGet("PPPoE5Enable");%>">
+	<input type="hidden" name="PPPoE5Name" value="<%NvramGetAdv("PPPoE5Name");%>">
+	<input type="hidden" name="PPPoE5Username" value="<%NvramGetAdv("PPPoE5UsernameGUI");%>">
+	<input type="hidden" name="PPPoE5Password" value="<%NvramGetAdv("PPPoE5PasswordGUI");%>">
+	<input type="hidden" name="PPPoE5Service" value="<%NvramGetAdv("PPPoE5Service");%>">
+	<!--<input type="hidden" name="PPPoE5IPFixed" value="<%NvramGet("PPPoE5IPFixed");%>">
+	<input type="hidden" name="PPPoE5IP" value="<%NvramGet("PPPoE5IP");%>">
+	<input type="hidden" name="PPPoE5DNS1" value="<%NvramGet("PPPoE5DNS1");%>">
+	<input type="hidden" name="PPPoE5DNS2" value="<%NvramGet("PPPoE5DNS2");%>">-->
+	<input type="hidden" name="PPPoE5Mode" value="<%NvramGet("PPPoE5Mode");%>">
+	<input type="hidden" name="PPPoE5OnDemandMode" value="<%NvramGet("PPPoE5OnDemandMode");%>">
+	<input type="hidden" name="PPPoE5Idletime" value="<%NvramGet("PPPoE5Idletime");%>">
+	<input type="hidden" name="PPPoE5AuthType" value="<%NvramGet("PPPoE5AuthType");%>">
+	<input type="hidden" name="PPPoE5MTU" value="<%NvramGet("PPPoE5MTU");%>">
+	<input type="hidden" name="PPPoE5MRU" value="<%NvramGet("PPPoE5MRU");%>">
+	<input type="hidden" name="PPPoE5KeepAlive" value="<%NvramGet("PPPoE5KeepAlive");%>">
+	
+	<input type="hidden" name="PPPoEUsername" value="">
+	<input type="hidden" name="PPPoEPassword" value="<%NvramGet("PPPoE5KeepAlive");%>">
+	</form>
+
+	<form method="POST" name="PPPoEOnoff_from">
+	<input type="hidden" name="nosave_PPPoEModifyMode" value="1">
+	<input type="hidden" name="nosave_PPPoEModifyNo" value="">
+	<input type="hidden" name="PPPoEEnable" value="">
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>
+
+	<form method="POST" name="PPPoEModify_from">
+	<input type="hidden" name="nosave_PPPoEModifyMode" value="2">
+	<input type="hidden" name="nosave_PPPoEModifyNo" value="">
+	<!--<input type="hidden" name="PPPoENo" value="">
+	<input type="hidden" name="PPPoEEnable" value="">-->
+	<input type="hidden" name="PPPoEName" value="">
+	<input type="hidden" name="PPPoEUsername" value="">
+	<input type="hidden" name="PPPoEPassword" value="">
+	<input type="hidden" name="PPPoEService" value="">
+	<!--<input type="hidden" name="PPPoEIPFixed" value="">
+	<input type="hidden" name="PPPoEIP" value="">
+	<input type="hidden" name="PPPoEDNS1" value="">
+	<input type="hidden" name="PPPoEDNS2" value="">-->
+	<input type="hidden" name="PPPoEMode" value="">
+	<input type="hidden" name="PPPoEOnDemandMode" value="">
+	<input type="hidden" name="PPPoEIdletime" value="">
+	<input type="hidden" name="PPPoEAuthType" value="">
+	<input type="hidden" name="PPPoEMTU" value="">
+	<input type="hidden" name="PPPoEMRU" value="">
+	<input type="hidden" name="PPPoEKeepAlive" value="">
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+	</form>
+
+	<form method="POST" name="PPPoEDelete_from">
+	<input type="hidden" name="nosave_PPPoEModifyMode" value="3">
+	<input type="hidden" name="nosave_PPPoEModifyNo" value="">
+	<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+   </form>
+</body>
+</html>

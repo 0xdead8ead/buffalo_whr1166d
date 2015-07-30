@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>VSP Setting Test</title>
+</head>
+<body>
+<form name="vst_test" method="post" action="vsp.html?set_vsp.cgi">
+<br>DEVICE_PASSWORD<input type="text" name="DEVICE_PASSWORD" value="">
+<br>WIRELESS_1_ENCRYPT_WEP_KEY1<input type="text" name="WIRELESS_1_ENCRYPT_WEP_KEY1" value="">
+<br>WIRELESS_1_ENCRYPT_WEP_KEY2<input type="text" name="WIRELESS_1_ENCRYPT_WEP_KEY2" value="">
+<br>WIRELESS_1_ENCRYPT_WEP_KEY3<input type="text" name="WIRELESS_1_ENCRYPT_WEP_KEY3" value="">
+<br>WIRELESS_1_ENCRYPT_WEP_KEY4<input type="text" name="WIRELESS_1_ENCRYPT_WEP_KEY4" value="">
+<br>WIRELESS_1_ENCRYPT_WPAPSK_KEY<input type="text" name="WIRELESS_1_ENCRYPT_WPAPSK_KEY" value="">
+<br>WIRELESS_INIT<input type="text" name="WIRELESS_INIT" value="">
+<br>NETWORK_INIT<input type="text" name="NETWORK_INIT" value="">
+<br>NETWORK_DEFAULT_GATEWAY<input type="text" name="NETWORK_DEFAULT_GATEWAY" value="">
+<br>NETWORK_DNS_SERVER1<input type="text" name="NETWORK_DNS_SERVER1" value="">
+<br>NETWORK_DNS_SERVER2<input type="text" name="NETWORK_DNS_SERVER2" value="">
+<br>LAN_INIT<input type="text" name="LAN_INIT" value="">
+<br>LAN_IP_ADDRESS<input type="text" name="LAN_IP_ADDRESS" value="">
+<br>LAN_SUBNET_MASK<input type="text" name="LAN_SUBNET_MASK" value="">
+<br>LAN_DHCPS_IP_START<input type="text" name="LAN_DHCPS_IP_START" value="">
+<br>LAN_DHCPS_IP_END<input type="text" name="LAN_DHCPS_IP_END" value="">
+<br>WAN_INIT<input type="text" name="WAN_INIT" value="">
+<br>WAN_MAC_ADDRESS<input type="text" name="WAN_MAC_ADDRESS" value="">
+<br>WAN_IP_ADDRESS<input type="text" name="WAN_IP_ADDRESS" value="">
+<br>WAN_SUBNET_MASK<input type="text" name="WAN_SUBNET_MASK" value="">
+<br>WAN_PPPOE_IDLE_TIME<input type="text" name="WAN_PPPOE_IDLE_TIME" value="">
+<br>WAN_PPPOE_USER_NAME<input type="text" name="WAN_PPPOE_USER_NAME" value="">
+<br>WAN_PPPOE_PASSWORD<input type="text" name="WAN_PPPOE_PASSWORD" value="">
+<br>DEVICE_RESTORE_DEFAULTS<input type="text" name="DEVICE_RESTORE_DEFAULTS" value=""> 	
+<br>DEVICE_REBOOT<input type="text" name="DEVICE_REBOOT" value="">
+<br>AOSS_ACTION<input type="text" name="AOSS_ACTION" value="">
+<br>AOSS_1_ENCRYPT<input type="text" name="AOSS_1_ENCRYPT" value="">
+<br>LAN_DHCPS_FUNCTION<input type="text" name="LAN_DHCPS_FUNCTION" value="">
+<br>WAN_CONNECT<input type="text" name="WAN_CONNECT" value="">
+<br>WAN_CONNECTION_TYPE<input type="text" name="WAN_CONNECTION_TYPE" value="">
+<br>DEVICE_TIMEZONE<input type="text" name="DEVICE_TIMEZONE" value="">
+<br>NAT_INIT<input type="text" name="NAT_INIT" value="">
+<br>PACKET_FILTER_INIT<input type="text" name="PACKET_FILTER_INIT" value="">
+<br>ROUTE_INIT<input type="text" name="ROUTE_INIT" value="">
+<br><input type="submit" name="send" value="Submit">
+<input type="hidden" name="nosave_session_num" value="<% NvramGet("session_num"); %>">
+</form>
+</body>
+</html>
